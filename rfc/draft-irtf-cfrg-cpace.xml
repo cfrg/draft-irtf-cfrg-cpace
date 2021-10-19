@@ -55,12 +55,7 @@
       <t>This document describes CPace which is a protocol for two
       parties that share a low-entropy secret (password) to derive a to derive a strong shared key without 
       disclosing the secret to offline dictionary attacks. 
-      
-      This preliminary working version is a renamed version of the earlier draft-haase-cpace-01 
-      with minor corrections. It has been uploaded for starting the work in the newly formed team 
-      of editors (M. Abdalla, B. Haase, J. Hesse) and did not yet see a detailed review by M. 
-      Abdalla and J. Hesse.
-      
+           
       The CPace method was tailored for constrained devices and
       specifically considers efficiency and hardware side-channel attack mitigations at the protocol level.
       CPace is designed to be compatible with any group of both prime- and non-prime order and explicitly
@@ -87,8 +82,8 @@
       <section title="Setup" anchor="setup">
         <t>Let C be a group in which there exists a subgroup of prime order p where 
           the strong computational simultaneous Diffie-Hellman (sSDH) and the strong Diffie-Hellman problem (sCDH)
-          problem <xref target="VTBPEKE"/> is hard. C has order p*c where p is a large prime;
-          c  will be called the cofactor. Let I be the unit element in
+          problem <xref target="VTBPEKE"/> is hard. C has order p*c where p is a large prime.
+          If c > 1, c will be called the cofactor. Let I be the identity element in
           C, e.g., the point at infinity in if C is an elliptic curve group. 
           We denote the operations in the group using addition and multiplication operators, e.g. P + (P + P) = P + 2 * P = 3 * P. 
           We refer to a sequence of n additions of an element in P as scalar multiplication by n and use the notation 
@@ -171,7 +166,8 @@
 
 <!--        <t> Let l = CEIL_LOG2(p) denote the smallest integer such that 2^l >= p. </t> -->
 
-        <t>|| denotes concatenation of strings. We also let len(S) denote the
+        <t>Both, str1 || str2 and CONCAT(str1,str2) denotes concatenation of strings str1 and str2.
+          We also let len(S) denote the
           length of a string in bytes. Finally, let nil represent an empty string, i.e.,
           len(nil) = 0.</t>
 
@@ -180,7 +176,7 @@
           for H are SHA256 or SHA512 <xref target="RFC6234"/>. H is assumed to segment messages m into blocks m_i of byte length H_block.
           E.g. the blocks used in SHA512 have a size of 128 bytes. </t>
 
-        <t> Let strip_sign_information(P) be function that takes a string encoding of an element P in J and strips any information
+        <t> Let strip_sign_information(P) be function that takes a string encoding of an element P in C and strips any information
             regarding the sign of P, such that strip_sign_information(P) = strip_sign_information(-P). 
             For short Weierstrass (Montgomery) curves this function will return a string 
             encoding the x-coordinate (u-coordinate).
@@ -219,15 +215,18 @@
             used in a higher-level protocol which negotiates use of a particular version. Including
             this list would ensure that both parties agree upon the same set of supported protocols
             and therefore prevent downgrade attacks. </t>
+        <t> ADa and ADb denote OPTIONAL associated data strings that are included as part of the communication transcripts
+            by parties A and B respectively.</t>
 
         <t> We also assume that A and B share a common encoding of a password related string PRS.
           Typically PRS is derived from a low-entropy secret such as a user-supplied password (pw) or a personal identification
           by PRS = prepend_len(pw)
-          Note that CPace is NOT RECOMMENDED to be used in conjunction with user datbases that include more than 
-          one user account. CPace does not provide
+          Note that in case that CPace is to be used in conjunction with user datbases that include more than 
+          one user account it is RECOMMENDED to consider the augmented PAKE protocol OPAQUE instead. For instance, 
+          CPace does not provide
           mechanisms for agreeing on user names, deriving salt values and agreeing on workload parameters, as required by the
           memory hard iterated hash functions that should be used for such databases. 
-          In such settings it is RECOMMENDED to use CPace as a subcomponent of the higher-level AuCPace protocol. </t>
+          Here CPace can also be used as a subcomponent of the higher-level AuCPace protocol. </t>
 
         <t>Let sid be a session id byte string chosen for each protocol session before protocol execution; 
            The length len(sid) SHOULD be larger or equal to 16 bytes. </t>
@@ -268,9 +267,9 @@
                 |----------------->|
        ---------------------------------------
                 |                  |
-  (compute Ya)  |        Ya        |
+  (compute Ya)  |     Ya || ADa    |
                 |----------------->|
-                |        Yb        | (compute Yb)
+                |     Yb || ADb    | (compute Yb)
                 |<-----------------|
                 |   (verify data)  |
                 |   (derive ISK)   |
@@ -296,19 +295,19 @@
 
            B strips the sign information from K, Ya and Yb  to obtain the strings Ks, Yas and Ybs by 
            using the strip_sign_information() function.
-           B returns ISK = H(DSI2 || sid || Ks || Yas || Ybs).</t>
+           B returns ISK = H(DSI2 || sid || Ks || CONCAT(Yas || ADa, Ybs || ADb)).</t>
 
         <t> Upon reception of Yb, A calculates K = scalar_mult_ccv(Yb,ya). A MUST abort if K is the neutral element I.
             If K is different from I, A strips the sign information from K, Ya and Yb and 
-            returns ISK = H(DSI2 || sid || Ks || Yas || Ybs). </t>
+            returns ISK = H(DSI2 || sid || Ks || CONCAT(Yas || ADa, Ybs || ADb)). </t>
 
         <t>K and Ks are shared values, though they MUST NOT be used as a shared secret key.
           Note that calculation of ISK from Ks includes the protocol transcript and
           prevents key malleability with respect to man-in-the-middle attacks from active adversaries.</t>
 
         <t>Upon completion of this protocol, the session key ISK returned by A and B will be identical by both
-           parties if and only if the supplied input parameters sid, PRS and CI match on both sides and the information
-           on the public elements in J were not modified by an adversary.</t>
+           parties if and only if the supplied input parameters sid, PRS and CI match on both sides and the 
+           transcripts match.</t>
       </section>
 
     </section>
