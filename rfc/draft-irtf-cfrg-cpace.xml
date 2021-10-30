@@ -123,8 +123,9 @@
        </section>
 
       <section title="Inputs" anchor="inputs">
-       <t> With PRS we denote a password-related octet string which is a MANDATORY input for all CPace instantiations. Typical
-       choices will be an octet-string representation of a clear-text password or the output of a suitable PBKDF function.
+       <t> With PRS we denote a password-related octet string which is a MANDATORY input for all CPace instantiations. 
+           Typically PRS is derived from a low-entropy secret such as a user-supplied password (pw) or a personal 
+           identification number by PRS = prepend_len(pw)
        </t>
 
        <t> With CI we denote an OPTIONAL octet string for the channel identifier. CI can be used for
@@ -137,8 +138,9 @@
        to one specific session.
        </t>
 
-       <t> With AD_a and AD_b we denote OPTIONAL octet strings that contain associated public data of the communication partners.
-       AD_a could for instance include party identifiers.
+       <t> With ADa and ADb we denote OPTIONAL octet strings of parties A and B that contain associated public data 
+       of the communication partners.
+       ADa could for instance include party identifiers.
        </t>
  
        </section>
@@ -156,167 +158,34 @@
         In settings with defined initiator and responder roles
         CONCAT(str1,str2) SHALL BE defined as unordered concatenation: CONCAT(str1,str2) == str1 || str2. </t>
         
-
         <t> With len(S) we denote the number of octets in a string S. </t>
         
         <t> Finally, we let nil represent an empty octet string, i.e., len(nil) = 0.</t>
-      
-      </section>
-      
-      <section title="restToBeRemoved" anchor="restToBeRemoved">
- 
+
+        <t> With prepend_len(byte_sequence) we denote the octet sequence that is obtained from prepending
+            the length of the sequence as an utf-8 string to the byte sequence itself. (This will prepend one
+            single octet for sequences shorter than 128 bytes and more octets otherwise) </t>
 
        <t> 
-          With F we denote a field that may be associated with C, e.g. the prime base field used for representing the coordinates 
+          With G.F we denote a field that may be associated with a group G, e.g. the prime base field used for 
+          representing the coordinates 
           of points on an elliptic curve. </t>
 
-      <t>
-          We assume that for any element P in C there is a representation modulo negation, 
-          encode_group_element_mod_neg(P) as a byte string such 
-          that for any Q in C with Q != P and Q != -P, encode_group_element_mod_neg(P) != encode_group_element_mod_neg(Q). 
-          It is recommended that encodings of the elements P and -P share the same result string.
+        <t>With KDF(k) we denote a key-derivation function that takes an string and derives key. 
+           A common choice for a KDF would be HKDF
+           <xref target="RFC5869"/>. </t>
 
-          Common choices would be a fixed (per-group) length encoding 
-          of the x-coordinate of points on an
-          elliptic curve C or its twist C' in Weierstrass form, e.g. according to <xref target="IEEE1363"/> in case of
-          short Weierstrass form curves. 
-          For curves in Montgomery form correspondingly the 
-          u-coordinate would be encoded, as specified, e.g., by the encodeUCoordinate function from <xref target="RFC7748"/>.
-      </t>
+        <t> With ISK we denote the intermediate session key output string provided by CPace. It is RECOMMENDED to convert the
+            intermediate session key ISK ot a final session key by using a suitable KDF function prior to using the key in a 
+            higher-level protocol. </t>
+      
+        <t> With DSI we denote domain-separation identifier strings that may be prepended to the 
+            inputs of Hash and KDF functions.  </t> 
 
-       <t> With J we denote the group modulo negation associated to C. Note that in J the scalar multiplication operation 
-           scalar_multiply
-           is well defined since scalar_multiply(P,s) == -scalar_multiply(-P,s) while arbitrary additions of group elements 
-           are no longer available. </t>
-
-       <t> 
-          With J' be denote a second group modulo negation that might share the byte-string encoding function
-          encode_group_element_mod_neg with J 
-          such for a given byte string 
-          either an element in J or J' is encoded. If the x-coordinate of an elliptic curve point group is used for the encoding,
-          J' would commonly be corresponding to the group of points on
-          the elliptic curve's quadratic twist. Correspondingly, with p' we denote the largest prime factor of the order 
-          of J' and its cofactor with c'. </t>
-
-       <t> Let scalar_cofactor_clearing(s) be a cofactor clearing function taking an integer input argument and 
-           returning an integer as result. 
-           For any s, scalar_cofactor_clearing(s) is REQUIRED to be of the form c * s1. I.e. 
-           it MUST return a multiple of the cofactor. An example of such a function may be the cofactor
-           clearing and clamping functions decodeScalar25519 and decodeScalar448 as used in the X25519 and X448 protocols 
-           definitions of <xref target="RFC7748"/>.
-           In case of prime-order groups with c == 1, it is RECOMMENDED to use the identity function 
-           with scalar_cofactor_clearing(s) = s.</t>
-
-        <t>
-          Let scalar_mult_cc(P,s) be a joint "scalar multiplication and cofactor clearing" function of an integer s and 
-          an string-encoded value P, where P could represent an element either on J or J'. If P is an element in J or J', 
-          the scalar_mult_cc function returns a string encoding of an element in J or J' respectively, such that the result of 
-          scalar_mult_cc(P,s) encodes (scalar_cofactor_clearing(s) * P).
-       </t>
-
-        <t>
-          Let scalar_mult_ccv(P,s) be a "scalar multiplication cofactor clearing and verify" function of an integer s and an 
-          encoding of a group element P. Unlike scalar_mult_cc, scalar_mult_ccv additionally
-          carries out a verification that checks that the computational simultaneous Diffie-Hellman problem (SDH) is hard in the
-          subgroup (in J or J') generated by the encoded element SP = scalar_mult_cc(P,s).
-          In case that the verification fails (SP might be of low order or on the wrong curve), 
-          scalar_mult_ccv is REQUIRED to return the encoding of the identity element I.
-          Otherwise scalar_mult_ccv(P,S) is REQUIRED to return the result of scalar_mult_cc(P,s).
- 
-          A common choice for scalar_mult_ccv for Montgomery curves with twist security would be the 
-          X25519 and X448 Diffie-Hellman functions as specified in <xref target="RFC7748"/>.
-          For curves in short Weierstrass form, scalar_mult_ccv could be implemented by the combination of a point verification
-          of the input point with a scalar multiplication. Here scalar_mult_ccv SHALL return the encoding of the neutral 
-          element I if the input point P was not on the curve C. 
-       </t>
-
-        <t>
-          Let P=map_to_group_mod_neg(r) be a mapping operation that maps a string r to an encoding 
-          of an element P in J. 
-          Common choices
-          would be the combination of map_to_base and map_to_curve methods as defined in 
-          the hash2curve draft <xref target="HASH2CURVE"/>.
-          Note that we don't require and RECOMMEND cofactor clearing here 
-          since this complexity is already included in the definition of the scalar multiplication operation calar_mult_cc above. 
-          Additionally requiring cofactor clearing also in map_to_group_mod_neg() would result in efficiency loss.</t>
-
-<!--        <t> Let l = CEIL_LOG2(p) denote the smallest integer such that 2^l >= p. </t> -->
-
-        <t>Both, str1 || str2 and CONCAT(str1,str2) denotes concatenation of strings str1 and str2.
-          We also let len(S) denote the
-          length of a string in bytes. Finally, let nil represent an empty string, i.e.,
-          len(nil) = 0.</t>
-
-        <t> Let H(m) be a hash function from
-          arbitrary strings m to bit strings of a fixed length. Common choices
-          for H are SHA256 or SHA512 <xref target="RFC6234"/>. H is assumed to segment messages m into blocks m_i of byte length H_block.
-          E.g. the blocks used in SHA512 have a size of 128 bytes. </t>
-
-        <t> Let strip_sign_information(P) be function that takes a string encoding of an element P in C and strips any information
-            regarding the sign of P, such that strip_sign_information(P) = strip_sign_information(-P). 
-            For short Weierstrass (Montgomery) curves this function will return a string 
-            encoding the x-coordinate (u-coordinate).
-            The purpose of defining this function is for allowing for x-coordinate only scalar multiplication algorithms. 
-            The sign is to be stripped before generating the intermediate session key ISK. </t>
-
-        <t> With ISK we denote the intermediate session key output string provided by CPace that is 
-            generated by a hash operation on the Diffie-Hellman result. It is RECOMMENDED to apply ISK 
-            to a KDF function prior to using the key in a higher-level protocol. </t>
-
-        <t>KDF(Q) is a key-derivation function that takes an string and derives key of length L. A common choice for a KDF would be 
-           HMAC-SHA512. </t>
-
-        <t> With DSI we denote domain-separation identifier strings that may be prepended to the inputs of Hash and KDF functions.  </t> 
-
-        <t>Let A and B be two parties. A and B may also have digital
-          representations of the parties' identities such as Media Access Control addresses
-          or other names (hostnames, usernames, etc). We denote the parties' representation and the parties themselves both
-          by using the identifiers A and B. </t>
-
-        <t> With prepend_len(byte_sequence) we denote the byte sequence that is obtained from prepending
-            the length of the byte sequence as an utf-8 to the byte sequence itself. (This will prepend one
-            single byte for sequences shorter than 128 bytes and more bytes otherwise) </t>
-
-        <t> With CI we denote an OPTIONAL string containing information on the communication channel.
-            If knowledge on the identies is known before protocol start for both parties,
-            CI is RECOMMENDED to be formed by the concatenation of the identifiers A and B and 
-            an an OPTIONAL associated data string, each with prepended length. 
-            AD includes information which A and B might want to authenticate in the 
-            protocol execution. CI = prepend_len(A) || prepend_len(B) || prepend_len(AD);
-            
-            One other possibility for CI data might be an encoding of the concatenation of MAC-addresses 
-            of both communication partners.
-
-            AD might include a list of supported protocol versions if CPace were
-            used in a higher-level protocol which negotiates use of a particular version. Including
-            this list would ensure that both parties agree upon the same set of supported protocols
-            and therefore prevent downgrade attacks. </t>
-        <t> ADa and ADb denote OPTIONAL associated data strings that are included as part of the communication transcripts
-            by parties A and B respectively.</t>
-
-        <t> We also assume that A and B share a common encoding of a password related string PRS.
-          Typically PRS is derived from a low-entropy secret such as a user-supplied password (pw) or a personal identification
-          by PRS = prepend_len(pw)
-          Note that in case that CPace is to be used in conjunction with user datbases that include more than 
-          one user account it is RECOMMENDED to consider the augmented PAKE protocol OPAQUE instead. For instance, 
-          CPace does not provide
-          mechanisms for agreeing on user names, deriving salt values and agreeing on workload parameters, as required by the
-          memory hard iterated hash functions that should be used for such databases. 
-          Here CPace can also be used as a subcomponent of the higher-level AuCPace protocol. </t>
-
-        <t>Let sid be a session id byte string chosen for each protocol session before protocol execution; 
-           The length len(sid) SHOULD be larger or equal to 16 bytes. </t>
-
-        <t> With ZPAD we denote a zero-padding string that is appended to PRS such that DSI||PRS has a length of at least 
-            H_block. 
-            CPace aims at mixing in
-            entropy of PRS into the full internal state of the hash function before any adversary-known variable information (ADVI) 
-            enters the hashing algorithm. ADVI such as party identities or session IDs might be partially controlled by an adversary. 
-            Correlations of ADVI with the bare PRS string are considered to be easier exploitable by side-channel methods in comparison
-            to a pre-hashed representation of PRS. </t>
+        <t> With ZPAD we denote a zero-padding string. </t>
 
       </section>
-
+      
       <section title="Protocol Flow" anchor="flow">
         <t>CPace is a one round protocol to establish an intermediate shared secret ISK 
           with implicit mutual authentication.
