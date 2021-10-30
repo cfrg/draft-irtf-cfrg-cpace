@@ -129,7 +129,7 @@
 
        <t> With CI we denote an OPTIONAL octet string for the channel identifier. CI can be used for
         binding CPace to one specific communication channel, if a common octet string representation for CI is 
-        available for both protocol partners.
+        available for both protocol partners upon protocol start.
        </t>
 
        <t> With sid we denote an OPTIONAL octet string input containing a session id. In application scenarios 
@@ -142,6 +142,26 @@
        </t>
  
        </section>
+
+      <section title="Notation" anchor="protocolSpecificNotation">      
+        <t> With str1 || str2 we denote concatenation of octet strings. </t>
+
+        <t> With oCAT(str1,str2) we denote ordered concatenation of octet strings. </t> 
+       
+        <t> CONCAT(str1,str2) defines a concatenation function that depends on the application scenario. 
+        In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of 
+        messages is not enforced by the protocol flow ordered concatenation SHALL BE used, 
+        i.e. CONCAT(str1,str2) == oCAT(str1,str2). 
+        
+        In settings with defined initiator and responder roles
+        CONCAT(str1,str2) SHALL BE defined as unordered concatenation: CONCAT(str1,str2) == str1 || str2. </t>
+        
+
+        <t> With len(S) we denote the number of octets in a string S. </t>
+        
+        <t> Finally, we let nil represent an empty octet string, i.e., len(nil) = 0.</t>
+      
+      </section>
       
       <section title="restToBeRemoved" anchor="restToBeRemoved">
  
