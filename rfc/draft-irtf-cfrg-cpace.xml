@@ -60,7 +60,8 @@
       specifically considers efficiency and hardware side-channel attack mitigations at the protocol level.
       CPace is designed to be compatible with any group of both prime- and non-prime order and explicitly
       handles the complexity of cofactor clearing on the protcol level. CPace
-      comes with a security proof providing composability guarantees. As a protocol, CPace is designed
+      comes with game-based and simulation based proofs where the latter provides composability guarantees. 
+      As a protocol, CPace is designed
       to be compatible with so-called "x-coordinate-only" Diffie-Hellman implementations on elliptic curve
       groups.</t>
     <t> CPace is designed to be suitable as both, a building block within a larger protocol construction using CPace as substep, 
@@ -80,15 +81,70 @@
     </section>
     <section anchor="definition" title="Definition  CPace ">
       <section title="Setup" anchor="setup">
-        <t>Let C be a group in which there exists a subgroup of prime order p where 
-          the strong computational simultaneous Diffie-Hellman (sSDH) and the strong Diffie-Hellman problem (sCDH)
-          problem <xref target="VTBPEKE"/> is hard. C has order p*c where p is a large prime.
-          If c > 1, c will be called the cofactor. Let I be the identity element in
-          C, e.g., the point at infinity in if C is an elliptic curve group. 
-          We denote the operations in the group using addition and multiplication operators, e.g. P + (P + P) = P + 2 * P = 3 * P. 
-          We refer to a sequence of n additions of an element in P as scalar multiplication by n and use the notation 
-          scalar_multiply(P,n).
+        <t>
+        For CPace both communication partners need to agree on a common cipher suite which consists of choosing a common
+        hash function H and an elliptic curve group G.
         </t>
+
+        <t> With H(m) we denote a hash function that operates on an input octet string m and 
+            outputs an octet string of length l. 
+            Common choices for H are SHA2 or SHA3 <xref target="RFC6234"/>. 
+            H is assumed to segment messages m into blocks m_i of byte length H_block.
+            E.g. the blocks used in SHA512 have a size of 128 bytes and for SHA3-256 we have a block size of 136 bytes. </t>
+        
+        <t>
+        For a given group G this document specifies how to define the following set of group-specific 
+        functions and constants for the protocol execution. For making the implicit dependence of the respective
+        functions and constants on the group G transparent, we use a object-style notation 
+        G.function_name() and G.constant_name .
+        </t>
+
+        <t>
+        With G.I we denote a unique octet string representation of the neutral element of group G.
+        </t>
+
+        <t>g = G.calculate_generator(input_octet_string). With calculate_generator we denote a function that outputs a
+        octet string representation of a group element in G which is derived from an input string.
+        </t>
+
+        <t>y = G.sample_dh_scalar(). This function returns an octet string representation of a scalar value appropriate as a
+        private Diffie-Hellman key for group G.
+        </t>
+    
+        <t>Y = G.scalar_mult(g,y). This function takes a generator g as first parameter and a scalar y as second 
+        parameter and returns an octet string representation of a group element Y.
+        </t>
+        
+        <t>K = G.scalar_mult_vfy(X,y). This function returns an octet string representation of a group element K which is
+        calculated from a scalar y and a group element X. Moreover scalar_mult_vfy implements validity verifications of the inputs
+        and returns the neutral element G.I if the validity check fails.        
+        </t>
+
+       </section>
+
+      <section title="Inputs" anchor="inputs">
+       <t> With PRS we denote a password-related octet string which is a MANDATORY input for all CPace instantiations. Typical
+       choices will be an octet-string representation of a clear-text password or the output of a suitable PBKDF function.
+       </t>
+
+       <t> With CI we denote an OPTIONAL octet string for the channel identifier. CI can be used for
+        binding CPace to one specific communication channel, if a common octet string representation for CI is 
+        available for both protocol partners.
+       </t>
+
+       <t> With sid we denote an OPTIONAL octet string input containing a session id. In application scenarios 
+       where a higher-level protocol has established a unique sid this parameter can be used to bind the CPace protocol execution
+       to one specific session.
+       </t>
+
+       <t> With AD_a and AD_b we denote OPTIONAL octet strings that contain associated public data of the communication partners.
+       AD_a could for instance include party identifiers.
+       </t>
+ 
+       </section>
+      
+      <section title="restToBeRemoved" anchor="restToBeRemoved">
+ 
 
        <t> 
           With F we denote a field that may be associated with C, e.g. the prime base field used for representing the coordinates 
