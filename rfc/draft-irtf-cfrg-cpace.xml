@@ -107,7 +107,7 @@
         octet string representation of a group element in G which is derived from an input string.
         </t>
 
-        <t>y = G.sample_dh_scalar(). This function returns an octet string representation of a scalar value appropriate as a
+        <t>y = G.sample_scalar(). This function returns an octet string representation of a scalar value appropriate as a
         private Diffie-Hellman key for group G.
         </t>
     
@@ -148,7 +148,8 @@
       <section title="Notation" anchor="protocolSpecificNotation">      
         <t> With str1 || str2 we denote concatenation of octet strings. </t>
 
-        <t> With oCAT(str1,str2) we denote ordered concatenation of octet strings. </t> 
+        <t> With oCAT(str1,str2) we denote ordered concatenation of octet strings such that oCAT(str1,str2) = str1 || str2 
+        if str2 > str1 and oCAT(str1,str2) = str2 || str1 otherwise. </t> 
        
         <t> CONCAT(str1,str2) defines a concatenation function that depends on the application scenario. 
         In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of 
@@ -197,9 +198,9 @@
           used for producing encryption and authentication keys by a KDF function
           outside of the scope of CPace.
  
-          Prior to entering the protocol, A and B agree on a sid string.
+          Optionally prior to entering the protocol, A and B dispose of a sid string.
           sid is typically pre-established by a higher-level protocol 
-          invocing CPace. If no such sid is available from a higher-level
+          invoking CPace. If no such sid is available from a higher-level
           protocol, a suitable approach is to let A choose a fresh random sid 
           string and send it to B together with Ya. This method is shown in the
           setup protocol section below. </t>
@@ -223,31 +224,26 @@
       </section>
 
       <section title="CPace" anchor="cpace">
-        <t> Both parties start with agreed values on the sid string, the channel identifier CI and the password-related string PRS. </t>
-        <t> The channel identifier, CI, SHOULD include an encoding of the communication channel used by both parties A and B, 
-            such as, e.g., IP and port numbers of both parties.
+      <t> In the setup phase, both parties A,B agreed on the group G and the session id value sid.</t>
+        <t> To begin, A calculates a generator g = G.calculate_generator(PRS || CI). 
         </t> 
-        <t> To begin, A calculates a generator G = map_to_group_mod_neg(DSI1 || PRS || ZPAD || sid || CI). 
-        </t> 
-        <t> A picks ya randomly and uniformly according to the requirement of the group J
-            and calculates Ya=scalar_mult_cc (G,ya). A then transmits Ya to B.</t>
+        <t> A samples ya = G.sample_scalar() randomly according to the requirements for group G.
+            A then Ya= G.scalar_mult (g,ya). A then transmits the concatenation of Ya and the optional associated data 
+            ADa to B.</t>
 
-        <t> B picks yb randomly and uniformly. B then calculates 
-            G = map_to_group_mod_neg(DSI1 || PRS || ZPAD || sid || CI) and
-           Yb = scalar_mult_cc(G,yb). B then calculates K = scalar_mult_ccv(Ya,yb). 
-           B MUST abort if K is the encoding of the neutral element I.
+        <t> B picks yb = G.sample_scalar() randomly. B then calculates 
+            g = G.calculate_generator(PRS || CI) and
+           Yb = G.scalar_mult(g,yb). B then calculates K = G.scalar_mult_vfy(Ya,yb). 
+           B MUST abort if K is the encoding of the neutral element G.I.
            Otherwise B sends Yb to A and proceeds as follows.
 
-           B strips the sign information from K, Ya and Yb  to obtain the strings Ks, Yas and Ybs by 
-           using the strip_sign_information() function.
-           B returns ISK = H(DSI2 || sid || Ks || CONCAT(Yas || ADa, Ybs || ADb)).</t>
+           B returns ISK = H(DSI2 || sid || K || CONCAT(Ya || ADa, Yb || ADb)).</t>
 
         <t> Upon reception of Yb, A calculates K = scalar_mult_ccv(Yb,ya). A MUST abort if K is the neutral element I.
-            If K is different from I, A strips the sign information from K, Ya and Yb and 
-            returns ISK = H(DSI2 || sid || Ks || CONCAT(Yas || ADa, Ybs || ADb)). </t>
+            If K is different from I, A returns ISK = H(DSI2 || sid || Ks || CONCAT(Ya || ADa, Yb || ADb)). </t>
 
-        <t>K and Ks are shared values, though they MUST NOT be used as a shared secret key.
-          Note that calculation of ISK from Ks includes the protocol transcript and
+        <t>Already K is a shared value, still it MUST NOT be used as a shared secret key.
+          Note that calculation of ISK from K includes the protocol transcript and
           prevents key malleability with respect to man-in-the-middle attacks from active adversaries.</t>
 
         <t>Upon completion of this protocol, the session key ISK returned by A and B will be identical by both
