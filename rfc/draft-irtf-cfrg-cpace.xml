@@ -499,9 +499,10 @@ def generate_ISK_CPace_P256(sid,K,Ya,Yb):
     <section title="Security Considerations">
       <t>A security proof of CPace is found in <xref target="cpace_paper"/>.  </t>
 
-        <t>In order to prevent length-extension attacks, all hash inputs MUST be prefix-free strings.
-           Otherwise length extension attacks on Merkle-Damgard hashing constructions such as SHA2 or SHA512
-           would have to be considered.</t>
+        <t>In order to prevent length-extension attacks, all hash inputs MUST be prefix-free strings in order to 
+           make CPace suitable when Merkle-Damgard hashing constructions such as SHA2 or SHA512
+           are considered <xref = target= "CDMP05"/>. Otherwise so-called length-extension attacks of the hash
+           would have to be considered. </t>
 
         <t>Although already K is a shared value, still it MUST NOT be used as a shared secret key.
           Note that calculation of ISK from K includes the protocol transcript and
@@ -626,6 +627,28 @@ def generate_ISK_CPace_P256(sid,K,Ya,Yb):
         </annotation>
       </reference>
               
+      <reference anchor="CDMP05" target="https://doi.org/10.1007/11535218_26">
+          <front>
+            <title>Merkle-Damgaard Revisited: How to Construct a Hash Function</title>
+            <seriesInfo name="DOI" value="10.1007/11535218_26"/>
+            <seriesInfo name="pages" value="430-448"/>
+            <seriesInfo name="In" value="Advances in Cryptology - CRYPTO 2005"/>
+            <author initials="J-S." surname="Coron" fullname="Jean-Sebastien Coron">
+              <organization>University of Luxembourg</organization>
+            </author>
+            <author initials="Y." surname="Dodis" fullname="Yevgeniy Dodis">
+              <organization>New York University</organization>
+            </author>
+            <author initials="C." surname="Malinaud" fullname="Cecile Malinaud">
+              <organization>University of Luxembourg</organization>
+            </author>
+            <author initials="P." surname="Puniya" fullname="Prashant Puniya">
+              <organization>New York University</organization>
+            </author>
+            <date year="2005"/>
+          </front>
+        </reference>
+
       <reference anchor="SHA3">
         <front>
           <title>"SHA-3 Standard: Permutation-Based Hash and Extendable-
