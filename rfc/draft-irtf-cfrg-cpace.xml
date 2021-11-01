@@ -86,12 +86,19 @@
         hash function H and an elliptic curve group G.
         </t>
 
-        <t> With H(m) we denote a hash function that operates on an input octet string m and 
-            outputs an octet string of length l. 
-            Common choices for H are SHA2 or SHA3 <xref target="RFC6234"/>. 
-            H is assumed to segment messages m into blocks m_i of byte length H_block.
-            E.g. the blocks used in SHA512 have a size of 128 bytes and for SHA3-256 we have a block size of 136 bytes. </t>
-        
+        <t> With H(m) we denote a hash function that operates on an input octet string m.
+            Common choices for H are SHA2 <xref target="RFC6234"/> or SHAKE256 <xref target="SHA3"/>. 
+        </t>
+        <t>
+        A given hash function H is characterized by its input and output block size. We use an object-style notation 
+        H.constant_name .
+        </t>
+        <t> With H.b_in_bytes we denote the output size of the hash in octets. 
+            E.g. for SHA512 the size of the output SHA512.b_in_bytes equals 64 
+        </t>
+        <t> With H.s_in_bytes we denote the input block size of H. 
+            For SHA512, e.g. the input block size SHA512.s_in_bytes is 128. 
+        </t>
         <t>
         For a given group G this document specifies how to define the following set of group-specific 
         functions and constants for the protocol execution. For making the implicit dependence of the respective
@@ -125,7 +132,7 @@
       <section title="Inputs" anchor="inputs">
        <t> With PRS we denote a password-related octet string which is a MANDATORY input for all CPace instantiations. 
            Typically PRS is derived from a low-entropy secret such as a user-supplied password (pw) or a personal 
-           identification number by PRS = prepend_len(pw)
+           identification number.
        </t>
 
        <t> With CI we denote an OPTIONAL octet string for the channel identifier. CI can be used for
@@ -163,33 +170,30 @@
         
         <t> Finally, we let nil represent an empty octet string, i.e., len(nil) = 0.</t>
 
-        <t> With prepend_len(byte_sequence) we denote the octet sequence that is obtained from prepending
-            the length of the sequence as an utf-8 string to the byte sequence itself. (This will prepend one
-            single octet for sequences shorter than 128 bytes and more octets otherwise) </t>
+        <t> With prepend_len(octet_string) we denote the octet sequence that is obtained from prepending
+            the length of the octet string as an utf-8 string to the byte sequence itself. (This will prepend one
+            single octet for sequences shorter than 128 bytes and more octets otherwise). </t>
+        <t> With prefix_free_cat(a0,a1, ...) we denote a function that outputs the prefix-free encoding of 
+            all input octet strings as the concatenation of the individual strings with their respective 
+            length prepended: prepend_len(a0) || prepend_len(a1) || ... . Use of this function allows for a 
+            easy parsing of strings and guarantees a prefix-free encoding. 
+        </t>
 
-       <t> 
-          With G.F we denote a field that may be associated with a group G, e.g. the prime base field used for 
-          representing the coordinates 
-          of points on an elliptic curve. </t>
-
-        <t>With KDF(k) we denote a key-derivation function that takes an string and derives key. 
-           A common choice for a KDF would be HKDF
-           <xref target="RFC5869"/>. </t>
-
+        <t> With sample_random_bytes(n) we denote a function that returns n octets uniformly sampled between 0 and 255.</t>
+        <t> With zero_bytes(n) we denote a function that returns n octets with value 0.</t>
+        
         <t> With ISK we denote the intermediate session key output string provided by CPace. It is RECOMMENDED to convert the
             intermediate session key ISK ot a final session key by using a suitable KDF function prior to using the key in a 
             higher-level protocol. </t>
       
-        <t> With DSI we denote domain-separation identifier strings that may be prepended to the 
-            inputs of Hash and KDF functions.  </t> 
-
-        <t> With ZPAD we denote a zero-padding string. </t>
-
+        <t> With DSI we denote domain-separation identifier strings. </t> 
       </section>
       
       <section title="Protocol Flow" anchor="flow">
         <t>CPace is a one round protocol to establish an intermediate shared secret ISK 
           with implicit mutual authentication.
+          In the setup phase both sides agree on a common hash function H and a group G.
+          
           Prior to invocation, A and B are provisioned with public (CI) and secret
           information (PRS) as prerequisite for running the protocol. 
           During the first round, A sends a public share Ya 
@@ -198,11 +202,11 @@
           used for producing encryption and authentication keys by a KDF function
           outside of the scope of CPace.
  
-          Optionally prior to entering the protocol, A and B dispose of a sid string.
+          Optionally when starting the protocol, A and B dispose of a sid string.
           sid is typically pre-established by a higher-level protocol 
           invoking CPace. If no such sid is available from a higher-level
           protocol, a suitable approach is to let A choose a fresh random sid 
-          string and send it to B together with Ya. This method is shown in the
+          string and send it to B together with the first message. This method is shown in the
           setup protocol section below. </t>
 
         <t>This sample trace is shown below.</t>
@@ -213,9 +217,9 @@
                 |----------------->|
        ---------------------------------------
                 |                  |
-  (compute Ya)  |     Ya || ADa    |
+  (compute Ya)  |      Ya, ADa     |
                 |----------------->|
-                |     Yb || ADb    | (compute Yb)
+                |      Yb, ADb     | (compute Yb)
                 |<-----------------|
                 |   (verify data)  |
                 |   (derive ISK)   |
@@ -225,26 +229,22 @@
 
       <section title="CPace" anchor="cpace">
       <t> In the setup phase, both parties A,B agreed on the group G and the session id value sid.</t>
-        <t> To begin, A calculates a generator g = G.calculate_generator(PRS || CI). 
+        <t> To begin, A calculates a generator g = G.calculate_generator(H, PRS,CI,sid). 
         </t> 
         <t> A samples ya = G.sample_scalar() randomly according to the requirements for group G.
-            A then Ya= G.scalar_mult (g,ya). A then transmits the concatenation of Ya and the optional associated data 
-            ADa to B.</t>
+            A then Ya= G.scalar_mult (ya,g). A then transmits MSGa = prefix_free_cat(Ya, ADa) with 
+            Ya and the optional associated data ADa to B.</t>
 
         <t> B picks yb = G.sample_scalar() randomly. B then calculates 
-            g = G.calculate_generator(PRS || CI) and
-           Yb = G.scalar_mult(g,yb). B then calculates K = G.scalar_mult_vfy(Ya,yb). 
-           B MUST abort if K is the encoding of the neutral element G.I.
-           Otherwise B sends Yb to A and proceeds as follows.
+            g = G.calculate_generator(H, PRS,CI,sid) and
+            Yb = G.scalar_mult(yb,g). B then calculates K = G.scalar_mult_vfy(yb,Ya). 
+            B MUST abort if K is the encoding of the neutral element G.I.
+            Otherwise B sends MSGb = prefix_free_cat(Yb, ADb) to A and proceeds as follows.
 
-           B returns ISK = H(DSI2 || sid || K || CONCAT(Ya || ADa, Yb || ADb)).</t>
+            B returns ISK = H(prefix_free_cat(DSI_ISK, sid, K, CONCAT(MSGa, MSGb))).</t>
 
         <t> Upon reception of Yb, A calculates K = scalar_mult_ccv(Yb,ya). A MUST abort if K is the neutral element I.
-            If K is different from I, A returns ISK = H(DSI2 || sid || Ks || CONCAT(Ya || ADa, Yb || ADb)). </t>
-
-        <t>Already K is a shared value, still it MUST NOT be used as a shared secret key.
-          Note that calculation of ISK from K includes the protocol transcript and
-          prevents key malleability with respect to man-in-the-middle attacks from active adversaries.</t>
+            If K is different from I, A returns ISK = H(prefix_free_cat(DSI_ISK, sid, K, CONCAT(MSGa, MSGb))). </t>
 
         <t>Upon completion of this protocol, the session key ISK returned by A and B will be identical by both
            parties if and only if the supplied input parameters sid, PRS and CI match on both sides and the 
@@ -255,152 +255,63 @@
     <section title="Ciphersuites" anchor="Ciphersuites">
         <t>
             This section documents CPACE ciphersuite configurations. A ciphersuite
-            is REQUIRED to specify all of, 
+            is REQUIRED to specify, 
              <list style="symbols">
-                   <t>a group modulo negation J with an associated encode_group_element_mod_neg function </t>
-                   <t>scalar_mult_cc(P,s) and scalar_mult_ccv(P,s) functions operating on encodings of 
-                      elements P in J 
-                   </t>
-                   <t> a mapping function map_to_group_mod_neg(r) converting byte strings r into elements in J </t> 
-                   <t> a strip_sign_information(Q) function operating on string representations of elements Q </t>
+                   <t>a group G with associated definitions for G.sample_scalar(), G.scalar_mult() and G. scalar_mult.vfy() and G.calculate_generator() functions. </t>
                    <t> a hash function H </t> 
-                   <t> and domain separation strings DSI1, DSI2 </t>
+                   <t> and an associated domain separation string DSI </t>
              </list>
             </t>
          <t>
             Currently, detailed specifications are available for 
-            CPACE-X25519-ELLIGATOR2_SHA512-SHA512 and
-            CPACE-P256-SSWU_SHA256-SHA256. These cipher suites 
+            CPACE-X25519-SHA512, 
+            CPACE-P256-SHA256 and CPACE-RISTRETTO-SHA512. These cipher suites 
             are specifically designed for suitability also
-            with constrained hardware. It is recommended that cipher suites for
-            short Weierstrass curves are specified in line with the corresponding definitions
-            for NIST-P256. Cipher suites for modern Montgomery or Edwards curves 
-            are recommended to be specified in line with the definitions for Curve25519.
+            with constrained hardware.
          </t>
 
-<!--         <t>
-            As a generic approach for other short Weierstrass curves, it is RECOMMENDED to use
-            the recommended encode_to_curve function from <xref target="HASH2CURVE"/>, 
-            which by itself is parametrized by a hash function H for the map_to_field() operation. 
-            It is RECOMMENDED that the corresponding CPace cipher suite for this curve 
-            uses the same hash function H for calculating ISK.
-            It is RECOMMENDED to use 12 byte DSI strings with the
-            content "CPace-XXXX-1" and "CPace-XXXX-2", where XXXX is a four character 
-            abbreviation of the curve name. 
-
-            The secret generator is calculated as 
-            G = encode_to_curve(DSI1 || PRS || ZPAD || sid || CI). The zero-padding block length
-            ZPAD is determined as max(0, H_block - len(DSI1 || PRS)).
- 
-         </t> -->
-
-            <texttable anchor="cpace_ciphersuites" title="CPace Ciphersuites">
-                <ttcol align='center'>J</ttcol>
-                <ttcol align='center'>map_to_group_mod_neg</ttcol>
-                <ttcol align='center'>KDF</ttcol>
- 
-                <!-- P256-SHA256-HKDF-HMAC -->
-                <c>X25519</c>
-                <c>ELLIGATOR2_SHA512 </c>
-                <c>SHA512 <xref target="RFC6234"/></c>
-
-                <!-- P256-SHA512-HKDF-HMAC -->
-                <c>NIST P-256</c>
-                <c>SSWU_SHA256 <xref target="HASH2CURVE"/></c>
-                <c>SHA256 <xref target="RFC6234"/></c>
-
-            </texttable>
-
-
-
-<!--
-        <t>The following points represent permissible point generation seeds
-            for the groups listed in the Table <xref target="cpace_ciphersuites"/>,
-            using the algorithm presented in <xref target="pointgen"/>.
-            These bytestrings are compressed points as in <xref target="SEC1" />
-            for curves from <xref target="SEC1" />.</t>
-
-      <t>For P256:</t>
-
-      <figure><artwork><![CDATA[
-M =
-02886e2f97ace46e55ba9dd7242579f2993b64e16ef3dcab95afd497333d8fa12f
-seed: 1.2.840.10045.3.1.7 point generation seed (M)
-
-N =
-03d8bbd6c639c62937b04d997f38c3770719c629d7014d49a24b4f98baa1292b49
-seed: 1.2.840.10045.3.1.7 point generation seed (N)
-]]></artwork></figure>
-
-      <t>For P384:</t>
-
-      <figure><artwork><![CDATA[
-M =
-030ff0895ae5ebf6187080a82d82b42e2765e3b2f8749c7e05eba366434b363d3dc
-36f15314739074d2eb8613fceec2853
-seed: 1.3.132.0.34 point generation seed (M)
-
-N =
-02c72cf2e390853a1c1c4ad816a62fd15824f56078918f43f922ca21518f9c543bb
-252c5490214cf9aa3f0baab4b665c10
-seed: 1.3.132.0.34 point generation seed (N)
-]]></artwork></figure>
-
-      <t>For P521:</t>
-
-      <figure><artwork><![CDATA[
-M =
-02003f06f38131b2ba2600791e82488e8d20ab889af753a41806c5db18d37d85608
-cfae06b82e4a72cd744c719193562a653ea1f119eef9356907edc9b56979962d7aa
-seed: 1.3.132.0.35 point generation seed (M)
-
-N =
-0200c7924b9ec017f3094562894336a53c50167ba8c5963876880542bc669e494b25
-32d76c5b53dfb349fdf69154b9e0048c58a42e8ed04cef052a3bc349d95575cd25
-seed: 1.3.132.0.35 point generation seed (N)
-]]></artwork></figure>
-
-      <t>For edwards25519:</t>
-      <figure><artwork><![CDATA[
-M =
-d048032c6ea0b6d697ddc2e86bda85a33adac920f1bf18e1b0c6d166a5cecdaf
-seed: edwards25519 point generation seed (M)
-
-N =
-d3bfb518f44f3430f29d0c92af503865a1ed3281dc69b35dd868ba85f886c4ab
-seed: edwards25519 point generation seed (N)
-]]></artwork></figure>
-
-      <t>For edwards448:</t>
-      <figure><artwork><![CDATA[
-M =
-b6221038a775ecd007a4e4dde39fd76ae91d3cf0cc92be8f0c2fa6d6b66f9a12
-942f5a92646109152292464f3e63d354701c7848d9fc3b8880
-seed: edwards448 point generation seed (M)
-
-N =
-6034c65b66e4cd7a49b0edec3e3c9ccc4588afd8cf324e29f0a84a072531c4db
-f97ff9af195ed714a689251f08f8e06e2d1f24a0ffc0146600
-seed: edwards448 point generation seed (N)
-]]></artwork></figure>
-
--->
-
-    <section title="CPACE-X25519-ELLIGATOR2_SHA512-SHA512">
-     <t>      
-      This cipher suite targets particularly constrained targets and implements specific optimizations.
-      It uses the group of points on the Montgomery curve Curve25519 for constructing J. The base field F is the 
-      prime field built upon the prime 2^255 - 19.
-      The Diffie-Hellmann protocol X25519 and the group are specified in <xref target="RFC7748"/>. 
-      The encode_group_element_mod_neg(P) is implemented by the encodeUCoordinate(P) function defined in <xref target="RFC7748"/>. 
-      The neutral element I is encoded as a 32 byte zero-filled string.
+    <section title="Calculating generator strings">
+     <t>
+         With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function function that returns an zero-padded
+         octet string where PRS is zero-padded such that it fills at least the first input block of the hash.
+         First len_zpad = MAX(0, H.s_in_bytes - len(prepend_length(PRS)) - 1) is calculated.
+         the result string is then calculated as prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid). 
      </t>
-     <t> The domain separation strings are defined as DSI1 = "CPace25519-1", DSI2 = "CPace25519-2" 
-         (twelve-byte ASCII encoding without ANSI-C style trailing zeros). </t>
+    </section>
+     
+    <section title="CPace on single-coordinate Ladders on Montgomery curves">
+     <t>
+      In this section we consider the case of CPace using the X25519 and X448 Diffie-Hellman functions 
+      from <xref target="RFC7748"/> operating on Curve25519 and Curve448 <xref target="RFC7748"/>.
+      
+      CPace implementations using single-coordinate ladders on further Montgomery curves SHALL use the definitions in line
+      with the specifications for X25519 and X448 and consider the guidance given in the security consideration section and
+      <xref target="cpace_paper" />.
+      
+      For X25519 the following definitions apply:
+      <list style="symbols">
+      <t> G.sample_scalar() = sample_random_bytes(32) </t>
+      <t> G.scalar_mult(y,g) = G.scalar_mult(y,g) = X25519(y,g)</t> 
+      <t> G.I = zero_bytes(32) </t>
+      <t> G.DST = "CPace255" </t>
+      </list>
 
-     <t> Both, scalar_mult_cc and scalar_mult_ccv, are implemented by the X25519 function specified in <xref target="RFC7748"/>. </t>
-     <t> The secret scalars ya and yb used for X25519 shall be sampled as uniformly distributed 32 byte strings. </t>
-
+      For X448 the following definitions apply:
+      <list style="symbols">
+      <t> G.sample_scalar() = sample_random_bytes(56) </t>
+      <t> G.scalar_mult(y,g) = G.scalar_mult(y,g) = X448(y,g)</t> 
+      <t> G.I = zero_bytes(56) </t>
+      <t> G.DST = "CPace448" </t>
+      </list>
+                  
+      The G.calculate_generator(PRS,sid,CI) function shall be implemented as follows.
+      <list style="symbols">
+      <t> num_pads = MAX(0, G.hash_function_block_size - len(PRS)) </t>
+      <t> field_element = hash_to_field(PRS || zero_bytes(num_pads) || G.DST || sid || CI, 1) </t> 
+      <t>  </t>
+      </list>
+             </t>
+             
      <t> The map_to_group_mod_neg function is implemented as follows. First the byte length of the ZPAD zero-padding string is determined
          such that len(ZPAD) = max(0, H_block_SHA512 - len(DSI1 || PRS)), with H_block_SHA512 = 128 bytes. 
          Then a byte string u is calculated by use of u = SHA512(DSI1||PRS||ZPAD||sid||CI). The resulting string is interpreted
@@ -568,20 +479,38 @@ def generate_ISK_CPace_P256(sid,K,Ya,Yb):
     <section title="Security Considerations">
       <t>A security proof of CPace is found in <xref target="cpace_paper"/>.  </t>
 
-       <t>Elements received from a peer MUST be checked by a proper implementation of the scalar_mult_ccv method. 
+        <t>In order to prevent length-extension attacks, all hash inputs MUST be prefix-free strings.
+           Otherwise length extension attacks on Merkle-Damgard hashing constructions such as SHA2 or SHA512
+           would have to be considered.</t>
+
+        <t>Although already K is a shared value, still it MUST NOT be used as a shared secret key.
+          Note that calculation of ISK from K includes the protocol transcript and
+          prevents key malleability with respect to man-in-the-middle attacks from active adversaries.</t>
+
+
+<t>   The definitions given for the case of Curve25519 and Curve448 are based on the following properties of the
+      elliptic curves:  
+      <list style="symbols">
+      <t> The curve has a cofactor c and a secure quadratic twist with cofactor c'.</t>
+      <t> The cofactor c' of the twist is equal or an integer multiple of the cofactor c of the curve.</t>
+      <t> The representation of the neutral element is shared between the curve and its twist.</t>
+      </list>
+      
+ </t>
+ 
+       <t>Elements received from a peer MUST be checked by a proper implementation of the scalar_mult_vfy method. 
           Failure to properly validate group elements can lead to attacks. The Curve25519-based cipher suite employs
           the twist security feature of the curve for point validation. 
-          As such, it is mandatory to check that all low-order points on both
-          the curve and the twist are
-          mapped on the neutral element by the X25519 function. Corresponding test vectors are provided in the 
-          appendix.</t>
+          As such, it is mandatory to check that any actual X25519 function implementation maps 
+          all low-order points on both the curve and the twist on the neutral element.
+          Corresponding test vectors are provided in the appendix.</t>
 
-      <t>The choices of random numbers MUST be uniform. Randomly generated values (e.g., ya and yb)
-          MUST NOT be reused.</t>
+      <t>The randomly generated values ya and yb MUST NOT be reused.</t>
 
       <t>CPace is NOT RECOMMENDED to be used in conjunction with applications supporting different username/password pairs. 
-         In this case it is RECOMMENDED to use CPace as building block of the augmented AuCPace protocol  <xref
-          target="aucpace_paper"/>.</t>
+         In this case it is RECOMMENDED to consider the augmented PAKE protocol OPAQUE or 
+         use CPace as building block of the augmented AuCPace protocol  
+         <xref target="aucpace_paper"/>.</t>
 
       <t>If CPace is used as a building block of higher-level protocols, it is RECOMMENDED that sid
          is generated by the higher-level protocol and passed to CPace. It is RECOMMENDED sid, 
@@ -589,24 +518,28 @@ def generate_ISK_CPace_P256(sid,K,Ya,Yb):
 
       <t>Since CPace is designed to be used as a building block in higher-level protocols and for 
          compatibility with constrained hardware, 
-         it does not by itself include a strong KDF construction. CPace uses a simple hash operation for generating its 
+         it does not by itself include a strong key derivation function construction. 
+         CPace uses a simple hash operation on a prefix-free string input for generating its 
          intermediate key ISK.
-         It is RECOMMENDED that the ISK is post-processed by a KDF according the needs of the higher-level protocol. In case
-         that the CPace protocol is delegated to a secure element hardware, it is RECOMMENDED that the main processing unit
-         applies a KDF to the externally generated ISK.
+         It is RECOMMENDED that the ISK is post-processed by a KDF such as <xref target="RFC5869" />
+         according the needs of the higher-level protocol. In case
+         that the CPace protocol is delegated to a secure element hardware, it is RECOMMENDED that the calculation of 
+         the KDF function is implemented in the main processing unit.
       </t>
 
       <t>In case that side-channel attacks are to be considered practical for a given application, it is RECOMMENDED to focus
          side-channel protections such as masking and redundant execution (faults) on the process of calculating
-         the secret generator G. The most critical aspect to consider is the processing of the first block of the hash that includes 
+         the secret generator G.calculate_generator(PRS,CI,sid). 
+         The most critical aspect to consider is the processing of the first block of the hash that includes 
          the PRS string. The CPace protocol construction considers the fact that side-channel protections of hash functions might 
          be particularly resource hungry. For this reason, CPace aims at minimizing the number of hash functions invocations in the 
          specified mapping method.</t>
 
       <t>CPace is proven secure under the hardness of the computational Simultaneous Diffie-Hellmann (SDH) 
-         assumption in the group J (as defined in <xref target="VTBPEKE"/>). 
+         assumption in the group G (as defined in <xref target="cpace_paper"/>). 
          Still, even for the event that large-scale quantum computers (LSQC) will become available, CPace forces an active 
-         adversary to solve one CDH per password guess. Using the wording suggested by Steve Thomas on the CFRG mailing list,
+         adversary to solve one CDH per password guess <xref target="cpace_eaton_stebila"/>. 
+         Using the wording suggested by Steve Thomas on the CFRG mailing list,
          CPace is "quantum-annoying".
       </t>
 
@@ -672,6 +605,17 @@ def generate_ISK_CPace_P256(sid,K,Ya,Yb):
         <annotation>IRTF draft standard
         </annotation>
       </reference>
+              
+      <reference anchor="SHA3">
+        <front>
+          <title>"SHA-3 Standard: Permutation-Based Hash and Extendable-
+              Output Functions", FIPS PUB 202</title>
+         <author initials="NIST" surname="National Institute of Standards and Technology (NIST)" />
+           <date year="2015" />
+        </front>
+        <annotation>https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf
+        </annotation>
+      </reference>
 
       <reference anchor="IEEE1363">
         <front>
@@ -694,6 +638,17 @@ def generate_ISK_CPace_P256(sid,K,Ya,Yb):
           <date month="January" year="2021" />
         </front>
         <annotation>eprint.iacr.org/2021/114
+        </annotation>
+      </reference>
+
+      <reference anchor="cpace_eaton_stebila">
+        <front>
+          <title>The "quantum annoying" property of password-authenticated key exchange protocols.</title>
+          <author initials="E." surname="Eaton" />
+          <author initials="D." surname="Stebila" />
+          <date month="May" year="2021" />
+        </front>
+        <annotation>https://eprint.iacr.org/2021/696
         </annotation>
       </reference>
 
