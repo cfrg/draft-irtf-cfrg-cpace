@@ -86,18 +86,31 @@
         hash function H and an elliptic curve group G.
         </t>
 
-        <t> With H(m) we denote a hash function that operates on an input octet string m.
-            Common choices for H are SHA2 <xref target="RFC6234"/> or SHAKE256 <xref target="SHA3"/>. 
+        <t> With H we denote a hash primitive with a hash function H.hash(m,l) 
+            that operates on an input octet string m and returns a hash result containing the first l result octets
+            calculated by the primitive.
         </t>
         <t>
-        A given hash function H is characterized by its input and output block size. We use an object-style notation 
-        H.constant_name .
+            A given hash function H is characterized by its input and its preferred output sizes. 
+            We use an object-style notation 
+            H.constant_name. With H.b_in_bytes we denote the preferred output size in bytes of the primitive such
+            that the hash function returns the full length of the hash if the second length parameter is not
+            given: H.hash(m) = H.hash(m, H.b_in_bytes).
         </t>
-        <t> With H.b_in_bytes we denote the output size of the hash in octets. 
-            E.g. for SHA512 the size of the output SHA512.b_in_bytes equals 64 
+        <t>
+            With H.bmax_in_bytes we denote the maximum output size in octets supported by the hash primitive.
         </t>
-        <t> With H.s_in_bytes we denote the input block size of H. 
-            For SHA512, e.g. the input block size SHA512.s_in_bytes is 128. 
+        <t>
+            A first common choice for H is SHA512 <xref target="RFC6234"/> where b_in_bytes = bmax_in_bytes = 64
+            as a fixed-length output of 64 bytes is produced.
+            Another suitable choice for H is SHAKE256 <xref target="SHA3"/> which is also designed for a preferred length 
+            and security parameter of b_in_bytes = 64 but which allows for variable-length outputs without 
+            a fixed limit bmax_in_bytes.
+        </t>
+        <t>
+            With H.s_in_bytes we denote the input block size used by H. 
+            For SHA512, e.g. the input block size s_in_bytes is 128, while for SHAKE256 the 
+            input block size amounts to 136 bytes.           
         </t>
         <t>
         For a given group G this document specifies how to define the following set of group-specific 
@@ -233,7 +246,9 @@
         </t> 
         <t> A samples ya = G.sample_scalar() randomly according to the requirements for group G.
             A then Ya= G.scalar_mult (ya,g). A then transmits MSGa = prefix_free_cat(Ya, ADa) with 
-            Ya and the optional associated data ADa to B.</t>
+            Ya and the optional associated data ADa to B. Note that prefixing the transmitted components with their
+            respective lengths allows for unambigous parsing of MSGa by the receiver and guarantees a
+            prefix-free encoding.</t>
 
         <t> B picks yb = G.sample_scalar() randomly. B then calculates 
             g = G.calculate_generator(H, PRS,CI,sid) and
@@ -241,10 +256,10 @@
             B MUST abort if K is the encoding of the neutral element G.I.
             Otherwise B sends MSGb = prefix_free_cat(Yb, ADb) to A and proceeds as follows.
 
-            B returns ISK = H(prefix_free_cat(DSI_ISK, sid, K, CONCAT(MSGa, MSGb))).</t>
+            B returns ISK = H.hash(prefix_free_cat(DSI_ISK, sid, K, CONCAT(MSGa, MSGb))).</t>
 
         <t> Upon reception of Yb, A calculates K = scalar_mult_ccv(Yb,ya). A MUST abort if K is the neutral element I.
-            If K is different from I, A returns ISK = H(prefix_free_cat(DSI_ISK, sid, K, CONCAT(MSGa, MSGb))). </t>
+            If K is different from I, A returns ISK = H.hash(prefix_free_cat(DSI_ISK, sid, K, CONCAT(MSGa, MSGb))). </t>
 
         <t>Upon completion of this protocol, the session key ISK returned by A and B will be identical by both
            parties if and only if the supplied input parameters sid, PRS and CI match on both sides and the 
@@ -265,27 +280,30 @@
          <t>
             Currently, detailed specifications are available for 
             CPACE-X25519-SHA512, 
-            CPACE-P256-SHA256 and CPACE-RISTRETTO-SHA512. These cipher suites 
-            are specifically designed for suitability also
-            with constrained hardware.
+            CPACE-X448-SHAKE256, 
+            CPACE-P256-SHA256 and CPACE-RISTRETTO-SHA512. CPACE-X25519-SHA512 and CPACE-P256-SHA256 
+            are specifically designed for suitability also with constrained hardware.
          </t>
 
-    <section title="Calculating generator strings">
+    <section title="Use of hash function in CPace">
      <t>
-         With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function function that returns an zero-padded
-         octet string where PRS is zero-padded such that it fills at least the first input block of the hash.
-         First len_zpad = MAX(0, H.s_in_bytes - len(prepend_length(PRS)) - 1) is calculated.
-         the result string is then calculated as prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid). 
+         With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function function that returns a string
+         prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid) in which all input strings are concatenated
+         such that the encoding of PRS together with a suitable zero pad field completely fills the first input block
+         of the hash.
+         
+         The length len_zpad of the zero padding is calculated as len_zpad = MAX(0, H.s_in_bytes - len(prepend_length(PRS)) - 1).
      </t>
+     
     </section>
      
     <section title="CPace on single-coordinate Ladders on Montgomery curves">
      <t>
       In this section we consider the case of CPace using the X25519 and X448 Diffie-Hellman functions 
-      from <xref target="RFC7748"/> operating on Curve25519 and Curve448 <xref target="RFC7748"/>.
+      from <xref target="RFC7748"/> operating on the Montgomery curves Curve25519 and Curve448 <xref target="RFC7748"/>.
       
       CPace implementations using single-coordinate ladders on further Montgomery curves SHALL use the definitions in line
-      with the specifications for X25519 and X448 and consider the guidance given in the security consideration section and
+      with the specifications for X25519 and X448 and review the guidance given in the security consideration section and
       <xref target="cpace_paper" />.
       
       For X25519 the following definitions apply:
@@ -293,7 +311,9 @@
       <t> G.sample_scalar() = sample_random_bytes(32) </t>
       <t> G.scalar_mult(y,g) = G.scalar_mult(y,g) = X25519(y,g)</t> 
       <t> G.I = zero_bytes(32) </t>
-      <t> G.DST = "CPace255" </t>
+      <t> G.DSI = "CPace255" </t>
+      <t> G.field_size_bytes = 32 </t>
+      <t> G.field_size_bits = 255 </t>
       </list>
 
       For X448 the following definitions apply:
@@ -301,29 +321,29 @@
       <t> G.sample_scalar() = sample_random_bytes(56) </t>
       <t> G.scalar_mult(y,g) = G.scalar_mult(y,g) = X448(y,g)</t> 
       <t> G.I = zero_bytes(56) </t>
-      <t> G.DST = "CPace448" </t>
+      <t> G.DSI = "CPace448" </t>
+      <t> G.field_size_bytes = 56 </t>
+      <t> G.field_size_bits = 448 </t>
       </list>
                   
-      The G.calculate_generator(PRS,sid,CI) function shall be implemented as follows.
+      The G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follows.
       <list style="symbols">
-      <t> num_pads = MAX(0, G.hash_function_block_size - len(PRS)) </t>
-      <t> field_element = hash_to_field(PRS || zero_bytes(num_pads) || G.DST || sid || CI, 1) </t> 
-      <t>  </t>
-      </list>
-             </t>
-             
-     <t> The map_to_group_mod_neg function is implemented as follows. First the byte length of the ZPAD zero-padding string is determined
-         such that len(ZPAD) = max(0, H_block_SHA512 - len(DSI1 || PRS)), with H_block_SHA512 = 128 bytes. 
-         Then a byte string u is calculated by use of u = SHA512(DSI1||PRS||ZPAD||sid||CI). The resulting string is interpreted
-         as 512-bit integer in little-endian format according to the definition of decodeLittleEndian() from <xref target="RFC7748"/>. 
-         The resulting integer is then reduced to the base field as input to the Elligator2 map specified in <xref target="HASH2CURVE"/>
-         to yield the secret generator G = Elligator2(u).
-     </t>
-
-     <t> CPace25519 returns a session key ISK of 64 bytes length by a single invocation of SHA512(DSI2||sid||K||Ya||Yb). 
-         Since the encoding does not incorporate the sign
-         from the very beginning Qs = strip_sign_information(Q) == Q for this cipher suite. </t>
-
+      <t> First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the 
+          chosen hash primitive. </t>
+      <t> This string is then hashed to the required length 
+          gen_str_hash = H.hash(gen_str, G.field_size_bytes). 
+          Note that this implies that the permissible output length H.maxb_in_bytes MUST BE larger or equal to the 
+          field size of the group G for making a hashing primitive suitable.
+      </t>
+      <t> This result is then considered as a field coordinate using
+          the u = decodeUCoordinate(gen_str_hash, G.field_size_bits) function from <xref target="RFC7748"/> which we
+          repeat in the appendix for convenience.
+       </t>
+      <t> The result point g is then calculated as (g,v) = map_to_curve_elligator2(u) using the function 
+          from <xref target="HASH2CURVE"/>. Note that the v coordinate produced by the map_to_curve_elligator2 function
+          is not required for CPace and discarded.  
+       </t>
+       
      <t> The following sage code could be used as reference implementation for the mapping and key derivation functions.
 
       <figure><artwork><![CDATA[
