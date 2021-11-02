@@ -293,7 +293,7 @@
 
     <section title="Use of the hash function in CPace">
      <t>
-         With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function function that returns a string
+         With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function that returns a string
          prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid) in which all input strings are concatenated
          such that the encoding of PRS together with a suitable zero pad field completely fills the first input block
          of the hash.
@@ -376,28 +376,28 @@
       <list style="symbols">
       <t> G.DSI = "CPaceRistretto" </t>
       <t> G.field_size_bytes = 32 </t>
-      <t> G.field_size_bits = 255 </t>
+      <t> G.group_size_bits = 252 </t>
       </list>
 
       For decaf448 the following definitions apply:
       <list style="symbols">
       <t> G.DSI = "CPaceDecaf" </t>
       <t> G.field_size_bytes = 56 </t>
-      <t> G.field_size_bits = 488 </t>
+      <t> G.group_size_bits = 488 </t>
       </list>
 
       For both abstractions the following definitions apply:
       <list style="symbols">
-      <t> G.sample_scalar() = sample_random_bytes(G.field_size_bytes) </t>
+      <t> G.sample_scalar() = sample_random_bytes(G.group_size_bits) </t>
       <t> G.scalar_mult(y,g) = encode(g^y)</t>
       <t> G.I = encode(g^0), where g is an arbitrary generator</t>
       <t> G.scalar_mult_vfy(y,X) is implemented as follows.
           if the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X)^y )</t>
       </list>
       Note that with these definitions the scalar_mult function operates on a decoded point g and returns an encoded point,
-      while the scalar
+      while the scalar_mult_vfy(y,X) function operates on a scalar and an encoded point X.
 
-      The G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follows.
+      The G.calculate_generator(H, PRS,sid,CI) function shall return a decoded point and be implemented as follows.
       <list style="symbols">
       <t> First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the 
           chosen hash primitive. </t>
