@@ -242,7 +242,7 @@
       </section>
 
       <section title="CPace" anchor="cpace">
-      <t> In the setup phase, both parties A,B agreed on the group G and the session id value sid.</t>
+      <t> In the setup phase, both parties A,B agreed on the group G a hash H. If a higher-level protocol provided a session id sid, both parties SHALL use this value in the protocol execution. If there is a clear initiator (party A) and responder (party B) role assigned in the application setting, A SHOULD sample a fresh random value sid and transmit it together with its first message. If the application scenario does not enforce an ordering of the two messages and no sid value is available from a higher-level protocol, then the empty string shall be used for the session id. </t>
         <t> To begin, A calculates a generator g = G.calculate_generator(H, PRS,CI,sid). 
         </t> 
         <t> A samples ya = G.sample_scalar() randomly according to the requirements for group G.
