@@ -123,19 +123,20 @@
         With G.I we denote a unique octet string representation of the neutral element of group G.
         </t>
 
-        <t>g = G.calculate_generator(input_octet_string). With calculate_generator we denote a function that outputs a
-        octet string representation of a group element in G which is derived from an input string.
+        <t>g = G.calculate_generator(H, PRS,CI,sid). With calculate_generator we denote a function that outputs a
+        octet string representation of a group element in G which is derived from input octet strings PRS, CI, sid using
+        a hash function primitive.
         </t>
 
         <t>y = G.sample_scalar(). This function returns an octet string representation of a scalar value appropriate as a
         private Diffie-Hellman key for group G.
         </t>
     
-        <t>Y = G.scalar_mult(g,y). This function takes a generator g as first parameter and a scalar y as second 
+        <t>Y = G.scalar_mult(y,g). This function takes a generator g as first parameter and a scalar y as second 
         parameter and returns an octet string representation of a group element Y.
         </t>
         
-        <t>K = G.scalar_mult_vfy(X,y). This function returns an octet string representation of a group element K which is
+        <t>K = G.scalar_mult_vfy(y,X). This function returns an octet string representation of a group element K which is
         calculated from a scalar y and a group element X. Moreover scalar_mult_vfy implements validity verifications of the inputs
         and returns the neutral element G.I if the validity check fails.        
         </t>
@@ -256,10 +257,10 @@
             B MUST abort if K is the encoding of the neutral element G.I.
             Otherwise B sends MSGb = prefix_free_cat(Yb, ADb) to A and proceeds as follows.
 
-            B returns ISK = H.hash(prefix_free_cat(DSI_ISK, sid, K, CONCAT(MSGa, MSGb))).</t>
+            B returns ISK = H.hash(prefix_free_cat(G.DSI || "ISK", sid, K, CONCAT(MSGa, MSGb))).</t>
 
-        <t> Upon reception of Yb, A calculates K = scalar_mult_ccv(Yb,ya). A MUST abort if K is the neutral element I.
-            If K is different from I, A returns ISK = H.hash(prefix_free_cat(DSI_ISK, sid, K, CONCAT(MSGa, MSGb))). </t>
+        <t> Upon reception of Yb, A calculates K = scalar_mult_vfy(Yb,ya). A MUST abort if K is the neutral element I.
+            If K is different from I, A returns ISK = H.hash(prefix_free_cat(G.DSI || "ISK", sid, K, CONCAT(MSGa, MSGb))). </t>
 
         <t>Upon completion of this protocol, the session key ISK returned by A and B will be identical by both
            parties if and only if the supplied input parameters sid, PRS and CI match on both sides and the 
@@ -272,20 +273,21 @@
             This section documents CPACE ciphersuite configurations. A ciphersuite
             is REQUIRED to specify, 
              <list style="symbols">
-                   <t>a group G with associated definitions for G.sample_scalar(), G.scalar_mult() and G. scalar_mult.vfy() and G.calculate_generator() functions. </t>
+                   <t>a group G with associated definitions for G.sample_scalar(), G.scalar_mult() and G. scalar_mult.vfy() and G.calculate_generator() functions and an associated domain separation string G.DSI . </t>
                    <t> a hash function H </t> 
-                   <t> and an associated domain separation string DSI </t>
              </list>
             </t>
          <t>
-            Currently, detailed specifications are available for 
+            Currently, test vectors are available for the cipher suites
             CPACE-X25519-SHA512, 
             CPACE-X448-SHAKE256, 
-            CPACE-P256-SHA256 and CPACE-RISTRETTO-SHA512. CPACE-X25519-SHA512 and CPACE-P256-SHA256 
-            are specifically designed for suitability also with constrained hardware.
+            CPACE-P256-SHA256,
+            CPACE-RISTR255-SHA512, 
+            CPACE-DECAF448-SHAKE256. 
          </t>
+    </section>
 
-    <section title="Use of hash function in CPace">
+    <section title="Use of the hash function in CPace">
      <t>
          With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function function that returns a string
          prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid) in which all input strings are concatenated
@@ -309,7 +311,7 @@
       For X25519 the following definitions apply:
       <list style="symbols">
       <t> G.sample_scalar() = sample_random_bytes(32) </t>
-      <t> G.scalar_mult(y,g) = G.scalar_mult(y,g) = X25519(y,g)</t> 
+      <t> G.scalar_mult(y,g) = G.scalar_mult_vfy(y,g) = X25519(y,g)</t> 
       <t> G.I = zero_bytes(32) </t>
       <t> G.DSI = "CPace255" </t>
       <t> G.field_size_bytes = 32 </t>
@@ -319,7 +321,7 @@
       For X448 the following definitions apply:
       <list style="symbols">
       <t> G.sample_scalar() = sample_random_bytes(56) </t>
-      <t> G.scalar_mult(y,g) = G.scalar_mult(y,g) = X448(y,g)</t> 
+      <t> G.scalar_mult(y,g) = G.scalar_mult_vfy(y,g) = X448(y,g)</t> 
       <t> G.I = zero_bytes(56) </t>
       <t> G.DSI = "CPace448" </t>
       <t> G.field_size_bytes = 56 </t>
@@ -343,165 +345,118 @@
           from <xref target="HASH2CURVE"/>. Note that the v coordinate produced by the map_to_curve_elligator2 function
           is not required for CPace and discarded.  
        </t>
-       
-     <t> The following sage code could be used as reference implementation for the mapping and key derivation functions.
-
-      <figure><artwork><![CDATA[
-<CODE BEGINS>
-
-def littleEndianStringToInteger(k):
-    bytes = [ord(b) for b in k]
-    return sum((bytes[i] << (8 * i)) for i in range(len(bytes)))
-
-def map_to_group_mod_neg_CPace25519(sid, PRS, CI):
-    m = hashlib.sha512()
-    p = 2^255 - 19
-
-    H_block_SHA512 = 128
-    DSI1 = b"CPace25519-1"
-    ZPAD_len = max(0,H_block_SHA512 - len(CI) - len(PRS))
-    ZPAD = ZPAD_len * "\0"
-
-    m.update(DSI1)
-    m.update(PRS)
-    m.update(ZPAD)
-    m.update(sid) 
-    m.update(CI)
-    u = littleEndianStringToInteger(m.digest())
-    return map_to_curve_elligator2_curve25519(u % p)
-
-def generate_ISK_CPace25519(sid,K,Ya,Yb):
-    m = hashlib.sha512(b"CPace25519-2") 
-    m.update(sid) 
-    m.update(K)
-    m.update(Ya)
-    m.update(Yb)
-    return m.digest()
-
-<CODE ENDS>
-]]></artwork></figure>
+     </list>
+            
+     In the appendix we show sage code that can be used as reference implementation for the calculate_generator and
+         key generation functions.
 
         The definitions above aim at making the protocol suitable for outsourcing CPace to
         secure elements (SE) where nested hash function constructions such as defined in <xref target="RFC5869"/> 
-        have to be considered to be particularly costly. 
-        As a result, the task of generating session keys by a strong KDF function is left out of the scope 
-        of the CPace protocol. This fact is expressed by the naming of the intermediate shared Key ISK.
-
-        The definitions above regarding the mapping deviate from the definition in the 
-        encode_to_curve function from <xref target="HASH2CURVE"/> by significantly reducing the amount of hash invocations. 
-
-        Moreover, the CPace protocol specification, unlike 
-        the hash-to-curve draft specification also considers the risk of side-channel leakage during the hashing of PRS by introducing
-        the ZPAD padding.
-        Mitigating attacks of an adversary that analyzes correlations between publicly known information with the low-entropy PRS
-        strings was considered relevant in important settings. 
-
-        We also avoid the overhead of redundant cofactor clearing, by making the Diffie-Hellman protocol responsible for this task 
-        (and not the mapping algorithm). 
-
-        Due to its use in Ed25519 <xref target="RFC8032"/>, SHA512 is considered to be the natural hash choice for Curve25519.
-        The 512 bit output of SHA512 moreover allows for removing any statistical bias stemming from the non-canonical base field
-        representations, such that the overhead of the HKDF_extract/HKDF_expand sequences from <xref target="HASH2CURVE"/> 
-        are considered not necessary (in line with the assessments regarding Curve25519 in <xref target="HASH2CURVE"/>).
+        have to be considered to be particularly costly. Moreover as all hash operations are executed using strings
+        with a prefix-free encoding also Merkle-Damgard constructions such as the SHA2 family can be considered as
+        a representation of a random oracle, given that the permutation function is considered as a random oracle.
+        
+        Finally, with the introduction of a zero-padding after the PRS string, the CPace design aims at mitigating 
+        attacks of a side-channel adversary that analyzes correlations between publicly known information with 
+        the low-entropy PRS string.
      </t>
     </section>
 
-    <section title="CPACE-P256-SSWU_SHA256-SHA256">
+    <section title="CPace on prime-order group abstractions.">
+     <t>
+      In this section we consider the case of CPace using the ristretto25519 and decafX448 group abstractions.
+      These abstractions define an encode and decode function, group exponentiation
+      and a one-way-map. 
+           
+      For ristretto255 the following definitions apply:
+      <list style="symbols">
+      <t> G.DSI = "CPaceRistretto" </t>
+      <t> G.field_size_bytes = 32 </t>
+      <t> G.field_size_bits = 255 </t>
+      </list>
+
+      For decaf448 the following definitions apply:
+      <list style="symbols">
+      <t> G.DSI = "CPaceDecaf" </t>
+      <t> G.field_size_bytes = 56 </t>
+      <t> G.field_size_bits = 488 </t>
+      </list>
+
+      For both abstractions the following definitions apply:
+      <list style="symbols">
+      <t> G.sample_scalar() = sample_random_bytes(G.field_size_bytes) </t>
+      <t> G.scalar_mult(y,g) = encode(g^y)</t>
+      <t> G.I = encode(g^0), where g is an arbitrary generator</t>
+      <t> G.scalar_mult_vfy(y,X) is implemented as follows.
+          if the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X)^y )</t>
+      </list>
+      Note that with these definitions the scalar_mult function operates on a decoded point g and returns an encoded point,
+      while the scalar
+
+      The G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follows.
+      <list style="symbols">
+      <t> First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the 
+          chosen hash primitive. </t>
+      <t> This string is then hashed to the required length 
+          gen_str_hash = H.hash(gen_str, 2 * G.field_size_bytes). 
+          Note that this implies that the permissible output length H.maxb_in_bytes MUST BE larger or equal to twice the 
+          field size of the group G for making a hashing primitive suitable.
+      </t>
+      <t>
+          Finally the generator g is calculated as g = one_way_map(gen_str_hash) using the one-way map function
+          from the abstraction.
+      </t>
+      </list>
+    
+     </t>
+    </section>
+
+    <section title="CPace on curves in Short-Weierstrass representation.">
 
      <t>      
-      This cipher suite targets applications that do not as agressively focus on efficiency, bandwidth and code size as the 
-      Curve25519 implementation. Instead it aims at reusing existing encoding and curve standards wherever possible. </t>
+      This cipher suite targets applications that operate on prime-order 
+      elliptic curves represented in Short-Weierstrass representation
+      as for instance NIST-P256. Here we aimed at reusing existing encoding and curve standards wherever possible. 
+      For the procedures in this section any suitable group MUST BE of prime order.</t>
  
-    <t>
-      It uses the group of points on the NIST P-256 curve which is defined in short Weierstrass form 
-      for constructing J <xref target="RFC5480"/>. The base field F is the 
-      prime field built upon the Solinas prime p = 2^256-2^224+2^192+2^96-1.
+     <t>      
+      In this case, any elliptic curve group is characterized by
+      <list style="symbols">
+      <t> An integer constant G.group_order which MUST BE a prime. </t>
+      <t> A string G.DSI which shall be defined by the canonical curve name from <xref target="IEEE1363"/> </t>
+      <t> A G.is_in_group(X) function which returns true if the input X is a valid encoding according to 
+          <xref target="IEEE1363"/> of a point on the group. </t>
+      <t> G.I is an encoding of the x-coordinate according to <xref target="IEEE1363"/> of the neutral element on the curve. </t>
+      <t> G.encode_to_curve(str) is the function defined in <xref target="HASH2CURVE"/> using the SSWU map. </t>
+      </list>
 
-      Encoding of full group elements requires both, x and y coordinates. In order to facilitate point
-      validation and in order to be in line with recent TLS 1.3 requirements, implementations MUST encode 
-      both, x and y coordinates. It is RECOMMENDED to use the
-      uncompressed format from <xref target="SEC1"/> using the 0x04 octet prefix. The strip_sign_information() function
-      returns the substring from the SEC1 representation encoding the x-coordinate of the curve point.</t>
+      Here the following definition of the CPace functions applies.
+      <list style="symbols">
+      <t> Here G.sample_scalar() is a function that samples a value between 1 and (G.group_order - 1) 
+          which MUST BE uniformly random. </t>
+      <t> G.scalar_mult(s,X) operates on a scalar s and an input point X encoded in full coordinates according to <xref target="IEEE1363"/>. It also returns a full-coordinate output (i.e. both, x and y coordinates). </t>
+      <t> G.scalar_mult_vfy(s,X) operates on a scalar s and a full-coordinate point X. It is implemented as follows.
+          if G.is_in_group(X) is false, it returns G.I . Otherwise it returns the x-coordinate of X^s</t>
+      </list>
       
-      <t> NIST P-256 is of prime order and does not require cofactor clearing. The scalar_cofactor_clearing function is the
-          identity function with scalar_cofactor_clearing(s) == s </t>
+      The G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follows.
+      <list style="symbols">
+      <t> First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the 
+          chosen hash primitive. </t>
+      <t> Then the output of a call to G.encode_to_curve(gen_str) is returned.
+      </t>
+      </list>
 
-     <t> The domain separation strings are defined as DSI1 = "CPace-P256-1", DSI2 = "CPace-P256-2". </t>
-
-     <t> For the scalar_mult_cc function operating on the internally generated points, 
-         a conventional scalar multiplication on P-256 is used, i.e. without the need of further
-         verification checks.
-         The scalar_mult_ccv function that operates on remotely generated points includes the mandatory verification as follows. 
-         First from the encoded point
-         the x and y coordinates are decoded. These points are used for verifying the curve equation. If the point is not on the curve,
-         scalar_mult_ccv returns the neutral element I. If the point is on the curve, scalar_mult_ccv calls scalar_mult_cc and returns
-         the result of the scalar multiplication. </t>
-
-     <t> For P-256, the map_to_group_mod_neg function is implemented as follows. The zero-padding string length is calculated as 
-         len(ZPAD) = max(0, H_block_SHA256 - len(DSI1 || PRS)) with H_block_SHA256 = 64.
-         For the mapping to the curve, a 32 byte string 
-         U1 = SHA256(DSI1 || PRS || ZPAD || sid || CI) is calculated. From U1 a second 32 byte value is calculated as U2 = SHA256(U1).
-         The concatenation of U1 and U2 is interpreted as a 512 bit integer u by use of the 
-         u = OS2IP(U1 || U2) function from <xref target="HASH2CURVE"/>. 
-         This value is reduced to a 32 byte representation of a field element fu = u % p. The coordinates (x,y) in F  
-         of the secret generator G are calculated as (x,y) = map_to_curve_simple_swu_3mod4(fu) function 
-         from <xref target="HASH2CURVE"/>.
-     </t>
-
-     <t> As hash function H SHA256 is chosen, returning a session key ISK of 32 bytes length with 
-         ISK=SHA256(DSI2 || sid || Ks || Yas || Ybs). </t>
-
-     <t> The following sage code could be used as reference implementation for the mapping and key derivation functions.
-
-      <figure><artwork><![CDATA[
-<CODE BEGINS>
-
-def map_to_group_mod_neg_CPace_P256(sid, PRS, CI):
-    m = hashlib.sha256()
-
-    H_block_SHA256 = 64
-    DSI1 = b"CPace-P256-1"
-    ZPAD_len = max(0,H_block_SHA256 - len(CI) - len(PRS))
-    ZPAD = ZPAD_len * "\0"
-
-    m.update(DSI1)
-    m.update(PRS)
-    m.update(ZPAD)
-    m.update(sid) 
-    m.update(CI)
-    U1 = m.digest()
-    U2 = hashlib.sha256(U1).digest()
-    u = OS2I(U1 + U2)
-    return map_to_curve_simple_swu_3mod4(u)
-
-def generate_ISK_CPace_P256(sid,K,Ya,Yb):
-    m = hashlib.sha256(b"CPace-P256-2") 
-    m.update(sid) 
-    m.update(strip_sign_information(K))
-    m.update(strip_sign_information(Ya))
-    m.update(strip_sign_information(Yb))
-    return m.digest()
-
-<CODE ENDS>
-]]></artwork></figure>
-
-        Similarly to the Curve25519 implementation, the definitions above aim at making the protocol suitable for outsourcing to
-        secure elements where hash function invocations have to be considered to be particularly costly. 
-        As a result, the task of generating session keys by a strong KDF function is left out of the scope 
-        of the CPace protocol. The naming of ISK as intermediate shared key reflects this fact.
-        Also the method for calculating the generator has been optimized for reducing the number of hash calculations in comparison
-        to the suggestions <xref target="HASH2CURVE"/>.
-     </t>
+     </t>      
     </section>
 
-
-    </section>
+    
     <section title="Security Considerations">
       <t>A security proof of CPace is found in <xref target="cpace_paper"/>.  </t>
 
         <t>In order to prevent length-extension attacks, all hash inputs MUST be prefix-free strings in order to 
            make CPace suitable when Merkle-Damgard hashing constructions such as SHA2 or SHA512
-           are considered <xref = target= "CDMP05"/>. Otherwise so-called length-extension attacks of the hash
+           are considered <xref target= "CDMP05"/>. Otherwise so-called length-extension attacks of the hash
            would have to be considered. </t>
 
         <t>Although already K is a shared value, still it MUST NOT be used as a shared secret key.
@@ -509,12 +464,13 @@ def generate_ISK_CPace_P256(sid,K,Ya,Yb):
           prevents key malleability with respect to man-in-the-middle attacks from active adversaries.</t>
 
 
-<t>   The definitions given for the case of Curve25519 and Curve448 are based on the following properties of the
-      elliptic curves:  
+<t>   The definitions given for the case of Curve25519 and Curve448 rely on the following properties of the
+      elliptic curves <xref target="cpace_paper" />:  
       <list style="symbols">
-      <t> The curve has a cofactor c and a secure quadratic twist with cofactor c'.</t>
-      <t> The cofactor c' of the twist is equal or an integer multiple of the cofactor c of the curve.</t>
-      <t> The representation of the neutral element is shared between the curve and its twist.</t>
+      <t> The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of 
+          order (p' * c') with p' prime and c' a cofactor.</t>
+      <t> The cofactor c' of the twist MUST BE EQUAL to or an integer multiple of the cofactor c of the curve.</t>
+      <t> The representation of the neutral element G.I MUST BE the same for both, the curve and its twist.</t>
       </list>
       
  </t>
