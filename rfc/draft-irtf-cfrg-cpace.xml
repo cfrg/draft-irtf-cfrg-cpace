@@ -246,7 +246,7 @@
         <t> To begin, A calculates a generator g = G.calculate_generator(H, PRS,CI,sid). 
         </t> 
         <t> A samples ya = G.sample_scalar() randomly according to the requirements for group G.
-            A then Ya= G.scalar_mult (ya,g). A then transmits MSGa = prefix_free_cat(Ya, ADa) with 
+            A then calculates Ya= G.scalar_mult (ya,g). A then transmits MSGa = prefix_free_cat(Ya, ADa) with 
             Ya and the optional associated data ADa to B. Note that prefixing the transmitted components with their
             respective lengths allows for unambigous parsing of MSGa by the receiver and guarantees a
             prefix-free encoding.</t>
@@ -265,6 +265,10 @@
         <t>Upon completion of this protocol, the session key ISK returned by A and B will be identical by both
            parties if and only if the supplied input parameters sid, PRS and CI match on both sides and the 
            transcripts match.</t>
+           
+        <t>In application scenarios which are guaranteed to enforce clear initiator and responder roles unordered concatenation SHOULD BE used for the CONCAT(MSGa,MSGb) function. In applications without enforced ordering of the transmission of MSGa and MSGb,
+        CONCAT() MUST BE implemented by using the ordered concatenation function oCAT(). </t>
+           
       </section>
 
     </section>
