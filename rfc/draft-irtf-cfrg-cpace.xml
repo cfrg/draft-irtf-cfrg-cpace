@@ -388,7 +388,7 @@
 
       For both abstractions the following definitions apply:
       <list style="symbols">
-      <t> G.sample_scalar() = sample_random_bytes(G.group_size_bits) </t>
+      <t> G.sample_scalar() = sample_random_bytes(G.group_size_bits) (Todo: add masking the upper bits!).</t>
       <t> G.scalar_mult(y,g) = encode(g^y)</t>
       <t> G.I = encode(g^0), where g is an arbitrary generator</t>
       <t> G.scalar_mult_vfy(y,X) is implemented as follows.
