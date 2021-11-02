@@ -541,19 +541,8 @@
          to the members of the CFRG for
         comments and advice. Any comment and advice is appreciated. </t> 
        <t> Comments are specifically invited regarding
-        the following aspect. The CPace mapping function design is based on the following
-        assessments. 1.) Masked, hardware-side-channel-protected hash function implementations 
-        should be considered highly desirable for the calculation of the generators G if an implementation
-        might be exposed to physical attacks. 
-        2.) The complexity of such protected hash implementations (possibly with lots of boolean-arithmetic 
-        masking conversions) was assessed critical for constrained hardware. Hash operation complexity
-        was also assessed to be critical for secure element
-        chipsets that often were assessed to run hash operations in software without hardware accellerator support.
-        </t> <t> 
-        This assessment is not in line with the assumptions for the hash-to-curve-05 draft.
-        As a consequence, this draft aimed at more aggressively reducing the number of nested hash 
-        function invocations in comparison to the suggestions of the hash-to-curve-05 draft.
-    </t>
+        the inclusion or exclusion of both, initiator/responder and symmetric settings.  
+        Currently we plan to consider both application settings in this draft. </t>
     </section>
   </middle>
   <back>
