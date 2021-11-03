@@ -87,16 +87,17 @@ informative:
     author:
       -
         org: National Institute of Standards and Technology (NIST)
-  NonceDisrespecting:
-    target: https://eprint.iacr.org/2016/475.pdf
-    title: "Nonce-Disrespecting Adversaries -- Practical Forgery Attacks on GCM in TLS"
-    author:
-      - ins: H. Bock
-      - ins: A. Zauner
-      - ins: S. Devlin
-      - ins: J. Somorovsky
-      - ins: P. Jovanovic
-    date: 2016-05-17
+
+[//]:  NonceDisrespecting:
+[//]:    target: https://eprint.iacr.org/2016/475.pdf
+[//]:    title: "Nonce-Disrespecting Adversaries -- Practical Forgery Attacks on GCM in TLS"
+[//]:    author:
+[//]:      - ins: H. Bock
+[//]:      - ins: A. Zauner
+[//]:      - ins: S. Devlin
+[//]:      - ins: J. Somorovsky
+[//]:      - ins: P. Jovanovic
+[//]:    date: 2016-05-17
 
 --- abstract
 
@@ -111,7 +112,7 @@ and comes with  a security proof providing composability guarantees.
 # Introduction
 
 This document describes CPace which is a protocol for two
-parties that share a low-entropy secret (password) to derive a to derive a strong shared key without
+parties for deriving a strong shared secret from a low-entropy secret (password) without
 disclosing the secret to offline dictionary attacks.
 
 The CPace method was tailored for constrained devices and
@@ -136,28 +137,27 @@ Finally, the CPace protocol design aims at considering the constraints imposed b
 ## Setup
 
 For CPace both communication partners need to agree on a common cipher suite which consists of choosing a common
-hash function H and an elliptic curve group G.
+hash function H and an elliptic curve environment G. With "environment" we denote a compilation of all of 
+an elliptic curve group with an associated Diffie-Hellman protocol and a mapping primitive.
+
+Throughout this document we will be using an object-style notation such as X.constant_name and X.function_name(a)
+for refering to constants and functions applying to G and H.
 
 With H we denote a hash primitive with a hash function H.hash(m,l)
 that operates on an input octet string m and returns a hash result containing the first l result octets
-calculated by the primitive.
+calculated by the primitive. Common choices for H might be SHA512 {{?RFC6234}} or SHAKE256 {{FIPS202}}.
+For considering both, variable-output-length primitives and fixed-length output primitives we use the following
+notations and definitions which were chosen in line with the definitions in {?RFC6234}}
 
-A given hash function H is characterized by its input and its preferred output sizes.
-We use an object-style notation H.constant_name.
-With H.b_in_bytes we denote the preferred output size in bytes of the primitive such
-that the hash function returns the full length of the hash if the second length parameter is not
-given: H.hash(m) = H.hash(m, H.b_in_bytes).
+With H.b_in_bytes we denote the default output size in bytes corresponding to the symmetric 
+security level of the primitive. E.g. H.b_in_bytes = 64 for SHA512 and SHAKE256 and H.b_in_bytes = 32 for
+SHA256 and SHAKE128. We use the notation H.hash(m) = H.hash(m, H.b_in_bytes) and let the hash primitive
+output the default length if no length parameter is given.
 
 With H.bmax_in_bytes we denote the maximum output size in octets supported by the hash primitive.
 
-A first common choice for H is SHA512 {{?RFC6234}} where b_in_bytes = bmax_in_bytes = 64
-as a fixed-length output of 64 bytes is produced.
-Another suitable choice for H is SHAKE256 {{FIPS202}} which is also designed for a preferred length
-and security parameter of b_in_bytes = 64 but which allows for variable-length outputs without
-a fixed limit bmax_in_bytes.
-
 With H.s_in_bytes we denote the input block size used by H.
-For SHA512, e.g. the input block size s_in_bytes is 128, while for SHAKE256 the
+For instance, for SHA512 the input block size s_in_bytes is 128, while for SHAKE256 the
 input block size amounts to 136 bytes.
 
 For a given group G this document specifies how to define the following set of group-specific
@@ -168,10 +168,10 @@ G.function_name() and G.constant_name.
 With G.I we denote a unique octet string representation of the neutral element of group G.
 
 g = G.calculate_generator(H, PRS,CI,sid). With calculate_generator we denote a function that outputs a
-octet string representation of a group element in G which is derived from input octet strings PRS, CI, sid using
-a hash function primitive.
+representation of a group element in G which is derived from input octet strings PRS, CI, sid using
+the hash function primitive H.
 
-y = G.sample_scalar(). This function returns an octet string representation of a scalar value appropriate as a
+y = G.sample_scalar(). This function returns a representation of a scalar value appropriate as a
 private Diffie-Hellman key for group G.
 
 Y = G.scalar_mult(y,g). This function takes a generator g as first parameter and a scalar y as second
@@ -197,7 +197,10 @@ to one specific session.
 
 With ADa and ADb we denote OPTIONAL octet strings of parties A and B that contain associated public data
 of the communication partners.
-ADa could for instance include party identifiers.
+ADa and ADb could for instance include party identifiers or a protocol version (e.g. for avoiding downgrade attacks). 
+In a setting with clear initiator and responder roles the the information ADa sent by the initiator 
+can be helpful for the responder for identifying which among possibly several different passwords are to be used for
+the given protocol session.
 
 ## Notation
 
@@ -216,11 +219,11 @@ CONCAT(str1,str2) SHALL BE defined as unordered concatenation: CONCAT(str1,str2)
 
 With len(S) we denote the number of octets in a string S.
 
-Finally, we let nil represent an empty octet string, i.e., len(nil) = 0.
+[//]: Finally, we let nil represent an empty octet string, i.e., len(nil) = 0.
 
 With prepend_len(octet_string) we denote the octet sequence that is obtained from prepending
-the length of the octet string as an utf-8 string to the byte sequence itself. (This will prepend one
-single octet for sequences shorter than 128 bytes and more octets otherwise).
+the length of the octet string as an utf-8 string to the byte sequence itself. This will prepend one
+single octet for sequences shorter than 128 bytes and more octets otherwise.
 
 With prefix_free_cat(a0,a1, ...) we denote a function that outputs the prefix-free encoding of
 all input octet strings as the concatenation of the individual strings with their respective
@@ -234,30 +237,41 @@ With ISK we denote the intermediate session key output string provided by CPace.
 intermediate session key ISK ot a final session key by using a suitable KDF function prior to using the key in a
 higher-level protocol.
 
-With DSI we denote domain-separation identifier strings.
+With G.DSI we denote domain-separation identifier strings.
 
 ## Protocol Flow
 
-CPace is a one round protocol to establish an intermediate shared secret ISK
-with implicit mutual authentication.
-In the setup phase both sides agree on a common hash function H and a group G.
+CPace is a one round protocol.
+
+In a setup phase (not depicted here) both sides agree on a common hash function H and a group 
+environment G.
 
 Prior to invocation, A and B are provisioned with public (CI) and secret
 information (PRS) as prerequisite for running the protocol.
-During the first round, A sends a public share Ya
-to B, and B responds with its own public share Yb.
-Both A and B then derive a shared secret ISK. ISK is meant to be
-used for producing encryption and authentication keys by a KDF function
-outside of the scope of CPace.
 
-Optionally when starting the protocol, A and B dispose of a sid string.
-sid is typically pre-established by a higher-level protocol
-invoking CPace. If no such sid is available from a higher-level
-protocol, a suitable approach is to let A choose a fresh random sid
+A sends a message MSGa to B. A contains the public share Ya
+and OPTIONAL associated data ADa.
+
+Similarly B sends MSGb to A containing its public share Yb and OPTIONAL associated data ADb.
+
+CPace does allow for the initiator/responder setting where party A starts and party B replies.
+CPace does also allow for the symmetric setting where no clear ordering of MSGa and MSGb is enforced.
+
+Both A and B then derive a shared intermediate session key ISK. The notation "intermediate"
+and "ISK" was chosen in order to stress that it is RECOMMENDED to use an additional 
+strong key-derivation function outside of the scope of CPace for the keys used in a higher-level
+protocol (see security consideration section for details).
+
+When starting the protocol, A and B dispose of a sid string which can also be the emtpy string nil. 
+I.e. use of the sid string is OPTIONAL.
+Preferably, sid will be pre-established by a higher-level protocol invoking CPace.
+In a setting with clear initiator and responder roles where no such sid is available from a higher-level
+protocol, a suitable approach for defining the session id is to let A choose a fresh random sid
 string and send it to B together with the first message. This method is shown in the
-setup protocol section below.
+setup protocol section below prior to the actual protocol flow.
 
-This sample trace is shown below.
+In the following, we describe the protocol using the example of an initiator/responder instantiation
+of CPace where party A starts with the protocol flow.
 
 ~~~
         A                  B
@@ -276,11 +290,9 @@ This sample trace is shown below.
 
 ## CPace
 
-In the setup phase, both parties A,B agreed on the group G a hash H. If a higher-level protocol provided a session id sid, both parties SHALL use this value in the protocol execution. If there is a clear initiator (party A) and responder (party B) role assigned in the application setting, A SHOULD sample a fresh random value sid and transmit it together with its first message. If the application scenario does not enforce an ordering of the two messages and no sid value is available from a higher-level protocol, then the empty string shall be used for the session id.
-
 To begin, A calculates a generator g = G.calculate_generator(H, PRS,CI,sid).
 
-A samples ya = G.sample_scalar() randomly according to the requirements for group G.
+A samples ya = G.sample_scalar() randomly according to the specification for group G.
 A then calculates Ya= G.scalar_mult (ya,g). A then transmits MSGa = prefix_free_cat(Ya, ADa) with
 Ya and the optional associated data ADa to B. Note that prefixing the transmitted components with their
 respective lengths allows for unambigous parsing of MSGa by the receiver and guarantees a
@@ -295,7 +307,7 @@ Otherwise B sends MSGb = prefix_free_cat(Yb, ADb) to A and proceeds as follows.
 B returns ISK = H.hash(prefix_free_cat(G.DSI \|\| "ISK", sid, K, CONCAT(MSGa, MSGb))).
 
 Upon reception of Yb, A calculates K = scalar_mult_vfy(Yb,ya). A MUST abort if K is the neutral element I.
-If K is different from I, A returns ISK = H.hash(prefix_free_cat(G.DSI \|\| "ISK", sid, K, CONCAT(MSGa, MSGb))).
+If K is different from G.I, A returns ISK = H.hash(prefix_free_cat(G.DSI \|\| "ISK", sid, K, CONCAT(MSGa, MSGb))).
 
 Upon completion of this protocol, the session key ISK returned by A and B will be identical by both
 parties if and only if the supplied input parameters sid, PRS and CI match on both sides and the
