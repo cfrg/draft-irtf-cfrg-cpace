@@ -407,7 +407,7 @@ For decaf448 the following definitions apply:
 - G.group_size_bits = 486
 
 For both abstractions the following definitions apply:
-- G.sample_scalar() = sample_random_bytes(G.group_size_bits) (Todo: add masking the upper bits, clearify how large the scalar shall be!).
+- G.sample_scalar() = sample_random_bytes(G.group_size_bits) (Todo: add masking the upper bits, clearify how large the scalar shall be. We should ask the ristretto and decaf people here!).
 - G.scalar_mult(y,g) = encode(g^y)
 - G.I = encode(g^0), where g is an arbitrary generator
 - G.scalar_mult_vfy(y,X) is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X)^y )
