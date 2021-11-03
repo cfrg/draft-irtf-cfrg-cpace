@@ -2,16 +2,16 @@
 
 This is the working area for the individual Internet-Draft, "CPace, a balanced composable PAKE".
 
-* [Editor's Copy](https://chris-wood.github.io/draft-irtf-cfrg-cpace/#go.draft-irtf-cfrg-cpace.html)
+* [Editor's Copy](https://cfrg.github.io/draft-irtf-cfrg-cpace/#go.draft-irtf-cfrg-cpace.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-irtf-cfrg-cpace)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-cpace)
-* [Compare Editor's Copy to Individual Draft](https://chris-wood.github.io/draft-irtf-cfrg-cpace/#go.draft-irtf-cfrg-cpace.diff)
+* [Compare Editor's Copy to Individual Draft](https://cfrg.github.io/draft-irtf-cfrg-cpace/#go.draft-irtf-cfrg-cpace.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/chris-wood/draft-irtf-cfrg-cpace/blob/master/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/cfrg/draft-irtf-cfrg-cpace/blob/master/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
