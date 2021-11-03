@@ -88,16 +88,16 @@ informative:
       -
         org: National Institute of Standards and Technology (NIST)
 
-[//]:  NonceDisrespecting:
-[//]:    target: https://eprint.iacr.org/2016/475.pdf
-[//]:    title: "Nonce-Disrespecting Adversaries -- Practical Forgery Attacks on GCM in TLS"
-[//]:    author:
-[//]:      - ins: H. Bock
-[//]:      - ins: A. Zauner
-[//]:      - ins: S. Devlin
-[//]:      - ins: J. Somorovsky
-[//]:      - ins: P. Jovanovic
-[//]:    date: 2016-05-17
+  NonceDisrespecting:
+    target: https://eprint.iacr.org/2016/475.pdf
+    title: "Nonce-Disrespecting Adversaries -- Practical Forgery Attacks on GCM in TLS"
+    author:
+      - ins: H. Bock
+      - ins: A. Zauner
+      - ins: S. Devlin
+      - ins: J. Somorovsky
+      - ins: P. Jovanovic
+    date: 2016-05-17
 
 --- abstract
 
