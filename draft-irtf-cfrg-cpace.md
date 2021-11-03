@@ -347,31 +347,47 @@ with the specifications for X25519 and X448 and review the guidance given in the
 {{CPacePaper}}.
 
 For X25519 the following definitions apply:
+
 - G.field_size_bytes = 32
+
 - G.field_size_bits = 255
+
 - G.sample_scalar() = sample_random_bytes(G.field_size_bytes)
+
 - G.scalar_mult(y,g) = G.scalar_mult_vfy(y,g) = X25519(y,g)
+
 - G.I = zero_bytes(G.field_size_bytes)
+
 - G.DSI = "CPace255"
 
 For X448 the following definitions apply:
+
 - G.field_size_bytes = 56
+
 - G.field_size_bits = 448
+
 - G.sample_scalar() = sample_random_bytes(G.field_size_bytes)
+
 - G.scalar_mult(y,g) = G.scalar_mult_vfy(y,g) = X448(y,g)
+
 - G.I = zero_bytes(G.field_size_bytes)
+
 - G.DSI = "CPace448"
 
 The G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follows.
+
 - First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the
   chosen hash primitive.
+
 - This string is then hashed to the required length
   gen_str_hash = H.hash(gen_str, G.field_size_bytes).
   Note that this implies that the permissible output length H.maxb_in_bytes MUST BE larger or equal to the
   field size of the group G for making a hashing primitive suitable.
+
 - This result is then considered as a field coordinate using
   the u = decodeUCoordinate(gen_str_hash, G.field_size_bits) function from {{!RFC7748}} which we
   repeat in the appendix for convenience.
+
 - The result point g is then calculated as (g,v) = map_to_curve_elligator2(u) using the function
   from {{!I-D.irtf-cfrg-hash-to-curve}}. Note that the v coordinate produced by the map_to_curve_elligator2 function
   is not required for CPace and discarded.
@@ -397,27 +413,39 @@ These abstractions define an encode and decode function, group exponentiation
 and a one-way-map.
 
 For ristretto255 the following definitions apply:
+
 - G.DSI = "CPaceRistretto"
+
 - G.field_size_bytes = 32
+
 - G.group_size_bits = 252
 
 For decaf448 the following definitions apply:
+
 - G.DSI = "CPaceDecaf"
+
 - G.field_size_bytes = 56
+
 - G.group_size_bits = 486
 
 For both abstractions the following definitions apply:
+
 - G.sample_scalar() = sample_random_bytes(G.group_size_bits) (Todo: add masking the upper bits, clearify how large the scalar shall be. We should ask the ristretto and decaf people here!).
+
 - G.scalar_mult(y,g) = encode(g^y)
+
 - G.I = encode(g^0), where g is an arbitrary generator
+
 - G.scalar_mult_vfy(y,X) is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X)^y )
 
 Note that with these definitions the scalar_mult function operates on a decoded point g and returns an encoded point,
 while the scalar_mult_vfy(y,X) function operates on a scalar and an encoded point X.
 
 The G.calculate_generator(H, PRS,sid,CI) function shall return a decoded point and be implemented as follows.
+
 - First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the
   chosen hash primitive.
+
 - This string is then hashed to the required length
   gen_str_hash = H.hash(gen_str, 2 * G.field_size_bytes).
   Note that this implies that the permissible output length H.maxb_in_bytes MUST BE larger or equal to twice the
@@ -432,27 +460,37 @@ standards are re-used wherever possible even if this results in some efficiency 
 For the procedures described in this section any suitable group MUST BE of prime order.
 
 Here, any elliptic curve in Short-Weierstrass form is characterized by
+
 - An integer constant G.group_order which MUST BE a prime.
+
 - A verification functio G.is_in_group(X) which returns true if the input X is a valid encoding according to {{IEEE1363}} of a point on the group.
+
 - G.I is an encoding of the x-coordinate according to {{IEEE1363}} of the neutral element on the curve.
+
 - G.encode_to_curve(str) is a function defined in {{!I-D.irtf-cfrg-hash-to-curve}}. It is RECOMMENDED to use the SSWU
   mapping primitive from {{!I-D.irtf-cfrg-hash-to-curve}}.
+
 - A string G.DSI which shall be defined by the concatenation of "CPace" and the cipher suite used for the encode_to_curve function
   from {{!I-D.irtf-cfrg-hash-to-curve}}.
 
 Here the following definition of the CPace functions applies.
+
 - Here G.sample_scalar() is a function that samples a value between 1 and (G.group_order - 1)
   which MUST BE uniformly random. It is RECOMMENDED to use rejection sampling for converting a uniform bitstring to a
   uniform value between 1 and (G.group_order - 1).
+
 - G.scalar_mult(s,X) is a function that operates on a scalar s and an input point X encoded in full coordinates according to {{IEEE1363}}.
   It also returns a full-coordinate output (i.e. both, x and y coordinates of the point in Short-Weierstrass form).
+
 - G.scalar_mult_vfy(s,X) operates on the representation of a scalar s and a full-coordinate point X.
   It MUST BE implemented as follows. if G.is_in_group(X) is false, G.scalar_mult_vfy(s,X) MUST return G.I .
   Otherwise G.scalar_mult_vfy(s,X) MUST returns an encoding of the x-coordinate of X^s according to {{IEEE1363}}.
 
 For the Short-Weierstrass use-case the G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follows.
+
 - First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the
   chosen hash primitive.
+
 - Then the output of a call to G.encode_to_curve(gen_str) is returned.
 
 # Security Considerations {#sec-considerations}
@@ -470,10 +508,14 @@ prevents key malleability with respect to man-in-the-middle attacks from active 
 
 The definitions given for the case of Curve25519 and Curve448 rely on the following properties of the
 elliptic curves {{CPacePaper}}:
+
 - The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of
           order (p' * c') with p' prime and c' a cofactor.
+
 - The cofactor c' of the twist MUST BE EQUAL to or an integer multiple of the cofactor c of the curve.
+
 - The representation of the neutral element G.I MUST BE the same for both, the curve and its twist.
+
 - Both field order q and group order p are close to a power of two such that randomly sampled binary strings
           can be used as representation for field elements and scalars {{CPacePaper}} .
 
