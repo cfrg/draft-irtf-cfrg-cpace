@@ -332,9 +332,12 @@ CPACE-P256-SHA256,
 CPACE-RISTR255-SHA512,
 CPACE-DECAF448-SHAKE256.
 
-# Use of the hash function in CPace
+# Hashing of the password related string in CPace
 
-With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function that returns a string
+The different instantiations in CPace share the same method for hashing all of PRS, CI, SID and a domain-separation string DSI
+into a generator string.
+
+With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function that returns the string
 prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid) in which all input strings are concatenated
 such that the encoding of PRS together with a suitable zero pad field completely fills the first input block
 of the hash.
@@ -351,20 +354,20 @@ with the specifications for X25519 and X448 and review the guidance given in the
 {{CPacePaper}}.
 
 For X25519 the following definitions apply:
-- G.sample_scalar() = sample_random_bytes(32)
-- G.scalar_mult(y,g) = G.scalar_mult_vfy(y,g) = X25519(y,g)
-- G.I = zero_bytes(32)
-- G.DSI = "CPace255"
 - G.field_size_bytes = 32
 - G.field_size_bits = 255
+- G.sample_scalar() = sample_random_bytes(G.field_size_bytes)
+- G.scalar_mult(y,g) = G.scalar_mult_vfy(y,g) = X25519(y,g)
+- G.I = zero_bytes(G.field_size_bytes)
+- G.DSI = "CPace255"
 
 For X448 the following definitions apply:
-- G.sample_scalar() = sample_random_bytes(56)
-- G.scalar_mult(y,g) = G.scalar_mult_vfy(y,g) = X448(y,g)
-- G.I = zero_bytes(56)
-- G.DSI = "CPace448"
 - G.field_size_bytes = 56
 - G.field_size_bits = 448
+- G.sample_scalar() = sample_random_bytes(G.field_size_bytes)
+- G.scalar_mult(y,g) = G.scalar_mult_vfy(y,g) = X448(y,g)
+- G.I = zero_bytes(G.field_size_bytes)
+- G.DSI = "CPace448"
 
 The G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follows.
 - First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the
@@ -374,10 +377,10 @@ The G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follow
   Note that this implies that the permissible output length H.maxb_in_bytes MUST BE larger or equal to the
   field size of the group G for making a hashing primitive suitable.
 - This result is then considered as a field coordinate using
-  the u = decodeUCoordinate(gen_str_hash, G.field_size_bits) function from {{?RFC7748}} which we
+  the u = decodeUCoordinate(gen_str_hash, G.field_size_bits) function from {{!RFC7748}} which we
   repeat in the appendix for convenience.
 - The result point g is then calculated as (g,v) = map_to_curve_elligator2(u) using the function
-  from {{?I-D.irtf-cfrg-hash-to-curve}}. Note that the v coordinate produced by the map_to_curve_elligator2 function
+  from {{!I-D.irtf-cfrg-hash-to-curve}}. Note that the v coordinate produced by the map_to_curve_elligator2 function
   is not required for CPace and discarded.
 
 In the appendix we show sage code that can be used as reference implementation for the calculate_generator and
@@ -389,13 +392,14 @@ have to be considered to be particularly costly. Moreover as all hash operations
 with a prefix-free encoding also Merkle-Damgard constructions such as the SHA2 family can be considered as
 a representation of a random oracle, given that the permutation function is considered as a random oracle.
 
-Finally, with the introduction of a zero-padding after the PRS string, the CPace design aims at mitigating
-attacks of a side-channel adversary that analyzes correlations between publicly known information with
-the low-entropy PRS string.
+Finally, with the introduction of a zero-padding within the generator string gen_str (introduced after the PRS string), 
+the CPace design aims at mitigating
+attacks of a side-channel adversary that analyzes correlations between publicly known variable 
+information with the low-entropy PRS string.
 
 # CPace on prime-order group abstractions
 
-In this section we consider the case of CPace using the ristretto25519 and decafX448 group abstractions.
+In this section we consider the case of CPace using the ristretto25519 and decaf448 group abstractions.
 These abstractions define an encode and decode function, group exponentiation
 and a one-way-map.
 
@@ -407,10 +411,10 @@ For ristretto255 the following definitions apply:
 For decaf448 the following definitions apply:
 - G.DSI = "CPaceDecaf"
 - G.field_size_bytes = 56
-- G.group_size_bits = 488
+- G.group_size_bits = 486
 
 For both abstractions the following definitions apply:
-- G.sample_scalar() = sample_random_bytes(G.group_size_bits) (Todo: add masking the upper bits!).
+- G.sample_scalar() = sample_random_bytes(G.group_size_bits) (Todo: add masking the upper bits, clearify how large the scalar shall be!).
 - G.scalar_mult(y,g) = encode(g^y)
 - G.I = encode(g^0), where g is an arbitrary generator
 - G.scalar_mult_vfy(y,X) is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X)^y )
@@ -427,6 +431,36 @@ The G.calculate_generator(H, PRS,sid,CI) function shall return a decoded point a
   field size of the group G for making a hashing primitive suitable.
   Finally the generator g is calculated as g = one_way_map(gen_str_hash) using the one-way map function
   from the abstraction.
+
+# CPace on curves in Short-Weierstrass representation.
+In this section we target ecosystems using elliptic-curve representations in Short-Weierstrass form. A typical 
+representative might be the curve NIST-P256. In the procedures specified in this section existing encoding and curve 
+standards are re-used wherever possible even if this results in some efficiency loss.. 
+For the procedures described in this section any suitable group MUST BE of prime order.
+ 
+Here, any elliptic curve in Short-Weierstrass form is characterized by
+- An integer constant G.group_order which MUST BE a prime.
+- A verification functio G.is_in_group(X) which returns true if the input X is a valid encoding according to {{IEEE1363}} of a point on the group.
+- G.I is an encoding of the x-coordinate according to {{IEEE1363}} of the neutral element on the curve.
+- G.encode_to_curve(str) is a function defined in {{!I-D.irtf-cfrg-hash-to-curve}}. It is RECOMMENDED to use the SSWU 
+  mapping primitive from {{!I-D.irtf-cfrg-hash-to-curve}}.
+- A string G.DSI which shall be defined by the concatenation of "CPace" and the cipher suite used for the encode_to_curve function 
+  from {{!I-D.irtf-cfrg-hash-to-curve}}.
+
+Here the following definition of the CPace functions applies.
+- Here G.sample_scalar() is a function that samples a value between 1 and (G.group_order - 1) 
+  which MUST BE uniformly random. It is RECOMMENDED to use rejection sampling for converting a uniform bitstring to a
+  uniform value between 1 and (G.group_order - 1).
+- G.scalar_mult(s,X) is a function that operates on a scalar s and an input point X encoded in full coordinates according to {{IEEE1363}}. 
+  It also returns a full-coordinate output (i.e. both, x and y coordinates of the point in Short-Weierstrass form).
+- G.scalar_mult_vfy(s,X) operates on the representation of a scalar s and a full-coordinate point X. 
+  It MUST BE implemented as follows. if G.is_in_group(X) is false, G.scalar_mult_vfy(s,X) MUST return G.I . 
+  Otherwise G.scalar_mult_vfy(s,X) MUST returns an encoding of the x-coordinate of X^s according to {{IEEE1363}}.
+      
+For the Short-Weierstrass use-case the G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follows.
+- First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the 
+  chosen hash primitive.
+- Then the output of a call to G.encode_to_curve(gen_str) is returned.
 
 # Security Considerations {#sec-considerations}
 
