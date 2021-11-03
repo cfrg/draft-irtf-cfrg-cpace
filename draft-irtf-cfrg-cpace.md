@@ -116,19 +116,16 @@ disclosing the secret to offline dictionary attacks.
 
 The CPace method was tailored for constrained devices and
 specifically considers efficiency and hardware side-channel attack mitigations at the protocol level.
-CPace is designed to be compatible with any group of both prime- and non-prime order and explicitly
-handles the complexity of cofactor clearing on the protcol level. CPace
-comes with game-based and simulation based proofs where the latter provides composability guarantees.
+CPace is designed to be compatible with any group of both prime- and non-prime order by explicitly
+handling the complexity of cofactor clearing on the protcol level. CPace
+comes with both, game-based and simulation based proofs where the latter provides composability guarantees.
 As a protocol, CPace is designed
-to be compatible with so-called "x-coordinate-only" Diffie-Hellman implementations on elliptic curve
+to be compatible with so-called "single-coordinate-only" Diffie-Hellman implementations on elliptic curve
 groups.
 
 CPace is designed to be suitable as both, a building block within a larger protocol construction using CPace as substep,
 and as a standalone protocol.
-
-It is considered, that for composed larger protocol constructions, the CPace subprotocol might be best executed in a
-separate cryptographic hardware, such as secure element chipsets. The CPace protocol design aims at considering
-the resulting constraints.
+Finally, the CPace protocol design aims at considering the constraints imposed by constrained secure-element chipsets.
 
 # Requirements Notation
 
