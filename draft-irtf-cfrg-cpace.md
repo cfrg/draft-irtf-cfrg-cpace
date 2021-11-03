@@ -140,7 +140,7 @@ Finally, the CPace protocol design aims at considering the constraints imposed b
 ## Setup
 
 For CPace both communication partners need to agree on a common cipher suite which consists of choosing a common
-hash function H and an elliptic curve environment G. With "environment" we denote a compilation of all of 
+hash function H and an elliptic curve environment G. With "environment" we denote a compilation of all of
 an elliptic curve group with an associated Diffie-Hellman protocol and a mapping primitive.
 
 Throughout this document we will be using an object-style notation such as X.constant_name and X.function_name(a)
@@ -152,7 +152,7 @@ calculated by the primitive. Common choices for H might be SHA512 {{?RFC6234}} o
 For considering both, variable-output-length primitives and fixed-length output primitives we use the following
 notations and definitions which were chosen in line with the definitions in {?RFC6234}}
 
-With H.b_in_bytes we denote the default output size in bytes corresponding to the symmetric 
+With H.b_in_bytes we denote the default output size in bytes corresponding to the symmetric
 security level of the primitive. E.g. H.b_in_bytes = 64 for SHA512 and SHAKE256 and H.b_in_bytes = 32 for
 SHA256 and SHAKE128. We use the notation H.hash(m) = H.hash(m, H.b_in_bytes) and let the hash primitive
 output the default length if no length parameter is given.
@@ -200,8 +200,8 @@ to one specific session.
 
 With ADa and ADb we denote OPTIONAL octet strings of parties A and B that contain associated public data
 of the communication partners.
-ADa and ADb could for instance include party identifiers or a protocol version (e.g. for avoiding downgrade attacks). 
-In a setting with clear initiator and responder roles the the information ADa sent by the initiator 
+ADa and ADb could for instance include party identifiers or a protocol version (e.g. for avoiding downgrade attacks).
+In a setting with clear initiator and responder roles the the information ADa sent by the initiator
 can be helpful for the responder for identifying which among possibly several different passwords are to be used for
 the given protocol session.
 
@@ -246,7 +246,7 @@ With G.DSI we denote domain-separation identifier strings.
 
 CPace is a one round protocol.
 
-In a setup phase (not depicted here) both sides agree on a common hash function H and a group 
+In a setup phase (not depicted here) both sides agree on a common hash function H and a group
 environment G.
 
 Prior to invocation, A and B are provisioned with public (CI) and secret
@@ -261,11 +261,11 @@ CPace does allow for the initiator/responder setting where party A starts and pa
 CPace does also allow for the symmetric setting where no clear ordering of MSGa and MSGb is enforced.
 
 Both A and B then derive a shared intermediate session key ISK. The notation "intermediate"
-and "ISK" was chosen in order to stress that it is RECOMMENDED to use an additional 
+and "ISK" was chosen in order to stress that it is RECOMMENDED to use an additional
 strong key-derivation function outside of the scope of CPace for the keys used in a higher-level
 protocol (see security consideration section for details).
 
-When starting the protocol, A and B dispose of a sid string which can also be the emtpy string nil. 
+When starting the protocol, A and B dispose of a sid string which can also be the emtpy string nil.
 I.e. use of the sid string is OPTIONAL.
 Preferably, sid will be pre-established by a higher-level protocol invoking CPace.
 In a setting with clear initiator and responder roles where no such sid is available from a higher-level
@@ -395,9 +395,9 @@ have to be considered to be particularly costly. Moreover as all hash operations
 with a prefix-free encoding also Merkle-Damgard constructions such as the SHA2 family can be considered as
 a representation of a random oracle, given that the permutation function is considered as a random oracle.
 
-Finally, with the introduction of a zero-padding within the generator string gen_str (introduced after the PRS string), 
+Finally, with the introduction of a zero-padding within the generator string gen_str (introduced after the PRS string),
 the CPace design aims at mitigating
-attacks of a side-channel adversary that analyzes correlations between publicly known variable 
+attacks of a side-channel adversary that analyzes correlations between publicly known variable
 information with the low-entropy PRS string.
 
 # CPace on prime-order group abstractions
@@ -436,32 +436,32 @@ The G.calculate_generator(H, PRS,sid,CI) function shall return a decoded point a
   from the abstraction.
 
 # CPace on curves in Short-Weierstrass representation.
-In this section we target ecosystems using elliptic-curve representations in Short-Weierstrass form. A typical 
-representative might be the curve NIST-P256. In the procedures specified in this section existing encoding and curve 
-standards are re-used wherever possible even if this results in some efficiency loss.. 
+In this section we target ecosystems using elliptic-curve representations in Short-Weierstrass form. A typical
+representative might be the curve NIST-P256. In the procedures specified in this section existing encoding and curve
+standards are re-used wherever possible even if this results in some efficiency loss..
 For the procedures described in this section any suitable group MUST BE of prime order.
- 
+
 Here, any elliptic curve in Short-Weierstrass form is characterized by
 - An integer constant G.group_order which MUST BE a prime.
 - A verification functio G.is_in_group(X) which returns true if the input X is a valid encoding according to {{IEEE1363}} of a point on the group.
 - G.I is an encoding of the x-coordinate according to {{IEEE1363}} of the neutral element on the curve.
-- G.encode_to_curve(str) is a function defined in {{!I-D.irtf-cfrg-hash-to-curve}}. It is RECOMMENDED to use the SSWU 
+- G.encode_to_curve(str) is a function defined in {{!I-D.irtf-cfrg-hash-to-curve}}. It is RECOMMENDED to use the SSWU
   mapping primitive from {{!I-D.irtf-cfrg-hash-to-curve}}.
-- A string G.DSI which shall be defined by the concatenation of "CPace" and the cipher suite used for the encode_to_curve function 
+- A string G.DSI which shall be defined by the concatenation of "CPace" and the cipher suite used for the encode_to_curve function
   from {{!I-D.irtf-cfrg-hash-to-curve}}.
 
 Here the following definition of the CPace functions applies.
-- Here G.sample_scalar() is a function that samples a value between 1 and (G.group_order - 1) 
+- Here G.sample_scalar() is a function that samples a value between 1 and (G.group_order - 1)
   which MUST BE uniformly random. It is RECOMMENDED to use rejection sampling for converting a uniform bitstring to a
   uniform value between 1 and (G.group_order - 1).
-- G.scalar_mult(s,X) is a function that operates on a scalar s and an input point X encoded in full coordinates according to {{IEEE1363}}. 
+- G.scalar_mult(s,X) is a function that operates on a scalar s and an input point X encoded in full coordinates according to {{IEEE1363}}.
   It also returns a full-coordinate output (i.e. both, x and y coordinates of the point in Short-Weierstrass form).
-- G.scalar_mult_vfy(s,X) operates on the representation of a scalar s and a full-coordinate point X. 
-  It MUST BE implemented as follows. if G.is_in_group(X) is false, G.scalar_mult_vfy(s,X) MUST return G.I . 
+- G.scalar_mult_vfy(s,X) operates on the representation of a scalar s and a full-coordinate point X.
+  It MUST BE implemented as follows. if G.is_in_group(X) is false, G.scalar_mult_vfy(s,X) MUST return G.I .
   Otherwise G.scalar_mult_vfy(s,X) MUST returns an encoding of the x-coordinate of X^s according to {{IEEE1363}}.
-      
+
 For the Short-Weierstrass use-case the G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follows.
-- First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the 
+- First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the
   chosen hash primitive.
 - Then the output of a call to G.encode_to_curve(gen_str) is returned.
 
