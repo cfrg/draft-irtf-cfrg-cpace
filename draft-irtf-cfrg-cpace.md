@@ -266,7 +266,7 @@ setup protocol section below prior to the actual protocol flow.
 In the following, we describe the protocol using the example of an initiator/responder instantiation
 of CPace where party A starts with the protocol flow.
 
-```
+~~~
               A                  B
               | (setup protocol  |
 (sample sid)  |     and sid)     |
@@ -279,7 +279,7 @@ of CPace where party A starts with the protocol flow.
               |<-----------------|
               |   (verify data)  |
 (derive ISK)  |                  | (derive ISK)
-```
+~~~
 
 ## CPace
 
