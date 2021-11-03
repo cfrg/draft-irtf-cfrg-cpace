@@ -83,7 +83,7 @@ informative:
         ins: P. Puniya
         name: Prashant Puniya
         org: New York University
-        
+
   FIPS202:
     title: "SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions"
     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf
@@ -266,7 +266,7 @@ setup protocol section below prior to the actual protocol flow.
 In the following, we describe the protocol using the example of an initiator/responder instantiation
 of CPace where party A starts with the protocol flow.
 
-~~~
+```
               A                  B
               | (setup protocol  |
 (sample sid)  |     and sid)     |
@@ -279,7 +279,7 @@ of CPace where party A starts with the protocol flow.
               |<-----------------|
               |   (verify data)  |
 (derive ISK)  |                  | (derive ISK)
-~~~
+```
 
 ## CPace
 
