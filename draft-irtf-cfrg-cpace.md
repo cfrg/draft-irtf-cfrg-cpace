@@ -26,6 +26,9 @@ author:
     email: JHS@zurich.ibm.com
 
 normative:
+  IEEE1363:
+    title: Standard Specifications for Public Key Cryptography, IEEE 1363
+    date: 2000
 
 informative:
   CPacePaper2:
