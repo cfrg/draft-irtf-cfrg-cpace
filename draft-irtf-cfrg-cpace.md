@@ -83,6 +83,7 @@ informative:
         ins: P. Puniya
         name: Prashant Puniya
         org: New York University
+        
   FIPS202:
     title: "SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions"
     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf
@@ -90,17 +91,6 @@ informative:
     author:
       -
         org: National Institute of Standards and Technology (NIST)
-
-  NonceDisrespecting:
-    target: https://eprint.iacr.org/2016/475.pdf
-    title: "Nonce-Disrespecting Adversaries -- Practical Forgery Attacks on GCM in TLS"
-    author:
-      - ins: H. Bock
-      - ins: A. Zauner
-      - ins: S. Devlin
-      - ins: J. Somorovsky
-      - ins: P. Jovanovic
-    date: 2016-05-17
 
 --- abstract
 
@@ -222,7 +212,7 @@ CONCAT(str1,str2) SHALL BE defined as unordered concatenation: CONCAT(str1,str2)
 
 With len(S) we denote the number of octets in a string S.
 
-[//]: Finally, we let nil represent an empty octet string, i.e., len(nil) = 0.
+Finally, we let nil represent an empty octet string, i.e., len(nil) = 0.
 
 With prepend_len(octet_string) we denote the octet sequence that is obtained from prepending
 the length of the octet string as an utf-8 string to the byte sequence itself. This will prepend one
@@ -277,18 +267,18 @@ In the following, we describe the protocol using the example of an initiator/res
 of CPace where party A starts with the protocol flow.
 
 ~~~
-        A                  B
-        | (setup protocol  |
+              A                  B
+              | (setup protocol  |
 (sample sid)  |     and sid)     |
-        |----------------->|
----------------------------------------
-        |                  |
+              |----------------->|
+    ---------------------------------------
+              |                  |
 (compute Ya)  |      Ya, ADa     |
-        |----------------->|
-        |      Yb, ADb     | (compute Yb)
-        |<-----------------|
-        |   (verify data)  |
-        |   (derive ISK)   |
+              |----------------->|
+              |      Yb, ADb     | (compute Yb)
+              |<-----------------|
+              |   (verify data)  |
+(derive ISK)  |                  | (derive ISK)
 ~~~
 
 ## CPace
@@ -331,7 +321,7 @@ is REQUIRED to specify,
 Currently, test vectors are available for the cipher suites
 CPACE-X25519-SHA512,
 CPACE-X448-SHAKE256,
-CPACE-P256-SHA256,
+CPACE-P256_XMD:SHA-256_SSWU_NU_-SHA256,
 CPACE-RISTR255-SHA512,
 CPACE-DECAF448-SHAKE256.
 
