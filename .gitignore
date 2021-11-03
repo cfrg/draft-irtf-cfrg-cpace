@@ -14,3 +14,4 @@ draft-irtf-cfrg-cpace.xml
 lib
 report.xml
 venv/
+sage/.ipynb_checkpoints/*
