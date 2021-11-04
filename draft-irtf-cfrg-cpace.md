@@ -460,14 +460,14 @@ The G.calculate_generator(H, PRS,sid,CI) function shall return a decoded point a
 # CPace on curves in Short-Weierstrass representation.
 In this section we target ecosystems using elliptic-curve representations in Short-Weierstrass form. A typical
 representative might be the curve NIST-P256. In the procedures specified in this section existing encoding and curve
-standards are re-used wherever possible even if this results in some efficiency loss..
+standards are re-used wherever possible even if this results in some efficiency loss.
 For the procedures described in this section any suitable group MUST BE of prime order.
 
 Here, any elliptic curve in Short-Weierstrass form is characterized by
 
 - An integer constant G.group_order which MUST BE a prime.
 
-- A verification functio G.is_in_group(X) which returns true if the input X is a valid encoding according to {{IEEE1363}} of a point on the group.
+- A verification function G.is_in_group(X) which returns true if the input X is a valid encoding according to {{IEEE1363}} of a point on the group.
 
 - G.I is an encoding of the x-coordinate according to {{IEEE1363}} of the neutral element on the curve.
 
