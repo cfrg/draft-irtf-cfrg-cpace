@@ -234,13 +234,13 @@ With G.DSI we denote domain-separation identifier strings specific for a given C
 
 ## Hashing of the password related string in CPace
 
-The different instantiations in CPace share the same method for hashing all of PRS, CI, SID and a domain-separation string DSI
-into a generator string.
+The different instantiations in CPace share the same method for combining all of PRS, CI, sid and a domain-separation string G.DSI
+whithin a generator string.
 
 With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function that returns the string
-prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid) in which all input strings are concatenated
-such that the encoding of PRS together with a suitable zero pad field completely fills the first input block
-of the hash.
+prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid) in which all input strings are concatenated.
+The zero padding is designed such that the encoding of PRS together with the zero padding field completely fills the first
+input block of the hash.
 
 The length len_zpad of the zero padding is calculated as len_zpad = MAX(0, H.s_in_bytes - len(prepend_length(PRS)) - 1).
 
