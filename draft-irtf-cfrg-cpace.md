@@ -483,7 +483,7 @@ Here the following definition of the CPace functions applies.
 
 - G.scalar_mult_vfy(s,X) operates on the representation of a scalar s and a full-coordinate point X. It MUST BE implemented as follows. if G.is_in_group(X) is false, G.scalar_mult_vfy(s,X) MUST return G.I . Otherwise G.scalar_mult_vfy(s,X) MUST returns an encoding of the x-coordinate of X^s according to {{IEEE1363}}.
 
-For the Short-Weierstrass use-case the G.calculate_generator(H, PRS,sid,CI) function shall be implemented as follows.
+For the Short-Weierstrass use-case the G.calculate_generator(H, PRS,sid,CI) function SHALL be implemented as follows.
 
 - First gen_str = generator_string(PRS,G.DSI,CI,sid, H.s_in_bytes) is calculated using the input block size of the chosen hash primitive.
 
@@ -525,10 +525,16 @@ As such, it is MANDATORY to check that any actual X25519 function implementation
 all low-order points on both the curve and the twist on the neutral element.
 Corresponding test vectors are provided in the appendix.
 
+The procedures from the section dealing with the case of idealized group abstractions
+rely on the property that both, field order q and group order p MUST BE close to a power of two.
+For a detailed discussion see {{CPacePaper}}, Appendix E.
+
 Elements received from a peer MUST be checked by a proper implementation of the scalar_mult_vfy methods.
 Failure to properly validate group elements can lead to trivial attacks.
 
-Secret scalars ya and yb MUST NOT be reused. Session id values sid SHOULD NOT be
+Secret scalars ya and yb MUST NOT be reused. Session id values sid SHOULD NOT be reused.
+
+
 
 CPace was not originally meant to be used in conjunction with servers supporting several users and, thus
 several different username/password pairs. As such it does not provide mechanisms for agreeing on salt values which are required
