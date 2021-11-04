@@ -3,7 +3,6 @@
 This is the working area for the individual Internet-Draft, "CPace, a balanced composable PAKE".
 
 * [Editor's Copy](https://cfrg.github.io/draft-irtf-cfrg-cpace/#go.draft-irtf-cfrg-cpace.html)
-* [Editor's Copy_temporary_fix](https://rawcdn.githack.com/cfrg/draft-irtf-cfrg-cpace/gh-pages/draft-irtf-cfrg-cpace.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-irtf-cfrg-cpace)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-cpace)
 * [Compare Editor's Copy to Individual Draft](https://cfrg.github.io/draft-irtf-cfrg-cpace/#go.draft-irtf-cfrg-cpace.diff)
