@@ -230,7 +230,21 @@ With ISK we denote the intermediate session key output string provided by CPace.
 intermediate session key ISK ot a final session key by using a suitable KDF function prior to using the key in a
 higher-level protocol.
 
-With G.DSI we denote domain-separation identifier strings.
+With G.DSI we denote domain-separation identifier strings specific for a given CPace cipher suite.
+
+## Hashing of the password related string in CPace
+
+The different instantiations in CPace share the same method for hashing all of PRS, CI, SID and a domain-separation string DSI
+into a generator string.
+
+With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function that returns the string
+prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid) in which all input strings are concatenated
+such that the encoding of PRS together with a suitable zero pad field completely fills the first input block
+of the hash.
+
+The length len_zpad of the zero padding is calculated as len_zpad = MAX(0, H.s_in_bytes - len(prepend_length(PRS)) - 1).
+
+
 
 ## Protocol Flow
 
@@ -325,18 +339,6 @@ CPACE-P256_XMD:SHA-256_SSWU_NU_-SHA256,
 CPACE-RISTR255-SHA512,
 CPACE-DECAF448-SHAKE256.
 
-# Hashing of the password related string in CPace
-
-The different instantiations in CPace share the same method for hashing all of PRS, CI, SID and a domain-separation string DSI
-into a generator string.
-
-With generator_string(PRS,DSI,CI,sid, H.s_in_bytes) we denote a function that returns the string
-prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid) in which all input strings are concatenated
-such that the encoding of PRS together with a suitable zero pad field completely fills the first input block
-of the hash.
-
-The length len_zpad of the zero padding is calculated as len_zpad = MAX(0, H.s_in_bytes - len(prepend_length(PRS)) - 1).
-
 # CPace on single-coordinate Ladders on Montgomery curves
 
 In this section we consider the case of CPace using the X25519 and X448 Diffie-Hellman functions
@@ -410,7 +412,10 @@ information with the low-entropy PRS string.
 
 In this section we consider the case of CPace using the ristretto25519 and decaf448 group abstractions.
 These abstractions define an encode and decode function, group exponentiation
-and a one-way-map.
+and a one-way-map. With the group abstractions there is a distinction between an internal represenation
+of group elements and an external encoding of the same group element. In order to distinguish between these
+different representations, we prepend an underscore before values using the internal representation within this
+section.
 
 For ristretto255 the following definitions apply:
 
@@ -420,25 +425,34 @@ For ristretto255 the following definitions apply:
 
 - G.group_size_bits = 252
 
+- G.group_order = 2^252 + 27742317777372353535851937790883648493
+
 For decaf448 the following definitions apply:
 
 - G.DSI = "CPaceDecaf"
 
 - G.field_size_bytes = 56
 
-- G.group_size_bits = 486
+- G.group_size_bits = 445
+
+- G.group_order = l = 2^446 -
+    13818066809895115352007386748515426880336692474882178609894547503885
 
 For both abstractions the following definitions apply:
 
-- G.sample_scalar() = sample_random_bytes(G.group_size_bits) (Todo: add masking the upper bits, clearify how large the scalar shall be. We should ask the ristretto and decaf people here!).
+- It is RECOMMENDED to implement G.sample_scalar() as follows.
+  First set scalar = sample_random_bytes(G.group_size_bytes). Then clear the most significant bits larger than group_size_bits, 
+  interpret the result as an integer value and return the result. Alternatively, it is also acceptable to use uniform sampling between 1 and (G.group_order - 1).
 
-- G.scalar_mult(y,g) = encode(g^y)
+- G.scalar_mult(y,_g) operates on a scalar y and a group element _g in the internal representation of the group abstraction environment. It returns the value
+  Y = encode(_g^y), i.e. a value using the public encoding. 
 
-- G.I = encode(g^0), where g is an arbitrary generator
+- G.I = is the public encoding representation of the identity element.
 
-- G.scalar_mult_vfy(y,X) is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X)^y )
+- G.scalar_mult_vfy(y,X) operates on a value using the public encoding and a scalar and is implemented as follows. If the decode(X) function fails, it 
+  returns G.I. Otherwise it returns encode( decode(X)^y ).
 
-Note that with these definitions the scalar_mult function operates on a decoded point g and returns an encoded point,
+Note that with these definitions the scalar_mult function operates on a decoded point _g and returns an encoded point,
 while the scalar_mult_vfy(y,X) function operates on a scalar and an encoded point X.
 
 The G.calculate_generator(H, PRS,sid,CI) function shall return a decoded point and be implemented as follows.
@@ -450,7 +464,7 @@ The G.calculate_generator(H, PRS,sid,CI) function shall return a decoded point a
   gen_str_hash = H.hash(gen_str, 2 * G.field_size_bytes).
   Note that this implies that the permissible output length H.maxb_in_bytes MUST BE larger or equal to twice the
   field size of the group G for making a hashing primitive suitable.
-  Finally the generator g is calculated as g = one_way_map(gen_str_hash) using the one-way map function
+  Finally the internal representation of the generator _g is calculated as _g = one_way_map(gen_str_hash) using the one-way map function
   from the abstraction.
 
 # CPace on curves in Short-Weierstrass representation.
@@ -467,8 +481,10 @@ Here, any elliptic curve in Short-Weierstrass form is characterized by
 
 - G.I is an encoding of the x-coordinate according to {{IEEE1363}} of the neutral element on the curve.
 
-- G.encode_to_curve(str) is a function defined in {{!I-D.irtf-cfrg-hash-to-curve}}. It is RECOMMENDED to use the SSWU
-  mapping primitive from {{!I-D.irtf-cfrg-hash-to-curve}}.
+- G.encode_to_curve(str) is a mapping function defined in {{!I-D.irtf-cfrg-hash-to-curve}} that maps string str to a point on the group.
+  {{!I-D.irtf-cfrg-hash-to-curve}} provides both, uniform and non-uniform mappings based on several different strategies.
+  It is RECOMMENDED to use the nonuniform variant of the SSWU
+  mapping primitive within {{!I-D.irtf-cfrg-hash-to-curve}}.
 
 - A string G.DSI which shall be defined by the concatenation of "CPace" and the cipher suite used for the encode_to_curve function
   from {{!I-D.irtf-cfrg-hash-to-curve}}.
@@ -495,57 +511,66 @@ For the Short-Weierstrass use-case the G.calculate_generator(H, PRS,sid,CI) func
 
 # Security Considerations {#sec-considerations}
 
-A security proof of CPace is found in {{CPacePaper}}.
+A security proof of CPace is found in {{CPacePaper}}. 
 
-In order to prevent length-extension attacks, all hash inputs MUST be prefix-free strings in order to
-make CPace suitable when Merkle-Damgard hashing constructions such as SHA2 or SHA512
-are considered {{CDMP05}}. Otherwise so-called length-extension attacks of the hash
-would have to be considered. This is guaranteed by the design of the prefix_free_cat() function.
+In {{CPacePaper}} also the effect of slightly non-uniform sampling of scalars is considered for groups where the group order is close to a power of two, 
+which is the case for Curve25519 and Curve448. For these curves we recommend to sample scalars slightly non-uniformly as binary strings as any arithmetic
+operation on secret scalars such as reduction may increase the attack surface when facing an adversary exploiting side-channel leakage.
+OPTIONALLY also the conventional strategy of uniform sampling of scalars is suitable.
 
-Although already K is a shared value, still it MUST NOT be used as a shared secret key.
+In order to prevent analysis of length-extension attacks on hash functions, all hash input strings in CPace are designed to be prefix-free strings with
+prepended length information prior to any data field. This choice was made in order to make CPace suitable for hash function instantiations using 
+Merkle-Damgard constructions such as SHA2 or SHA512 along the lines of {{CDMP05}}. This is guaranteed by the design of the prefix_free_cat() function.
+
+Although already K is a shared value, still it MUST NOT be used as a shared secret key. Leakage of K to an adversary may lead to offline-dictionary attacks.
 Note that calculation of ISK from K includes the protocol transcript and
 prevents key malleability with respect to man-in-the-middle attacks from active adversaries.
 
-The definitions given for the case of Curve25519 and Curve448 rely on the following properties of the
-elliptic curves {{CPacePaper}}:
+The definitions given for the case of the Montgomery curves Curve25519 and Curve448 rely on the following properties  {{CPacePaper}}:
 
 - The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of
           order (p' * c') with p' prime and c' a cofactor.
 
 - The cofactor c' of the twist MUST BE EQUAL to or an integer multiple of the cofactor c of the curve.
 
+- Both field order q and group order p MUST BE close to a power of two along the lines of {{CPacePaper}}, Appendix E.
+
 - The representation of the neutral element G.I MUST BE the same for both, the curve and its twist.
 
-- Both field order q and group order p are close to a power of two such that randomly sampled binary strings
-          can be used as representation for field elements and scalars {{CPacePaper}} .
+- The implementation of G.scalar_mult_vfy(y,c) MUST map all c low-orer points on the curve and all c' low-order points on the twist 
+  on the representation of the identity element G.I.
 
-Elements received from a peer MUST be checked by a proper implementation of the scalar_mult_vfy methods.
-Failure to properly validate group elements can lead to attacks. The Curve25519-based cipher suite employs
-the twist security feature of the curve for point validation.
-As such, it is mandatory to check that any actual X25519 function implementation maps
+All of the above properties MUST hold for any further single-coordinate Montgomery curve implemented according the specifications given in the section for X25519 and X448. 
+
+The Curve25519-based cipher suite employs the twist security feature of the curve for point validation.
+As such, it is MANDATORY to check that any actual X25519 function implementation maps
 all low-order points on both the curve and the twist on the neutral element.
 Corresponding test vectors are provided in the appendix.
 
-The randomly generated values ya and yb MUST NOT be reused.
+Elements received from a peer MUST be checked by a proper implementation of the scalar_mult_vfy methods.
+Failure to properly validate group elements can lead to trivial attacks. 
 
-CPace is not originally meant to be used in conjunction with servers supporting several users and, thus
-several different username/password pairs.
-In this setting it is RECOMMENDED to consider the augmented PAKE protocol OPAQUE or
-to use CPace as building block of the augmented AuCPace protocol {{AUCPacePaper}}.
+Secret scalars ya and yb MUST NOT be reused. Session id values sid SHOULD NOT be 
+
+CPace was not originally meant to be used in conjunction with servers supporting several users and, thus
+several different username/password pairs. As such it does not provide mechanisms for agreeing on salt values which are required
+for iterated password-hashing functions which should be used for storing credentials (see e.g. the discussion in {{AUCPacePaper}} where 
+CPace has been used as building block within the augmented AuCPace protocol {{AUCPacePaper}}).
+
+In a setting of a server with several distinct users it is RECOMMENDED to seriously 
+consider the augmented PAKE protocol OPAQUE {{!I-D.draft-irtf-cfrg-opaque}} instead. 
 
 If CPace is used as a building block of higher-level protocols, it is RECOMMENDED that sid
 is generated by the higher-level protocol and passed to CPace. One suitable option is that sid
 is generated by concatenating ephemeral random strings from both parties.
 
-Since CPace is designed to be used as a building block in higher-level protocols and for
-compatibility with constrained hardware,
-it does not by itself include a strong key derivation function construction.
+CPace does not by itself include a strong key derivation function construction.
 Instead CPace uses a simple hash operation on a prefix-free string input for generating its
 intermediate key ISK.
+This was done for maintaining compatibility with constrained hardware such as secure element chipsets.
+
 It is RECOMMENDED that the ISK is post-processed by a KDF such as {{?RFC5869}}
-according the needs of the higher-level protocol. In case
-that the CPace protocol is delegated to a secure element hardware, it is RECOMMENDED that the calculation of
-the KDF function is implemented in the main processing unit.
+according the needs of the higher-level protocol. 
 
 In case that side-channel attacks are to be considered practical for a given application, it is RECOMMENDED to focus
 side-channel protections such as masking and redundant execution (faults) on the process of calculating
@@ -556,16 +581,16 @@ be particularly resource hungry. For this reason, CPace aims at minimizing the n
 of hash functions invocations in the
 specified calculate_generator function.
 
+While the zero-padding introduced when hashing the sensitive PRS string can be expected to make
+the task for a side-channel adversary significantly more complex, this feature allone is not sufficient 
+for ruling out power analysis attacks.
+
 CPace is proven secure under the hardness of the computational Simultaneous Diffie-Hellmann (SDH)
 assumption in the group G (as defined in {{CPacePaper}}).
-Still, even for the event that large-scale quantum computers (LSQC) will become available, CPace forces an active
-adversary to solve one CDH per password guess {{CPacePaper2}}.
+This assumption is not expected to hold in the event that large-scale quantum computers (LSQC) will become available. 
+Still here CPace forces an active adversary to solve one computational Diffie-Hellman problem per password guess {{CPacePaper2}}.
 In this sense, using the wording suggested by Steve Thomas on the CFRG mailing list,
 CPace is "quantum-annoying".
-
-While the zero-padding introduced when hashing the sensitive PRS string can be expected to make
-the task for a side-channel
-adversary more complex, this feature allone is not sufficient for preventing power analysis attacks.
 
 # IANA Considerations
 
