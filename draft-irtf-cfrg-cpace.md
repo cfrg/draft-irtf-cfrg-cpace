@@ -532,8 +532,8 @@ For a detailed discussion see {{CPacePaper}}, Appendix E.
 Elements received from a peer MUST be checked by a proper implementation of the scalar_mult_vfy methods.
 Failure to properly validate group elements can lead to trivial attacks.
 
-Secret scalars ya and yb MUST NOT be reused. Session id values sid SHOULD NOT be reused.
-
+Secret scalars ya and yb MUST NOT be reused. Values for sid SHOULD NOT be reused as the composability
+guarantees of the simulation-based proof rely on uniqueness of session ids {{CPacePaper}}.
 
 
 CPace was not originally meant to be used in conjunction with servers supporting several users and, thus
