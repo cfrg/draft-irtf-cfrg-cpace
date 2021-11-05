@@ -589,3 +589,43 @@ initiator/responder and symmetric settings. Currently we plan to consider both a
 settings in this draft.
 
 --- back
+
+# Sage definitions for the CPace functions
+
+## Sage definitions for string utility functions
+TBD.
+
+## Sage definitions for hash primitives
+TBD.
+
+## Sage definitions for single-coordinate CPace on Montgomery curves
+TBD.
+
+## Sage definitions for group abstractions
+TBD.
+
+## Sage definitions for Short-Weierstrass
+TBD.
+
+# Test vectors
+
+## Test vectors for CPace255
+
+TBD.
+
+## Test vectors for CPace448
+
+TBD.
+
+## Test vectors for CPaceRistretto
+
+TBD.
+
+## Test vectors for CPaceDecaf
+
+TBD.
+
+# Test vectors for CPaceP256
+
+TBD.
+
