@@ -26,9 +26,13 @@ author:
     email: JHS@zurich.ibm.com
 
 normative:
-  IEEE1363:
-    title: Standard Specifications for Public Key Cryptography, IEEE 1363
-    date: 2000
+  SEC1:
+    title: "SEC 1: Elliptic Curve Cryptography"
+    target: http://www.secg.org/sec1-v2.pdf
+    date: May, 2009
+    author:
+      -
+        org: Standards for Efficient Cryptography Group (SECG)
 
 informative:
   CPacePaper2:
@@ -91,6 +95,18 @@ informative:
     author:
       -
         org: National Institute of Standards and Technology (NIST)
+
+  IEEE1363:
+    title: Standard Specifications for Public Key Cryptography, IEEE 1363
+    date: 2000
+
+  SEC2:
+    title: "SEC 2: Recommended Elliptic Curve Domain Parameters"
+    target: http://www.secg.org/sec2-v2.pdf
+    date: Jan, 2010
+    author:
+      -
+        org: Standards for Efficient Cryptography Group (SECG)
 
 --- abstract
 
@@ -339,13 +355,13 @@ CPACE-P256_XMD:SHA-256_SSWU_NU_-SHA256,
 CPACE-RISTR255-SHA512,
 CPACE-DECAF448-SHAKE256.
 
-# CPace on single-coordinate Ladders on Montgomery curves
+# CPace on single-coordinate Ladders on Montgomery curves {#cpace_montgomery}
 
 In this section we consider the case of CPace using the X25519 and X448 Diffie-Hellman functions
 from {{?RFC7748}} operating on the Montgomery curves Curve25519 and Curve448 {{?RFC7748}}.
 
 CPace implementations using single-coordinate ladders on further Montgomery curves SHALL use the definitions in line
-with the specifications for X25519 and X448 and review the guidance given in the security consideration section and
+with the specifications for X25519 and X448 and review the guidance given in the security consideration section {{sec-considerations}} and
 {{CPacePaper}}.
 
 For X25519 the following definitions apply:
@@ -457,19 +473,25 @@ The G.calculate_generator(H, PRS,sid,CI) function shall return a decoded point a
 
 - This string is then hashed to the required length gen_str_hash = H.hash(gen_str, 2 * G.field_size_bytes).  Note that this implies that the permissible output length H.maxb_in_bytes MUST BE larger or equal to twice the field size of the group G for making a hashing primitive suitable. Finally the internal representation of the generator _g is calculated as _g = one_way_map(gen_str_hash) using the one-way map function from the abstraction.
 
-# CPace on curves in Short-Weierstrass representation.
-In this section we target ecosystems using elliptic-curve representations in Short-Weierstrass form. A typical
-representative might be the curve NIST-P256. In the procedures specified in this section existing encoding and curve
-standards are re-used wherever possible even if this results in some efficiency loss.
+# CPace on curves in Short-Weierstrass representation {#weierstrass}
+In this section we target ecosystems using elliptic-curve representations in Short-Weierstrass form as discussed, e.g. in
+{{IEEE1363}}. A typical
+representative might be the curve NIST-P256. In the procedures specified in this section we follow
+existing encoding practices, e.g. {{SEC1}}, curve
+standards, e.g. {{SEC2}} {{?RFC5639}} and deployment in current TLS standards closely. We do soe, even if this results
+in some efficency loss, e.g. by using full-coordinate representation of field elements instead of compressed encodings.
+
 For the procedures described in this section any suitable group MUST BE of prime order.
 
 Here, any elliptic curve in Short-Weierstrass form is characterized by
 
 - An integer constant G.group_order which MUST BE a prime.
 
-- A verification function G.is_in_group(X) which returns true if the input X is a valid encoding according to {{IEEE1363}} of a point on the group.
+- A verification function G.is_in_group(X) which returns true if the input X is a valid octet stream according to {{SEC1}} of a point on the group using full (x,y) coordinates.
 
-- G.I is an encoding of the x-coordinate according to {{IEEE1363}} of the neutral element on the curve.
+- G.I is an octet string encoding of the field element x according to {{SEC1}} which encodes the x-coordinate of the
+neutral element of the group.
+.
 
 - G.encode_to_curve(str) is a mapping function defined in {{!I-D.irtf-cfrg-hash-to-curve}} that maps string str to a point on the group. {{!I-D.irtf-cfrg-hash-to-curve}} provides both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{!I-D.irtf-cfrg-hash-to-curve}}.
 
@@ -479,9 +501,9 @@ Here the following definition of the CPace functions applies.
 
 - Here G.sample_scalar() is a function that samples a value between 1 and (G.group_order - 1)  which MUST BE uniformly random. It is RECOMMENDED to use rejection sampling for converting a uniform bitstring to a   uniform value between 1 and (G.group_order - 1).
 
-- G.scalar_mult(s,X) is a function that operates on a scalar s and an input point X encoded in full coordinates according to {{IEEE1363}}. It also returns a full-coordinate output (i.e. both, x and y coordinates of the point in Short-Weierstrass form).
+- G.scalar_mult(s,X) is a function that operates on a scalar s and an input point X encoded in full coordinates according to {{SEC1}}. It also returns a full-coordinate output (i.e. both, x and y coordinates of the point in Short-Weierstrass form).
 
-- G.scalar_mult_vfy(s,X) operates on the representation of a scalar s and a full-coordinate point X. It MUST BE implemented as follows. if G.is_in_group(X) is false, G.scalar_mult_vfy(s,X) MUST return G.I . Otherwise G.scalar_mult_vfy(s,X) MUST returns an encoding of the x-coordinate of X^s according to {{IEEE1363}}.
+- G.scalar_mult_vfy(s,X) operates on the representation of a scalar s and a full-coordinate point X. It MUST BE implemented as follows. if G.is_in_group(X) is false, G.scalar_mult_vfy(s,X) MUST return G.I . Otherwise G.scalar_mult_vfy(s,X) MUST returns an octet string encoding of the x-coordinate of X^s according to {{SEC1}}.
 
 For the Short-Weierstrass use-case the G.calculate_generator(H, PRS,sid,CI) function SHALL be implemented as follows.
 
@@ -493,10 +515,14 @@ For the Short-Weierstrass use-case the G.calculate_generator(H, PRS,sid,CI) func
 
 A security proof of CPace is found in {{CPacePaper}}.
 
+## Security considerations for sampling scalars
 In {{CPacePaper}} also the effect of slightly non-uniform sampling of scalars is considered for groups where the group order is close to a power of two,
 which is the case for Curve25519 and Curve448. For these curves we recommend to sample scalars slightly non-uniformly as binary strings as any arithmetic
 operation on secret scalars such as reduction may increase the attack surface when facing an adversary exploiting side-channel leakage.
 OPTIONALLY also the conventional strategy of uniform sampling of scalars is suitable.
+
+
+## Security considerations regarding hashing and key derivation
 
 In order to prevent analysis of length-extension attacks on hash functions, all hash input strings in CPace are designed to be prefix-free strings with
 prepended length information prior to any data field. This choice was made in order to make CPace suitable for hash function instantiations using
@@ -506,7 +532,17 @@ Although already K is a shared value, still it MUST NOT be used as a shared secr
 Note that calculation of ISK from K includes the protocol transcript and
 prevents key malleability with respect to man-in-the-middle attacks from active adversaries.
 
-The definitions given for the case of the Montgomery curves Curve25519 and Curve448 rely on the following properties  {{CPacePaper}}:
+CPace does not by itself include a strong key derivation function construction.
+Instead CPace uses a simple hash operation on a prefix-free string input for generating its
+intermediate key ISK.
+This was done for maintaining compatibility with constrained hardware such as secure element chipsets.
+
+It is RECOMMENDED that the ISK is post-processed by a KDF such as {{?RFC5869}}
+according the needs of the higher-level protocol.
+
+## Security considerations for single-coordinate CPace on Montgomery curves
+
+The definitions given for the case of the Montgomery curves Curve25519 and Curve448 in {{cpace_montgomery}} rely on the following properties  {{CPacePaper}}:
 
 - The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' * c') with p' prime and c' a cofactor.
 
@@ -518,12 +554,14 @@ The definitions given for the case of the Montgomery curves Curve25519 and Curve
 
 - The implementation of G.scalar_mult_vfy(y,c) MUST map all c low-orer points on the curve and all c' low-order points on the twist  on the representation of the identity element G.I.
 
-All of the above properties MUST hold for any further single-coordinate Montgomery curve implemented according the specifications given in the section for X25519 and X448.
+All of the above properties MUST hold for any further single-coordinate Montgomery curve implemented according the specifications given in the section handling X25519 and X448 {{cpace_montgomery}}.
 
 The Curve25519-based cipher suite employs the twist security feature of the curve for point validation.
-As such, it is MANDATORY to check that any actual X25519 function implementation maps
+As such, it is MANDATORY to check that any actual X448 and X25519 function implementation maps
 all low-order points on both the curve and the twist on the neutral element.
 Corresponding test vectors are provided in the appendix.
+
+## Security considerations for CPace on idealized group abstractions
 
 The procedures from the section dealing with the case of idealized group abstractions
 rely on the property that both, field order q and group order p MUST BE close to a power of two.
@@ -532,9 +570,18 @@ For a detailed discussion see {{CPacePaper}}, Appendix E.
 Elements received from a peer MUST be checked by a proper implementation of the scalar_mult_vfy methods.
 Failure to properly validate group elements can lead to trivial attacks.
 
+
+## Nonce values
+
 Secret scalars ya and yb MUST NOT be reused. Values for sid SHOULD NOT be reused as the composability
 guarantees of the simulation-based proof rely on uniqueness of session ids {{CPacePaper}}.
 
+If CPace is used as a building block of higher-level protocols, it is RECOMMENDED that sid
+is generated by the higher-level protocol and passed to CPace. One suitable option is that sid
+is generated by concatenating ephemeral random strings from both parties.
+
+
+## Application frameworks
 
 CPace was not originally meant to be used in conjunction with servers supporting several users and, thus
 several different username/password pairs. As such it does not provide mechanisms for agreeing on salt values which are required
@@ -542,19 +589,9 @@ for iterated password-hashing functions which should be used for storing credent
 CPace has been used as building block within the augmented AuCPace protocol {{AUCPacePaper}}).
 
 In a setting of a server with several distinct users it is RECOMMENDED to seriously
-consider the augmented PAKE protocol OPAQUE {{!I-D.draft-irtf-cfrg-opaque}} instead.
+consider the augmented PAKE protocol OPAQUE {{?I-D.draft-irtf-cfrg-opaque}} instead.
 
-If CPace is used as a building block of higher-level protocols, it is RECOMMENDED that sid
-is generated by the higher-level protocol and passed to CPace. One suitable option is that sid
-is generated by concatenating ephemeral random strings from both parties.
-
-CPace does not by itself include a strong key derivation function construction.
-Instead CPace uses a simple hash operation on a prefix-free string input for generating its
-intermediate key ISK.
-This was done for maintaining compatibility with constrained hardware such as secure element chipsets.
-
-It is RECOMMENDED that the ISK is post-processed by a KDF such as {{?RFC5869}}
-according the needs of the higher-level protocol.
+## Side channel and quantum computing considerations
 
 In case that side-channel attacks are to be considered practical for a given application, it is RECOMMENDED to focus
 side-channel protections such as masking and redundant execution (faults) on the process of calculating
