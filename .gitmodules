@@ -1,3 +1,6 @@
 [submodule "sage/draft-irtf-cfrg-hash-to-curve"]
 	path = poc/draft-irtf-cfrg-hash-to-curve
 	url = git@github.com:cfrg/draft-irtf-cfrg-hash-to-curve.git
+[submodule "poc/draft-irtf-cfrg-voprf"]
+	path = poc/draft-irtf-cfrg-voprf
+	url = git@github.com:cfrg/draft-irtf-cfrg-voprf.git
