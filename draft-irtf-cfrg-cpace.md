@@ -121,14 +121,14 @@ and comes with  a security proof providing composability guarantees.
 # Introduction
 
 This document describes CPace which is a protocol for two
-parties for deriving a strong shared secret from a low-entropy secret (password) without
-disclosing the secret to offline dictionary attacks.
+parties for deriving a strong shared secret from a shared low-entropy secret (password) without
+exposing the secret to offline dictionary attacks.
 
 The CPace method was tailored for constrained devices and
 specifically considers efficiency and hardware side-channel attack mitigations at the protocol level.
 CPace is designed to be compatible with any group of both prime- and non-prime order by explicitly
 handling the complexity of cofactor clearing on the protcol level. CPace
-comes with both, game-based and simulation based proofs where the latter provides composability guarantees.
+comes with both, game-based and simulation-based proofs where the latter provides composability guarantees.
 As a protocol, CPace is designed
 to be compatible with so-called "single-coordinate-only" Diffie-Hellman implementations on elliptic curve
 groups.
@@ -154,12 +154,12 @@ for refering to constants and functions applying to G and H.
 
 With H we denote a hash primitive with a hash function H.hash(m,l)
 that operates on an input octet string m and returns a hash result containing the first l result octets
-calculated by the primitive. Common choices for H might be SHA512 {{?RFC6234}} or SHAKE256 {{FIPS202}}.
+calculated by the primitive. Common choices for H are SHA512 {{?RFC6234}} or SHAKE256 {{FIPS202}}.
 For considering both, variable-output-length primitives and fixed-length output primitives we use the following
 notations and definitions which were chosen in line with the definitions in {?RFC6234}}
 
 With H.b_in_bytes we denote the default output size in bytes corresponding to the symmetric
-security level of the primitive. E.g. H.b_in_bytes = 64 for SHA512 and SHAKE256 and H.b_in_bytes = 32 for
+security level of the hash primitive. E.g. H.b_in_bytes = 64 for SHA512 and SHAKE256 and H.b_in_bytes = 32 for
 SHA256 and SHAKE128. We use the notation H.hash(m) = H.hash(m, H.b_in_bytes) and let the hash primitive
 output the default length if no length parameter is given.
 
@@ -171,17 +171,17 @@ input block size amounts to 136 bytes.
 
 For a given group G this document specifies how to define the following set of group-specific
 functions and constants for the protocol execution. For making the implicit dependence of the respective
-functions and constants on the group G transparent, we use a object-style notation
+functions and constants on the group G transparent, we use an object-style notation
 G.function_name() and G.constant_name.
 
-With G.I we denote a unique octet string representation of the neutral element of group G.
+With G.I we denote a unique octet string representation of the neutral element of the group G.
 
-g = G.calculate_generator(H, PRS,CI,sid). With calculate_generator we denote a function that outputs a
+g = G.calculate_generator(H,PRS,CI,sid). With calculate_generator we denote a function that outputs a
 representation of a group element in G which is derived from input octet strings PRS, CI, sid using
 the hash function primitive H.
 
 y = G.sample_scalar(). This function returns a representation of a scalar value appropriate as a
-private Diffie-Hellman key for group G.
+private Diffie-Hellman key for the group G.
 
 Y = G.scalar_mult(y,g). This function takes a generator g as first parameter and a scalar y as second
 parameter and returns an octet string representation of a group element Y.
@@ -197,8 +197,8 @@ Typically PRS is derived from a low-entropy secret such as a user-supplied passw
 identification number.
 
 With CI we denote an OPTIONAL octet string for the channel identifier. CI can be used for
-binding CPace to one specific communication channel, if a common octet string representation for CI is
-available for both protocol partners upon protocol start.
+binding CPace to one specific communication channel, for which CI needs to be 
+available to both protocol partners upon protocol start.
 
 With sid we denote an OPTIONAL octet string input containing a session id. In application scenarios
 where a higher-level protocol has established a unique sid this parameter can be used to bind the CPace protocol execution
@@ -207,7 +207,7 @@ to one specific session.
 With ADa and ADb we denote OPTIONAL octet strings of parties A and B that contain associated public data
 of the communication partners.
 ADa and ADb could for instance include party identifiers or a protocol version (e.g. for avoiding downgrade attacks).
-In a setting with clear initiator and responder roles the the information ADa sent by the initiator
+In a setting with clear initiator and responder roles the information ADa sent by the initiator
 can be helpful for the responder for identifying which among possibly several different passwords are to be used for
 the given protocol session.
 
@@ -220,15 +220,13 @@ if str2 > str1 and oCAT(str1,str2) = str2 \|\| str1 otherwise.
 
 CONCAT(str1,str2) defines a concatenation function that depends on the application scenario.
 In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of
-messages is not enforced by the protocol flow ordered concatenation SHALL BE used,
+messages is not enforced by the protocol flow, ordered concatenation SHALL BE used,
 i.e. CONCAT(str1,str2) == oCAT(str1,str2).
 
 In settings with defined initiator and responder roles
 CONCAT(str1,str2) SHALL BE defined as unordered concatenation: CONCAT(str1,str2) == str1 \|\| str2.
 
-With len(S) we denote the number of octets in a string S.
-
-Finally, we let nil represent an empty octet string, i.e., len(nil) = 0.
+With len(S) we denote the number of octets in a string S, and we let nil represent an empty octet string, i.e., len(nil) = 0.
 
 With prepend_len(octet_string) we denote the octet sequence that is obtained from prepending
 the length of the octet string as an utf-8 string to the byte sequence itself. This will prepend one
