@@ -234,19 +234,19 @@ single octet for sequences shorter than 128 bytes and more octets otherwise.
 
 With prefix_free_cat(a0,a1, ...) we denote a function that outputs the prefix-free encoding of
 all input octet strings as the concatenation of the individual strings with their respective
-length prepended: prepend_len(a0) \|\| prepend_len(a1) \|\| ... . Use of this function allows for a
+length prepended: prepend_len(a0) \|\| prepend_len(a1) \|\| ... . Use of this function allows for
 easy parsing of strings and guarantees a prefix-free encoding.
 
 With sample_random_bytes(n) we denote a function that returns n octets uniformly sampled between 0 and 255.
 With zero_bytes(n) we denote a function that returns n octets with value 0.
 
 With ISK we denote the intermediate session key output string provided by CPace. It is RECOMMENDED to convert the
-intermediate session key ISK ot a final session key by using a suitable KDF function prior to using the key in a
+intermediate session key ISK to a final session key by using a suitable KDF function prior to using the key in a
 higher-level protocol.
 
 With G.DSI we denote domain-separation identifier strings specific for a given CPace cipher suite.
 
-## Hashing of the password related string in CPace
+## Hashing of the password-related string in CPace
 
 The different instantiations in CPace share the same method for combining all of PRS, CI, sid and a domain-separation string G.DSI
 whithin a generator string.
@@ -343,7 +343,7 @@ CONCAT() MUST BE implemented by using the ordered concatenation function oCAT().
 
 This section documents CPACE ciphersuite configurations. A ciphersuite
 is REQUIRED to specify,
-- a group G with associated definitions for G.sample_scalar(), G.scalar_mult() and G. scalar_mult.vfy() and G.calculate_generator() functions and an associated domain separation string G.DSI.
+- a group G with associated definitions for G.sample_scalar(), G.scalar_mult() and G. scalar_mult_vfy() and G.calculate_generator() functions and an associated domain separation string G.DSI.
 - a hash function H.
 
 Currently, test vectors are available for the cipher suites
