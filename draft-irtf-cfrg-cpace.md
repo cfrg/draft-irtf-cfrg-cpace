@@ -197,7 +197,7 @@ Typically PRS is derived from a low-entropy secret such as a user-supplied passw
 identification number.
 
 With CI we denote an OPTIONAL octet string for the channel identifier. CI can be used for
-binding CPace to one specific communication channel, for which CI needs to be 
+binding CPace to one specific communication channel, for which CI needs to be
 available to both protocol partners upon protocol start.
 
 With sid we denote an OPTIONAL octet string input containing a session id. In application scenarios
@@ -642,16 +642,155 @@ TBD.
 ## Sage definitions for Short-Weierstrass
 TBD.
 
+
+
+## Definition and test vectors for string utility functions
+
+
+### prepend_length function
+
+
+~~~
+  def prepend_length_to_bytes(data):
+      length_as_utf8_string = chr(len(data)).encode('utf-8')
+      return (length_as_utf8_string + data)
+~~~
+
+
+### prepend_length test vectors
+
+~~~
+  prepend_length_to_bytes(b""): (length: 1 bytes)
+    00
+  prepend_length_to_bytes(b"1234"): (length: 5 bytes)
+    0431323334
+  prepend_length_to_bytes(bytes(range(127))): (length: 128 bytes)
+    7f000102030405060708090a0b0c0d0e0f101112131415161718191a1b
+    1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738
+    393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455
+    565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172
+    737475767778797a7b7c
+  prepend_length_to_bytes(bytes(range(128))): (length: 130 bytes)
+    c280000102030405060708090a0b0c0d0e0f101112131415161718191a
+    1b1c1d1e1f202122232425262728292a2b2c2d2e2f3031323334353637
+    38393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f5051525354
+    55565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f7071
+    72737475767778797a7b7c7d
+~~~
+
+### prefix_free_cat function
+
+
+~~~
+  def prefix_free_cat(*args):
+      result = b""
+      for arg in args:
+          result += prepend_length_to_bytes(arg)
+      return result
+~~~
+
+
+### Testvector for prefix_free_cat()
+
+~~~
+  prefix_free_cat(b"1234",b"5",b"",b"6789"): (length: 13 bytes)
+    04313233340135000436373839
+~~~
+
+## Definitions and test vector ordered concatenation
+
+
+### Definitions ordered concatenation
+
+~~~
+  def oCAT(str1,str2):
+      if str1 > str2:
+          return str1 + str2
+      else:
+          return str2 + str1
+~~~
+
+### Test vectors ordered concatenation
+
+~~~
+  string comparison for oCAT:
+    b"\0" > b"\0\0" == False
+    b"\1" > b"\0\0" == True
+    b"\0\0" > b"\0" == True
+    b"\0\0" > b"\1" == False
+    b"\0\1" > b"\1" == False
+    b"ABCD" > b"BCD" == False
+
+  oCAT(b"ABCD",b"BCD"): (length: 7 bytes)
+    42434441424344
+  oCAT(b"BCD",b"ABCDE"): (length: 8 bytes)
+    4243444142434445
+~~~
 # Test vectors
 
-##  Test vector for CPace using group X25519 and hash SHA512
+## Test vectors for X25519 low order points
+
+Points that need to return neutral element when input to
+plain X25519 that also accept un-normalized inputs with
+bit #255 set in the input point encoding.
+
+~~~
+u0: 0000000000000000000000000000000000000000000000000000000000000000
+u1: 0100000000000000000000000000000000000000000000000000000000000000
+u2: ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f
+u3: e0eb7a7c3b41b8ae1656e3faf19fc46ada098deb9c32b1fd866205165f49b800
+u4: 5f9c95bca3508c24b1d0b1559c83ef5b04445cc4581c8e86d8224eddd09f1157
+u5: edffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f
+u6: daffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+u7: eeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f
+u8: dbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+u9: d9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ua: cdeb7a7c3b41b8ae1656e3faf19fc46ada098deb9c32b1fd866205165f49b880
+ub: 4c9c95bca3508c24b1d0b1559c83ef5b04445cc4581c8e86d8224eddd09f11d7
+
+Results for X25519 implementations not clearing bit #255:
+(i.e. with X25519 not implemented according to RFC7748!):
+s = af46e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449aff
+rN = X25519(s,uX);
+r0: 0000000000000000000000000000000000000000000000000000000000000000
+r1: 0000000000000000000000000000000000000000000000000000000000000000
+r2: 0000000000000000000000000000000000000000000000000000000000000000
+r3: 0000000000000000000000000000000000000000000000000000000000000000
+r4: 0000000000000000000000000000000000000000000000000000000000000000
+r5: 0000000000000000000000000000000000000000000000000000000000000000
+r6: 0000000000000000000000000000000000000000000000000000000000000000
+r7: 0000000000000000000000000000000000000000000000000000000000000000
+r8: 0000000000000000000000000000000000000000000000000000000000000000
+r9: 0000000000000000000000000000000000000000000000000000000000000000
+ra: 0000000000000000000000000000000000000000000000000000000000000000
+rb: 0000000000000000000000000000000000000000000000000000000000000000
+
+Results for X25519 implementations that clear bit #255:
+(i.e. implemented according to RFC7748!):
+s = af46e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449aff
+qN = X25519(s, uX & ((1 << 255) - 1));
+q0: 0000000000000000000000000000000000000000000000000000000000000000
+q1: 0000000000000000000000000000000000000000000000000000000000000000
+q2: 0000000000000000000000000000000000000000000000000000000000000000
+q3: 0000000000000000000000000000000000000000000000000000000000000000
+q4: 0000000000000000000000000000000000000000000000000000000000000000
+q5: 0000000000000000000000000000000000000000000000000000000000000000
+q6: d8e2c776bbacd510d09fd9278b7edcd25fc5ae9adfba3b6e040e8d3b71b21806
+q7: 0000000000000000000000000000000000000000000000000000000000000000
+q8: c85c655ebe8be44ba9c0ffde69f2fe10194458d137f09bbff725ce58803cdb38
+q9: db64dafa9b8fdd136914e61461935fe92aa372cb056314e1231bc4ec12417456
+qa: e062dcd5376d58297be2618c7498f55baa07d7e03184e8aada20bca28888bf7a
+qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
+~~~
+
+##  Test vector for CPace using group X25519 and hash SHA-512
 
 
 ###  Test vectors for calculate_generator with group X25519
 
 ~~~
   Inputs
-    H   = SHA512 with input block size 128 bytes.
+    H   = SHA-512 with input block size 128 bytes.
     PRS = b'password' ; ZPAD length: 118 ; DSI = b'CPace255'
     CI = b'\nAinitiator\nBresponder'
     CI = 0a41696e69746961746f720a42726573706f6e646572
@@ -820,14 +959,69 @@ const uint8_t tc_ISK_SY[] = {
 };
 ~~~
 
-##  Test vector for CPace using group X448 and hash SHAKE256
+
+## Test vectors for X448 low order points
+
+Points that need to return neutral element when input to
+plain X448 that also accept non-canonical inputs larger
+than the field prime.
+
+### Weak points for X448 smaller than the field prime (canonical)
+
+~~~
+  u0: (length: 56 bytes)
+    0000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000
+  u1: (length: 56 bytes)
+    0100000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000
+  u2: (length: 56 bytes)
+    fefffffffffffffffffffffffffffffffffffffffffffffffffffffffe
+    fffffffffffffffffffffffffffffffffffffffffffffffffffff
+~~~
+
+### Weak points for X448 larger or equal to the field prime (non-canonical)
+
+~~~
+  u3: (length: 56 bytes)
+    fffffffffffffffffffffffffffffffffffffffffffffffffffffffffe
+    fffffffffffffffffffffffffffffffffffffffffffffffffffff
+  u4: (length: 56 bytes)
+    00000000000000000000000000000000000000000000000000000000ff
+    fffffffffffffffffffffffffffffffffffffffffffffffffffff
+~~~
+
+### Expected results for X448
+
+~~~
+  scalar s: (length: 56 bytes)
+    af8a14218bf2a2062926d2ea9b8fe4e8b6817349b6ed2feb1e5d64d7a4
+    523f15fceec70fb111e870dc58d191e66a14d3e9d482d04432cad
+  X448(s,u0): (length: 56 bytes)
+    0000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000
+  X448(s,u1): (length: 56 bytes)
+    0000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000
+  X448(s,u2): (length: 56 bytes)
+    0000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000
+  X448(s,u3): (length: 56 bytes)
+    0000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000
+  X448(s,u4): (length: 56 bytes)
+    0000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000
+~~~
+
+##  Test vector for CPace using group X448 and hash SHAKE-256
 
 
 ###  Test vectors for calculate_generator with group X448
 
 ~~~
   Inputs
-    H   = SHAKE256 with input block size 136 bytes.
+    H   = SHAKE-256 with input block size 136 bytes.
     PRS = b'password' ; ZPAD length: 126 ; DSI = b'CPace448'
     CI = b'\nAinitiator\nBresponder'
     CI = 0a41696e69746961746f720a42726573706f6e646572
@@ -1020,14 +1214,14 @@ const uint8_t tc_ISK_SY[] = {
 };
 ~~~
 
-##  Test vector for CPace using group ristretto255 and hash SHA512
+##  Test vector for CPace using group ristretto255 and hash SHA-512
 
 
 ###  Test vectors for calculate_generator with group ristretto255
 
 ~~~
   Inputs
-    H   = SHA512 with input block size 128 bytes.
+    H   = SHA-512 with input block size 128 bytes.
     PRS = b'password' ; ZPAD length: 118 ; DSI = b'CPaceristretto255'
     CI = b'\nAinitiator\nBresponder'
     CI = 0a41696e69746961746f720a42726573706f6e646572
@@ -1205,14 +1399,14 @@ const uint8_t tc_ISK_SY[] = {
 };
 ~~~
 
-##  Test vector for CPace using group decaf448 and hash SHAKE256
+##  Test vector for CPace using group decaf448 and hash SHAKE-256
 
 
 ###  Test vectors for calculate_generator with group decaf448
 
 ~~~
   Inputs
-    H   = SHAKE256 with input block size 136 bytes.
+    H   = SHAKE-256 with input block size 136 bytes.
     PRS = b'password' ; ZPAD length: 126 ; DSI = b'CPacedecaf448'
     CI = b'\nAinitiator\nBresponder'
     CI = 0a41696e69746961746f720a42726573706f6e646572
@@ -1413,14 +1607,14 @@ const uint8_t tc_ISK_SY[] = {
 };
 ~~~
 
-##  Test vector for CPace using group NIST P-256 and hash SHA256
+##  Test vector for CPace using group NIST P-256 and hash SHA-256
 
 
 ###  Test vectors for calculate_generator with group NIST P-256
 
 ~~~
   Inputs
-    H   = SHA256 with input block size 64 bytes.
+    H   = SHA-256 with input block size 64 bytes.
     PRS = b'password' ; ZPAD length: 54 ;
     DSI = b'CPaceP256_XMD:SHA-256_SSWU_NU_'
     CI = b'\nAinitiator\nBresponder'
@@ -1606,19 +1800,19 @@ const uint8_t tc_ISK_SY[] = {
 };
 ~~~
 
-##  Test vector for CPace using group NIST P-384 and hash SHA512
+##  Test vector for CPace using group NIST P-384 and hash SHA-384
 
 
 ###  Test vectors for calculate_generator with group NIST P-384
 
 ~~~
   Inputs
-    H   = SHA512 with input block size 128 bytes.
+    H   = SHA-384 with input block size 128 bytes.
     PRS = b'password' ; ZPAD length: 118 ;
     DSI = b'CPaceP384_XMD:SHA-384_SSWU_NU_'
     CI = b'\nAinitiator\nBresponder'
     CI = 0a41696e69746961746f720a42726573706f6e646572
-    sid = 7e4b4791d6a8ef019b936c79fb7f2c57
+    sid = 5b3773aa90e8f23c61563a4b645b276c
   Outputs
     string passed to map: (length: 199 bytes)
       0870617373776f726476000000000000000000000000000000000000
@@ -1627,12 +1821,12 @@ const uint8_t tc_ISK_SY[] = {
       00000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000001e4350616365503338345f58
       4d443a5348412d3338345f535357555f4e555f160a41696e69746961
-      746f720a42726573706f6e646572107e4b4791d6a8ef019b936c79fb
+      746f720a42726573706f6e646572105b3773aa90e8f23c61563a4b64
     generator g: (length: 97 bytes)
-      047a150362b4d77b37d1af4a74209381886225b869328dbb40ee387c
-      1dcf656c9a571bd82d008387fbffa1b2c07186dd9ccd7abe0bdcf9e7
-      900f1b2144e391ad078b3bacb5e4ea2e8a8c95981a2ef73fa97d3d1e
-      4394e6c1428652cca357707
+      049a2397fd5cf8fa3ea34adf5a72b46516eb4cc6ab27594d40405c2f
+      c656965b041b34ffff0f6b99dbc2e8c9273ba6c9a1e7eae6d07694df
+      2eb48ea70be9321f0e9906f8327ba20f42bf6633fe9d7e03b7089562
+      bf089448d2eaac9a4c6fce5
 ~~~
 
 ###  Test vector for MSGa
@@ -1641,19 +1835,19 @@ const uint8_t tc_ISK_SY[] = {
   Inputs
     ADa = b'ADa'
     ya (big endian): (length: 48 bytes)
-      ef433dd5ad142c860e7cb6400dd315d388d5ec5420c550e9d6f0907f
-      375d988bc4d704837e43561c497e7dd93edcdb9
+      0d3d3d5deff62ffc36d6d45acbb2649227dd931fa86921805ebf2c5a
+      dba4ff0b7fe94a9b3878c0cf193f657230bbd0b
   Outputs
     Ya: (length: 97 bytes)
-      041fd07146117cf52b9714082f7ddf6eb08542fea3f0eae676639612
-      28aa2c52df3ac84fe0e41937573ab5199dcbf0a15084041349f882af
-      1ae924f408ee190c8956cb7f7ac618743261f57e281af0e0a42c2cc3
-      04802dc8dc5d34d33b512d0
+      04ce004f548156542325f2f8eca9a8a328007d33aa283353b4608dd4
+      4a3d926276a0fb2000b4fba0856ce01de5a78b2e9e98448e7859af2d
+      f1b6f2a1921af8a9a2ad482f5cf25d63cb35cadf6077fc8c79964e61
+      78536a69fecaf6f2ad95007
     MSGa: (length: 102 bytes)
-      61041fd07146117cf52b9714082f7ddf6eb08542fea3f0eae6766396
-      1228aa2c52df3ac84fe0e41937573ab5199dcbf0a15084041349f882
-      af1ae924f408ee190c8956cb7f7ac618743261f57e281af0e0a42c2c
-      c304802dc8dc5d34d33b512d0b8603414
+      6104ce004f548156542325f2f8eca9a8a328007d33aa283353b4608d
+      d44a3d926276a0fb2000b4fba0856ce01de5a78b2e9e98448e7859af
+      2df1b6f2a1921af8a9a2ad482f5cf25d63cb35cadf6077fc8c79964e
+      6178536a69fecaf6f2ad95007a9203414
 ~~~
 
 ###  Test vector for MSGb
@@ -1662,30 +1856,30 @@ const uint8_t tc_ISK_SY[] = {
   Inputs
     ADb = b'ADb'
     yb (big endian): (length: 48 bytes)
-      50b0e36b95a2edfaa8342b843dddc90b175330f2399c1b36586dedda
-      3c255975f30be6a750f9404fccc62a6323b5e47
+      eeddc8115e25c0faa5a9c28dd5b973ac3a0cd3e0d2435d3ec0b3ed51
+      bc286f2085df0f94e812cfd4e67a87bff4ae73b
   Outputs
     Yb: (length: 97 bytes)
-      04ea496f6e5b17a50206fee4405b99713f1a919fb36f813645d7fcb9
-      18de23305830c0a482d20d04165d37d30f2d6c2ae84ed0b798f8cf34
-      94aa7e28643365190888db3aac57522cadd9bfc289f86a5fbaeadd17
-      54f7afdcedb1fd8be3aea48
+      04e35b85645e5d8321a2d349e285dbb3428fd709ceabb1332d145e88
+      15b4205215dcca324cac5fc5350511610c0b40bcbf57f9429017d72c
+      74800e1da20aa4d8cc0512c929cb326be3b6cdd5f33e4e957f79cf7d
+      6bc8c3543b175b3b20eae23
     MSGb: (length: 102 bytes)
-      6104ea496f6e5b17a50206fee4405b99713f1a919fb36f813645d7fc
-      b918de23305830c0a482d20d04165d37d30f2d6c2ae84ed0b798f8cf
-      3494aa7e28643365190888db3aac57522cadd9bfc289f86a5fbaeadd
-      1754f7afdcedb1fd8be3aea4884603414
+      6104e35b85645e5d8321a2d349e285dbb3428fd709ceabb1332d145e
+      8815b4205215dcca324cac5fc5350511610c0b40bcbf57f9429017d7
+      2c74800e1da20aa4d8cc0512c929cb326be3b6cdd5f33e4e957f79cf
+      7d6bc8c3543b175b3b20eae2325903414
 ~~~
 
 ###  Test vector for secret points K
 
 ~~~
     scalar_mult_vfy(ya,Yb): (length: 48 bytes)
-      c2ffb79b7adbf1abb25a4bbfddfe2707a2eaa7d45412f458a1bb7fe6
-      f318d248be363fb1ece1385368769b98bc7b546
+      e6406a79c7049287953f136c200c015e9b65972883aee5eb58b95dd9
+      b96ae8d0980f5e869768fc049cefa16fb5c5fdf
     scalar_mult_vfy(yb,Ya): (length: 48 bytes)
-      c2ffb79b7adbf1abb25a4bbfddfe2707a2eaa7d45412f458a1bb7fe6
-      f318d248be363fb1ece1385368769b98bc7b546
+      e6406a79c7049287953f136c200c015e9b65972883aee5eb58b95dd9
+      b96ae8d0980f5e869768fc049cefa16fb5c5fdf
 ~~~
 
 
@@ -1693,60 +1887,58 @@ const uint8_t tc_ISK_SY[] = {
 
 ~~~
     unordered cat of transcript : (length: 204 bytes)
-      61041fd07146117cf52b9714082f7ddf6eb08542fea3f0eae6766396
-      1228aa2c52df3ac84fe0e41937573ab5199dcbf0a15084041349f882
-      af1ae924f408ee190c8956cb7f7ac618743261f57e281af0e0a42c2c
-      c304802dc8dc5d34d33b512d0b86034144616104ea496f6e5b17a502
-      06fee4405b99713f1a919fb36f813645d7fcb918de23305830c0a482
-      d20d04165d37d30f2d6c2ae84ed0b798f8cf3494aa7e286433651908
-      88db3aac57522cadd9bfc289f86a5fbaeadd1754f7afdcedb1fd8be3
-      aea488460
+      6104ce004f548156542325f2f8eca9a8a328007d33aa283353b4608d
+      d44a3d926276a0fb2000b4fba0856ce01de5a78b2e9e98448e7859af
+      2df1b6f2a1921af8a9a2ad482f5cf25d63cb35cadf6077fc8c79964e
+      6178536a69fecaf6f2ad95007a92034144616104e35b85645e5d8321
+      a2d349e285dbb3428fd709ceabb1332d145e8815b4205215dcca324c
+      ac5fc5350511610c0b40bcbf57f9429017d72c74800e1da20aa4d8cc
+      0512c929cb326be3b6cdd5f33e4e957f79cf7d6bc8c3543b175b3b20
+      eae232590
     input to final ISK hash: (length: 305 bytes)
       224350616365503338345f584d443a5348412d3338345f535357555f
-      4e555f5f49534b107e4b4791d6a8ef019b936c79fb7f2c5730c2ffb7
-      9b7adbf1abb25a4bbfddfe2707a2eaa7d45412f458a1bb7fe6f318d2
-      48be363fb1ece1385368769b98bc7b546e61041fd07146117cf52b97
-      14082f7ddf6eb08542fea3f0eae67663961228aa2c52df3ac84fe0e4
-      1937573ab5199dcbf0a15084041349f882af1ae924f408ee190c8956
-      cb7f7ac618743261f57e281af0e0a42c2cc304802dc8dc5d34d33b51
-      2d0b86034144616104ea496f6e5b17a50206fee4405b99713f1a919f
-      b36f813645d7fcb918de23305830c0a482d20d04165d37d30f2d6c2a
-      e84ed0b798f8cf3494aa7e28643365190888db3aac57522cadd9bfc2
-      89f86a5fbaeadd1754f7afdcedb1fd8be3aea488
-    ISK result: (length: 64 bytes)
-      73752856197a807728c28acc147a4ff08532bfd9f983f3d56e204bc7
-      777896d962cb70cb23e2d1ee789573d13d8a2a2bb4131e93c9be827f
-      01981d7932a619
+      4e555f5f49534b105b3773aa90e8f23c61563a4b645b276c30e6406a
+      79c7049287953f136c200c015e9b65972883aee5eb58b95dd9b96ae8
+      d0980f5e869768fc049cefa16fb5c5fdfb6104ce004f548156542325
+      f2f8eca9a8a328007d33aa283353b4608dd44a3d926276a0fb2000b4
+      fba0856ce01de5a78b2e9e98448e7859af2df1b6f2a1921af8a9a2ad
+      482f5cf25d63cb35cadf6077fc8c79964e6178536a69fecaf6f2ad95
+      007a92034144616104e35b85645e5d8321a2d349e285dbb3428fd709
+      ceabb1332d145e8815b4205215dcca324cac5fc5350511610c0b40bc
+      bf57f9429017d72c74800e1da20aa4d8cc0512c929cb326be3b6cdd5
+      f33e4e957f79cf7d6bc8c3543b175b3b20eae232
+    ISK result: (length: 48 bytes)
+      f0098a081504c1ee7bb139e9744fe554e3198c31dca2da7f882c6be4
+      4f4ee6bc764d322178f478d26edf084536ddfd6
 ~~~
 
 ###  Test vector for ISK calculation parallel execution
 
 ~~~
     ordered cat of transcript : (length: 204 bytes)
-      6104ea496f6e5b17a50206fee4405b99713f1a919fb36f813645d7fc
-      b918de23305830c0a482d20d04165d37d30f2d6c2ae84ed0b798f8cf
-      3494aa7e28643365190888db3aac57522cadd9bfc289f86a5fbaeadd
-      1754f7afdcedb1fd8be3aea488460341446261041fd07146117cf52b
-      9714082f7ddf6eb08542fea3f0eae67663961228aa2c52df3ac84fe0
-      e41937573ab5199dcbf0a15084041349f882af1ae924f408ee190c89
-      56cb7f7ac618743261f57e281af0e0a42c2cc304802dc8dc5d34d33b
-      512d0b860
+      6104e35b85645e5d8321a2d349e285dbb3428fd709ceabb1332d145e
+      8815b4205215dcca324cac5fc5350511610c0b40bcbf57f9429017d7
+      2c74800e1da20aa4d8cc0512c929cb326be3b6cdd5f33e4e957f79cf
+      7d6bc8c3543b175b3b20eae23259034144626104ce004f5481565423
+      25f2f8eca9a8a328007d33aa283353b4608dd44a3d926276a0fb2000
+      b4fba0856ce01de5a78b2e9e98448e7859af2df1b6f2a1921af8a9a2
+      ad482f5cf25d63cb35cadf6077fc8c79964e6178536a69fecaf6f2ad
+      95007a920
     input to final ISK hash: (length: 305 bytes)
       224350616365503338345f584d443a5348412d3338345f535357555f
-      4e555f5f49534b107e4b4791d6a8ef019b936c79fb7f2c5730c2ffb7
-      9b7adbf1abb25a4bbfddfe2707a2eaa7d45412f458a1bb7fe6f318d2
-      48be363fb1ece1385368769b98bc7b546e6104ea496f6e5b17a50206
-      fee4405b99713f1a919fb36f813645d7fcb918de23305830c0a482d2
-      0d04165d37d30f2d6c2ae84ed0b798f8cf3494aa7e28643365190888
-      db3aac57522cadd9bfc289f86a5fbaeadd1754f7afdcedb1fd8be3ae
-      a488460341446261041fd07146117cf52b9714082f7ddf6eb08542fe
-      a3f0eae67663961228aa2c52df3ac84fe0e41937573ab5199dcbf0a1
-      5084041349f882af1ae924f408ee190c8956cb7f7ac618743261f57e
-      281af0e0a42c2cc304802dc8dc5d34d33b512d0b
-    ISK result: (length: 64 bytes)
-      fc619d2d01e76b957a7b52f47d9dcedc62d2843bdd929c89254e979e
-      e84ed9fd00dc580b7592fbcfad7b6e11a7d41475e1c7d8269b29a5fc
-      b694149f6653ee
+      4e555f5f49534b105b3773aa90e8f23c61563a4b645b276c30e6406a
+      79c7049287953f136c200c015e9b65972883aee5eb58b95dd9b96ae8
+      d0980f5e869768fc049cefa16fb5c5fdfb6104e35b85645e5d8321a2
+      d349e285dbb3428fd709ceabb1332d145e8815b4205215dcca324cac
+      5fc5350511610c0b40bcbf57f9429017d72c74800e1da20aa4d8cc05
+      12c929cb326be3b6cdd5f33e4e957f79cf7d6bc8c3543b175b3b20ea
+      e23259034144626104ce004f548156542325f2f8eca9a8a328007d33
+      aa283353b4608dd44a3d926276a0fb2000b4fba0856ce01de5a78b2e
+      9e98448e7859af2df1b6f2a1921af8a9a2ad482f5cf25d63cb35cadf
+      6077fc8c79964e6178536a69fecaf6f2ad95007a
+    ISK result: (length: 48 bytes)
+      4f81f51c2104d0e9b4a618f4df3ef63cd31e6bb624a6b2760ad6a78e
+      9884ddc5458e4bf333ca80ba0bffe7e16555255
 ~~~
 
 ###  Corresponding ANSI-C initializers
@@ -1760,92 +1952,88 @@ const uint8_t tc_CI[] = {
  0x42,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,0x65,0x72,
 };
 const uint8_t tc_sid[] = {
- 0x7e,0x4b,0x47,0x91,0xd6,0xa8,0xef,0x01,0x9b,0x93,0x6c,0x79,
- 0xfb,0x7f,0x2c,0x57,
+ 0x5b,0x37,0x73,0xaa,0x90,0xe8,0xf2,0x3c,0x61,0x56,0x3a,0x4b,
+ 0x64,0x5b,0x27,0x6c,
 };
 const uint8_t tc_g[] = {
- 0x04,0x7a,0x15,0x03,0x62,0xb4,0xd7,0x7b,0x37,0xd1,0xaf,0x4a,
- 0x74,0x20,0x93,0x81,0x88,0x62,0x25,0xb8,0x69,0x32,0x8d,0xbb,
- 0x40,0xee,0x38,0x7c,0x1d,0xcf,0x65,0x6c,0x9a,0x57,0x1b,0xd8,
- 0x2d,0x00,0x83,0x87,0xfb,0xff,0xa1,0xb2,0xc0,0x71,0x86,0xdd,
- 0x9c,0xcd,0x7a,0xbe,0x0b,0xdc,0xf9,0xe7,0x90,0x0f,0x1b,0x21,
- 0x44,0xe3,0x91,0xad,0x07,0x8b,0x3b,0xac,0xb5,0xe4,0xea,0x2e,
- 0x8a,0x8c,0x95,0x98,0x1a,0x2e,0xf7,0x3f,0xa9,0x7d,0x3d,0x1e,
- 0x43,0x94,0xe6,0xc1,0x42,0x86,0x52,0xcc,0xa3,0x57,0x70,0x79,
- 0x2d,
+ 0x04,0x9a,0x23,0x97,0xfd,0x5c,0xf8,0xfa,0x3e,0xa3,0x4a,0xdf,
+ 0x5a,0x72,0xb4,0x65,0x16,0xeb,0x4c,0xc6,0xab,0x27,0x59,0x4d,
+ 0x40,0x40,0x5c,0x2f,0xc6,0x56,0x96,0x5b,0x04,0x1b,0x34,0xff,
+ 0xff,0x0f,0x6b,0x99,0xdb,0xc2,0xe8,0xc9,0x27,0x3b,0xa6,0xc9,
+ 0xa1,0xe7,0xea,0xe6,0xd0,0x76,0x94,0xdf,0x2e,0xb4,0x8e,0xa7,
+ 0x0b,0xe9,0x32,0x1f,0x0e,0x99,0x06,0xf8,0x32,0x7b,0xa2,0x0f,
+ 0x42,0xbf,0x66,0x33,0xfe,0x9d,0x7e,0x03,0xb7,0x08,0x95,0x62,
+ 0xbf,0x08,0x94,0x48,0xd2,0xea,0xac,0x9a,0x4c,0x6f,0xce,0x55,
+ 0x05,
 };
 const uint8_t tc_ya[] = {
- 0xef,0x43,0x3d,0xd5,0xad,0x14,0x2c,0x86,0x0e,0x7c,0xb6,0x40,
- 0x0d,0xd3,0x15,0xd3,0x88,0xd5,0xec,0x54,0x20,0xc5,0x50,0xe9,
- 0xd6,0xf0,0x90,0x7f,0x37,0x5d,0x98,0x8b,0xc4,0xd7,0x04,0x83,
- 0x7e,0x43,0x56,0x1c,0x49,0x7e,0x7d,0xd9,0x3e,0xdc,0xdb,0x9d,
+ 0x0d,0x3d,0x3d,0x5d,0xef,0xf6,0x2f,0xfc,0x36,0xd6,0xd4,0x5a,
+ 0xcb,0xb2,0x64,0x92,0x27,0xdd,0x93,0x1f,0xa8,0x69,0x21,0x80,
+ 0x5e,0xbf,0x2c,0x5a,0xdb,0xa4,0xff,0x0b,0x7f,0xe9,0x4a,0x9b,
+ 0x38,0x78,0xc0,0xcf,0x19,0x3f,0x65,0x72,0x30,0xbb,0xd0,0xbd,
 };
 const uint8_t tc_ADa[] = {
  0x41,0x44,0x61,
 };
 const uint8_t tc_Ya[] = {
- 0x04,0x1f,0xd0,0x71,0x46,0x11,0x7c,0xf5,0x2b,0x97,0x14,0x08,
- 0x2f,0x7d,0xdf,0x6e,0xb0,0x85,0x42,0xfe,0xa3,0xf0,0xea,0xe6,
- 0x76,0x63,0x96,0x12,0x28,0xaa,0x2c,0x52,0xdf,0x3a,0xc8,0x4f,
- 0xe0,0xe4,0x19,0x37,0x57,0x3a,0xb5,0x19,0x9d,0xcb,0xf0,0xa1,
- 0x50,0x84,0x04,0x13,0x49,0xf8,0x82,0xaf,0x1a,0xe9,0x24,0xf4,
- 0x08,0xee,0x19,0x0c,0x89,0x56,0xcb,0x7f,0x7a,0xc6,0x18,0x74,
- 0x32,0x61,0xf5,0x7e,0x28,0x1a,0xf0,0xe0,0xa4,0x2c,0x2c,0xc3,
- 0x04,0x80,0x2d,0xc8,0xdc,0x5d,0x34,0xd3,0x3b,0x51,0x2d,0x0b,
- 0x86,
+ 0x04,0xce,0x00,0x4f,0x54,0x81,0x56,0x54,0x23,0x25,0xf2,0xf8,
+ 0xec,0xa9,0xa8,0xa3,0x28,0x00,0x7d,0x33,0xaa,0x28,0x33,0x53,
+ 0xb4,0x60,0x8d,0xd4,0x4a,0x3d,0x92,0x62,0x76,0xa0,0xfb,0x20,
+ 0x00,0xb4,0xfb,0xa0,0x85,0x6c,0xe0,0x1d,0xe5,0xa7,0x8b,0x2e,
+ 0x9e,0x98,0x44,0x8e,0x78,0x59,0xaf,0x2d,0xf1,0xb6,0xf2,0xa1,
+ 0x92,0x1a,0xf8,0xa9,0xa2,0xad,0x48,0x2f,0x5c,0xf2,0x5d,0x63,
+ 0xcb,0x35,0xca,0xdf,0x60,0x77,0xfc,0x8c,0x79,0x96,0x4e,0x61,
+ 0x78,0x53,0x6a,0x69,0xfe,0xca,0xf6,0xf2,0xad,0x95,0x00,0x7a,
+ 0x92,
 };
 const uint8_t tc_yb[] = {
- 0x50,0xb0,0xe3,0x6b,0x95,0xa2,0xed,0xfa,0xa8,0x34,0x2b,0x84,
- 0x3d,0xdd,0xc9,0x0b,0x17,0x53,0x30,0xf2,0x39,0x9c,0x1b,0x36,
- 0x58,0x6d,0xed,0xda,0x3c,0x25,0x59,0x75,0xf3,0x0b,0xe6,0xa7,
- 0x50,0xf9,0x40,0x4f,0xcc,0xc6,0x2a,0x63,0x23,0xb5,0xe4,0x71,
+ 0xee,0xdd,0xc8,0x11,0x5e,0x25,0xc0,0xfa,0xa5,0xa9,0xc2,0x8d,
+ 0xd5,0xb9,0x73,0xac,0x3a,0x0c,0xd3,0xe0,0xd2,0x43,0x5d,0x3e,
+ 0xc0,0xb3,0xed,0x51,0xbc,0x28,0x6f,0x20,0x85,0xdf,0x0f,0x94,
+ 0xe8,0x12,0xcf,0xd4,0xe6,0x7a,0x87,0xbf,0xf4,0xae,0x73,0xbf,
 };
 const uint8_t tc_ADb[] = {
  0x41,0x44,0x62,
 };
 const uint8_t tc_Yb[] = {
- 0x04,0xea,0x49,0x6f,0x6e,0x5b,0x17,0xa5,0x02,0x06,0xfe,0xe4,
- 0x40,0x5b,0x99,0x71,0x3f,0x1a,0x91,0x9f,0xb3,0x6f,0x81,0x36,
- 0x45,0xd7,0xfc,0xb9,0x18,0xde,0x23,0x30,0x58,0x30,0xc0,0xa4,
- 0x82,0xd2,0x0d,0x04,0x16,0x5d,0x37,0xd3,0x0f,0x2d,0x6c,0x2a,
- 0xe8,0x4e,0xd0,0xb7,0x98,0xf8,0xcf,0x34,0x94,0xaa,0x7e,0x28,
- 0x64,0x33,0x65,0x19,0x08,0x88,0xdb,0x3a,0xac,0x57,0x52,0x2c,
- 0xad,0xd9,0xbf,0xc2,0x89,0xf8,0x6a,0x5f,0xba,0xea,0xdd,0x17,
- 0x54,0xf7,0xaf,0xdc,0xed,0xb1,0xfd,0x8b,0xe3,0xae,0xa4,0x88,
- 0x46,
+ 0x04,0xe3,0x5b,0x85,0x64,0x5e,0x5d,0x83,0x21,0xa2,0xd3,0x49,
+ 0xe2,0x85,0xdb,0xb3,0x42,0x8f,0xd7,0x09,0xce,0xab,0xb1,0x33,
+ 0x2d,0x14,0x5e,0x88,0x15,0xb4,0x20,0x52,0x15,0xdc,0xca,0x32,
+ 0x4c,0xac,0x5f,0xc5,0x35,0x05,0x11,0x61,0x0c,0x0b,0x40,0xbc,
+ 0xbf,0x57,0xf9,0x42,0x90,0x17,0xd7,0x2c,0x74,0x80,0x0e,0x1d,
+ 0xa2,0x0a,0xa4,0xd8,0xcc,0x05,0x12,0xc9,0x29,0xcb,0x32,0x6b,
+ 0xe3,0xb6,0xcd,0xd5,0xf3,0x3e,0x4e,0x95,0x7f,0x79,0xcf,0x7d,
+ 0x6b,0xc8,0xc3,0x54,0x3b,0x17,0x5b,0x3b,0x20,0xea,0xe2,0x32,
+ 0x59,
 };
 const uint8_t tc_K[] = {
- 0xc2,0xff,0xb7,0x9b,0x7a,0xdb,0xf1,0xab,0xb2,0x5a,0x4b,0xbf,
- 0xdd,0xfe,0x27,0x07,0xa2,0xea,0xa7,0xd4,0x54,0x12,0xf4,0x58,
- 0xa1,0xbb,0x7f,0xe6,0xf3,0x18,0xd2,0x48,0xbe,0x36,0x3f,0xb1,
- 0xec,0xe1,0x38,0x53,0x68,0x76,0x9b,0x98,0xbc,0x7b,0x54,0x6e,
+ 0xe6,0x40,0x6a,0x79,0xc7,0x04,0x92,0x87,0x95,0x3f,0x13,0x6c,
+ 0x20,0x0c,0x01,0x5e,0x9b,0x65,0x97,0x28,0x83,0xae,0xe5,0xeb,
+ 0x58,0xb9,0x5d,0xd9,0xb9,0x6a,0xe8,0xd0,0x98,0x0f,0x5e,0x86,
+ 0x97,0x68,0xfc,0x04,0x9c,0xef,0xa1,0x6f,0xb5,0xc5,0xfd,0xfb,
 };
 const uint8_t tc_ISK_IR[] = {
- 0x73,0x75,0x28,0x56,0x19,0x7a,0x80,0x77,0x28,0xc2,0x8a,0xcc,
- 0x14,0x7a,0x4f,0xf0,0x85,0x32,0xbf,0xd9,0xf9,0x83,0xf3,0xd5,
- 0x6e,0x20,0x4b,0xc7,0x77,0x78,0x96,0xd9,0x62,0xcb,0x70,0xcb,
- 0x23,0xe2,0xd1,0xee,0x78,0x95,0x73,0xd1,0x3d,0x8a,0x2a,0x2b,
- 0xb4,0x13,0x1e,0x93,0xc9,0xbe,0x82,0x7f,0x01,0x98,0x1d,0x79,
- 0x32,0xa6,0x19,0xc1,
+ 0xf0,0x09,0x8a,0x08,0x15,0x04,0xc1,0xee,0x7b,0xb1,0x39,0xe9,
+ 0x74,0x4f,0xe5,0x54,0xe3,0x19,0x8c,0x31,0xdc,0xa2,0xda,0x7f,
+ 0x88,0x2c,0x6b,0xe4,0x4f,0x4e,0xe6,0xbc,0x76,0x4d,0x32,0x21,
+ 0x78,0xf4,0x78,0xd2,0x6e,0xdf,0x08,0x45,0x36,0xdd,0xfd,0x6f,
 };
 const uint8_t tc_ISK_SY[] = {
- 0xfc,0x61,0x9d,0x2d,0x01,0xe7,0x6b,0x95,0x7a,0x7b,0x52,0xf4,
- 0x7d,0x9d,0xce,0xdc,0x62,0xd2,0x84,0x3b,0xdd,0x92,0x9c,0x89,
- 0x25,0x4e,0x97,0x9e,0xe8,0x4e,0xd9,0xfd,0x00,0xdc,0x58,0x0b,
- 0x75,0x92,0xfb,0xcf,0xad,0x7b,0x6e,0x11,0xa7,0xd4,0x14,0x75,
- 0xe1,0xc7,0xd8,0x26,0x9b,0x29,0xa5,0xfc,0xb6,0x94,0x14,0x9f,
- 0x66,0x53,0xee,0x1e,
+ 0x4f,0x81,0xf5,0x1c,0x21,0x04,0xd0,0xe9,0xb4,0xa6,0x18,0xf4,
+ 0xdf,0x3e,0xf6,0x3c,0xd3,0x1e,0x6b,0xb6,0x24,0xa6,0xb2,0x76,
+ 0x0a,0xd6,0xa7,0x8e,0x98,0x84,0xdd,0xc5,0x45,0x8e,0x4b,0xf3,
+ 0x33,0xca,0x80,0xba,0x0b,0xff,0xe7,0xe1,0x65,0x55,0x25,0x53,
 };
 ~~~
 
-##  Test vector for CPace using group NIST P-521 and hash SHAKE256
+##  Test vector for CPace using group NIST P-521 and hash SHAKE-256
 
 
 ###  Test vectors for calculate_generator with group NIST P-521
 
 ~~~
   Inputs
-    H   = SHAKE256 with input block size 136 bytes.
+    H   = SHAKE-256 with input block size 136 bytes.
     PRS = b'password' ; ZPAD length: 126 ;
     DSI = b'CPaceP521_XMD:SHA-512_SSWU_NU_'
     CI = b'\nAinitiator\nBresponder'
