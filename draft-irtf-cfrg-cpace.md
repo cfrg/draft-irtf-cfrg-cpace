@@ -22,7 +22,7 @@ author:
     email: bjoern.m.haase@web.de
  -  ins: J. Hesse
     name: Julia Hesse
-    org: IBM, Zürich Research Laboratory
+    org: IBM Research Europe - Zurich
     email: JHS@zurich.ibm.com
 
 normative:
