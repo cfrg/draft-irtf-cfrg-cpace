@@ -249,4 +249,31 @@ if __name__ == "__main__":
 
     for x in testCases:
         x.docOutput()
+        
+    input_scalar = 599189175373896402783756016145213256157230856085026129926891459468622403380588640249457727683869421921443004045221642549886377526240828
+    input_coor = 382239910814107330116229961234899377031416365240571325148346555922438025162094455820962429142971339584360034337310079791515452463053830
+    correct_output =  0xce3e4ff95a60dc6697da1db1d85e6afbdf79b50a2412d7546d5f239fe14fbaadeb445fc66a01b0779d98223961111e21766282f73dd96b6f
 
+    own_result = X448(IntegerToByteArray(input_scalar,57),IntegerToByteArray(input_coor,57))
+    own_result = bytes(reversed(own_result))
+
+    if correct_output == ByteArrayToInteger(own_result, 56):
+        print ("X448 result matches test vector.\n", ByteArrayToLEPrintString(own_result))
+    else:
+        print ("X448 result does not match:\n", 
+               ByteArrayToLEPrintString(own_result),"\n",
+               IntegerToLEPrintString(correct_output))
+    
+
+    input_scalar = 31029842492115040904895560451863089656472772604678260265531221036453811406496
+    input_coor =   34426434033919594451155107781188821651316167215306631574996226621102155684838
+    correct_output = 0xc3da55379de9c6908e94ea4df28d084f32eccf03491c71f754b4075577a28552
+
+    own_result = X25519(IntegerToByteArray(input_scalar),IntegerToByteArray(input_coor))
+    own_result = bytes(reversed(own_result))
+    if correct_output == ByteArrayToInteger(own_result, 32):
+        print ("X25519 result matches test vector.\n", ByteArrayToLEPrintString(own_result))
+    else:
+        print ("X25519 result does not match:\n", 
+               ByteArrayToLEPrintString(own_result),"\n",
+               IntegerToLEPrintString(correct_output))
