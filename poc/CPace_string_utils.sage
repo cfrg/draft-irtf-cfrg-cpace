@@ -198,3 +198,5 @@ def random_bytes(length):
         result += v.to_bytes(1, 'little')
     return result
 
+if __name__ == "__main__":
+	generate_testvectors_string_functions()

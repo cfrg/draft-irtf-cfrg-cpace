@@ -1,10 +1,11 @@
 import sys
+sys.path.append("sagelib")
 
 from sagelib.CPace_string_utils import *
 
 from sagelib.CPace_hashing import *
 
-from ristretto_decaf import *
+from sagelib.ristretto_decaf import *
 
 # Definitions for Ristretto and Decaf
 
