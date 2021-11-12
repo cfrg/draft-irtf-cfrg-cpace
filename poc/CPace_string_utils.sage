@@ -38,7 +38,7 @@ def ByteArrayToCInitializer(k, name, values_per_line = 12):
             result += "\n "
         n = (n + 1) % values_per_line;
         
-        result += ("0x%02x" %x) +","
+        result += ("0x%02x" % x) +","
     result += "\n};"
     return result
 
@@ -57,7 +57,7 @@ def tv_output_byte_array(data, test_vector_name = "", line_prefix = "  ", max_le
     chars_per_line = max_len - len(line_prefix)
     while True:
         print ("\n" + line_prefix + "  " + string[0:chars_per_line],end="", file = file)
-        string = string[chars_per_line:-1]
+        string = string[chars_per_line:]
         if len(string) == 0:
             print("\n",end="",file=file)
             return
