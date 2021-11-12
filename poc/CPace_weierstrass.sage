@@ -92,7 +92,7 @@ class G_ShortWeierstrass():
             return I2OSP(x,self.field_size_bytes)
         
     def calculate_generator(self, H, PRS, CI, sid, print_test_vector_info = False, file = sys.stdout ):
-        (gen_string, len_zpad) = generator_string(PRS, G.DSI,CI,sid,H.s_in_bytes)
+        (gen_string, len_zpad) = generator_string(PRS, self.DSI,CI,sid,H.s_in_bytes)
         result = self.map(gen_string)
         if print_test_vector_info:
             print ("\n###  Test vectors for calculate_generator with group "+self.name+"\n", file =file)
