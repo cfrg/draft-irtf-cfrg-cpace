@@ -1,18 +1,40 @@
 # borrowed from
 # https://github.com/kwantam/bls_sigs_ref/blob/master/sage-impl/Makefile
 
-SAGEFILES := $(basename $(notdir $(wildcard *.sage)))
+H2C_DIR := ./draft-irtf-cfrg-hash-to-curve/poc/
+VOPRF_DIR := ./draft-irtf-voprf/poc/
+
+SAGEFILES := $(basename $(notdir $(wildcard *.sage))) \
+             $(basename $(notdir $(wildcard $(H2C_DIR)/*.sage))) \
+             $(basename $(notdir $(wildcard $(VOPRF_DIR)/*.sage)))
+             
+             
 PYFILES := $(addprefix sagelib/, $(addsuffix .py,$(SAGEFILES)))
 .PRECIOUS: $(PYFILES)
 
 .PHONY: pyfiles
 pyfiles: sagelib/__init__.py $(PYFILES)
 
+print:
+#	echo $(wildcard ./draft-irtf-cfrg-hash-to-curve/poc/*.sage)
+#	echo $(wildcard $(H2C_DIR)*.sage)
+	echo $(SAGEFILES)
+	
 sagelib/__init__.py:
 	mkdir -p sagelib
 	echo pass > sagelib/__init__.py
 
 sagelib/%.py: %.sage
+	@echo "Parsing $<"
+	@sage --preparse $<
+	@mv $<.py $@
+
+sagelib/%.py: $(H2C_DIR)%.sage
+	@echo "Parsing $<"
+	@sage --preparse $<
+	@mv $<.py $@
+
+sagelib/%.py: $(VOPRF_DIR)%.sage
 	@echo "Parsing $<"
 	@sage --preparse $<
 	@mv $<.py $@
