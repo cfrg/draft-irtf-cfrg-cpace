@@ -9,7 +9,7 @@ SAGEFILES := $(basename $(notdir $(wildcard *.sage))) \
              $(basename $(notdir $(wildcard $(VOPRF_DIR)*.sage)))
              
              
-PYFILES := $(addprefix sagelib/, $(addsuffix .py,$(SAGEFILES)))
+PYFILES := $(addprefix sagelib/, $(addsuffix .py,$(SAGEFILES))) sagelib/hash_to_field.py
 .PRECIOUS: $(PYFILES)
 
 .PHONY: pyfiles
@@ -17,13 +17,17 @@ pyfiles: sagelib/__init__.py $(PYFILES)
 
 print:
 #	echo $(wildcard ./draft-irtf-cfrg-hash-to-curve/poc/*.sage)
-	echo $(wildcard ./draft-irtf-voprf/poc/*.sage)
-#	echo $(SAGEFILES)
+#	echo $(wildcard ./draft-irtf-cfrg-voprf/poc/*.sage)
+	echo $(PYFILES)
 	
 sagelib/__init__.py:
 	mkdir -p sagelib
 	echo pass > sagelib/__init__.py
 
+sagelib/%.py: $(H2C_DIR)%.py
+	@echo "Copying $<"
+	@cp $< $@
+	
 sagelib/%.py: %.sage
 	@echo "Parsing $<"
 	@sage --preparse $<
