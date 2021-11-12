@@ -1,3 +1,5 @@
+from sagelib.CPace_string_utils import *
+
 ########## Definitions from RFC 7748 ##################
 
 def decodeLittleEndian(b, bits):
@@ -173,3 +175,78 @@ def X__(encoded_scalar, basepoint, scalar_decoder=decodeScalar25519,
     resultCoordinate = resultPoint_u / d
 
     return encodeUCoordinate(Integer(resultCoordinate),num_bits_for_field)
+    
+class X25519_testCase:
+    def __init__(self,u_in, s_in, u_out):
+        self.u_in = u_in
+        self.s_in = s_in
+        self.u_out = u_out
+
+    def runTest(self):
+        us = IntegerToByteArray(self.u_in)
+        ss = IntegerToByteArray(self.s_in)
+        r  = encodeUCoordinate(self.u_out,256)
+        u = X25519(ss,us, unclamped_basepoint = True)
+        if (u != r):
+            print ("Fail")
+            print ("Input u :\n0x%032x\n" % self.u_in)
+            print ("Input s :\n0x%032x\n" % self.s_in)
+            print ("Correct Result :\n0x%032x\n" % self.u_out)
+            print ("Actual Result :\n0x%032x\n" % decodeLittleEndian(u,256))
+            return False
+        print ("Pass")
+        return True
+    
+    def docOutput(self):
+        print ("Test case for X25519:")
+        print ("u:"),
+        print (IntegerToLEPrintString(self.u_in))
+        print ("s:"),
+        print (IntegerToLEPrintString(self.s_in))
+        print ("r:"),
+        print (IntegerToLEPrintString(self.u_out))
+            
+if __name__ == "__main__":
+    testCases = []
+
+    tv = \
+        X25519_testCase(0x4c1cabd0a603a9103b35b326ec2466727c5fb124a4c19435db3030586768dbe6,\
+                        0xc49a44ba44226a50185afcc10a4c1462dd5e46824b15163b9d7c52f06be346a5,\
+                        0x5285a2775507b454f7711c4903cfec324f088df24dea948e90c6e99d3755dac3)
+    testCases.append(tv)
+
+    tv = X25519_testCase(0x13a415c749d54cfc3e3cc06f10e7db312cae38059d95b7f4d3116878120f21e5,\
+                         0xdba18799e16a42cd401eae021641bc1f56a7d959126d25a3c67b4d1d4e9664b,\
+                         0x5779ac7a64f7f8e652a19f79685a598bf873b8b45ce4ad7a7d90e87694decb95)
+    testCases.append(tv)
+
+    tv = X25519_testCase(0,\
+                         0xc49a44ba44226a50185afcc10a4c1462dd5e46824b15163b9d7c52f06be346a5,\
+                     0)
+    testCases.append(tv)
+    
+    weakp = []
+    weakp.append(0)
+    weakp.append(1)
+    weakp.append(325606250916557431795983626356110631294008115727848805560023387167927233504) #(which has order 8)
+    weakp.append(39382357235489614581723060781553021112529911719440698176882885853963445705823) #(which also has order 8)
+    weakp.append(2^255 - 19 - 1)
+    weakp.append(2^255 - 19)
+    weakp.append(2^255 - 19 + 1)
+    weakp.append(2^255 - 19 + 325606250916557431795983626356110631294008115727848805560023387167927233504)
+    weakp.append(2^255 - 19 + 39382357235489614581723060781553021112529911719440698176882885853963445705823)
+    weakp.append(2 * (2^255 - 19) - 1)
+    weakp.append(2 * (2^255 - 19))
+    weakp.append(2 * (2^255 - 19) + 1)
+
+    s_in = 0xff9a44ba44226a50185afcc10a4c1462dd5e46824b15163b9d7c52f06be346af;
+    for x in weakp:
+        tv = X25519_testCase (x,s_in,0)
+        testCases.append(tv)
+
+    for x in testCases:
+        x.runTest()
+
+    for x in testCases:
+        x.docOutput()
+
