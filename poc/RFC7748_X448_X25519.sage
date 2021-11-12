@@ -19,9 +19,11 @@ def decodeUCoordinate(u, bits):
     return decodeLittleEndian(u_list, bits)
 
 def encodeUCoordinate(u, bits):
-    u = Integer(u)
-    return ''.join([chr((u >> 8*i) & 0xff)
-                    for i in range(floor((bits+7)/8))])
+    num_bytes = floor((bits+7)/8)
+    result = bytearray(num_bytes)
+    for i in range(num_bytes):
+    	result[i] = (Integer(u) >> 8*i) & 0xff
+    return bytes(result)
 
 def decodeScalar25519(k):
     k_list = string_or_bytes_to_list(k)    
@@ -37,8 +39,11 @@ def decodeScalar448(k):
     return decodeLittleEndian(k_list, 448)
 
 def encodeScalar(u, bits):
-    return ''.join([chr((Integer(u) >> 8*i) & 0xff)
-                    for i in range(floor((bits+7)/8))])
+    num_bytes = floor((bits+7)/8)
+    result = bytearray(num_bytes)
+    for i in range(num_bytes):
+    	result[i] = (Integer(u) >> 8*i) & 0xff
+    return bytes(result)
 
 ########## Additions ##################
 
