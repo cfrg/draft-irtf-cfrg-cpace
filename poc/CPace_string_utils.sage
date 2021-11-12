@@ -1,7 +1,15 @@
 import sys
 
 def ByteArrayToInteger(k,numBytes=32):
-    return sum((k[i] << (8 * i)) for i in range(len(k)))
+    try:
+        k_list = [ord(b) for b in k]
+    except:
+        k_list = [b for b in k]
+ 
+    if numBytes < len(k_list):
+    	numBytes = len(k_list)
+    	
+    return sum((k_list[i] << (8 * i)) for i in range(len(numBytes)))
 
 def IntegerToByteArray(k,numBytes = 32):
     result = bytearray(numBytes);

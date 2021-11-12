@@ -1,7 +1,8 @@
 ########## Definitions from RFC 7748 ##################
 
 def decodeLittleEndian(b, bits):
-    return sum([b[i] << 8*i for i in range(floor((bits+7)/8))])
+    b_list = string_or_bytes_to_list(b)
+    return sum([b_list[i] << 8*i for i in range(floor((bits+7)/8))])
 
 def string_or_bytes_to_list(u):
     try:
@@ -75,11 +76,11 @@ def Inverse_X25519(scalar,basepoint):
                warnForPointOnTwist = warnForPointOnTwist,
                A = 486662, field_prime = 2^255-19)
 
-def X25519(scalar, basepoint, warnForPointOnTwist = True):
+def X25519(scalar, basepoint, warnForPointOnTwist = True, unclamped_basepoint = False):
     return X__(scalar, basepoint, 
                scalar_decoder = decodeScalar25519, 
                warnForPointOnTwist = warnForPointOnTwist, 
-               A = 486662, field_prime = 2^255-19)
+               A = 486662, field_prime = 2^255-19, unclamped_basepoint = unclamped_basepoint)
 
 
 ########## X448 ##################
@@ -135,7 +136,7 @@ def get_nonsquare(F):
 
 def X__(encoded_scalar, basepoint, scalar_decoder=decodeScalar25519, 
         warnForPointOnTwist = True, 
-        A = 486662, field_prime = 2^255-19):
+        A = 486662, field_prime = 2^255-19, unclamped_basepoint = False):
     """Implements scalar multiplication for both, X448 and X25519."""
     num_bytes_for_field = ceil(log(field_prime,2) / 8)
     num_bits_for_field = ceil(log(float(field_prime),2))
@@ -145,7 +146,10 @@ def X__(encoded_scalar, basepoint, scalar_decoder=decodeScalar25519,
     E = EllipticCurve(F, [0, A , 0, 1 , 0])
     Twist = EllipticCurve(F, [0, A * nonsquare, 0, 1 * nonsquare^2, 0])
 
-    u = F(decodeUCoordinate(basepoint, num_bits_for_field))
+    if unclamped_basepoint:
+        u = F(decodeUCoordinate(basepoint, num_bits_for_field + 1))
+    else:
+        u = F(decodeUCoordinate(basepoint, num_bits_for_field))
     scalar = scalar_decoder(encoded_scalar)
 
     d = 1
