@@ -18,9 +18,9 @@ def decodeUCoordinate(u, bits):
     return decodeLittleEndian(u_list, bits)
 
 def encodeUCoordinate(u, bits):
-    u = Integer(u) % p
+    u = Integer(u)
     return ''.join([chr((u >> 8*i) & 0xff)
-                    for i in range((bits+7)/8)])
+                    for i in range(floor((bits+7)/8))])
 
 def decodeScalar25519(k):
     k_list = string_or_bytes_to_list(k)    
@@ -34,6 +34,10 @@ def decodeScalar448(k):
     k_list[0] &= 252
     k_list[55] |= 128
     return decodeLittleEndian(k_list, 448)
+
+def encodeScalar(u, bits):
+    return ''.join([chr((Integer(u) >> 8*i) & 0xff)
+                    for i in range(floor((bits+7)/8))])
 
 ########## Additions ##################
 
@@ -53,15 +57,19 @@ def decodeUnclampedScalar(k):
 
 ########## X25519 ##################
 
+A_Curve25519 = 486662
+q_Curve25519 = 2^255-19
+
 # all inputs to be given as byte array.
 def Inverse_X25519(scalar,basepoint):
     OrderPrimeSubgroup = 2^252 + 27742317777372353535851937790883648493
+    num_bytes_for_field = ceil(log(q_Curve25519,2) / 8)
     SF = GF(OrderPrimeSubgroup)
     coFactor = 8
     scalar_clamped = decodeScalar25519(scalar)
     inverse_scalar = 1 /  (SF(scalarClamped) * coFactor)
     inverse_scalar_int = Integer(inverse_scalar) * coFactor
-    inverse_scalar = IntegerToByteArray(inverse_scalar_int)
+    inverse_scalar = encodeScalar(inverse_scalar_int,num_bytes_for_field * 8)
     return X__(basepoint,inverse_scalar,
                scalar_decoder=decodeScalarForInverse25519,
                warnForPointOnTwist = warnForPointOnTwist,
@@ -73,8 +81,6 @@ def X25519(scalar, basepoint, warnForPointOnTwist = True):
                warnForPointOnTwist = warnForPointOnTwist, 
                A = 486662, field_prime = 2^255-19)
 
-A_Curve25519 = 486662
-q_Curve25519 = 2^255-19
 
 ########## X448 ##################
 
@@ -91,7 +97,7 @@ def Inverse_X448(scalar,basepoint):
     scalar_clamped = decodeScalar448(scalar)
     inverse_scalar = 1 /  (SF(scalarClamped) * coFactor)
     inverse_scalar_int = Integer(inverse_scalar) * coFactor
-    inverse_scalar = IntegerToByteArray(inverse_scalar_int,num_bytes_for_field)
+    inverse_scalar = encodeScalar(inverse_scalar_int,num_bytes_for_field * 8)
     return X__(basepoint,inverse_scalar,
                scalar_decoder=decodeScalarForInverse448,
                warnForPointOnTwist = warnForPointOnTwist,
@@ -108,7 +114,8 @@ def X448(scalar, basepoint, warnForPointOnTwist = True):
 def is_on_curve(basepoint, A = 486662, field_prime = 2^255-19):
     F = GF(field_prime)
     A = F(A)
-    u = F(ByteArrayToInteger(basepoint))
+    num_bits_for_field = ceil(log(float(field_prime),2))
+    u = F(decodeUCoordinate(basepoint, num_bits_for_field))
     v2 = u^3 + A*u^2 + u
     if not v2.is_square():
         return  False
@@ -131,13 +138,14 @@ def X__(encoded_scalar, basepoint, scalar_decoder=decodeScalar25519,
         A = 486662, field_prime = 2^255-19):
     """Implements scalar multiplication for both, X448 and X25519."""
     num_bytes_for_field = ceil(log(field_prime,2) / 8)
+    num_bits_for_field = ceil(log(float(field_prime),2))
     F = GF(Integer(field_prime))
     A = F(A)
     nonsquare = get_nonsquare(F)
     E = EllipticCurve(F, [0, A , 0, 1 , 0])
     Twist = EllipticCurve(F, [0, A * nonsquare, 0, 1 * nonsquare^2, 0])
 
-    u = F(ByteArrayToInteger(basepoint,numBytes = num_bytes_for_field))
+    u = F(decodeUCoordinate(basepoint, num_bits_for_field))
     scalar = scalar_decoder(encoded_scalar)
 
     d = 1
@@ -154,5 +162,5 @@ def X__(encoded_scalar, basepoint, scalar_decoder=decodeScalar25519,
     point = E(u, v)
     (resultPoint_u, resultPoint_v, result_Point_z) = point * scalar
     resultCoordinate = resultPoint_u / d
-    
-    return IntegerToByteArray(Integer(resultCoordinate),numBytes = num_bytes_for_field)
+
+    return encodeUCoordinate(Integer(resultCoordinate),num_bits_for_field)
