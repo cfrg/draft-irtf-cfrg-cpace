@@ -57,7 +57,8 @@ class G_CoffeeEcosystem():
             print ("~~~", file = file)
             print ("  Inputs", file = file)
             print ("    H   =", H.name, "with input block size", H.s_in_bytes, "bytes.", file = file)
-            print ("    PRS =", PRS, "; ZPAD length:", len_zpad,"; DSI =", self.DSI, file = file)
+            print ("    PRS =", PRS, "; ZPAD length:", len_zpad,";\n" +
+                   "    DSI =", self.DSI, file = file)
             print ("    CI =", CI, file = file)
             print ("    CI =", ByteArrayToLEPrintString(CI), file = file)
             print ("    sid =", ByteArrayToLEPrintString(sid), file = file)

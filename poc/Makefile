@@ -27,10 +27,6 @@ sagelib/__init__.py:
 	mkdir -p sagelib
 	echo pass > sagelib/__init__.py
 
-sagelib/%.py: $(H2C_DIR)%.py
-	@echo "Copying $<"
-	@cp $< $@
-	
 sagelib/%.py: %.sage
 	@echo "Parsing $<"
 	@sage --preparse $<
@@ -45,6 +41,10 @@ sagelib/%.py: $(VOPRF_DIR)%.sage
 	@echo "Parsing $<"
 	@sage --preparse $<
 	@mv $<.py $@
+
+sagelib/%.py: $(H2C_DIR)%.py
+	@echo "Copying $<"
+	@cp $< $@
 
 test: pyfiles
 	sage test.sage
