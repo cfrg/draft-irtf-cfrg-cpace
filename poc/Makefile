@@ -20,6 +20,9 @@ print:
 #	echo $(wildcard ./draft-irtf-cfrg-voprf/poc/*.sage)
 	echo $(PYFILES)
 	
+testvectors: $(PYFILES)
+	sage CPace_testvectors.sage
+	
 sagelib/__init__.py:
 	mkdir -p sagelib
 	echo pass > sagelib/__init__.py

@@ -7,10 +7,10 @@ from sagelib.CPace_hashing import *
 
 
 def output_test_vectors_for_weak_points_255(file = sys.stdout):
-    print ("\n## Test vectors for X25519 low order points\n",file = file)
-    print ("Points that need to return neutral element when input to", file = file)
-    print ("plain X25519 that also accept un-normalized inputs with", file = file)
-    print ("bit #255 set in the input point encoding.", file = file)
+    print ("\n## Test vectors for G_X25519.scalar_mult_vfy: low order points\n",file = file)
+    print ("Test vectors for which G_X25519.scalar_mult_vfy(s_in,ux) must return the neutral", file = file)
+    print("element or would return the neutral element if bit #255 of field element", file = file)
+    print ("representation was not correctly cleared. (The decodeUCoordinate function from RFC7748 mandates clearing bit #255 for field element representations for use in the X25519 function.).", file = file)
     print ("\n~~~", file = file)
 
     s_in = 0xff9a44ba44226a50185afcc10a4c1462dd5e46824b15163b9d7c52f06be346af;
@@ -39,21 +39,21 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
         print ("u"+'{:01x}'.format(ctr)+":",IntegerToLEPrintString(x), file = file);
         ctr += 1;
     
-    print ("\nResults for X25519 implementations not clearing bit #255:", file = file)
-    print ("(i.e. with X25519 not implemented according to RFC7748!):", file = file)
+#    print ("\nResults for X25519 implementations not clearing bit #255:", file = file)
+#    print ("(i.e. with X25519 not implemented according to RFC7748!):", file = file)
+#    print ("s =", IntegerToLEPrintString(s_in), file = file);
+#    print ("rN = X25519(s,uX);", file = file)
+#    ctr=0;
+#    for x in weakp:
+#        r = X25519(encodeScalar(s_in,256), encodeUCoordinate(x,256),warnForPointOnTwist=0,unclamped_basepoint = True);
+#        r = decodeLittleEndian(r,256)
+#        print ("r"+'{:01x}'.format(ctr)+":",IntegerToLEPrintString(r), file = file);
+#        ctr += 1;
+#
+#    print ("\nResults for X25519 implementations that clear bit #255:", file = file)
+#    print ("(i.e. implemented according to RFC7748!):", file = file)
     print ("s =", IntegerToLEPrintString(s_in), file = file);
-    print ("rN = X25519(s,uX);", file = file)
-    ctr=0;
-    for x in weakp:
-        r = X25519(encodeScalar(s_in,256), encodeUCoordinate(x,256),warnForPointOnTwist=0,unclamped_basepoint = True);
-        r = decodeLittleEndian(r,256)
-        print ("r"+'{:01x}'.format(ctr)+":",IntegerToLEPrintString(r), file = file);
-        ctr += 1;
-
-    print ("\nResults for X25519 implementations that clear bit #255:", file = file)
-    print ("(i.e. implemented according to RFC7748!):", file = file)
-    print ("s =", IntegerToLEPrintString(s_in), file = file);
-    print ("qN = X25519(s, uX & ((1 << 255) - 1));", file = file)
+    print ("qN = G_X25519.scalar_mult_vfy(s, uX)", file = file)
     ctr=0;
     for x in weakp:
         q = X25519(encodeScalar(s_in,256), encodeUCoordinate(x,256),warnForPointOnTwist=0);
@@ -65,9 +65,11 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
 
 
 def output_test_vectors_for_weak_points_448(file = sys.stdout):
-    print ("\n## Test vectors for X448 low order points\n",file = file)
-    print ("Points that need to return neutral element when input to", file = file)
-    print ("plain X448 that also accept non-canonical inputs larger", file = file)
+    print ("\n## Test vectors for G_X448.scalar_mult_vfy: low order points\n",file = file)
+    print ("Test vectors for which G_X448.scalar_mult_vfy(s_in,ux) must return the neutral", file = file)
+    print("element", file = file)
+    print ("This includes points that are non-canonicaly encoded, i.e. have coordinate values", file = file)
+    print ("larger", file = file)
     print ("than the field prime.", file = file)
 
     s = b""
@@ -103,7 +105,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
         ctr += 1;
     print ("~~~", file = file)
     
-    print ("\n### Expected results for X448\n",file = file)
+    print ("\n### Expected results for X448 resp. G_X448.scalar_mult_vfy\n",file = file)
     ctr=0;
     print ("~~~", file = file)
     tv_output_byte_array(s, 
@@ -114,7 +116,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
         res = decodeUCoordinate(res,448)
         res = IntegerToByteArray(res,56)
         tv_output_byte_array(res, 
-                         test_vector_name = 'X448(s,u%i)' % ctr, 
+                         test_vector_name = 'G_X448.scalar_mult_vfy(s,u%i)' % ctr, 
                          line_prefix = "  ", max_len = 60, file = file);
         ctr += 1;
 
@@ -123,12 +125,47 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
         res = decodeUCoordinate(res,448)
         res = IntegerToByteArray(res,56)
         tv_output_byte_array(res, 
-                         test_vector_name = 'X448(s,u%i)' % ctr, 
+                         test_vector_name = 'G_X448.scalar_mult_vfy(s,u%i)' % ctr, 
                          line_prefix = "  ", max_len = 60, file = file);
         ctr += 1;
     print ("~~~\n", file = file)
+    print ("\n### Test vectors with nonzero outputs\n",file = file)
+ 
+    print ("~~~", file = file)
+    u_curve = H_SHAKE256().hash(b"valid_",56)
+    res_curve = X448(s,u_curve,warnForPointOnTwist = True)
+    res_curve = decodeUCoordinate(res_curve,448)
+    res_curve = IntegerToByteArray(res_curve,56)
+    
+    tv_output_byte_array(s, 
+                         test_vector_name = 'scalar s', 
+                         line_prefix = "  ", max_len = 60, file = file);
+    tv_output_byte_array(u_curve, 
+                         test_vector_name = 'point coordinate u_curve on the curve', 
+                         line_prefix = "  ", max_len = 60, file = file);
+    tv_output_byte_array(res_curve, 
+                         test_vector_name = 'G_X448.scalar_mult_vfy(s,u_curve)', 
+                         line_prefix = "  ", max_len = 60, file = file);
+                         
+    print ("", file = file)
+    u_twist = H_SHAKE256().hash(b" point on twist ",56)
+    res_twist = X448(s,u_twist,warnForPointOnTwist = False)
+    res_twist = decodeUCoordinate(res_twist,448)
+    res_twist = IntegerToByteArray(res_twist,56)
+                         
+    tv_output_byte_array(u_twist, 
+                         test_vector_name = 'point coordinate u_twist on the twist', 
+                         line_prefix = "  ", max_len = 60, file = file);
+    tv_output_byte_array(res_twist, 
+                         test_vector_name = 'G_X448.scalar_mult_vfy(s,u_twist)', 
+                         line_prefix = "  ", max_len = 60, file = file);
+                         
+                     
+    print ("~~~\n", file = file)
+
 
 
 if __name__ == "__main__":
-    output_test_vectors_for_weak_points_255()
     output_test_vectors_for_weak_points_448()
+    output_test_vectors_for_weak_points_255()
+

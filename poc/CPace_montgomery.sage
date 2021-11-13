@@ -29,6 +29,70 @@ class G_Montgomery:
             u_list[-1] &= (1<<(self.field_size_bits%8))-1
         return self.decodeLittleEndian(u_list)
 
+    def output_markdown_description_for_decodeUCoordinate(self, file = sys.stdout):
+    	print ("""
+
+## Decoding and Encoding functions according to RFC7748
+
+~~~
+   def decodeLittleEndian(b, bits):
+       return sum([b[i] << 8*i for i in range((bits+7)/8)])
+
+   def decodeUCoordinate(u, bits):
+       u_list = [ord(b) for b in u]
+       # Ignore any unused bits.
+       if bits % 8:
+           u_list[-1] &= (1<<(bits%8))-1
+       return decodeLittleEndian(u_list, bits)
+
+   def encodeUCoordinate(u, bits):
+       u = u % p
+       return ''.join([chr((u >> 8*i) & 0xff)
+                       for i in range((bits+7)/8)])
+~~~
+
+"""             , file = file);
+
+
+    def output_markdown_description_for_elligator2(self,file = sys.stdout):
+    	print (
+"""
+## Elligator 2 reference implementation
+The Elligator 2 map requires a non-square field element Z which shall be calculated
+as follows.
+~~~
+    def find_z_ell2(F): 
+        # Find nonsquare for Elligator2
+        # Argument: F, a field object, e.g., F = GF(2^255 - 19) 
+        ctr = F.gen()
+        while True:
+            for Z_cand in (F(ctr), F(-ctr)):
+                # Z must be a non-square in F.
+                if is_square(Z_cand):
+                    continue
+                return Z_cand
+            ctr += 1
+~~~
+The following code maps a field element r to an encoded field element which
+is a valid u-coordinate of a Montgomery curve with curve parameter A.
+~~~
+    def elligator2(r, q, A, field_size_bits):
+        # Inputs: field element r, field order q,
+        #         curve parameter A and field size in bits
+        Fq = GF(q); A = Fq(A); B = Fq(1);
+    
+        # calculate non-square z as specified in the hash2curve draft.
+        z = Fq(find_z_ell2(Fq))
+        powerForLegendreSymbol = floor((q-1)/2)
+    
+        v = - A / (1 + z * r^2)
+        epsilon = (v^3 + A * v^2 + B * v)^powerForLegendreSymbol
+        x = epsilon * v - (1 - epsilon) * A/2
+        return encodeUCoordinate(Integer(x), field_size_bits)
+~~~
+
+"""         , file = file);
+    	
     def encodeUCoordinate(self,u):
         u = u % self.q
         return IntegerToByteArray(u,self.field_size_bytes)
@@ -126,3 +190,8 @@ class G_X448(G_Montgomery):
     def scalar_mult_vfy(self,scalar,point):
         return X448(scalar,point) # yet no definition for X448 in this script file
 
+if __name__ == "__main__":
+	G = G_X448()
+	G.output_markdown_description_for_decodeUCoordinate()
+	G.output_markdown_description_for_elligator2()
+	
