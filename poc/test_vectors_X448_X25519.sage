@@ -7,7 +7,7 @@ from sagelib.CPace_hashing import *
 
 
 def output_test_vectors_for_weak_points_255(file = sys.stdout):
-    print ("\n## Test vectors for G_X25519.scalar_mult_vfy: low order points\n",file = file)
+    print ("\n### Test vectors for G_X25519.scalar_mult_vfy: low order points\n",file = file)
     print ("Test vectors for which G_X25519.scalar_mult_vfy(s_in,ux) must return the neutral", file = file)
     print("element or would return the neutral element if bit #255 of field element", file = file)
     print ("representation was not correctly cleared. (The decodeUCoordinate function from RFC7748 mandates clearing bit #255 for field element representations for use in the X25519 function.).", file = file)
@@ -65,7 +65,7 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
 
 
 def output_test_vectors_for_weak_points_448(file = sys.stdout):
-    print ("\n## Test vectors for G_X448.scalar_mult_vfy: low order points\n",file = file)
+    print ("\n### Test vectors for G_X448.scalar_mult_vfy: low order points\n",file = file)
     print ("Test vectors for which G_X448.scalar_mult_vfy(s_in,ux) must return the neutral", file = file)
     print("element", file = file)
     print ("This includes points that are non-canonicaly encoded, i.e. have coordinate values", file = file)
@@ -88,7 +88,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
         weakp.append(wp)
 
     ctr=0;
-    print ("\n### Weak points for X448 smaller than the field prime (canonical)\n",file = file)
+    print ("\nWeak points for X448 smaller than the field prime (canonical)\n",file = file)
     print ("~~~", file = file)
     for x in weak_pts448:
         tv_output_byte_array(x, 
@@ -96,7 +96,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          line_prefix = "  ", max_len = 60, file = file);
         ctr += 1;
     print ("~~~", file = file)
-    print ("\n### Weak points for X448 larger or equal to the field prime (non-canonical)\n",file = file)
+    print ("\nWeak points for X448 larger or equal to the field prime (non-canonical)\n",file = file)
     print ("~~~", file = file)
     for x in nc_weak_pts448:
         tv_output_byte_array(x, 
@@ -105,7 +105,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
         ctr += 1;
     print ("~~~", file = file)
     
-    print ("\n### Expected results for X448 resp. G_X448.scalar_mult_vfy\n",file = file)
+    print ("\nExpected results for X448 resp. G_X448.scalar_mult_vfy\n",file = file)
     ctr=0;
     print ("~~~", file = file)
     tv_output_byte_array(s, 
@@ -129,7 +129,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          line_prefix = "  ", max_len = 60, file = file);
         ctr += 1;
     print ("~~~\n", file = file)
-    print ("\n### Test vectors with nonzero outputs\n",file = file)
+    print ("\nTest vectors for scalar_mult with nonzero outputs\n",file = file)
  
     print ("~~~", file = file)
     u_curve = H_SHAKE256().hash(b"valid_",56)

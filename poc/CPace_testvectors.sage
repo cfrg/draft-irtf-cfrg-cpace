@@ -15,20 +15,24 @@ def CPace_ISK(H, DSI,sid,K,MSGa,MSGb,doPrint = 1, symmetric_execution = False, f
         if doPrint:
             print ("\n###  Test vector for ISK calculation parallel execution\n", file=file)
             print ("~~~", file=file)
-        tv_output_byte_array(concatenated_msg_transcript, test_vector_name = "ordered cat of transcript ", 
+            tv_output_byte_array(concatenated_msg_transcript, test_vector_name = "ordered cat of transcript ", 
                          line_prefix = "    ", max_len = 60, file=file)
+            cat_string = "oCAT(MSGa,MSGb)"
     else:
         concatenated_msg_transcript = MSGa + MSGb
         if doPrint:
             print ("\n###  Test vector for ISK calculation initiator/responder\n", file=file)
             print ("~~~", file=file)
-        tv_output_byte_array(concatenated_msg_transcript, test_vector_name = "unordered cat of transcript ", 
+            tv_output_byte_array(concatenated_msg_transcript, test_vector_name = "unordered cat of transcript ", 
                          line_prefix = "    ", max_len = 60, file=file)
-        
-    string = prefix_free_cat(DSI,sid,K)+ concatenated_msg_transcript
+            cat_string = "MSGa || MSGb"
+
+    string = prefix_free_cat(DSI,sid,K) + concatenated_msg_transcript
     ISK = H.hash(string)
     if doPrint:
-        tv_output_byte_array(string, test_vector_name = "input to final ISK hash", 
+        tv_output_byte_array(DSI, test_vector_name = "G.DSI_ISK, " + str(DSI), 
+                         line_prefix = "    ", max_len = 60, file=file)
+        tv_output_byte_array(string, test_vector_name = "prefix_free_cat(G.DSI,sid,K) || " + cat_string, 
                          line_prefix = "    ", max_len = 60, file=file)
         tv_output_byte_array(ISK, test_vector_name = "ISK result", 
                          line_prefix = "    ", max_len = 60, file=file)
