@@ -19,7 +19,7 @@ class G_CoffeeEcosystem():
         self.name = coffee_point_class.name
         
         self.I = (coffee_point_class.map(H_SHAKE256().hash(b"1234",self.field_size_bytes * 2)) * 0).encode()
-        self.DSI = b"CPace" + self.name.encode("ascii")
+        self.DSI = b"CPace" + (self.name.title()).encode("ascii") # use .title() for capitalizing first letter.
         self.DSI_ISK = self.DSI + b"_ISK"
         self.encoding_of_scalar = "little endian"
 
@@ -71,3 +71,44 @@ class G_CoffeeEcosystem():
             print ("~~~\n", file = file)
         return result.encode()
 
+def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
+    X = G.calculate_generator( H_SHAKE256(), b"Password", b"CI", b"sid")
+    y = G.sample_scalar(deterministic_scalar_for_test_vectors= b"yes we want it")
+    K = G.scalar_mult_vfy(y,X)
+    Z = G.scalar_mult(y,X)
+    print ("\n### Test case for scalar_mult with valid inputs\n", file = file)
+    print ("~~~", file = file)
+    tv_output_byte_array(y, test_vector_name = "s", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    tv_output_byte_array(X, test_vector_name = "X", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    tv_output_byte_array(Z, test_vector_name = "G.scalar_mult(s,decode(X))", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    tv_output_byte_array(K, test_vector_name = "G.scalar_mult_vfy(s,X)", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    print ("~~~\n", file = file)
+    
+    Y_inv1 = bytearray(X)
+    for m in range(16*256):
+        Y_inv1[m%16] = (Y_inv1[m%16] - 1) % 256 # choose an incorrect value    
+        K_inv1 = G.scalar_mult_vfy(y,Y_inv1)
+        if K_inv1 == G.I:
+            break
+                   
+    print ("\n### Invalid inputs for scalar_mult_vfy which MUST result in aborts\n", file = file)
+    print ("For these test cases scalar_mult_vfy(y,.) MUST return the representation"+
+           " of the neutral element G.I. A G.I result from scalar_mult_vfy MUST make" +
+           " the protocol abort!.", file = file)
+    print ("~~~", file = file)
+    tv_output_byte_array(y, test_vector_name = "s", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    tv_output_byte_array(Y_inv1, test_vector_name = "Y_i1", 
+                         line_prefix = "    ", max_len = 60, file = file)   
+    tv_output_byte_array(G.I, test_vector_name = "G.I", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,G.I) = G.I", file = file)
+    print ("~~~\n", file = file)    
+
+if __name__ == "__main__":
+    G = G_CoffeeEcosystem(Ed25519Point)
+    output_coffee_invalid_point_test_cases(G)

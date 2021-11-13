@@ -31,7 +31,7 @@ class G_ShortWeierstrass():
         if not (self.p.is_prime()):
             raise ValueError ("Group order for Short-Weierstrass must be prime")
 
-        self.I = I2OSP(0,1) # Represent the neutral element as a single byte string "\00"
+        self.I = b"" # Represent the neutral element as the empty string.
 
         self.DSI = b"CPace" + mapping_primitive.suite_name.encode("ascii")
         self.DSI_ISK = self.DSI + b"_ISK"
@@ -111,3 +111,46 @@ class G_ShortWeierstrass():
                                  line_prefix = "    ", max_len = 60,file = file)
             print ("~~~", file = file)
         return self.point_to_octets(result)
+
+def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
+    X = G.calculate_generator( H_SHA256(), b"Password", b"CI", b"sid")
+    y = G.sample_scalar(deterministic_scalar_for_test_vectors= b"yes we want it")
+    K = G.scalar_mult_vfy(y,X)
+    Z = G.scalar_mult(y,X)
+    print ("\n### Test case for scalar_mult_vfy with correct inputs\n", file = file)
+    print ("~~~", file = file)
+    tv_output_byte_array(y, test_vector_name = "s", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    tv_output_byte_array(X, test_vector_name = "X", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    tv_output_byte_array(Z, test_vector_name = "G.scalar_mult(s,X) (full coordinates)", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    tv_output_byte_array(K, test_vector_name = "G.scalar_mult_vfy(s,X) (only X-coordinate)", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    print ("~~~\n", file = file)
+    
+    Y_inv1 = bytearray(X)
+    Y_inv1[-1] = (Y_inv1[-2] - 1) % 256 # choose an incorrect y-coordinate
+    K_inv1 = G.scalar_mult_vfy(y,Y_inv1)
+    Y_inv2 = b"\0"
+    K_inv2 = G.scalar_mult_vfy(y,Y_inv2)
+       
+    print ("\n### Invalid inputs for scalar_mult_vfy which MUST result in aborts\n", file = file)
+    print ("For these test cases scalar_mult_vfy(y,.) MUST return the representation"+
+           " of the neutral element G.I. A G.I result from scalar_mult_vfy MUST make" +
+           " the protocol abort!.", file = file)
+    print ("~~~", file = file)
+    tv_output_byte_array(y, test_vector_name = "s", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    tv_output_byte_array(Y_inv1, test_vector_name = "Y_i1", 
+                         line_prefix = "    ", max_len = 60, file = file)   
+    tv_output_byte_array(Y_inv2, test_vector_name = "Y_i2", 
+                         line_prefix = "    ", max_len = 60, file = file)
+    print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I", file = file)
+    print ("~~~\n", file = file)    
+    
+if __name__ == "__main__":
+    print ("Test vectors for short Weierstrass on P256:");
+    G_P256 = G_ShortWeierstrass(p256_sswu_nu)
+    output_weierstrass_invalid_point_test_cases(G_P256)
+
