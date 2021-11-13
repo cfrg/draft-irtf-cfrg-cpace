@@ -95,7 +95,7 @@ class G_ShortWeierstrass():
         (gen_string, len_zpad) = generator_string(PRS, self.DSI,CI,sid,H.s_in_bytes)
         result = self.map(gen_string)
         if print_test_vector_info:
-            print ("\n###  Test vectors for calculate_generator with group "+self.name+"\n", file =file)
+            print ("\n###  Test vectors for calculate\_generator with group "+self.name+"\n", file =file)
             print ("~~~", file = file)
             print ("  Inputs", file = file)
             print ("    H   =", H.name, "with input block size", H.s_in_bytes, "bytes.", file = file)
@@ -117,8 +117,8 @@ def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
     y = G.sample_scalar(deterministic_scalar_for_test_vectors= b"yes we want it")
     K = G.scalar_mult_vfy(y,X)
     Z = G.scalar_mult(y,X)
-    print ("\n### Test case for scalar_mult_vfy with correct inputs\n", file = file)
-    print ("~~~", file = file)
+    print ("\n### Test case for scalar\_mult\_vfy with correct inputs\n", file = file)
+    print ("\n~~~", file = file)
     tv_output_byte_array(y, test_vector_name = "s", 
                          line_prefix = "    ", max_len = 60, file = file)
     tv_output_byte_array(X, test_vector_name = "X", 
@@ -136,10 +136,10 @@ def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
     K_inv2 = G.scalar_mult_vfy(y,Y_inv2)
        
     print ("\n### Invalid inputs for scalar_mult_vfy which MUST result in aborts\n", file = file)
-    print ("For these test cases scalar_mult_vfy(y,.) MUST return the representation"+
-           " of the neutral element G.I. A G.I result from scalar_mult_vfy MUST make" +
-           " the protocol abort!.", file = file)
-    print ("~~~", file = file)
+    print ("For these test cases scalar\\_mult\\_vfy(y,.) MUST return the representation"+
+           " of the neutral element G.I. A G.I result from scalar\\_mult\\_vfy MUST make" +
+           " the protocol abort!\n", file = file)
+    print ("\n~~~", file = file)
     tv_output_byte_array(y, test_vector_name = "s", 
                          line_prefix = "    ", max_len = 60, file = file)
     tv_output_byte_array(Y_inv1, test_vector_name = "Y_i1", 

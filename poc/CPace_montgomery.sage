@@ -60,10 +60,11 @@ class G_Montgomery:
 ## Elligator 2 reference implementation
 The Elligator 2 map requires a non-square field element Z which shall be calculated
 as follows.
+
 ~~~
-    def find_z_ell2(F): 
+    def find_z_ell2(F):
         # Find nonsquare for Elligator2
-        # Argument: F, a field object, e.g., F = GF(2^255 - 19) 
+        # Argument: F, a field object, e.g., F = GF(2^255 - 19)
         ctr = F.gen()
         while True:
             for Z_cand in (F(ctr), F(-ctr)):
@@ -73,18 +74,20 @@ as follows.
                 return Z_cand
             ctr += 1
 ~~~
+
 The following code maps a field element r to an encoded field element which
 is a valid u-coordinate of a Montgomery curve with curve parameter A.
+
 ~~~
     def elligator2(r, q, A, field_size_bits):
         # Inputs: field element r, field order q,
         #         curve parameter A and field size in bits
         Fq = GF(q); A = Fq(A); B = Fq(1);
-    
+
         # calculate non-square z as specified in the hash2curve draft.
         z = Fq(find_z_ell2(Fq))
         powerForLegendreSymbol = floor((q-1)/2)
-    
+
         v = - A / (1 + z * r^2)
         epsilon = (v^3 + A * v^2 + B * v)^powerForLegendreSymbol
         x = epsilon * v - (1 - epsilon) * A/2

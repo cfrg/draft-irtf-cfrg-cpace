@@ -77,8 +77,8 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
     y = G.sample_scalar(deterministic_scalar_for_test_vectors= b"yes we want it")
     K = G.scalar_mult_vfy(y,X)
     Z = G.scalar_mult(y,X)
-    print ("\n### Test case for scalar_mult with valid inputs\n", file = file)
-    print ("~~~", file = file)
+    print ("\n### Test case for scalar\\_mult with valid inputs\n", file = file)
+    print ("\n~~~", file = file)
     tv_output_byte_array(y, test_vector_name = "s", 
                          line_prefix = "    ", max_len = 60, file = file)
     tv_output_byte_array(X, test_vector_name = "X", 
@@ -96,11 +96,11 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
         if K_inv1 == G.I:
             break
                    
-    print ("\n### Invalid inputs for scalar_mult_vfy which MUST result in aborts\n", file = file)
-    print ("For these test cases scalar_mult_vfy(y,.) MUST return the representation"+
-           " of the neutral element G.I. A G.I result from scalar_mult_vfy MUST make" +
-           " the protocol abort!.", file = file)
-    print ("~~~", file = file)
+    print ("\n### Invalid inputs for scalar\\_mult\\_vfy which MUST result in aborts\n", file = file)
+    print ("For these test cases scalar\\_mult\\_vfy(y,.) MUST return the representation"+
+           " of the neutral element G.I. A G.I result from scalar\\_mult\\_vfy MUST make" +
+           " the protocol abort!", file = file)
+    print ("\n~~~", file = file)
     tv_output_byte_array(y, test_vector_name = "s", 
                          line_prefix = "    ", max_len = 60, file = file)
     tv_output_byte_array(Y_inv1, test_vector_name = "Y_i1", 

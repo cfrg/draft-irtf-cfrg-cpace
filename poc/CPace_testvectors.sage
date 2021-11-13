@@ -135,13 +135,15 @@ if __name__ == "__main__":
     
     with open('../testvectors.md', 'w') as f:
 
+        print("\n# CPace function definitions\n", file = f)
+        
         generate_testvectors_string_functions(file = f)
     
         G = G_X25519()
         G.output_markdown_description_for_decodeUCoordinate(file = f);
         G.output_markdown_description_for_elligator2(file = f);
         
-        print("# Test vectors", file = f)
+        print("\n# Test vectors\n", file = f)
     
         H = H_SHA512()
         G = G_X25519()
