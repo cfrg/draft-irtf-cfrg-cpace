@@ -77,7 +77,7 @@ class G_Montgomery:
             print ("  Outputs",file=file)
             tv_output_byte_array(string_hash, test_vector_name = "hash generator string", 
                                  line_prefix = "    ", max_len = 60, file=file)
-            tv_output_byte_array(IntegerToByteArray(u), test_vector_name = "after decoding to coordinate", 
+            tv_output_byte_array(IntegerToByteArray(u), test_vector_name = "decoded field element of %i bits" % self.field_size_bits, 
                                  line_prefix = "    ", max_len = 60, file=file)
             tv_output_byte_array(result, test_vector_name = "generator g", 
                                  line_prefix = "    ", max_len = 60, file=file)
