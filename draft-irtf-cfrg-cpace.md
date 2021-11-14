@@ -124,18 +124,14 @@ This document describes CPace which is a protocol for two
 parties for deriving a strong shared secret from a shared low-entropy secret (password) without
 exposing the secret to offline dictionary attacks.
 
-The CPace method was tailored for constrained devices and
-specifically considers efficiency and hardware side-channel attack mitigations at the protocol level.
-CPace is designed to be compatible with any group of both prime- and non-prime order by explicitly
-handling the complexity of cofactor clearing on the protcol level. CPace
-comes with both, game-based and simulation-based proofs where the latter provides composability guarantees.
-As a protocol, CPace is designed
-to be compatible with so-called "single-coordinate-only" Diffie-Hellman implementations on elliptic curve
-groups.
+The CPace design was tailored for efficiency on constrained devices such as secure-element chipsets 
+and considers mitigations with respect to adversaries that might become 
+capable of breaking the discrete logarithm problem on elliptic curves by quantum computers.
 
 CPace is designed to be suitable as both, a building block within a larger protocol construction using CPace as substep,
 and as a standalone protocol.
-Finally, the CPace protocol design aims at considering the constraints imposed by constrained secure-element chipsets.
+CPace comes with both, game-based and simulation-based proofs where the latter provides
+composability guarantees for settings where CPace forms a substep in a larger solution.
 
 # Requirements Notation
 
@@ -145,106 +141,120 @@ Finally, the CPace protocol design aims at considering the constraints imposed b
 
 ## Setup
 
-For CPace both communication partners need to agree on a common cipher suite which consists of choosing a common
-hash function H and an elliptic curve environment G. With "environment" we denote a compilation of all of
-an elliptic curve group with an associated Diffie-Hellman protocol and a mapping primitive.
+For CPace both communication partners need to agree on a common cipher suite. Cipher suites consist of a combination of
+a hash function and an elliptic curve environment G. With "environment" we denote a compilation of all of
+an elliptic curve group with associated group operations and an calculate_generator() method that maps an octet
+string to a group element.
 
-Throughout this document we will be using an object-style notation such as X.constant_name and X.function_name(a)
-for refering to constants and functions applying to G and H.
+Throughout this document we will be using an object-style notation such as, e.g. H.b\_in\_bytes and G.sample\_scalar(), 
+for refering to constants and functions asociated with with the group environment and the hash function. (For instance H.b\_in\_bytes 
+will be referring to the max. output size of the hash function in bytes and G.sample\_scalar() will refer to the method
+used for a group environment G for sampling scalars for use as a secret key.)
 
-With H we denote a hash primitive with a hash function H.hash(m,l)
-that operates on an input octet string m and returns a hash result containing the first l result octets
-calculated by the primitive. Common choices for H are SHA512 {{?RFC6234}} or SHAKE256 {{FIPS202}}.
-For considering both, variable-output-length primitives and fixed-length output primitives we use the following
-notations and definitions which were chosen in line with the definitions in {?RFC6234}}
+### Hash functions H
 
-With H.b_in_bytes we denote the default output size in bytes corresponding to the symmetric
-security level of the hash primitive. E.g. H.b_in_bytes = 64 for SHA512 and SHAKE256 and H.b_in_bytes = 32 for
-SHA256 and SHAKE128. We use the notation H.hash(m) = H.hash(m, H.b_in_bytes) and let the hash primitive
-output the default length if no length parameter is given.
+With H we denote a hash function, where H.hash(m,l) 
+operates on an input octet string m and returns a hashing result of l octets.
+Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}.
+For considering both, variable-output-length primitives and fixed-length output primitives we use the following convention.
+In case that the hash function is specified for a fixed-size output, we define H.hash(m,l) such 
+that it returns the first l octets of the output.
 
-With H.bmax_in_bytes we denote the maximum output size in octets supported by the hash primitive.
+We use the following notation for referring on the specific properties of a hash function H:
 
-With H.s_in_bytes we denote the input block size used by H.
-For instance, for SHA512 the input block size s_in_bytes is 128, while for SHAKE256 the
-input block size amounts to 136 bytes.
+- With H.b\_in\_bytes we denote the _default_ output size in bytes corresponding to the symmetric
+security level of the hash primitive. E.g. H.b\_in\_bytes = 64 for SHA512 and SHAKE256 and H.b\_in_bytes = 32 for
+SHA256 and SHAKE128. We use the notation H.hash(m) = H.hash(m, H.b\_in\_bytes) and let the hash primitive
+output the default length if no explicit length parameter is given.
+
+- With H.bmax\_in\_bytes we denote the _maximum_ output size in octets supported by the hash primitive. In case of fixed-size
+hashes such as SHA-256, this is the same as H.b\_in\_bytes, while there is no such limit for hash functions such as SHAKE-256.
+
+- With H.s\_in\_bytes we denote the _input block size_ used by H. For instance, for SHA512 the input block size s\_in\_bytes is 128, 
+while for SHAKE-256 the input block size amounts to 136 bytes.
 
 For a given group G this document specifies how to define the following set of group-specific
 functions and constants for the protocol execution. For making the implicit dependence of the respective
 functions and constants on the group G transparent, we use an object-style notation
 G.function_name() and G.constant_name.
 
-With G.I we denote a unique octet string representation of the neutral element of the group G.
+### Group environment objects G
 
-g = G.calculate_generator(H,PRS,CI,sid). With calculate_generator we denote a function that outputs a
-representation of a group element in G which is derived from input octet strings PRS, CI, sid using
-the hash function primitive H.
+We use the following notation for referring on the specific properties of a group environment G:
 
-y = G.sample_scalar(). This function returns a representation of a scalar value appropriate as a
+- With G.I we denote a unique octet string representation of the neutral element of the group G. This representation
+will be used for for detecting error conditions.
+
+- G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a
+representation of a group element which is derived from input octet strings PRS, CI, sid by the help of
+the hash function H.
+
+- G.sample\_scalar() is a function returning a representation of a scalar value appropriate as a
 private Diffie-Hellman key for the group G.
 
-Y = G.scalar_mult(y,g). This function takes a generator g as first parameter and a scalar y as second
-parameter and returns an octet string representation of a group element Y.
+- G.scalar\_mult(y,g) is a function an encoding of a generator g on the group as second parameter and a scalar y as first. 
+It returns an octet string representation of a group element Y.
 
-K = G.scalar_mult_vfy(y,X). This function returns an octet string representation of a group element K which is
-calculated from a scalar y and a group element X. Moreover scalar_mult_vfy implements validity verifications of the inputs
-and returns the neutral element G.I if the validity check fails.
+- G.scalar\_mult\_vfy(y,X) is a function that returns an octet string representation of a group element K which is
+calculated from a scalar y and an encoding of a group element X. Moreover scalar\_mult\_vfy implements validity verifications of the inputs
+and returns the neutral element G.I in case of error conditions if the validity checks fail.
+
+- G.DSI denotes a domain-separation identifier string which SHALL be uniquely identifying a given CPace's cipher suite group environment G.
 
 ## Inputs
 
-With PRS we denote a password-related octet string which is a MANDATORY input for all CPace instantiations.
+- PRS denotes a password-related octet string which is a MANDATORY input for all CPace instantiations.
 Typically PRS is derived from a low-entropy secret such as a user-supplied password (pw) or a personal
 identification number.
 
-With CI we denote an OPTIONAL octet string for the channel identifier. CI can be used for
+- CI denotes an OPTIONAL octet string for the channel identifier. CI can be used for
 binding CPace to one specific communication channel, for which CI needs to be
-available to both protocol partners upon protocol start.
+available to both protocol partners upon protocol start. Typically CI is obtained by a concatenating strings that
+uniquely identifying the protocol partner's identities.
 
-With sid we denote an OPTIONAL octet string input containing a session id. In application scenarios
-where a higher-level protocol has established a unique sid this parameter can be used to bind the CPace protocol execution
-to one specific session.
+- sid denotes an OPTIONAL octet string input, the so-called session id. In application scenarios
+where a higher-level protocol has established a unique sid value this parameter can be used to 
+bind the CPace protocol execution to one specific session.
 
-With ADa and ADb we denote OPTIONAL octet strings of parties A and B that contain associated public data
-of the communication partners.
-ADa and ADb could for instance include party identifiers or a protocol version (e.g. for avoiding downgrade attacks).
-In a setting with clear initiator and responder roles the information ADa sent by the initiator
-can be helpful for the responder for identifying which among possibly several different passwords are to be used for
-the given protocol session.
+- ADa and ADb denote OPTIONAL "associated data" octet strings that publicly transmitted by parties A and B respectively 
+as part of the protocol flow. ADa and ADb can for instance include party identifiers or a protocol version information 
+(e.g. for avoiding downgrade attacks). In a setting with initiator and responder roles, the information ADa sent by the 
+initiator can be used by the responder for identifying which among possibly several different PRS are to be 
+used for the given user in this protocol session.
 
 ## Notation
 
-With str1 \|\| str2 we denote concatenation of octet strings.
+- str1 \|\| str2 denotes concatenation of octet strings.
 
-With oCAT(str1,str2) we denote ordered concatenation of octet strings such that oCAT(str1,str2) = str1 \|\| str2
-if str2 > str1 and oCAT(str1,str2) = str2 \|\| str1 otherwise.
+- oCAT(str1,str2) denotes _ordered_ concatenation of octet strings.
 
-CONCAT(str1,str2) defines a concatenation function that depends on the application scenario.
+- CONCAT(MSGa,MSGb) defines a concatenation method that depends on the application scenario.
 In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of
-messages is not enforced by the protocol flow, ordered concatenation SHALL BE used,
-i.e. CONCAT(str1,str2) == oCAT(str1,str2).
+messages is not enforced by the protocol flow, CONCAT(MSGa,MSGb) = oCAT(MSGa,MSGb) SHALL be used. In settings
+where the protocol flow enforces ordering CONCAT(MSGa,MSGb) SHOULD BE implemented such that the _later_ message
+is appended to the _earlier_ message, i.e. CONCAT(MSGa,MSGb) = MSGa\|\|MSGb, if MSGa comes first.
 
-In settings with defined initiator and responder roles
-CONCAT(str1,str2) SHALL BE defined as unordered concatenation: CONCAT(str1,str2) == str1 \|\| str2.
+- len(S) denotes the number of octets in a string S. 
 
-With len(S) we denote the number of octets in a string S, and we let nil represent an empty octet string, i.e., len(nil) = 0.
+- nil represent an empty octet string, i.e., len(nil) = 0.
 
-With prepend_len(octet_string) we denote the octet sequence that is obtained from prepending
-the length of the octet string as an utf-8 string to the byte sequence itself. This will prepend one
-single octet for sequences shorter than 128 bytes and more octets otherwise.
+- prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
+the length of the octet string to the string itself.
 
-With prefix_free_cat(a0,a1, ...) we denote a function that outputs the prefix-free encoding of
+- prefix\_free\_cat(a0,a1, ...) denotes a function that outputs the prefix-free encoding of
 all input octet strings as the concatenation of the individual strings with their respective
-length prepended: prepend_len(a0) \|\| prepend_len(a1) \|\| ... . Use of this function allows for
-easy parsing of strings and guarantees a prefix-free encoding.
+length prepended: prepend\_len(a0) \|\| prepend\_len(a1) \|\| ... . Such prefix-free encoding
+of multiple substrings allows for parsing individual subcomponents of a network message.
 
-With sample_random_bytes(n) we denote a function that returns n octets uniformly sampled between 0 and 255.
-With zero_bytes(n) we denote a function that returns n octets with value 0.
+- sample\_random\_bytes(n) denotes a function that returns n octets 
+uniformly distributed between 0 and 255.
 
-With ISK we denote the intermediate session key output string provided by CPace. It is RECOMMENDED to convert the
-intermediate session key ISK to a final session key by using a suitable KDF function prior to using the key in a
-higher-level protocol.
+- zero\_bytes(n) denotes a function that returns n octets with value 0.
 
-With G.DSI we denote domain-separation identifier strings specific for a given CPace cipher suite.
+- ISK denotes the output produced by the CPace protocol: the _intermediate session key_. Naming of this
+key as "intermediate" session key highlights the fact, that it is RECOMMENDED to process ISK 
+by use of a suitable strong key-derivation function KDF (such as defined in {{?RFC5869}}) first,
+before using the key in a higher-level protocol.
 
 
 ## Protocol Flow
