@@ -298,24 +298,24 @@ of CPace where party A starts with the protocol flow.
 
 ## CPace
 
-To begin, A calculates a generator g = G.calculate_generator(H, PRS,CI,sid).
+To begin, A calculates a generator g = G.calculate\_generator(H, PRS,CI,sid).
 
-A samples ya = G.sample_scalar() randomly according to the specification for group G.
-A then calculates Ya= G.scalar_mult (ya,g). A then transmits MSGa = prefix_free_cat(Ya, ADa) with
+A samples ya = G.sample\_scalar() randomly according to the specification for group G.
+A then calculates Ya= G.scalar\_mult (ya,g). A then transmits MSGa = prefix\_free\_cat(Ya, ADa) with
 Ya and the optional associated data ADa to B. Note that prefixing the transmitted components with their
 respective lengths allows for unambigous parsing of MSGa by the receiver and guarantees a
 prefix-free encoding.
 
-B picks yb = G.sample_scalar() randomly. B then calculates
+B picks yb = G.sample\_scalar() randomly. B then calculates
 g = G.calculate_generator(H, PRS,CI,sid) and
-Yb = G.scalar_mult(yb,g). B then calculates K = G.scalar_mult_vfy(yb,Ya).
+Yb = G.scalar\_mult(yb,g). B then calculates K = G.scalar\_mult_vfy(yb,Ya).
 B MUST abort if K is the encoding of the neutral element G.I.
-Otherwise B sends MSGb = prefix_free_cat(Yb, ADb) to A and proceeds as follows.
+Otherwise B sends MSGb = prefix\_free\_cat(Yb, ADb) to A and proceeds as follows.
 
-B returns ISK = H.hash(prefix_free_cat(G.DSI \|\| "\_ISK", sid, K)\|\|CONCAT(MSGa, MSGb).
+B returns ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|CONCAT(MSGa, MSGb).
 
-Upon reception of Yb, A calculates K = scalar_mult_vfy(Yb,ya). A MUST abort if K is the neutral element I.
-If K is different from G.I, A returns ISK = H.hash(prefix_free_cat(G.DSI \|\| "\_ISK", sid, K) \|\| CONCAT(MSGa, MSGb).
+Upon reception of Yb, A calculates K = scalar\_mult\_vfy(Yb,ya). A MUST abort if K is the neutral element I.
+If K is different from G.I, A returns ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| CONCAT(MSGa, MSGb).
 
 Upon completion of this protocol, the session key ISK returned by A and B will be identical by both
 parties if and only if the supplied input parameters sid, PRS and CI match on both sides and the
@@ -326,44 +326,70 @@ unordered concatenation SHOULD BE used for the CONCAT(MSGa,MSGb) function. In ap
 without enforced ordering of the transmission of MSGa and MSGb,
 CONCAT() MUST BE implemented by using the ordered concatenation function oCAT().
 
-# Ciphersuites
+# RECOMMENDED Ciphersuites
 
-This section documents CPACE ciphersuite configurations. A ciphersuite
+This section documents RECOMMENDED CPACE ciphersuite configurations. Any ciphersuite configuration for CPace
 is REQUIRED to specify,
-- a group G with associated definitions for G.sample\_scalar(), G.scalar\_mult() and G. scalar\_mult\_vfy() and G.calculate\_generator() functions and an associated domain separation string G.DSI.
-- a hash function H.
+- an object G with associated definitions for
 
-Currently, test vectors are available for the cipher suites
+-- functions G.sample\_scalar(), G.scalar\_mult() and G. scalar\_mult\_vfy() and G.calculate\_generator()
 
-- CPACE-X25519-SHA512. This suite uses the
+-- a domain separation identifier string G.DSI.
 
-- CPACE-X448-SHAKE256
+- a hash function H
 
-- CPACE-P256\_XMD:SHA-256\_SSWU_NU\_-SHA256
+Currently, test vectors are available for the following RECOMMENDED cipher suites
 
-- CPACE-P384\_XMD:SHA-384\_SSWU_NU\_-SHA384
+- CPACE-X25519-SHA512. This suite uses G\_X25519 defined in {{CPaceMontgomery}} and SHA-512.
 
-- CPACE-P521\_XMD:SHA-512\_SSWU_NU\_-SHA512
+- CPACE-X448-SHAKE256. This suite uses G\_X448 defined in {{CPaceMontgomery}} and SHAKE-256.
 
-- CPACE-RISTR255-SHA512
+- CPACE-P256\_XMD:SHA-256\_SSWU_NU\_-SHA256.
+This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P256\_XMD:SHA-256\_SSWU_NU\_
+from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P256 with the SHA-256 hash.
+
+- CPACE-P384\_XMD:SHA-384\_SSWU_NU\_-SHA384.
+This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P384\_XMD:SHA-384\_SSWU_NU\_
+from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with the SHA-384 hash.
+
+- CPACE-P521\_XMD:SHA-512\_SSWU_NU\_-SHA512.
+This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P521\_XMD:SHA-384\_SSWU_NU\_
+from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with the SHA-512 hash.
+
+- CPACE-RISTR255-SHA512.
+This suite uses G\_ristretto255 defined in {{CPaceCoffee}} and SHA-512.
 
 - CPACE-DECAF448-SHAKE256
+This suite uses G\_decaf448 defined in {{CPaceCoffee}} and SHAKE-256.
+
+CPace can securely be implemented on further elliptic curves when following the guidance given in {{sec-considerations}}.
 
 # Implementation of CPace cipher suites
 
-## Function for calculating generator strings
+## Function for calculating generator strings generator\_string()
 
-The different cipher suites for CPace share the same method for combining all of PRS, CI, sid and a domain-separation string G.DSI
-to a generator string.
+The different cipher suites for CPace defined in the upcoming sections share the same method for combining all of PRS, CI, sid and a domain-separation string G.DSI to a generator string.
 
 With generator\_string(PRS,DSI,CI,sid, H.s\_in\_bytes) we denote a function that returns the string
 prefix\_free\_cat(PRS,zero\_bytes(len\_zpad), DSI, CI, sid) in which all input strings are concatenated.
 The zero padding is designed such that the encoding of PRS together with the zero padding field completely fills the first
 input block of the hash.
-
 The length len\_zpad of the zero padding SHALL BE len\_zpad = MAX(0, H.s\_in\_bytes - len(prepend\_length(PRS)) - 1).
+The following reference code implements the generator\_string function.
 
-## CPace suites on single-coordinate Ladders on Montgomery curves {#cpace_montgomery}
+~~~
+def generator\_string(PRS,DSI,CI,sid, H.s\_in\_bytes):
+    len\_zpad = MAX(0, H.s\_in\_bytes - len(prepend\_length(PRS)) - 1)
+    return prefix\_free\_cat(PRS,zero\_bytes(len\_zpad), DSI, CI, sid)
+~~~
+
+The introduction of a zero-padding within the generator string aims at mitigating attacks of a side-channel adversary that
+analyzes correlations between publicly known variable information with the low-entropy PRS string. Moreover this removes
+dependence of the input string on the actual length of the password string
+(unless that the password string PRS becomes larger than the hash
+function's input block).
+
+## CPace group objects G\_X25519 and G\_X448 for single-coordinate Ladders on Montgomery curves {#CPaceMontgomery}
 
 In this section we consider the case of CPace using the X25519 and X448 Diffie-Hellman functions
 from {{?RFC7748}} operating on the Montgomery curves Curve25519 and Curve448 {{?RFC7748}}.
@@ -421,45 +447,34 @@ For X448 the following definitions apply:
 In the appendix we show sage code that can be used as reference implementation for the calculate\_generator and
 key generation functions.
 
-The definitions above aim at making the protocol suitable for outsourcing CPace to
-secure elements (SE) where nested hash function constructions such as defined in {{?RFC5869}}
-have to be considered to be particularly costly. Moreover as all hash operations are executed using strings
-with a prefix-free encoding also Merkle-Damgard constructions such as the SHA2 family can be considered as
-a representation of a random oracle, given that the permutation function is considered as a random oracle.
+## CPace group objects G\_Ristretto255 and G\_Decaf448 for prime-order group abstractions {#CPaceCoffee}
 
-Finally, with the introduction of a zero-padding within the generator string gen\_str (introduced after the PRS string),
-the CPace design aims at mitigating
-attacks of a side-channel adversary that analyzes correlations between publicly known variable
-information with the low-entropy PRS string.
-
-## CPace suites using prime-order group abstractions
-
-In this section we consider the case of CPace using the ristretto25519 and decaf448 group abstractions.
+In this section we consider the case of CPace using the Ristretto255 and Decaf448 group abstractions.
 These abstractions define an encode and decode function, group exponentiation
 and a one-way-map. With the group abstractions there is a distinction between an internal represenation
 of group elements and an external encoding of the same group element. In order to distinguish between these
 different representations, we prepend an underscore before values using the internal representation within this
 section.
 
-For ristretto255 the following definitions apply:
+For Ristretto255 the following definitions apply:
 
-- G\_ristretto255.DSI = "CPaceRistretto255"
+- G\_Ristretto255.DSI = "CPaceRistretto255"
 
-- G\_ristretto255.field\_size\_bytes = 32
+- G\_Ristretto255.field\_size\_bytes = 32
 
-- G\_ristretto255.group\_size\_bits = 252
+- G\_Ristretto255.group\_size\_bits = 252
 
-- G\_ristretto255.group\_order = 2^252 + 27742317777372353535851937790883648493
+- G\_Ristretto255.group\_order = 2^252 + 27742317777372353535851937790883648493
 
 For decaf448 the following definitions apply:
 
-- G\_decaf448.DSI = "CPaceDecaf448"
+- G\_Decaf448.DSI = "CPaceDecaf448"
 
-- G\_decaf448.field\_size\_bytes = 56
+- G\_Decaf448.field\_size\_bytes = 56
 
-- G\_decaf448.group\_size\_bits = 445
+- G\_Decaf448.group\_size\_bits = 445
 
-- G\_decaf448.group\_order = l = 2^446 -
+- G\_Decaf448.group\_order = l = 2^446 -
     13818066809895115352007386748515426880336692474882178609894547503885
 
 For both abstractions the following definitions apply:
@@ -481,41 +496,41 @@ For both abstractions the following definitions apply:
 Note that with these definitions the scalar\_mult function operates on a decoded point \_g and returns an encoded point,
 while the scalar\_mult\_vfy(y,X) function operates on a scalar and an encoded point X.
 
-## CPace suites on curves in Short-Weierstrass representation {#weierstrass}
+## CPace group objects for curves in Short-Weierstrass representation {#CPaceWeierstrass}
 In this section we target ecosystems using elliptic-curve representations in Short-Weierstrass form as considered in
-{{IEEE1363}}. From the {{IEEE1363}} a very commonly used standard is the ECKAS-DH1 procedure which is e.g. used in the TLS protocol
-family. The procedures from {{IEEE1363}} rely on encodings specified in {{SEC1}}. Commonly used curve groups are specified in {{SEC2}} and
+{{IEEE1363}}. For defining the group object G needed for executing the CPace protocol, the domain parameters of the elliptic
+curve and a G.encode\_to\_curve(str) function need to be chosen. All the encode\_to\_curve methods from {{!I-D.irtf-cfrg-hash-to-curve}}
+are suitable for CPace, while it is RECOMMENDED to use the nonuniform variants of the SSWU mapping primitive
+within {{!I-D.irtf-cfrg-hash-to-curve}}.
+
+The specification in this section closely follows the ECKAS-DH1 method from {{IEEE1363}} as it is implemented as subcomponent of the TLS
+protocol family.
+The procedures from {{IEEE1363}} rely on encodings specified in {{SEC1}}. Commonly used curve groups are specified in {{SEC2}} and
 {{?RFC5639}}. A typical representative of such a Short-Weierstrass curve is NIST-P256.
 
-Domain parameter verification according to {{IEEE1363}} SHALL be integrated into the agreement of the CPace cipher suite between the two
-parties.
+The encodings from {{SEC1}} represent group elements as big-endian strings. From the different alternative methods described in {{SEC1}}, the uncompressed full-coordinate encoding SHOULD be used for CPace.
 
-In the procedures specified in this section we follow
-existing encoding practices from {{SEC1}} where group elements are represented by big-endian encodings of the x- and y-coordinates.
-From the different alternative methods described in {{SEC1}}, the uncompressed full-coordinate encoding SHOULD be used for CPace.
+CPoint verification for this ecosystem is described in Annex A.16.10. of {{IEEE1363}}.
 
-Point verification for this ecosystem is described in Annex A.16.10. of {{IEEE1363}}.
-
-For Diffie-Hellman protocols, the standard
-{{IEEE1363}} specifies an ECSVDP-DH method which either returns "error" or the x-coordinate of the
+For Diffie-Hellman protocols, the standard {{IEEE1363}} specifies an ECSVDP-DH method which either returns "error" or the x-coordinate of the
 Diffie-Hellman shared secret.
 
 {{IEEE1363}} allows for both, curves of prime and non-prime order. However, for the procedures described in this section any suitable
 group MUST BE of prime order.
 
-In this paragraph we use the following notation.
+In this paragraph we use the following notation for defining the group object G.
 
 - With G.group\_order we denote the order of the elliptic curve which MUST BE a prime.
 
 - With G.is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid or false otherwise. This G.is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
 
-- With G.encode\_to\_curve(str) we denote a chosen mapping function defined in {{!I-D.irtf-cfrg-hash-to-curve}}. I.e. a function that maps
+- With G.encode\_to\_curve(str) we denote the chosen mapping function from {{!I-D.irtf-cfrg-hash-to-curve}}. I.e. a function that maps
 octet string str to a point on the group. {{!I-D.irtf-cfrg-hash-to-curve}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{!I-D.irtf-cfrg-hash-to-curve}}.
 
 - G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of "CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{!I-D.irtf-cfrg-hash-to-curve}}. E.g. when using the map with the name "P384\_XMD:SHA-384\_SSWU\_NU\_"
 on curve NIST-P384 the resulting value SHALL BE G.DSI = "CPaceP384\_XMD:SHA-384\_SSWU\_NU\_".
 
-Using this notation the CPace functions are defined as follows.
+Using the above definitions, the CPace functions required for the group object G are defined as follows.
 
 - G.sample\_scalar() SHALL return a value between 1 and (G.group\_order - 1). The value sampling MUST BE uniformly random. It is RECOMMENDED to use rejection sampling for converting a uniform bitstring to a uniform value between 1 and (G.group\_order - 1).
 
@@ -529,9 +544,10 @@ Using this notation the CPace functions are defined as follows.
 G.scalar\_mult(s,X) SHALL return an encoding of the point X^s according to {{SEC1}}. It SHOULD use the full-coordinate form with both, x and y coordinates of the result point.
 
 - G.scalar\_mult\_vfy(s,X) merges verification of point X according to {{IEEE1363}} A.16.10. and the the ECSVDP-DH procedure from {{IEEE1363}}.
-I.e. it SHALL BE implemented as follows.
+It SHALL BE implemented as follows.
 
 -- If G.is\_valid(X) = False, G.scalar\_mult\_vfy(s,X) SHALL return "error".
+
 -- Otherwise G.scalar\_mult\_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from {{IEEE1363}} (section 7.2.1). I.e. it shall either return "error" in case that X^s is the neutral element or a secret shared value "z". "z" SHALL be encoded by using the big-endian encoding of the x-coordinate of the result point X^s according to {{SEC1}}.
 
 - We represent the neutral element G.I by using the encoding of the "error" result case from the G.scalar\_mult\_vfy method above.
@@ -568,7 +584,7 @@ according the needs of the higher-level protocol.
 
 ## Security considerations for single-coordinate CPace on Montgomery curves
 
-The definitions given for the case of the Montgomery curves Curve25519 and Curve448 in {{cpace_montgomery}} rely on the following properties  {{CPacePaper}}:
+The definitions given for the case of the Montgomery curves Curve25519 and Curve448 in {{CPaceMontgomery}} rely on the following properties  {{CPacePaper}}:
 
 - The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' * c') with p' prime and c' a cofactor.
 
@@ -580,7 +596,7 @@ The definitions given for the case of the Montgomery curves Curve25519 and Curve
 
 - The implementation of G.scalar_mult_vfy(y,c) MUST map all c low-orer points on the curve and all c' low-order points on the twist  on the representation of the identity element G.I.
 
-All of the above properties MUST hold for any further single-coordinate Montgomery curve implemented according the specifications given in the section handling X25519 and X448 {{cpace_montgomery}}.
+All of the above properties MUST hold for any further single-coordinate Montgomery curve implemented according the specifications given in the section handling X25519 and X448 {{CPaceMontgomery}}.
 
 The Curve25519-based cipher suite employs the twist security feature of the curve for point validation.
 As such, it is MANDATORY to check that any actual X448 and X25519 function implementation maps
@@ -652,6 +668,7 @@ initiator/responder and symmetric settings. Currently we plan to consider both a
 settings in this draft.
 
 --- back
+
 
 
 
@@ -810,7 +827,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
 ##  Test vector for CPace using group X25519 and hash SHA-512
 
 
-###  Test vectors for calculate_generator with group X25519
+###  Test vectors for calculate\_generator with group X25519
 
 ~~~
   Inputs
@@ -989,9 +1006,9 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Test vectors for G_X25519.scalar_mult_vfy: low order points
+### Test vectors for G\_X25519.scalar\_mult\_vfy: low order points
 
-Test vectors for which G_X25519.scalar_mult_vfy(s_in,ux) must return the neutral
+Test vectors for which G\_X25519.scalar\_mult\_vfy(s\_in,ux) must return the neutral
 element or would return the neutral element if bit #255 of field element
 representation was not correctly cleared. (The decodeUCoordinate function from RFC7748 mandates clearing bit #255 for field element representations for use in the X25519 function.).
 
@@ -1027,7 +1044,7 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
 ##  Test vector for CPace using group X448 and hash SHAKE-256
 
 
-###  Test vectors for calculate_generator with group X448
+###  Test vectors for calculate\_generator with group X448
 
 ~~~
   Inputs
@@ -1230,9 +1247,9 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Test vectors for G_X448.scalar_mult_vfy: low order points
+### Test vectors for G\_X448.scalar\_mult\_vfy: low order points
 
-Test vectors for which G_X448.scalar_mult_vfy(s_in,ux) must return the neutral
+Test vectors for which G\_X448.scalar\_mult\_vfy(s\_in,ux) must return the neutral
 element
 This includes points that are non-canonicaly encoded, i.e. have coordinate values
 larger
@@ -1263,7 +1280,7 @@ Weak points for X448 larger or equal to the field prime (non-canonical)
     ffffffffffffffffffffffffffffffffffffffffffffffffffffff
 ~~~
 
-Expected results for X448 resp. G_X448.scalar_mult_vfy
+Expected results for X448 resp. G\_X448.scalar\_mult\_vfy
 
 ~~~
   scalar s: (length: 56 bytes)
@@ -1311,7 +1328,7 @@ Test vectors for scalar_mult with nonzero outputs
 ##  Test vector for CPace using group ristretto255 and hash SHA-512
 
 
-###  Test vectors for calculate_generator with group ristretto255
+###  Test vectors for calculate\_generator with group ristretto255
 
 ~~~
   Inputs
@@ -1541,7 +1558,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
 ##  Test vector for CPace using group decaf448 and hash SHAKE-256
 
 
-###  Test vectors for calculate_generator with group decaf448
+###  Test vectors for calculate\_generator with group decaf448
 
 ~~~
   Inputs
@@ -2016,7 +2033,7 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Invalid inputs for scalar_mult_vfy which MUST result in aborts
+### Invalid inputs for scalar\_mult\_vfy which MUST result in aborts
 
 For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. A G.I result from scalar\_mult\_vfy MUST make the protocol abort!
 
@@ -2295,7 +2312,7 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Invalid inputs for scalar_mult_vfy which MUST result in aborts
+### Invalid inputs for scalar\_mult\_vfy which MUST result in aborts
 
 For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. A G.I result from scalar\_mult\_vfy MUST make the protocol abort!
 
@@ -2621,7 +2638,7 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Invalid inputs for scalar_mult_vfy which MUST result in aborts
+### Invalid inputs for scalar\_mult\_vfy which MUST result in aborts
 
 For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. A G.I result from scalar\_mult\_vfy MUST make the protocol abort!
 
