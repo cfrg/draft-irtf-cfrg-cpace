@@ -53,7 +53,7 @@ class G_CoffeeEcosystem():
         string_hash = H.hash(gen_string, self.field_size_bytes * 2)
         result = self.point_class.map(string_hash)
         if print_test_vector_info:
-            print ("\n###  Test vectors for calculate_generator with group "+self.name+"\n", file = file)
+            print ("\n###  Test vectors for calculate\\_generator with group "+self.name+"\n", file = file)
             print ("~~~", file = file)
             print ("  Inputs", file = file)
             print ("    H   =", H.name, "with input block size", H.s_in_bytes, "bytes.", file = file)

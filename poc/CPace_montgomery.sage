@@ -132,7 +132,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
         u = self.decodeUCoordinate(string_hash)
         result = self.elligator2(u)
         if print_test_vector_info:
-            print ("\n###  Test vectors for calculate_generator with group "+self.name+"\n",file=file)
+            print ("\n###  Test vectors for calculate\\_generator with group "+self.name+"\n",file=file)
             print ("~~~", file=file)
 
             print ("  Inputs", file=file)

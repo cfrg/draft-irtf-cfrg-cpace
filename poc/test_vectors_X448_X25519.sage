@@ -7,8 +7,8 @@ from sagelib.CPace_hashing import *
 
 
 def output_test_vectors_for_weak_points_255(file = sys.stdout):
-    print ("\n### Test vectors for G_X25519.scalar_mult_vfy: low order points\n",file = file)
-    print ("Test vectors for which G_X25519.scalar_mult_vfy(s_in,ux) must return the neutral", file = file)
+    print ("\n### Test vectors for G\\_X25519.scalar\\_mult\\_vfy: low order points\n",file = file)
+    print ("Test vectors for which G\\_X25519.scalar\\_mult\\_vfy(s\\_in,ux) must return the neutral", file = file)
     print("element or would return the neutral element if bit #255 of field element", file = file)
     print ("representation was not correctly cleared. (The decodeUCoordinate function from RFC7748 mandates clearing bit #255 for field element representations for use in the X25519 function.).", file = file)
     print ("\n~~~", file = file)
@@ -65,8 +65,8 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
 
 
 def output_test_vectors_for_weak_points_448(file = sys.stdout):
-    print ("\n### Test vectors for G_X448.scalar_mult_vfy: low order points\n",file = file)
-    print ("Test vectors for which G_X448.scalar_mult_vfy(s_in,ux) must return the neutral", file = file)
+    print ("\n### Test vectors for G\\_X448.scalar\\_mult\\_vfy: low order points\n",file = file)
+    print ("Test vectors for which G\\_X448.scalar\\_mult\\_vfy(s\\_in,ux) must return the neutral", file = file)
     print("element", file = file)
     print ("This includes points that are non-canonicaly encoded, i.e. have coordinate values", file = file)
     print ("larger", file = file)
@@ -105,7 +105,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
         ctr += 1;
     print ("~~~", file = file)
     
-    print ("\nExpected results for X448 resp. G_X448.scalar_mult_vfy\n",file = file)
+    print ("\nExpected results for X448 resp. G\\_X448.scalar\\_mult\\_vfy\n",file = file)
     ctr=0;
     print ("~~~", file = file)
     tv_output_byte_array(s, 
