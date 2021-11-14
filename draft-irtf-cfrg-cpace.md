@@ -160,7 +160,7 @@ For considering both, variable-output-length primitives and fixed-length output 
 In case that the hash function is specified for a fixed-size output, we define H.hash(m,l) such
 that it returns the first l octets of the output.
 
-We use the following notation for referring on the specific properties of a hash function H:
+We use the following notation for referring to the specific properties of a hash function H:
 
 - With H.b\_in\_bytes we denote the _default_ output size in bytes corresponding to the symmetric
 security level of the hash primitive. E.g. H.b\_in\_bytes = 64 for SHA512 and SHAKE256 and H.b\_in_bytes = 32 for
@@ -173,17 +173,10 @@ hashes such as SHA-256, this is the same as H.b\_in\_bytes, while there is no su
 - With H.s\_in\_bytes we denote the _input block size_ used by H. For instance, for SHA512 the input block size s\_in\_bytes is 128,
 while for SHAKE-256 the input block size amounts to 136 bytes.
 
-For a given group G this document specifies how to define the following set of group-specific
-functions and constants for the protocol execution. For making the implicit dependence of the respective
-functions and constants on the group G transparent, we use an object-style notation
-G.function_name() and G.constant_name.
-
 ### Group environment objects G
 
-We use the following notation for referring on the specific properties of a group environment G:
-
-- With G.I we denote a unique octet string representation of the neutral element of the group G. This representation
-will be used for for detecting error conditions.
+For a given group G this document specifies how to define the following set of group-specific
+functions and constants for the protocol execution. We use the following notation for referring to the specific properties of a group environment G:
 
 - G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a
 representation of a group element which is derived from input octet strings PRS, CI, sid by the help of
@@ -194,6 +187,9 @@ private Diffie-Hellman key for the group G.
 
 - G.scalar\_mult(y,g) is a function an encoding of a generator g on the group as second parameter and a scalar y as first.
 It returns an octet string representation of a group element Y.
+
+- With G.I we denote a unique octet string representation of the neutral element of the group G. This representation
+will be used for for detecting error conditions.
 
 - G.scalar\_mult\_vfy(y,X) is a function that returns an octet string representation of a group element K which is
 calculated from a scalar y and an encoding of a group element X. Moreover scalar\_mult\_vfy implements validity verifications of the inputs
@@ -210,14 +206,13 @@ identification number.
 - CI denotes an OPTIONAL octet string for the channel identifier. CI can be used for
 binding CPace to one specific communication channel, for which CI needs to be
 available to both protocol partners upon protocol start. Typically CI is obtained by a concatenating strings that
-uniquely identifying the protocol partner's identities.
+uniquely identify the protocol partner's identities, such as their networking addresses.
 
 - sid denotes an OPTIONAL octet string input, the so-called session id. In application scenarios
 where a higher-level protocol has established a unique sid value this parameter can be used to
 bind the CPace protocol execution to one specific session.
 
-- ADa and ADb denote OPTIONAL "associated data" octet strings that publicly transmitted by parties A and B respectively
-as part of the protocol flow. ADa and ADb can for instance include party identifiers or a protocol version information
+- ADa and ADb denote OPTIONAL "associated data" octet strings that are publicly transmitted as part of the protocol flow. ADa and ADb can for instance include party identifiers or a protocol version information
 (e.g. for avoiding downgrade attacks). In a setting with initiator and responder roles, the information ADa sent by the
 initiator can be used by the responder for identifying which among possibly several different PRS are to be
 used for the given user in this protocol session.
@@ -226,7 +221,7 @@ used for the given user in this protocol session.
 
 - str1 \|\| str2 denotes concatenation of octet strings.
 
-- oCAT(str1,str2) denotes _ordered_ concatenation of octet strings.
+- oCAT(str1,str2) denotes _ordered_ concatenation of octet strings as specified in the appendix.
 
 - CONCAT(MSGa,MSGb) defines a concatenation method that depends on the application scenario.
 In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of
@@ -239,12 +234,13 @@ is appended to the _earlier_ message, i.e. CONCAT(MSGa,MSGb) = MSGa\|\|MSGb, if 
 - nil represent an empty octet string, i.e., len(nil) = 0.
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
-the length of the octet string to the string itself.
+the length of the octet string to the string itself. The length shall be prepended by using an UTF-8 encoding of the length.
+This will result in a single-byte encoding for values below 128. (Test vectors and reference implementations are given in the appendix.)
 
 - prefix\_free\_cat(a0,a1, ...) denotes a function that outputs the prefix-free encoding of
 all input octet strings as the concatenation of the individual strings with their respective
 length prepended: prepend\_len(a0) \|\| prepend\_len(a1) \|\| ... . Such prefix-free encoding
-of multiple substrings allows for parsing individual subcomponents of a network message.
+of multiple substrings allows for parsing individual subcomponents of a network message. (Test vectors and reference implmenetations are given in the appendix.)
 
 - sample\_random\_bytes(n) denotes a function that returns n octets
 uniformly distributed between 0 and 255.
@@ -271,12 +267,12 @@ and OPTIONAL associated data ADa (i.e. an ADa field that MAY have a length of 0 
 Likewise, B sends a message MSGb to A. MSGb contains the public share Yb
 and OPTIONAL associated data ADb (i.e. an ADb field that MAY have a length of 0 bytes).
 
-Both A and B use the received messages for derivinv a shared intermediate session key ISK.
+Both A and B use the received messages for deriving a shared intermediate session key, ISK.
 
-ISK denotes the output produced by the CPace protocol: the _intermediate session key_. (Naming of this
+Naming of this
 key as "intermediate" session key highlights the fact, that it is RECOMMENDED to process ISK
 by use of a suitable strong key-derivation function KDF (such as defined in {{?RFC5869}}) first,
-before using the key in a higher-level protocol.)
+before actually using the key in a higher-level protocol.
 
 ## Session id establishment
 
@@ -327,7 +323,7 @@ Yb = G.scalar\_mult(yb,g). B sends MSGb = prefix\_free\_cat(Yb, ADb) to A.
 B calculates K = G.scalar\_mult_vfy(yb,Ya). B MUST abort if K is the encoding of the neutral element G.I (error condition).
 Otherwise B returns ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|CONCAT(MSGa, MSGb).
 
-Likewise upon reception of Yb, A calculates K = G.scalar\_mult\_vfy(Yb,ya). A MUST abort if K is the neutral element I.
+Likewise upon reception of Yb, A calculates K = G.scalar\_mult\_vfy(Yb,ya). A MUST abort if K is the neutral element G.I.
 If K is different from G.I, A returns ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| CONCAT(MSGa, MSGb).
 
 Upon completion of this protocol, the session key ISK returned by A and B will be identical by both
@@ -347,11 +343,12 @@ fails. (i.e. if the call to G.scalar\_mult\_vfy produced the neutral element G.I
 
 This section documents RECOMMENDED CPACE ciphersuite configurations. Any ciphersuite configuration for CPace
 is REQUIRED to specify,
+
 - a group environment object G with associated definitions for
 
--- the four CPace functions functions G.sample\_scalar(), G.scalar\_mult() and G.scalar\_mult\_vfy() and G.calculate\_generator()
+  - the four CPace functions functions G.sample\_scalar(), G.scalar\_mult() and G.scalar\_mult\_vfy() and G.calculate\_generator()
 
--- a domain separation identifier string G.DSI unique for this cipher suite.
+  - a domain separation identifier string G.DSI unique for this cipher suite.
 
 - a hash function H
 
@@ -387,22 +384,27 @@ CPace can securely be implemented on further elliptic curves when following the 
 
 The different cipher suites for CPace defined in the upcoming sections share the same method for combining the individual strings PRS, CI, sid and the domain-separation string G.DSI to a generator string.
 
-- generator\_string(PRS,DSI,CI,sid, s) we denotes a function that returns the string
+- generator\_string(PRS,DSI,CI,sid, s) denotes a function that returns the string
 prefix\_free\_cat(PRS,zero\_bytes(len\_zpad), DSI, CI, sid) in which all input strings are concatenated.
 
-- The zero padding of length len\_zpad is designed such that the encoding of PRS together with the zero padding field completely fills the
-first input block of the hash. As a result the number of bytes to hash becomes independent of the actual length of the password (PRS).
-The length len\_zpad of the zero padding field SHALL BE len\_zpad = MAX(0, H.s\_in\_bytes - len(prepend\_length(PRS)) - 1).
+- len\_zpad = MAX(0, H.s\_in\_bytes - len(prepend\_length(PRS)) - 1)
+
+The zero padding of length len\_zpad is designed such that the encoding of PRS together with the zero padding field completely fills the
+first input block of the hash.
+As a result the number of bytes to hash becomes independent of the actual length of the password (PRS).
+
+
 The following reference code implements the generator\_string function.
+
 ~~~
-def generator\_string(PRS,DSI,CI,sid, H.s\_in\_bytes):
-    len\_zpad = MAX(0, H.s\_in\_bytes - len(prepend\_length(PRS)) - 1)
-    return prefix\_free\_cat(PRS,zero\_bytes(len\_zpad), DSI, CI, sid)
+def generator_string(PRS,DSI,CI,sid, H.s_in_bytes):
+    len_zpad = MAX(0, H.s_in_bytes - len(prepend_length(PRS)) - 1)
+    return prefix_free_cat(PRS,zero_bytes(len_zpad), DSI, CI, sid)
 ~~~
 
 The introduction of a zero-padding within the generator string also helps at mitigating attacks of a side-channel adversary that
 analyzes correlations between publicly known variable information with the low-entropy PRS string.
-Note that the hash of the first block does not depend on session-specific inputs, such as SID oder CI.
+Note that the hash of the first block does not depend on session-specific inputs, such as sid oder CI.
 
 ## CPace group objects G\_X25519 and G\_X448 for single-coordinate Ladders on Montgomery curves {#CPaceMontgomery}
 
@@ -410,8 +412,7 @@ In this section we consider the case of CPace when using the X25519 and X448 Dif
 from {{?RFC7748}} operating on the Montgomery curves Curve25519 and Curve448 {{?RFC7748}}.
 
 CPace implementations using single-coordinate ladders on further Montgomery curves SHALL use the definitions in line
-with the specifications for X25519 and X448 and review the guidance given in the security consideration section {{sec-considerations}} and
-{{CPacePaper}}.
+with the specifications for X25519 and X448 and review the guidance given in {{sec-considerations}}.
 
 For X25519 the following definitions apply:
 
@@ -447,25 +448,25 @@ For X448 the following definitions apply:
 CPace cipher suites using G\_X448 MUST use a hash function producing at least H.b\_max\_in\_bytes >= 56 bytes of output. It is RECOMMENDED
 to use G\_X25519 in combination with SHAKE-256.
 
-- For both, G\_X448 and G\_X25519 The G.calculate\_generator(H, PRS,sid,CI) function shall be implemented as follows.
+For both, G\_X448 and G\_X25519 The G.calculate\_generator(H, PRS,sid,CI) function shall be implemented as follows.
 
--- First gen\_str = generator\_string(PRS,G.DSI,CI,sid, H.s\_in\_bytes) SHALL be calculated using the input block size of the
-  chosen hash primitive.
+ - First gen\_str = generator\_string(PRS,G.DSI,CI,sid, H.s\_in\_bytes) SHALL BE calculated using the input block size of the
+   chosen hash primitive.
 
-- This string SHALL then BE hashed to the required length
-  gen\_str\_hash = H.hash(gen\_str, G.field\_size\_bytes).
-  Note that this implies that the permissible output length H.maxb\_in\_bytes MUST BE larger or equal to the
-  field size of the group G for making a hashing primitive suitable.
+ - This string SHALL then BE hashed to the required length
+   gen\_str\_hash = H.hash(gen\_str, G.field\_size\_bytes).
+   Note that this implies that the permissible output length H.maxb\_in\_bytes MUST BE larger or equal to the
+   field size of the group G for making a hashing primitive suitable.
 
-- This result is then considered as a field coordinate using
-  the u = decodeUCoordinate(gen\_str\_hash, G.field\_size\_bits) function from {{!RFC7748}} which we
-  repeat in the appendix for convenience.
+ - This result is then considered as a field coordinate using
+   the u = decodeUCoordinate(gen\_str\_hash, G.field\_size\_bits) function from {{!RFC7748}} which we
+   repeat in the appendix for convenience.
 
-- The result point g is then calculated as (g,v) = map\_to\_curve\_elligator2(u) using the function
-  from {{!I-D.irtf-cfrg-hash-to-curve}}. Note that the v coordinate produced by the map\_to\_curve\_elligator2 function
-  is not required for CPace and discarded. The appendix repeats the definitions from {{!I-D.irtf-cfrg-hash-to-curve}} for convenience.
+ - The result point g is then calculated as (g,v) = map\_to\_curve\_elligator2(u) using the function
+   from {{!I-D.irtf-cfrg-hash-to-curve}}. Note that the v coordinate produced by the map\_to\_curve\_elligator2 function
+   is not required for CPace and discarded. The appendix repeats the definitions from {{!I-D.irtf-cfrg-hash-to-curve}} for convenience.
 
-In the appendix we show sage code that can be used as reference implementation.
+In the appendix we show sage code that can be used as reference implementation and corresponding test vectors..
 
 ## CPace group objects G\_Ristretto255 and G\_Decaf448 for prime-order group abstractions {#CPaceCoffee}
 
@@ -507,16 +508,16 @@ For both abstractions the following definitions apply:
 
 - It is RECOMMENDED to implement G.sample\_scalar() as follows.
 
--- Set scalar = sample\_random\_bytes(G.group\_size\_bytes).
+  - Set scalar = sample\_random\_bytes(G.group\_size\_bytes).
 
--- Then clear the most significant bits larger than group\_size\_bits.
+  - Then clear the most significant bits larger than G.group\_size\_bits.
 
--- Interpret the result as the little-endian encoding of an integer value and return the result.
+  - Interpret the result as the little-endian encoding of an integer value and return the result.
 
 -  Alternatively, G.sample\_scalar() MAY also implement uniform sampling between 1 and (G.group\_order - 1). (The more complex
 uniform sampling process might provide a larger side-channel attack surface for embedded systems in hostile environments.)
 
-- G.scalar\_mult(y,\_g) SHALL operate on a scalar y and a group element \_g in the internal representation of the group abstraction environment. It returns the value Y = encode(\_g^y), i.e. a value using the public encoding.
+- G.scalar\_mult(y,\_g) SHALL operate on a scalar y and a group element \_g in the internal representation of the group abstraction environment. It returns the value Y = encode((\_g)^y), i.e. it returns a value using the public encoding.
 
 - G.I = is the public encoding representation of the identity element.
 
@@ -524,17 +525,20 @@ uniform sampling process might provide a larger side-channel attack surface for 
 
 - The G.calculate\_generator(H, PRS,sid,CI) function SHALL return a decoded point and SHALL BE implemented as follows.
 
--- First gen\_str = generator\_string(PRS,G.DSI,CI,sid, H.s\_in\_bytes) is calculated using the input block size of the chosen hash primitive.
+   - First gen\_str = generator\_string(PRS,G.DSI,CI,sid, H.s\_in\_bytes) is calculated using the input block size of the chosen hash primitive.
 
--- This string is then hashed to the required length gen\_str\_hash = H.hash(gen\_str, 2 * G.field\_size\_bytes).  Note that this implies that the permissible output length H.maxb\_in\_bytes MUST BE larger or equal to twice the field size of the group G for making a hashing primitive suitable. Finally the internal representation of the generator \_g is calculated as \_g = one\_way\_map(gen\_str\_hash) using the one-way map function from the abstraction.
+   - This string is then hashed to the required length gen\_str\_hash = H.hash(gen\_str, 2 * G.field\_size\_bytes).  Note that this
+     implies that the permissible output length H.maxb\_in\_bytes MUST BE larger or equal to twice the field size of the group G for making a
+     hashing primitive suitable. Finally the internal representation of the generator \_g is calculated as \_g = one\_way\_map(gen\_str\_hash)
+     using the one-way map function from the abstraction.
 
-Note that with these definitions the scalar\_mult function operates on a decoded point \_g and returns an encoded point,
-while the scalar\_mult\_vfy(y,X) function operates on a scalar and an encoded point X.
+Note that with these definitions the scalar\_mult function operates on a _decoded_ point \_g and returns an encoded point,
+while the scalar\_mult\_vfy(y,X) function operates on an encoded point X (and also returns an encoded point).
 
 ## CPace group objects for curves in Short-Weierstrass representation {#CPaceWeierstrass}
 
 The group environment objects G defined in this section for use with Short-Weierstrass curves,
-are parametrized by the choice of an elliptic curve and an encode\_to\_curve(str) function.
+are parametrized by the choice of an elliptic curve and by choice of a suitable encode\_to\_curve(str) function.
 encode\_to\_curve(str) must map an octet string str to a point on the curve.
 
 ### Curves and associated functions
@@ -579,9 +583,9 @@ Using the above definitions, the CPace functions required for the group object G
 
 - G.calculate\_generator(H, PRS,sid,CI) function SHALL be implemented as follows.
 
--- First gen\_str = generator\_string(PRS,G.DSI,CI,sid, H.s\_in\_bytes) is calculated.
+   - First gen\_str = generator\_string(PRS,G.DSI,CI,sid, H.s\_in\_bytes) is calculated.
 
--- Then the output of a call to G.encode\_to\_curve(gen\_str) is returned, using the selected function from {{!I-D.irtf-cfrg-hash-to-curve}}).
+   - Then the output of a call to G.encode\_to\_curve(gen\_str) is returned, using the selected function from {{!I-D.irtf-cfrg-hash-to-curve}}.
 
 - G.scalar\_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
 G.scalar\_mult(s,X) SHALL return an encoding of the point X^s according to {{SEC1}}. It SHOULD use the full-coordinate format without compression that encodes both, x and y coordinates of the result point.
@@ -589,9 +593,11 @@ G.scalar\_mult(s,X) SHALL return an encoding of the point X^s according to {{SEC
 - G.scalar\_mult\_vfy(s,X) merges verification of point X according to {{IEEE1363}} A.16.10. and the the ECSVDP-DH procedure from {{IEEE1363}}.
 It SHALL BE implemented as follows:
 
--- If G.is\_valid(X) = False then G.scalar\_mult\_vfy(s,X) SHALL return "error".
+   - If G.is\_valid(X) = False then G.scalar\_mult\_vfy(s,X) SHALL return "error".
 
--- Otherwise G.scalar\_mult\_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from {{IEEE1363}} (section 7.2.1). I.e. it shall either return "error" (in case that X^s is the neutral element) or a secret shared value "z" (otherwise). "z" SHALL be encoded by using the big-endian encoding of the x-coordinate of the result point X^s according to {{SEC1}}.
+   - Otherwise G.scalar\_mult\_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from {{IEEE1363}} (section 7.2.1). I.e. it shall
+     either return "error" (in case that X^s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
+     the big-endian encoding of the x-coordinate of the result point X^s according to {{SEC1}}.
 
 - We represent the neutral element G.I by using the encoding of the "error" result case from the G.scalar\_mult\_vfy method above.
 
@@ -602,7 +608,20 @@ A security proof of CPace is found in {{CPacePaper}}. This proof covers all reco
 In the following sections we firstly describe aspects to consider when deviating from recommended cipher suites. Secondly we aim at
 giving guidance for implementations.
 
-## Security considerations for sampling scalars
+## Party identifiers and relay-attacks
+
+If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities. Incorporating party identifier strings
+is important for fending-off relay-attacks.
+
+Such attacks may become relevant, e.g., in a setting where several servers share the same password PRS
+
+- Here an adversary might relay messages from a honest user A which aims at interacting to server B to a server C instead.
+
+- If no party identifier strings are used, and B and C use the same PRS value, A might be establishing a common ISK key with C while assuming to be interacting with party B.
+
+Including and checking party identifiers for correct values can fend off such relay-attacks.
+
+## Security considerations regarding sampling of scalars
 For curves over fields F\_p where p is a prime close to a power of two 2^field\_size\_bits, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
 with respect to side-channels for embedded systems in hostile environments.
 The effect of non-uniform sampling was analyzed in {{CPacePaper}} for the case of Curve25519 and Curve448.
@@ -618,7 +637,7 @@ Merkle-Damgard constructions such as SHA2 or SHA512 along the lines of {{CDMP05}
 This is guaranteed by the design of the prefix\_free\_cat() function. In case that an application whishes to use an
 other form of encoding, the guidance given in {{CDMP05}} SHOULD BE considered.
 
-Although already K is a shared value, still it MUST NOT itself be used as a shared secret key. Leakage of K to an adversary may lead to offline-dictionary attacks.s.
+Although already K is a shared value, still it MUST NOT itself be used as a shared secret key. Instead ISK MUST BE used. Leakage of K to an adversary can lead to offline-dictionary attacks.
 
 ## Security considerations for single-coordinate CPace on Montgomery curves
 

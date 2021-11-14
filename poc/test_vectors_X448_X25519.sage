@@ -52,7 +52,10 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
 #
 #    print ("\nResults for X25519 implementations that clear bit #255:", file = file)
 #    print ("(i.e. implemented according to RFC7748!):", file = file)
-    print ("s =", IntegerToLEPrintString(s_in), file = file);
+    print ("\nu0,u1,u2,u3,u4,u5 and u7 MUST trigger the abort case when\n"+
+           "included in MSGa or MSGb.\n" +
+           "\nu6,u8,u9,uA and uB MUST be verified to produce the correct results:\n" +
+           "\ns =", IntegerToLEPrintString(s_in), file = file);
     print ("qN = G_X25519.scalar_mult_vfy(s, uX)", file = file)
     ctr=0;
     for x in weakp:
@@ -103,7 +106,10 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          test_vector_name = 'u%i' % ctr, 
                          line_prefix = "  ", max_len = 60, file = file);
         ctr += 1;
+    print ("\nAll of the above points u0 ... u4 MUST trigger the abort case when included", file = file)
+    print ("in the protocol messages MSGa or MSGb.", file = file)
     print ("~~~", file = file)
+
     
     print ("\nExpected results for X448 resp. G\\_X448.scalar\\_mult\\_vfy\n",file = file)
     ctr=0;
@@ -128,6 +134,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          test_vector_name = 'G_X448.scalar_mult_vfy(s,u%i)' % ctr, 
                          line_prefix = "  ", max_len = 60, file = file);
         ctr += 1;
+        
     print ("~~~\n", file = file)
     print ("\nTest vectors for scalar_mult with nonzero outputs\n",file = file)
  
