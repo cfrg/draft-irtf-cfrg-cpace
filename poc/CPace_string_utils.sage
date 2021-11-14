@@ -53,7 +53,11 @@ def ByteArrayToLEPrintString(k):
 
 def tv_output_byte_array(data, test_vector_name = "", line_prefix = "  ", max_len = 60, file = sys.stdout):
     string = ByteArrayToLEPrintString(data)
-    print (line_prefix + test_vector_name + ": (length: %i bytes)" % len(data) ,end="",file = file)
+    if len(test_vector_name) > 39:
+	    print (line_prefix + test_vector_name + ":\n" + line_prefix+"(length: %i bytes)" % len(data) ,end="",file = file)
+    else:
+	    print (line_prefix + test_vector_name + ": (length: %i bytes)" % len(data) ,end="",file = file)
+    
     chars_per_line = max_len - len(line_prefix)
     while True:
         print ("\n" + line_prefix + "  " + string[0:chars_per_line],end="", file = file)
