@@ -14,11 +14,11 @@ pi: [toc, sortrefs, symrefs]
 author:
  -  ins: M. Abdalla
     name: Michel Abdalla
-    org: DI, École Normale Supérieure, Paris
-    email: michel.abdalla@ens.fr
+    org: DFINITY - Zurich
+    email: michel.abdalla@gmail.com
  -  ins: B. Haase
     name: Bjoern Haase
-    org: Endress + Hauser Liquid Analysis
+    org: Endress + Hauser Liquid Analysis - Gerlingen
     email: bjoern.m.haase@web.de
  -  ins: J. Hesse
     name: Julia Hesse
@@ -804,6 +804,19 @@ Thanks to the members of the CFRG for comments and advice. Any comment and advic
     04313233340135000436373839
 ~~~
 
+## Definition of generator\_string function.
+
+
+~~~
+def generator_string(DSI,PRS,CI,sid,s_in_bytes):
+    # Concat all input fields with prepended length information.
+    # Add zero padding in the first hash block after DSI and PRS.
+    len_zpad = max(0,s_in_bytes - 1 - len(prepend_length_to_bytes(PRS))
+                     - len(prepend_length_to_bytes(DSI)))
+    return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
+~~~
+
+
 ## Definitions and test vector ordered concatenation
 
 
@@ -1107,10 +1120,10 @@ u9: d9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 ua: cdeb7a7c3b41b8ae1656e3faf19fc46ada098deb9c32b1fd866205165f49b880
 ub: 4c9c95bca3508c24b1d0b1559c83ef5b04445cc4581c8e86d8224eddd09f11d7
 
-u0,u1,u2,u3,u4,u5 and u7 MUST trigger the abort case when
-included in MSGa or MSGb.
+u0 ... ub MUST be verified to produce the correct results q0 ... qb:
 
-u6,u8,u9,uA and uB MUST be verified to produce the correct results:
+Additionally, u0,u1,u2,u3,u4,u5 and u7 MUST trigger the abort case
+when included in MSGa or MSGb.
 
 s = af46e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449aff
 qN = G_X25519.scalar_mult_vfy(s, uX)
@@ -1375,8 +1388,8 @@ Weak points for X448 larger or equal to the field prime (non-canonical)
     00000000000000000000000000000000000000000000000000000000ff
     ffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
-All of the above points u0 ... u4 MUST trigger the abort case when included
-in the protocol messages MSGa or MSGb.
+All of the above points u0 ... u4 MUST trigger the abort case
+when included in the protocol messages MSGa or MSGb.
 ~~~
 
 Expected results for X448 resp. G\_X448.scalar\_mult\_vfy
@@ -1648,10 +1661,10 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     Y_i1: (length: 32 bytes)
       011ca069484e890c9e494d8ed6bb0f66cbd9a8f0ef67168f36c51e0e
       feb8f347
-    G.I: (length: 32 bytes)
+    Y_i2 == G.I: (length: 32 bytes)
       00000000000000000000000000000000000000000000000000000000
       00000000
-    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,G.I) = G.I
+    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
 
 ##  Test vector for CPace using group decaf448 and hash SHAKE-256
@@ -1900,10 +1913,10 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     Y_i1: (length: 56 bytes)
       c703a6c8171ac38b66c5306553f45a487a24eb8581414444715bd2e5
       cf4c749a3b56a550f3c9a6ea3efa6e11ae6a6da12b98ef2f51174b9a
-    G.I: (length: 56 bytes)
+    Y_i2 == G.I: (length: 56 bytes)
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
-    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,G.I) = G.I
+    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
 
 ##  Test vector for CPace using group NIST P-256 and hash SHA-256

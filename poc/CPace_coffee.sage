@@ -105,9 +105,9 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
                          line_prefix = "    ", max_len = 60, file = file)
     tv_output_byte_array(Y_inv1, test_vector_name = "Y_i1", 
                          line_prefix = "    ", max_len = 60, file = file)   
-    tv_output_byte_array(G.I, test_vector_name = "G.I", 
+    tv_output_byte_array(G.I, test_vector_name = "Y_i2 == G.I", 
                          line_prefix = "    ", max_len = 60, file = file)
-    print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,G.I) = G.I", file = file)
+    print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I", file = file)
     print ("~~~\n", file = file)    
 
 if __name__ == "__main__":
