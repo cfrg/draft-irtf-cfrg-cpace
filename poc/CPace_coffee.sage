@@ -49,7 +49,7 @@ class G_CoffeeEcosystem():
         return (point * scalar_as_int).encode()
 
     def calculate_generator(self, H, PRS, CI, sid, print_test_vector_info = False, file = sys.stdout):
-        (gen_string, len_zpad) = generator_string(PRS, self.DSI,CI,sid,H.s_in_bytes)
+        (gen_string, len_zpad) = generator_string(self.DSI, PRS, CI, sid, H.s_in_bytes)
         string_hash = H.hash(gen_string, self.field_size_bytes * 2)
         result = self.point_class.map(string_hash)
         if print_test_vector_info:
@@ -63,7 +63,7 @@ class G_CoffeeEcosystem():
             print ("    CI =", ByteArrayToLEPrintString(CI), file = file)
             print ("    sid =", ByteArrayToLEPrintString(sid), file = file)
             print ("  Outputs", file = file)
-            tv_output_byte_array(gen_string, test_vector_name = "hash generator string", 
+            tv_output_byte_array(gen_string, test_vector_name = "generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes)", 
                                  line_prefix = "    ", max_len = 60, file = file)
             tv_output_byte_array(string_hash, test_vector_name = "hash result", 
                                  line_prefix = "    ", max_len = 60, file = file)

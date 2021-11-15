@@ -86,13 +86,14 @@ def zero_bytes(length):
     result = b"\0" * length
     return result
 
-def generator_string(PRS,DSI,CI,sid,s_in_bytes):
+def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     """
     Concat all input fields with prepended length information.
-    Add zero padding in the first hash block between PRS and DSI.
+    Add zero padding in the first hash block after DSI and PRS.
     """
-    len_zpad = max(0,s_in_bytes - 1 - len(prepend_length_to_bytes(PRS)))
-    return (prefix_free_cat(PRS, zero_bytes(len_zpad), DSI, CI, sid), len_zpad)
+    len_zpad = max(0,s_in_bytes - 1 - len(prepend_length_to_bytes(PRS))
+                     - len(prepend_length_to_bytes(DSI)))
+    return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
 
     
 def generate_testvectors_string_functions(file = sys.stdout):
@@ -148,6 +149,19 @@ def generate_testvectors_string_functions(file = sys.stdout):
                          line_prefix = "  ", max_len = 60, file = file);
     
     print ("~~~", file = file)
+
+
+    print ("\n## Definition of generator\\_string function.\n\n" +
+"""
+~~~
+def generator_string(DSI,PRS,CI,sid,s_in_bytes):
+    # Concat all input fields with prepended length information.
+    # Add zero padding in the first hash block after DSI and PRS.
+    len_zpad = max(0,s_in_bytes - 1 - len(prepend_length_to_bytes(PRS))
+                     - len(prepend_length_to_bytes(DSI)))
+    return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
+~~~
+""", file = file);
     
     print ("\n## Definitions and test vector ordered concatenation\n", file = file)
 
@@ -186,14 +200,6 @@ def generate_testvectors_string_functions(file = sys.stdout):
 def zero_bytes(length):
     result = b"\0" * length
     return result
-
-def generator_string(PRS,DSI,CI,sid,s_in_bytes):
-    """
-    Concat all input fields with prepended length information.
-    Add zero padding in the first hash block between PRS and DSI.
-    """
-    len_zpad = max(0,s_in_bytes - 1 - len(prepend_length_to_bytes(PRS)))
-    return (prefix_free_cat(PRS, zero_bytes(len_zpad), DSI, CI, sid), len_zpad)
 
 def random_bytes(length):
     values = [randint(0, 255) for i in range(length)]

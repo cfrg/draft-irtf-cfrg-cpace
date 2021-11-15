@@ -127,7 +127,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
         return self.encodeUCoordinate(Integer(x))
 
     def calculate_generator(self, H, PRS, CI, sid, print_test_vector_info = False, file = sys.stdout):
-        (gen_string, len_zpad) = generator_string(PRS, self.DSI,CI,sid,H.s_in_bytes)
+        (gen_string, len_zpad) = generator_string(self.DSI, PRS, CI, sid, H.s_in_bytes)
         string_hash = H.hash(gen_string, self.field_size_bytes)
         u = self.decodeUCoordinate(string_hash)
         result = self.elligator2(u)
@@ -142,6 +142,8 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
             print ("    CI =", ByteArrayToLEPrintString(CI), file=file)
             print ("    sid =", ByteArrayToLEPrintString(sid), file=file)
             print ("  Outputs",file=file)
+            tv_output_byte_array(gen_string, test_vector_name = "generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes)", 
+                                 line_prefix = "    ", max_len = 60, file=file)
             tv_output_byte_array(string_hash, test_vector_name = "hash generator string", 
                                  line_prefix = "    ", max_len = 60, file=file)
             tv_output_byte_array(IntegerToByteArray(u), test_vector_name = "decoded field element of %i bits" % self.field_size_bits, 
