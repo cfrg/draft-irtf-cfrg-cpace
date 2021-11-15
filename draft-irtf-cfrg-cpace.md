@@ -123,15 +123,11 @@ and comes with  a security proof providing composability guarantees.
 This document describes CPace which is a protocol for two
 parties for deriving a strong shared secret from a shared low-entropy secret (password) without
 exposing the secret to offline dictionary attacks.
-
 The CPace design was tailored for efficiency on constrained devices such as secure-element chipsets
 and considers mitigations with respect to adversaries that might become
 capable of breaking the discrete logarithm problem on elliptic curves by quantum computers.
-
-CPace is designed to be suitable as both, a building block within a larger protocol construction using CPace as substep,
-and as a standalone protocol.
-CPace comes with both, game-based and simulation-based proofs where the latter provides
-composability guarantees for settings where CPace forms a substep in a larger solution.
+CPace comes with both game-based and simulation-based proofs, where the latter provides
+composability guarantees that let CPace run securely in concurrent settings.
 
 # Requirements Notation
 
@@ -204,7 +200,7 @@ binding a CPace execution to one specific channel. Typically CI is obtained by c
 uniquely identify the protocol partner's identities, such as their networking addresses.
 
 - sid denotes an OPTIONAL octet string serving as session identifier that needs to be available to both parties. In application scenarios
-where a higher-level protocol has established a unique sid value, this parameter can be used to ensure strong composability guarantees of CPace, and to bind a CPace execution to the application.
+where a higher-level protocol has established a unique sid value, this parameter can be used to ensure strong composability guarantees of CPace, and to bind a CPace execution to the application. 
 
 - ADa and ADb denote OPTIONAL octet strings containing arbitrary associated data, each available to one of the parties. They are not required to be equal, and are publicly transmitted as part of the protocol flow. ADa and ADb can for instance include party identifiers or protocol version information
 (to avoid, e.g., downgrade attacks). In a setting with initiator and responder roles, the information ADa sent by the
@@ -214,17 +210,13 @@ initiator can be used by the responder for identifying which among possibly seve
 
 - str1 \|\| str2 denotes concatenation of octet strings.
 
-- oCAT(str1,str2) denotes _ordered_ concatenation of octet strings as specified in the appendix.
+- oCat(str1,str2) denotes _ordered_ concatenation of octet strings as specified in the appendix.
 
-- CONCAT(MSGa,MSGb) defines a concatenation method that depends on the application scenario.
-In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of
-messages is not enforced by the protocol flow, CONCAT(MSGa,MSGb) = oCAT(MSGa,MSGb) SHALL be used. In settings
-where the protocol flow enforces ordering CONCAT(MSGa,MSGb) SHOULD BE implemented such that the _later_ message
-is appended to the _earlier_ message, i.e. CONCAT(MSGa,MSGb) = MSGa\|\|MSGb, if MSGa comes first.
+- concat(MSGa,MSGb) denotes a concatenation method allows both parties to concatenate CPace's protocol messages in the same way. In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is not enforced by the protocol flow, concat(MSGa,MSGb) = oCat(MSGa,MSGb) SHALL be used. In settings where the protocol flow enforces ordering, concat(MSGa,MSGb) SHOULD BE implemented such that the _later_ message is appended to the _earlier_ message, i.e., concat(MSGa,MSGb) = MSGa\|\|MSGb if MSGa is sent first.
 
 - len(S) denotes the number of octets in a string S.
 
-- nil represent an empty octet string, i.e., len(nil) = 0.
+- nil denotes an empty octet string, i.e., len(nil) = 0.
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
 the length of the octet string to the string itself. The length shall be prepended by using an UTF-8 encoding of the length.
@@ -242,117 +234,92 @@ uniformly distributed between 0 and 255.
 
 ### Notation for group operations
 
-We use "multiplicative" notation for group operation, where X^y denotes scalar multiplication within the group.
+We use multiplicative notation for the group, i.e., X^2  denotes the element that is obtained by computing X*X, for group element X and group operation *.
 
 # The CPace protocol
 
-CPace is a one round protocol where two parties, A and B interact.
-
-In the setup phase both sides agree on a common hash function H and a group
-environment G and a session id value sid.
-
-At invocation, A and B are provisioned with public (CI) and secret
-information (PRS) as prerequisite for running the protocol.
-
+CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G,H and OPTIONAL public CI,sid,ADa (for A) and ADb (for B).
 A sends a message MSGa to B. MSGa contains the public share Ya
 and OPTIONAL associated data ADa (i.e. an ADa field that MAY have a length of 0 bytes).
-
 Likewise, B sends a message MSGb to A. MSGb contains the public share Yb
 and OPTIONAL associated data ADb (i.e. an ADb field that MAY have a length of 0 bytes).
-
 Both A and B use the received messages for deriving a shared intermediate session key, ISK.
-
 Naming of this
-key as "intermediate" session key highlights the fact, that it is RECOMMENDED to process ISK
-by use of a suitable strong key-derivation function KDF (such as defined in {{?RFC5869}}) first,
-before actually using the key in a higher-level protocol.
+key as "intermediate" session key highlights the fact that it is RECOMMENDED to process ISK
+by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) first,
+before using the key in a higher-level protocol.
 
-## Session id establishment
+## Session identifier establishment
 
-It is RECOMMENDED to establish sid in the course of the higher-level protocol that invokes CPace
-as a unique sid value may be used for binding a CPace run to one specific instance of the higher-level
-protocol. It is RECOMMENDED to obtain sid by concatenating random bytes produced by A with random bytes produced by B.
+It is RECOMMENDED to establish a unique session identifier sid in the course of the higher-level protocol that invokes CPace, by concatenating random bytes produced by A with random bytes produced by B.
+In settings where such establishment is not an option, 
+we can let initiator A choose a fresh random sid and send it to B together with the
+first message. This method works whenever the message produced by party A comes first.
 
-Where no such sid is available from a higher-level protocol layer, a suitable approach for defining the
-session id is to let an initiator choose a fresh random sid send it to B together with the
-first message. This method is shown in the setup protocol section below prior to the actual
-protocol flow and works whenever the message produced by party A comes first.
-
-The sid string SHOULD HAVE a length of at least 8 bytes.
-
-The sid string MAY also be the emtpy string, nil. I.e. use of the sid string is OPTIONAL.
+The sid string SHOULD HAVE a length of at least 8 bytes and it MAY also be the empty string, nil. I.e., use of the sid string is OPTIONAL.
 
 ## Protocol flow
 
+Optional parameters and messages are denoted with [].
+
 ~~~
-  Inputs:
-                  PRS, CI, sid
-  ADa                                      ADb
+
+            public: G, H, [CI], [sid]
+
+  A: PRS,[ADa]                    B: PRS,[ADb]
     ---------------------------------------
- compute Ya   |      Ya, ADa     |  compute Yb
+ compute Ya   |     Ya, [ADa]    |  compute Yb
               |----------------->|
-              |      Yb, ADb     |
+              |     Yb, [ADb]    |
               |<-----------------|
  verify data  |                  |  verify data
  derive ISK   |                  |  derive ISK
     ---------------------------------------
  output ISK                         output ISK
+
 ~~~
 
-## CPace substeps
+## CPace protocol instructions
 
-To begin, A calculates a generator g = G.calculate\_generator(H, PRS,CI,sid).
+A computes a generator g = G.calculate\_generator(H,PRS,CI,sid), scalar ya = G.sample\_scalar() and group element Ya = G.scalar\_mult (ya,g). A then transmits MSGa = prefix\_free\_cat(Ya, ADa) with
+optional associated data ADa to B. ADa MAY have length zero.
 
-A samples ya = G.sample\_scalar() randomly according to the specification for the group environment G.
-A then calculates Ya= G.scalar\_mult (ya,g). A then transmits MSGa = prefix\_free\_cat(Ya, ADa) with
-Ya and the optional associated data ADa to B. ADa MAY have length zero.
+B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_mult(yb,g). B sends MSGb = prefix\_free\_cat(Yb, ADb) to A.
 
-(Note that the use of the prefix-free encoding with the prepended lengths of the substrings Ya and ADa allows B to parse MSGa and separate Ya and ADa.)
+Upon reception of MSGa, B parses MSGa as Ya and ADa using the prepended lengths of the substrings added by the prefix\_free\_cat() function. B then computes 
+K = G.scalar\_mult_vfy(yb,Ya). B MUST abort if K=G.I.
+Otherwise B returns 
+ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|concat(MSGa, MSGb)). B returns ISK and terminates.
 
-Similarly B picks yb = G.sample\_scalar() randomly. B then calculates
-g = G.calculate_generator(H, PRS,CI,sid) and
-Yb = G.scalar\_mult(yb,g). B sends MSGb = prefix\_free\_cat(Yb, ADb) to A.
+Upon reception of MSGb, A parses MSGb as Yb and ADb using the prepended lengths of the substrings added by the prefix\_free\_cat() function. A then computes 
+K = G.scalar\_mult\_vfy(ya,Yb). A MUST abort if K=G.I.
+Otherwise A returns 
+ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| concat(MSGa, MSGb). A returns ISK and terminates.
 
-B calculates K = G.scalar\_mult_vfy(yb,Ya). B MUST abort if K is the encoding of the neutral element G.I (error condition).
-Otherwise B returns ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|CONCAT(MSGa, MSGb).
+The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view (containing of MSGa and MSGb) of both parties match.
 
-Likewise upon reception of Yb, A calculates K = G.scalar\_mult\_vfy(Yb,ya). A MUST abort if K is the neutral element G.I.
-If K is different from G.I, A returns ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| CONCAT(MSGa, MSGb).
-
-Upon completion of this protocol, the session key ISK returned by A and B will be identical by both
-parties if and only if the supplied input parameters sid, PRS and CI match on both sides and the
-transcripts match.
-
-## Initiator/Responder and Parallel CPace
-
-CPace is proven secure with and without mandated ordering of the message flow. I.e. it can be implemented in an initiator/responder
-setting and also in a parallel setting. In the parallel setting the CONCAT(MSGa,MSGb) function which is needed for deriving the ISK values
-SHALL be implemented by using ordered concatenation oCAT(MSGa,MSGb). Otherwise the messages SHOULD be concatenated such that the
-earlier message precedes the later message.
-
-In the initiator/responder setting the responder MAY abort the protocol without sending its message if the verification check
-fails. (i.e. if the call to G.scalar\_mult\_vfy produced the neutral element G.I).
+We note that the above protocol instructions implement a parallel setting with no specific initiator/responder and no assumptions about the order in which messages arrive. If implemented as initiator-responder protocol, the responder, say, B, starts with computation of the generator only upon reception of MSGa. 
 
 # CPace cipher suites
 
-This section documents RECOMMENDED CPACE ciphersuite configurations. Any ciphersuite configuration for CPace
+This section documents RECOMMENDED CPace cipher suite configurations. Any cipher suite configuration for CPace
 is REQUIRED to specify
 
-- a group environment G specified by
+- A group environment G specified by
 
-  - functions G.sample\_scalar(), G.scalar\_mult(), G.scalar\_mult\_vfy() and G.calculate\_generator()
+  - Functions G.sample\_scalar(), G.scalar\_mult(), G.scalar\_mult\_vfy() and G.calculate\_generator()
 
-  - neutral element G.I
+  - A neutral element G.I
 
-  - a domain separation identifier string G.DSI unique for this cipher suite.
+  - A domain separation identifier string G.DSI unique for this cipher suite.
 
-- a hash function H specified by
+- A hash function H specified by
 
-  - function H.hash()
+  - Function H.hash()
 
-  - constants H.b\_in\_bytes, H.bmax\_in\_bytes and H.s\_in\_bytes
+  - Constants H.b\_in\_bytes, H.bmax\_in\_bytes and H.s\_in\_bytes
 
-For naming cipher suites we use the convention "CPACE-G-H". Currently, test vectors are available for the following RECOMMENDED cipher suites
+For naming cipher suites we use the convention "CPACE-G-H". Currently, test vectors are available for the following RECOMMENDED cipher suites:
 
 - CPACE-X25519-SHA512. This suite uses curve G\_X25519 defined in {{CPaceMontgomery}} and SHA-512 as hash function.
 
@@ -380,29 +347,28 @@ CPace can securely be implemented on further elliptic curves when following the 
 
 # Implementation of recommended CPace cipher suites
 
-## Common function for calculating generator strings
+## Common function for computing generators
 
-The different cipher suites for CPace defined in the upcoming sections share the same method for combining the individual strings PRS, CI, sid and the domain-separation string DSI to a generator string.
+The different cipher suites for CPace defined in the upcoming sections share the same method for deterministically combining the individual strings PRS, CI, sid and the domain-separation identifier DSI to a generator string that we describe here. Let CPACE-G-H denote the cipher suite.
 
-- generator\_string(DSI,PRS,CI,sid, s\_in\_bytes) denotes a function that returns the string
-prefix\_free\_cat(DSI, PRS, zero\_bytes(len\_zpad), CI, sid) in which all input strings are concatenated.
+- generator\_string(G.DSI, PRS, CI, sid, s\_in\_bytes) denotes a function that returns the string
+prefix\_free\_cat(G.DSI, PRS, zero\_bytes(len\_zpad), CI, sid).
 
-- len\_zpad = MAX(0, s\_in\_bytes - len(prepend\_len(PRS)) - len(prepend\_len(DSI)) - 1)
+- len\_zpad = MAX(0, s\_in\_bytes - len(prepend\_len(PRS)) - len(prepend\_len(G.DSI)) - 1)
 
-The zero padding of length len\_zpad is designed such that the encoding of DSI and PRS together with the zero padding field completely
+The zero padding of length len\_zpad is designed such that the encoding of G.DSI and PRS together with the zero padding field completely
 fills the first input block (of length s\_in\_bytes) of the hash.
 As a result the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation
 and test vectors are provided in the appendix.)
 
 The introduction of a zero-padding within the generator string also helps mitigating attacks of a side-channel adversary that
 analyzes correlations between publicly known variable information with the low-entropy PRS string.
-Note that the hash of the first block is intentionally made indedependent of session-specific inputs, such as sid or CI.
+Note that the hash of the first block is intentionally made independent of session-specific inputs, such as sid or CI.
 
 ## CPace group objects G\_X25519 and G\_X448 for single-coordinate Ladders on Montgomery curves {#CPaceMontgomery}
 
 In this section we consider the case of CPace when using the X25519 and X448 Diffie-Hellman functions
 from {{?RFC7748}} operating on the Montgomery curves Curve25519 and Curve448 {{?RFC7748}}.
-
 CPace implementations using single-coordinate ladders on further Montgomery curves SHALL use the definitions in line
 with the specifications for X25519 and X448 and review the guidance given in {{sec-considerations}}.
 
@@ -440,7 +406,7 @@ For X448 the following definitions apply:
 CPace cipher suites using G\_X448 MUST use a hash function producing at least H.b\_max\_in\_bytes >= 56 bytes of output. It is RECOMMENDED
 to use G\_X25519 in combination with SHAKE-256.
 
-For both, G\_X448 and G\_X25519 The G.calculate\_generator(H, PRS,sid,CI) function shall be implemented as follows.
+For both G\_X448 and G\_X25519 the G.calculate\_generator(H, PRS,sid,CI) function shall be implemented as follows.
 
  - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) SHALL BE calculated using the input block size of the
    chosen hash function.
@@ -815,7 +781,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
 ### Definitions ordered concatenation
 
 ~~~
-  def oCAT(str1,str2):
+  def oCat(str1,str2):
       if str1 > str2:
           return str1 + str2
       else:
@@ -825,7 +791,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
 ### Test vectors ordered concatenation
 
 ~~~
-  string comparison for oCAT:
+  string comparison for oCat:
     b"\0" > b"\0\0" == False
     b"\1" > b"\0\0" == True
     b"\0\0" > b"\0" == True
@@ -833,9 +799,9 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     b"\0\1" > b"\1" == False
     b"ABCD" > b"BCD" == False
 
-  oCAT(b"ABCD",b"BCD"): (length: 7 bytes)
+  oCat(b"ABCD",b"BCD"): (length: 7 bytes)
     42434441424344
-  oCAT(b"BCD",b"ABCDE"): (length: 8 bytes)
+  oCat(b"BCD",b"ABCDE"): (length: 8 bytes)
     4243444142434445
 ~~~
 
@@ -1010,7 +976,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
       0ccf2fd375498225e45a5206536103414461
     DSI = G.DSI_ISK, b'CPace255_ISK': (length: 12 bytes)
       43506163653235355f49534b
-    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
     (length: 137 bytes)
       0c43506163653235355f49534b107e4b4791d6a8ef019b936c79fb7f
       2c57202a905bc5f0b93ee72ac4b6ea8723520941adfc892935bf6f86
@@ -1251,7 +1217,7 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
       1c51a58ce4b503414461
     DSI = G.DSI_ISK, b'CPace448_ISK': (length: 12 bytes)
       43506163653434385f49534b
-    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
     (length: 209 bytes)
       0c43506163653434385f49534b105223e0cdc45d6575668d64c55200
       412438e00af217556a40ccbc9822cc27a43542e45166a653aa4df746
@@ -1540,7 +1506,7 @@ Test vectors for scalar_mult with nonzero outputs
     DSI = G.DSI_ISK, b'CPaceRistretto255_ISK':
     (length: 21 bytes)
       435061636552697374726574746f3235355f49534b
-    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
     (length: 146 bytes)
       15435061636552697374726574746f3235355f49534b107e4b4791d6
       a8ef019b936c79fb7f2c57203efef1706f42efa354020b087b37fbd9
@@ -1778,7 +1744,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       989f091e2be303414461
     DSI = G.DSI_ISK, b'CPaceDecaf448_ISK': (length: 17 bytes)
       435061636544656361663434385f49534b
-    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
     (length: 214 bytes)
       11435061636544656361663434385f49534b105223e0cdc45d657566
       8d64c55200412438dc504938fb70eb13916697aa3e076e82537c171a
@@ -2028,7 +1994,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     (length: 34 bytes)
       4350616365503235365f584d443a5348412d3235365f535357555f4e
       555f5f49534b
-    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
     (length: 225 bytes)
       224350616365503235365f584d443a5348412d3235365f535357555f
       4e555f5f49534b1034b36454cab2e7842c389f7d88ecb7df2027f705
@@ -2288,7 +2254,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     (length: 34 bytes)
       4350616365503338345f584d443a5348412d3338345f535357555f4e
       555f5f49534b
-    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
     (length: 305 bytes)
       224350616365503338345f584d443a5348412d3338345f535357555f
       4e555f5f49534b105b3773aa90e8f23c61563a4b645b276c30e5ef57
@@ -2585,7 +2551,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     (length: 34 bytes)
       4350616365503532315f584d443a5348412d3531325f535357555f4e
       555f5f49534b
-    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
     (length: 397 bytes)
       224350616365503532315f584d443a5348412d3531325f535357555f
       4e555f5f49534b107e4b4791d6a8ef019b936c79fb7f2c57420070a7
