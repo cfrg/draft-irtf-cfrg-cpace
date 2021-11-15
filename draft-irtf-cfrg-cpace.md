@@ -309,7 +309,7 @@ The sid string MAY also be the emtpy string, nil. I.e. use of the sid string is 
  output ISK                         output ISK
 ~~~
 
-## CPace
+## CPace substeps
 
 To begin, A calculates a generator g = G.calculate\_generator(H, PRS,CI,sid).
 
@@ -337,12 +337,13 @@ transcripts match.
 
 CPace is proven secure with and without mandated ordering of the message flow. I.e. it can be implemented in an initiator/responder
 setting and also in a parallel setting. In the parallel setting the CONCAT(MSGa,MSGb) function which is needed for deriving the ISK values
-SHALL be implemented by using ordered concatenation oCAT(MSGa,MSGb).
+SHALL be implemented by using ordered concatenation oCAT(MSGa,MSGb). Otherwise the messages SHOULD be concatenated such that the
+earlier message precedes the later message.
 
 In the initiator/responder setting the responder MAY abort the protocol without sending its message if the verification check
 fails. (i.e. if the call to G.scalar\_mult\_vfy produced the neutral element G.I).
 
-# RECOMMENDED Ciphersuites
+# CPace cipher suites
 
 This section documents RECOMMENDED CPACE ciphersuite configurations. Any ciphersuite configuration for CPace
 is REQUIRED to specify,
@@ -556,7 +557,7 @@ For deriving Diffie-Hellman shared secrets ECKAS-DH1 from {{IEEE1363}} specifies
 
 ### Suitable encode\_to\_curve methods
 
-All the encode\_to\_curve methods specified {{!I-D.irtf-cfrg-hash-to-curve}}
+All the encode\_to\_curve methods specified in {{!I-D.irtf-cfrg-hash-to-curve}}
 are suitable for CPace. For Short-Weierstrass curves it is RECOMMENDED to use the non-uniform variant of the SSWU
 mapping primitive from {{!I-D.irtf-cfrg-hash-to-curve}} if a SSWU mapping is available for the chosen curve.
 
