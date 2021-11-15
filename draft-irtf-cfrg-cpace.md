@@ -565,43 +565,33 @@ It SHALL BE implemented as follows:
 # Security Considerations {#sec-considerations}
 
 A security proof of CPace is found in {{CPacePaper}}. This proof covers all recommended cipher suites included in this document.
-In the following sections we firstly describe aspects to consider when deviating from recommended cipher suites. Secondly we aim at
-giving guidance for implementations.
+In the following sections we describe how to protect CPace against several attack families, such as relay-, length extension- or side channel attacks. We also describe aspects to consider when deviating from recommended cipher suites. 
 
-## Party identifiers and relay-attacks
+## Party identifiers and relay attacks
 
 If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities. Incorporating party identifier strings
-is important for fending-off relay-attacks.
-
-Such attacks may become relevant, e.g., in a setting where several servers share the same password PRS
-
-- Here an adversary might relay messages from a honest user A which aims at interacting to server B to a server C instead.
-
-- If no party identifier strings are used, and B and C use the same PRS value, A might be establishing a common ISK key with C while assuming to be interacting with party B.
-
-Including and checking party identifiers for correct values can fend off such relay-attacks.
+is important for fending off relay attacks.
+Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C use the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
+Including and checking party identifiers can fend off such relay attacks.
 
 ## Security considerations regarding sampling of scalars
-For curves over fields F\_p where p is a prime close to a power of two 2^field\_size\_bits, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
+For curves over fields F\_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
 with respect to side-channels for embedded systems in hostile environments.
-The effect of non-uniform sampling was analyzed in {{CPacePaper}} for the case of Curve25519 and Curve448.
+The effect of non-uniform sampling on security was demonstrated to be begning in {{CPacePaper}} for the case of Curve25519 and Curve448.
+This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}.
 
-This analysis does not transfer most curves in Short-Weierstrass form. As a result, we recommend rejection sampling for the group environment
-objects from {{CPaceWeierstrass}}.
+## Hashing and key derivation
 
-## Security considerations regarding hashing and key derivation
-
-In order to prevent analysis of length-extension attacks on hash functions, all hash input strings in CPace are designed to be prefix-free strings which have the length of individual substrings prependeded.
+In order to prevent analysis of length extension attacks on hash functions, all hash input strings in CPace are designed to be prefix-free strings which have the length of individual substrings prepended, enforced by the prefix\_free\_cat() function.
 This choice was made in order to make CPace suitable also for hash function instantiations using
 Merkle-Damgard constructions such as SHA-2 or SHA-512 along the lines of {{CDMP05}}.
-This is guaranteed by the design of the prefix\_free\_cat() function. In case that an application whishes to use an
-other form of encoding, the guidance given in {{CDMP05}} SHOULD BE considered.
+In case that an application whishes to use another form of encoding, the guidance given in {{CDMP05}} SHOULD BE considered.
 
-Although already K is a shared value, still it MUST NOT itself be used as a shared secret key. Instead ISK MUST BE used. Leakage of K to an adversary can lead to offline-dictionary attacks.
+Although already K is a shared value, it MUST NOT itself be used as an application key. Instead, ISK MUST BE used. Leakage of K to an adversary can lead to offline dictionary attacks.
 
-## Security considerations for single-coordinate CPace on Montgomery curves
+## Single-coordinate CPace on Montgomery curves
 
-The definitions given for the recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in {{CPaceMontgomery}} rely on the following properties  {{CPacePaper}}:
+The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in {{CPaceMontgomery}} rely on the following properties  {{CPacePaper}}:
 
 - The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' * c') with p' prime and c' a cofactor.
 
@@ -611,17 +601,13 @@ The definitions given for the recommended cipher suites for the Montgomery curve
 
 - The representation of the neutral element G.I MUST BE the same for both, the curve and its twist.
 
-- The implementation of G.scalar\_mult\_vfy(y,X) MUST map all c low-order points on the curve and all c' low-order points on the twist  on the representation of the identity element G.I.
+- The implementation of G.scalar\_mult\_vfy(y,X) MUST map all c low-order points on the curve and all c' low-order points on the twist to G.I.
 
-Alternative Montgomery curves outside of the set recommended here, can use the specifications given in {{CPaceMontgomery}} given, that the above properties hold.
+Montgomery curves other than the ones recommended here can use the specifications given in {{CPaceMontgomery}}, given that the above properties hold.
 
-## Verification of invalid point detection
+## Invalid point detection 
 
-Correct implementation of point verification SHALL BE verified for any actual CPace implementation. As such, it SHOULD BE checked that the abort cases in the protocol specification are indeed triggered whenever an inbound message (MSGa or MSGb) includes a point (Ya or Yb) that makes G.scalar\_mult\_vfy(y,Ya) output the error-result G.I.
-
-The verification SHALL be carried out by including any of the invalid points in both MSGa _and_ MSGb, in order to make sure that _both_ parties have the verification checks properly implemented.
-
-For any of the recommended cipher suites, the appendix gives a set of the invalid point representations that MUST trigger the abort case.
+TBD: integrate the following instructions in section 6!!!
 
 ### Verification for Short-Weierstrass
 
@@ -644,23 +630,10 @@ MSGa or MSGb include either of, invalid encodings or encodings of the neutral el
 
 ## Nonce values
 
-Secret scalars ya and yb MUST NOT be reused. Values for sid SHOULD NOT be reused as the composability
-guarantees of the simulation-based proof rely on uniqueness of session ids {{CPacePaper}}.
+Secret scalars ya and yb MUST NOT be reused. Values for sid SHOULD NOT be reused since the composability
+guarantees established by the simulation-based proof rely on the uniqueness of session ids {{CPacePaper}}.
 
-If CPace is used as a building block of higher-level protocols, it is RECOMMENDED that sid
-is generated by the higher-level protocol and passed to CPace. One suitable option is that sid
-is generated by concatenating ephemeral random strings from both parties.
-
-## Password hashing and application environments
-
-Password databases in a client/server setting SHOULD use iterated password hashing such as specified in {{?RFC7914}} (scrypt) and {{?RFC9106}}
-(Argon2). Such iterated password hashing requires so-called "salt" nonce values.
-CPace does not itself provide mechanisms for agreeing on such salt values.
-For an analysis of this aspect see, e.g., the discussion in {{AUCPacePaper}} where
-CPace has been used as building block within the augmented AuCPace protocol {{AUCPacePaper}}.
-
-As a consequence, in a setting of a server with several distinct users it is RECOMMENDED to seriously
-consider the augmented PAKE protocol OPAQUE {{?I-D.draft-irtf-cfrg-opaque}} instead.
+If CPace is used in a concurrent system, it is RECOMMENDED that a unique sid is generated by the higher-level protocol and passed to CPace. One suitable option is that sid is generated by concatenating ephemeral random strings contributed by both parties.
 
 ## Side channel considerations
 
