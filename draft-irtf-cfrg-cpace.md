@@ -643,7 +643,6 @@ attention on computing
 the secret generator G.calculate_generator(PRS,CI,sid).
 The most critical substep to consider might be the processing of the first block of the hash that includes
 the PRS string.
-
 The zero-padding introduced when hashing the sensitive PRS string can be expected to make
 the task for a side-channel attack somewhat more complex. Still this feature alone is not sufficient for ruling out power analysis attacks.
 
@@ -651,10 +650,9 @@ the task for a side-channel attack somewhat more complex. Still this feature alo
 
 CPace is proven secure under the hardness of the computational Simultaneous Diffie-Hellmann (SDH)
 assumption in the group G (as defined in {{CPacePaper}}).
-This assumption is not expected to hold any longer if large-scale quantum computers (LSQC) happen to  become available.
-Still even in case that LSQC emerge, it is reasonable to assume that discrete-logarithm calculations will remain costly.
-Here CPace whith ephemeral session id values
-forces the adversary to solve one computational Diffie-Hellman problem per password guess {{CPacePaper2}}.
+This assumption is not expected to hold any longer when large-scale quantum computers (LSQC) are available.
+Still, even in case that LSQC emerge, it is reasonable to assume that discrete-logarithm computations will remain costly. CPace with ephemeral session id values
+sid forces the adversary to solve one computational Diffie-Hellman problem per password guess {{CPacePaper2}}.
 In this sense, using the wording suggested by Steve Thomas on the CFRG mailing list, CPace is "quantum-annoying".
 
 # IANA Considerations
