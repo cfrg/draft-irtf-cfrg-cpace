@@ -34,6 +34,10 @@ normative:
       -
         org: Standards for Efficient Cryptography Group (SECG)
 
+  IEEE1363:
+    title: Standard Specifications for Public Key Cryptography, IEEE 1363
+    date: 2000
+
 informative:
   CPacePaper2:
     title: The 'quantum annoying' property of password-authenticated key exchange protocols.
@@ -53,15 +57,6 @@ informative:
         ins: B. Haase
       -
         ins: J. Hesse
-  AUCPacePaper:
-    title: "AuCPace. PAKE protocol tailored for the use in the internet of things"
-    target: https://eprint.iacr.org/2018/286
-    date: Feb, 2018
-    author:
-      -
-        ins: B. Haase
-      -
-        ins: B. Labrique
   CDMP05:
     title: "Merkle-Damgaard Revisited: How to Construct a Hash Function"
     seriesinfo:
@@ -95,10 +90,6 @@ informative:
     author:
       -
         org: National Institute of Standards and Technology (NIST)
-
-  IEEE1363:
-    title: Standard Specifications for Public Key Cryptography, IEEE 1363
-    date: 2000
 
   SEC2:
     title: "SEC 2: Recommended Elliptic Curve Domain Parameters"
@@ -139,11 +130,11 @@ composability guarantees that let CPace run securely in concurrent settings.
 
 For CPace both communication partners need to agree on a common cipher suite. Cipher suites consist of a combination of
 a hash function H and an elliptic curve environment G. We assume both G and H to come with associated constants and functions
-as detailed below. To access these we use an object-style notation such as, e.g., H.b\_in\_bytes and G.sample\_scalar(). 
+as detailed below. To access these we use an object-style notation such as, e.g., H.b\_in\_bytes and G.sample\_scalar().
 
 ### Hash function H
 
-With H we denote a hash function. 
+With H we denote a hash function.
 Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}. (I.e. the hash function
 outputs octet strings, and _not_ group elements.)
 For considering both, variable-output-length hashes and fixed-length output hashes, we use the following convention.
@@ -167,10 +158,10 @@ while for SHAKE-256 the input block size amounts to 136 bytes.
 
 ### Group environment G
 
-The group environment G specifies an elliptic curve group (also denoted G for convenience)  and associated constants 
-and functions as detailed below. In this document we use multiplicative notation for the group operation. 
+The group environment G specifies an elliptic curve group (also denoted G for convenience)  and associated constants
+and functions as detailed below. In this document we use multiplicative notation for the group operation.
 
-- G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group 
+- G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group
 which is derived from input octet strings PRS, CI, and sid and with the help of the hash function H.
 
 - G.sample\_scalar() is a function returning a representation of a scalar (referred to as "scalar" from now on) appropriate as a
@@ -182,7 +173,7 @@ It returns an octet string representation of the group element Y = g^y.
 
 - G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.
 
-- G.scalar\_mult\_vfy(y,g) is a function operating on 
+- G.scalar\_mult\_vfy(y,g) is a function operating on
 a scalar y and a group element g. It returns an octet string
 representation of the group element g^y. Additionally, scalar\_mult\_vfy specifies validity conditions for y,g and g^y and outputs G.I in case they are not met.
 
@@ -200,7 +191,7 @@ binding a CPace execution to one specific channel. Typically CI is obtained by c
 uniquely identify the protocol partner's identities, such as their networking addresses.
 
 - sid denotes an OPTIONAL octet string serving as session identifier that needs to be available to both parties. In application scenarios
-where a higher-level protocol has established a unique sid value, this parameter can be used to ensure strong composability guarantees of CPace, and to bind a CPace execution to the application. 
+where a higher-level protocol has established a unique sid value, this parameter can be used to ensure strong composability guarantees of CPace, and to bind a CPace execution to the application.
 
 - ADa and ADb denote OPTIONAL octet strings containing arbitrary associated data, each available to one of the parties. They are not required to be equal, and are publicly transmitted as part of the protocol flow. ADa and ADb can for instance include party identifiers or protocol version information
 (to avoid, e.g., downgrade attacks). In a setting with initiator and responder roles, the information ADa sent by the
@@ -252,7 +243,7 @@ before using the key in a higher-level protocol.
 ## Session identifier establishment
 
 It is RECOMMENDED to establish a unique session identifier sid in the course of the higher-level protocol that invokes CPace, by concatenating random bytes produced by A with random bytes produced by B.
-In settings where such establishment is not an option, 
+In settings where such establishment is not an option,
 we can let initiator A choose a fresh random sid and send it to B together with the
 first message. This method works whenever the message produced by party A comes first.
 
@@ -286,19 +277,19 @@ optional associated data ADa to B. ADa MAY have length zero.
 
 B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_mult(yb,g). B sends MSGb = prefix\_free\_cat(Yb, ADb) to A.
 
-Upon reception of MSGa, B parses MSGa as Ya and ADa using the prepended lengths of the substrings added by the prefix\_free\_cat() function. B then computes 
+Upon reception of MSGa, B parses MSGa as Ya and ADa using the prepended lengths of the substrings added by the prefix\_free\_cat() function. B then computes
 K = G.scalar\_mult_vfy(yb,Ya). B MUST abort if K=G.I.
-Otherwise B returns 
+Otherwise B returns
 ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|concat(MSGa, MSGb)). B returns ISK and terminates.
 
-Upon reception of MSGb, A parses MSGb as Yb and ADb using the prepended lengths of the substrings added by the prefix\_free\_cat() function. A then computes 
+Upon reception of MSGb, A parses MSGb as Yb and ADb using the prepended lengths of the substrings added by the prefix\_free\_cat() function. A then computes
 K = G.scalar\_mult\_vfy(ya,Yb). A MUST abort if K=G.I.
-Otherwise A returns 
+Otherwise A returns
 ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| concat(MSGa, MSGb). A returns ISK and terminates.
 
 The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view (containing of MSGa and MSGb) of both parties match.
 
-We note that the above protocol instructions implement a parallel setting with no specific initiator/responder and no assumptions about the order in which messages arrive. If implemented as initiator-responder protocol, the responder, say, B, starts with computation of the generator only upon reception of MSGa. 
+We note that the above protocol instructions implement a parallel setting with no specific initiator/responder and no assumptions about the order in which messages arrive. If implemented as initiator-responder protocol, the responder, say, B, starts with computation of the generator only upon reception of MSGa.
 
 # CPace cipher suites
 
@@ -424,7 +415,17 @@ For both G\_X448 and G\_X25519 the G.calculate\_generator(H, PRS,sid,CI) functio
    from {{!I-D.irtf-cfrg-hash-to-curve}}. Note that the v coordinate produced by the map\_to\_curve\_elligator2 function
    is not required for CPace and discarded. The appendix repeats the definitions from {{!I-D.irtf-cfrg-hash-to-curve}} for convenience.
 
-In the appendix we show sage code that can be used as reference implementation and corresponding test vectors..
+In the appendix we show sage code that can be used as reference implementation.
+
+### Verification tests
+
+For single-coordinate Montgomery ladders on Montgomery curves verification tests according to {{verification}} SHALL
+consider the u coordinate values that encode a low-order point on either, the curve or the quadratic twist.
+
+In addition to that in case of G_X25519 the tests SHALL also verify that the implementation of G.scalar\_mult\_vfy(y,g) produces the
+expected results for non-canonical u coordinate values with bit #255 set, which also encode low-order points.
+
+Corresponding test vectors are provided in the appendix.
 
 ## CPace group objects G\_Ristretto255 and G\_Decaf448 for prime-order group abstractions {#CPaceCoffee}
 
@@ -495,6 +496,11 @@ uniform sampling process might provide a larger side-channel attack surface for 
 Note that with these definitions the scalar\_mult function operates on a _decoded_ point \_g and returns an encoded point,
 while the scalar\_mult\_vfy(y,X) function operates on an encoded point X (and also returns an encoded point).
 
+### Verification tests
+
+For group abstractions verification tests according to {{verification}} SHALL consider encodings of the neutral element and an octet string
+that does not decode to a valid group element.
+
 ## CPace group objects for curves in Short-Weierstrass representation {#CPaceWeierstrass}
 
 The group environment objects G defined in this section for use with Short-Weierstrass curves,
@@ -527,11 +533,11 @@ mapping primitive from {{!I-D.irtf-cfrg-hash-to-curve}} if a SSWU mapping is ava
 
 In this paragraph we use the following notation for defining the group object G for a selected curve and encode\_to\_curve method:
 
-- With G.group\_order we denote the order of the elliptic curve which MUST BE a prime.
+- With group\_order we denote the order of the elliptic curve which MUST BE a prime.
 
-- With G.is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid or false otherwise. This G.is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
+- With is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid or false otherwise. This G.is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
 
-- With G.encode\_to\_curve(str) we denote a selected mapping function from {{!I-D.irtf-cfrg-hash-to-curve}}. I.e. a function that maps
+- With encode\_to\_curve(str) we denote a selected mapping function from {{!I-D.irtf-cfrg-hash-to-curve}}. I.e. a function that maps
 octet string str to a point on the group. {{!I-D.irtf-cfrg-hash-to-curve}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{!I-D.irtf-cfrg-hash-to-curve}}.
 
 - G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of "CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{!I-D.irtf-cfrg-hash-to-curve}}. E.g. when using the map with the name "P384\_XMD:SHA-384\_SSWU\_NU\_"
@@ -545,7 +551,7 @@ Using the above definitions, the CPace functions required for the group object G
 
    - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) is calculated.
 
-   - Then the output of a call to G.encode\_to\_curve(gen\_str) is returned, using the selected function from {{!I-D.irtf-cfrg-hash-to-curve}}.
+   - Then the output of a call to encode\_to\_curve(gen\_str) is returned, using the selected function from {{!I-D.irtf-cfrg-hash-to-curve}}.
 
 - G.scalar\_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
 G.scalar\_mult(s,X) SHALL return an encoding of the point X^s according to {{SEC1}}. It SHOULD use the full-coordinate format without compression that encodes both, x and y coordinates of the result point.
@@ -553,7 +559,7 @@ G.scalar\_mult(s,X) SHALL return an encoding of the point X^s according to {{SEC
 - G.scalar\_mult\_vfy(s,X) merges verification of point X according to {{IEEE1363}} A.16.10. and the the ECSVDP-DH procedure from {{IEEE1363}}.
 It SHALL BE implemented as follows:
 
-   - If G.is\_valid(X) = False then G.scalar\_mult\_vfy(s,X) SHALL return "error".
+   - If is\_valid(X) = False then G.scalar\_mult\_vfy(s,X) SHALL return "error".
 
    - Otherwise G.scalar\_mult\_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from {{IEEE1363}} (section 7.2.1). I.e. it shall
      either return "error" (in case that X^s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
@@ -561,11 +567,24 @@ It SHALL BE implemented as follows:
 
 - We represent the neutral element G.I by using the encoding of the "error" result case from the G.scalar\_mult\_vfy method above.
 
+### Verification tests
+
+For Short-Weierstrass curves verification tests according to {{verification}} SHALL consider encodings of the point at infinity and an encoding of a point not on the group.
+
+# Implementation verification {#verification}
+
+Any CPace implementation MUST be tested against invalid or weak point attacks.
+Implementation MUST be verified to abort upon conditions where G.scalar\_mult\_vfy functions outputs G.I.
+For testing an implementation it is RECOMMENDED to include weak or invalid points in MSGa and MSGb and introduce this
+in a protocol run. It SHALL be verified that the abort condition is properly handled.
+
+Corresponding test vectors are given in the appendix for all recommended cipher suites.
+
 
 # Security Considerations {#sec-considerations}
 
 A security proof of CPace is found in {{CPacePaper}}. This proof covers all recommended cipher suites included in this document.
-In the following sections we describe how to protect CPace against several attack families, such as relay-, length extension- or side channel attacks. We also describe aspects to consider when deviating from recommended cipher suites. 
+In the following sections we describe how to protect CPace against several attack families, such as relay-, length extension- or side channel attacks. We also describe aspects to consider when deviating from recommended cipher suites.
 
 ## Party identifiers and relay attacks
 
@@ -605,29 +624,6 @@ The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 
 - The implementation of G.scalar\_mult\_vfy(y,X) MUST map all c low-order points on the curve and all c' low-order points on the twist to G.I.
 
 Montgomery curves other than the ones recommended here can use the specifications given in {{CPaceMontgomery}}, given that the above properties hold.
-
-## Invalid point detection 
-
-TBD: integrate the following instructions in section 6!!!
-
-### Verification for Short-Weierstrass
-
-For implementations offering Short-Weierstrass cipher suites, the verification checks MUST verify that the abort cases are triggered if
-MSGa or MSGb include either of, the point at infinity and an invalid point not on the curve.
-
-### Verification of invalid point detection for X448 and X25519
-The Curve25519-based cipher suite employs the twist security feature of the curve for point validation.
-As such, it is MANDATORY to check that any actual X448 and X25519 function implementation maps
-all low-order points on both the curve and the twist on the neutral element and correctly clears bit #255 of field elements.
-Corresponding test vectors which produce the all-zero outputs are provided in the appendix. All inputs that produce an all-zero
-output of G.scalar\_mult\_vfy(s,Y) MUST trigger the abort case.
-
-### Verification for Decaf448 and Ristretto255
-
-Similarly for CPace on Decaf448 and Ristretto255 the verification checks of the protocol implementation
-MUST verify that the abort cases are triggered if
-MSGa or MSGb include either of, invalid encodings or encodings of the neutral element. The appendix gives corresponding test vectors.
-
 
 ## Nonce values
 
