@@ -66,14 +66,14 @@ def tv_output_byte_array(data, test_vector_name = "", line_prefix = "  ", max_le
             print("\n",end="",file=file)
             return
             
-def prepend_length_to_bytes(data):
+def prepend_len(data):
     length_as_utf8_string = chr(len(data)).encode('utf-8')
     return length_as_utf8_string + data 
 
 def prefix_free_cat(*args):
     result = b""
     for arg in args:
-        result += prepend_length_to_bytes(arg)
+        result += prepend_len(arg)
     return result
 
 def oCAT(str1,str2):
@@ -91,44 +91,44 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     Concat all input fields with prepended length information.
     Add zero padding in the first hash block after DSI and PRS.
     """
-    len_zpad = max(0,s_in_bytes - 1 - len(prepend_length_to_bytes(PRS))
-                     - len(prepend_length_to_bytes(DSI)))
+    len_zpad = max(0,s_in_bytes - 1 - len(prepend_len(PRS))
+                     - len(prepend_len(DSI)))
     return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
 
     
 def generate_testvectors_string_functions(file = sys.stdout):
     print ("\n## Definition and test vectors for string utility functions\n", file = file)
-    print ("\n### prepend_length function\n", file = file)
+    print ("\n### prepend\\_len function\n", file = file)
 
     print (
 """
 ~~~
-  def prepend_length_to_bytes(data):
+  def prepend_len(data):
       length_as_utf8_string = chr(len(data)).encode('utf-8')
       return (length_as_utf8_string + data)
 ~~~
 """, file = file);
 
-    print ("\n### prepend_length test vectors\n", file = file)
+    print ("\n### prepend\\_len test vectors\n", file = file)
     print ("~~~", file = file)
 
-    tv_output_byte_array(prepend_length_to_bytes(b""), 
-                         test_vector_name = 'prepend_length_to_bytes(b"")', 
+    tv_output_byte_array(prepend_len(b""), 
+                         test_vector_name = 'prepend_len(b"")', 
                          line_prefix = "  ", max_len = 60, file = file);
-    tv_output_byte_array(prepend_length_to_bytes(b"1234"), 
-                         test_vector_name = 'prepend_length_to_bytes(b"1234")', 
+    tv_output_byte_array(prepend_len(b"1234"), 
+                         test_vector_name = 'prepend_len(b"1234")', 
                          line_prefix = "  ", max_len = 60, file = file);
 
-    tv_output_byte_array(prepend_length_to_bytes(bytes(range(127))), 
-                         test_vector_name = 'prepend_length_to_bytes(bytes(range(127)))', 
+    tv_output_byte_array(prepend_len(bytes(range(127))), 
+                         test_vector_name = 'prepend_len(bytes(range(127)))', 
                          line_prefix = "  ", max_len = 60, file = file);
-    tv_output_byte_array(prepend_length_to_bytes(bytes(range(128))), 
-                         test_vector_name = 'prepend_length_to_bytes(bytes(range(128)))', 
+    tv_output_byte_array(prepend_len(bytes(range(128))), 
+                         test_vector_name = 'prepend_len(bytes(range(128)))', 
                          line_prefix = "  ", max_len = 60, file = file);
 
     print ("~~~", file = file)
     
-    print ("\n### prefix_free_cat function\n", file = file)
+    print ("\n### prefix\\_free\\_cat function\n", file = file)
     
     print (
 """
@@ -136,13 +136,13 @@ def generate_testvectors_string_functions(file = sys.stdout):
   def prefix_free_cat(*args):
       result = b""
       for arg in args:
-          result += prepend_length_to_bytes(arg)
+          result += prepend_len(arg)
       return result
 ~~~
 """, file = file);
 
 
-    print ("\n### Testvector for prefix_free_cat()\n", file = file)
+    print ("\n### Testvector for prefix\\_free\\_cat()\n", file = file)
     print ("~~~", file = file)
     tv_output_byte_array(prefix_free_cat(b"1234",b"5",b"",b"6789"), 
                          test_vector_name = 'prefix_free_cat(b"1234",b"5",b"",b"6789")', 
@@ -157,8 +157,8 @@ def generate_testvectors_string_functions(file = sys.stdout):
 def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     # Concat all input fields with prepended length information.
     # Add zero padding in the first hash block after DSI and PRS.
-    len_zpad = max(0,s_in_bytes - 1 - len(prepend_length_to_bytes(PRS))
-                     - len(prepend_length_to_bytes(DSI)))
+    len_zpad = max(0,s_in_bytes - 1 - len(prepend_len(PRS))
+                     - len(prepend_len(DSI)))
     return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
 ~~~
 """, file = file);

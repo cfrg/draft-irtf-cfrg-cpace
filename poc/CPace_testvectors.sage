@@ -47,8 +47,8 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout):
     sid = sid [:16]
 
     PRS = b"Password"
-    CI = (prepend_length_to_bytes(b"Ainitiator") 
-          + prepend_length_to_bytes(b"Bresponder"))
+    CI = (prepend_len(b"Ainitiator") 
+          + prepend_len(b"Bresponder"))
 
     ADa = b"ADa"
     ADb = b"ADb"

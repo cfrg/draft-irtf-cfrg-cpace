@@ -387,7 +387,7 @@ The different cipher suites for CPace defined in the upcoming sections share the
 - generator\_string(PRS,DSI,CI,sid, s) denotes a function that returns the string
 prefix\_free\_cat(PRS,zero\_bytes(len\_zpad), DSI, CI, sid) in which all input strings are concatenated.
 
-- len\_zpad = MAX(0, H.s\_in\_bytes - len(prepend\_length(PRS)) - len(prepend\_length(DSI)) - 1)
+- len\_zpad = MAX(0, H.s\_in\_bytes - len(prepend\_len(PRS)) - len(prepend\_len(DSI)) - 1)
 
 The zero padding of length len\_zpad is designed such that the encoding of DSI and PRS together with the zero padding field completely
 fills the first input block of the hash.
@@ -397,8 +397,8 @@ The following reference code implements the generator\_string function.
 
 ~~~
 def generator_string(PRS,DSI,CI,sid, H.s_in_bytes):
-    len_zpad = MAX(0, H.s_in_bytes - len(prepend_length(PRS))
-                      - len(prepend_length(DSI)) - 1)
+    len_zpad = MAX(0, H.s_in_bytes - len(prepend_len(PRS))
+                      - len(prepend_len(DSI)) - 1)
     return prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid)
 ~~~
 
@@ -751,32 +751,30 @@ Thanks to the members of the CFRG for comments and advice. Any comment and advic
 ## Definition and test vectors for string utility functions
 
 
-### prepend_length function
+### prepend\_len function
 
 
 ~~~
-  def prepend_length_to_bytes(data):
+  def prepend_len(data):
       length_as_utf8_string = chr(len(data)).encode('utf-8')
       return (length_as_utf8_string + data)
 ~~~
 
 
-### prepend_length test vectors
+### prepend\_len test vectors
 
 ~~~
-  prepend_length_to_bytes(b""): (length: 1 bytes)
+  prepend_len(b""): (length: 1 bytes)
     00
-  prepend_length_to_bytes(b"1234"): (length: 5 bytes)
+  prepend_len(b"1234"): (length: 5 bytes)
     0431323334
-  prepend_length_to_bytes(bytes(range(127))):
-  (length: 128 bytes)
+  prepend_len(bytes(range(127))): (length: 128 bytes)
     7f000102030405060708090a0b0c0d0e0f101112131415161718191a1b
     1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738
     393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455
     565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172
     737475767778797a7b7c7d7e
-  prepend_length_to_bytes(bytes(range(128))):
-  (length: 130 bytes)
+  prepend_len(bytes(range(128))): (length: 130 bytes)
     c280000102030405060708090a0b0c0d0e0f101112131415161718191a
     1b1c1d1e1f202122232425262728292a2b2c2d2e2f3031323334353637
     38393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f5051525354
@@ -784,19 +782,19 @@ Thanks to the members of the CFRG for comments and advice. Any comment and advic
     72737475767778797a7b7c7d7e7f
 ~~~
 
-### prefix_free_cat function
+### prefix\_free\_cat function
 
 
 ~~~
   def prefix_free_cat(*args):
       result = b""
       for arg in args:
-          result += prepend_length_to_bytes(arg)
+          result += prepend_len(arg)
       return result
 ~~~
 
 
-### Testvector for prefix_free_cat()
+### Testvector for prefix\_free\_cat()
 
 ~~~
   prefix_free_cat(b"1234",b"5",b"",b"6789"):
@@ -811,8 +809,8 @@ Thanks to the members of the CFRG for comments and advice. Any comment and advic
 def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     # Concat all input fields with prepended length information.
     # Add zero padding in the first hash block after DSI and PRS.
-    len_zpad = max(0,s_in_bytes - 1 - len(prepend_length_to_bytes(PRS))
-                     - len(prepend_length_to_bytes(DSI)))
+    len_zpad = max(0,s_in_bytes - 1 - len(prepend_len(PRS))
+                     - len(prepend_len(DSI)))
     return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
 ~~~
 
@@ -1359,7 +1357,7 @@ const uint8_t tc_ISK_SY[] = {
 ### Test vectors for G\_X448.scalar\_mult\_vfy: low order points
 
 Test vectors for which G\_X448.scalar\_mult\_vfy(s\_in,ux) must return the neutral
-element
+element.
 This includes points that are non-canonicaly encoded, i.e. have coordinate values
 larger
 than the field prime.
