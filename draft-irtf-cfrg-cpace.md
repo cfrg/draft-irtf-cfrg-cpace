@@ -429,7 +429,7 @@ Corresponding test vectors are provided in the appendix.
 
 ## CPace group objects G\_Ristretto255 and G\_Decaf448 for prime-order group abstractions {#CPaceCoffee}
 
-In this section we consider the case of CPace using the Ristretto255 and Decaf448 group abstractions.
+In this section we consider the case of CPace using the Ristretto255 and Decaf448 group abstractions {{!I-D.draft-irtf-cfrg-ristretto255-decaf448}}.
 These abstractions define an encode and decode function, group operations using an internal encoding
 and a one-way-map. With the group abstractions there is a distinction between an internal representation
 of group elements and an external encoding of the same group element. In order to distinguish between these
