@@ -142,83 +142,73 @@ composability guarantees for settings where CPace forms a substep in a larger so
 ## Setup
 
 For CPace both communication partners need to agree on a common cipher suite. Cipher suites consist of a combination of
-a hash function and an elliptic curve environment G. With "environment" we denote a compilation of all of
-an elliptic curve group with associated group operations and a calculate_generator() method that maps octet
-strings to a group element.
+a hash function H and an elliptic curve environment G. We assume both G and H to come with associated constants and functions
+as detailed below. To access these we use an object-style notation such as, e.g., H.b\_in\_bytes and G.sample\_scalar(). 
 
-Throughout this document we will be using an object-style notation such as, e.g. H.b\_in\_bytes and G.sample\_scalar(),
-for refering to constants and functions asociated with with the group environment and the hash function. (For instance H.b\_in\_bytes
-will be referring to the max. output size of the hash function in bytes and G.sample\_scalar() will refer to the method
-used for a group environment G for sampling scalars for use as a secret key.)
+### Hash function H
 
-### Hash functions H
-
-With H we denote a hash function, where H.hash(m,l)
-operates on an input octet string m and returns a hashing result of l octets.
+With H we denote a hash function. 
 Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}. (I.e. the hash function
-does output octet strings and does _not_ directly output group elements.)
-For considering both, variable-output-length hashes and fixed-length output hashes we use the following convention.
+outputs octet strings, and _not_ group elements.)
+For considering both, variable-output-length hashes and fixed-length output hashes, we use the following convention.
 In case that the hash function is specified for a fixed-size output, we define H.hash(m,l) such
 that it returns the first l octets of the output.
 
 We use the following notation for referring to the specific properties of a hash function H:
 
-- With H.b\_in\_bytes we denote the _default_ output size in bytes corresponding to the symmetric
+- H.hash(m,l) is a function that operates on an input octet string m and returns a hashing result of l octets.
+
+- H.b\_in\_bytes denotes the _default_ output size in bytes corresponding to the symmetric
 security level of the hash function. E.g. H.b\_in\_bytes = 64 for SHA-512 and SHAKE-256 and H.b\_in_bytes = 32 for
 SHA-256 and SHAKE-128. We use the notation H.hash(m) = H.hash(m, H.b\_in\_bytes) and let the hash operation
 output the default length if no explicit length parameter is given.
 
-- With H.bmax\_in\_bytes we denote the _maximum_ output size in octets supported by the hash function. In case of fixed-size
+- H.bmax\_in\_bytes denotes the _maximum_ output size in octets supported by the hash function. In case of fixed-size
 hashes such as SHA-256, this is the same as H.b\_in\_bytes, while there is no such limit for hash functions such as SHAKE-256.
 
-- With H.s\_in\_bytes we denote the _input block size_ used by H. For instance, for SHA-512 the input block size s\_in\_bytes is 128,
+- H.s\_in\_bytes denotes the _input block size_ used by H. For instance, for SHA-512 the input block size s\_in\_bytes is 128,
 while for SHAKE-256 the input block size amounts to 136 bytes.
 
-### Group environment objects G
+### Group environment G
 
-For a given group G this document defines the following set of group-specific
-functions and constants that are required for the protocol execution.
-We use the following notation for referring to the specific properties of a group environment G:
+The group environment G specifies an elliptic curve group (also denoted G for convenience)  and associated constants 
+and functions as detailed below. In this document we use multiplicative notation for the group operation. 
 
-- G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a
-representation of a group element which is derived from input octet strings PRS, CI, sid by the help of
-the hash function H.
+- G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group 
+which is derived from input octet strings PRS, CI, and sid and with the help of the hash function H.
 
-- G.sample\_scalar() is a function returning a representation of a scalar value appropriate as a
-private Diffie-Hellman key for the group G.
+- G.sample\_scalar() is a function returning a representation of a scalar (referred to as "scalar" from now on) appropriate as a
+private Diffie-Hellman key for the group.
 
-- G.scalar\_mult(y,g) is a function operating on an encoding of a generator g and a scalar y.
-It returns an octet string representation of a group element Y = g^y.
+- G.scalar\_mult(y,g) is a function operating on a scalar
+y and a group element g.
+It returns an octet string representation of the group element Y = g^y.
 
-- With G.I we denote a unique octet string representation of the neutral element of the group G. This representation
-will be used for for detecting error conditions.
+- G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.
 
-- G.scalar\_mult\_vfy(y,X) is a function that returns an octet string representation of a shared secret. The shared secret will be
-derived from a group element K = X^y which is
-calculated from a scalar y and an encoding of a group element X. Moreover scalar\_mult\_vfy implements validity verifications of the inputs
-and returns the neutral element G.I in case of error conditions if the validity checks fail.
+- G.scalar\_mult\_vfy(y,g) is a function operating on 
+a scalar y and a group element g. It returns an octet string
+representation of the group element g^y. Additionally, scalar\_mult\_vfy specifies validity conditions for y,g and g^y and outputs G.I in case they are not met.
 
-- G.DSI denotes a domain-separation identifier string which SHALL be uniquely identifying a given CPace's cipher suite group environment G.
+- G.DSI denotes a domain-separation identifier string which SHALL be uniquely identifying the group environment G.
 
 ## Inputs
 
-- PRS denotes a password-related octet string which is a MANDATORY input for all CPace instantiations.
+
+- PRS denotes a password-related octet string which is a MANDATORY input for all CPace instantiations and needs to be available to both parties.
 Typically PRS is derived from a low-entropy secret such as a user-supplied password (pw) or a personal
 identification number, e.g. by use of a password-based key derivation function PRS = PBKDF(pw).
 
-- CI denotes an OPTIONAL octet string for the channel identifier. CI can be used for
-binding CPace to one specific communication channel, for which CI needs to be
-available to both protocol partners upon protocol start. Typically CI is obtained by a concatenating strings that
+- CI denotes an OPTIONAL octet string identifying a communication channel that needs to be available to both parties. CI can be used for
+binding a CPace execution to one specific channel. Typically CI is obtained by concatenating strings that
 uniquely identify the protocol partner's identities, such as their networking addresses.
 
-- sid denotes an OPTIONAL octet string input, the so-called session id. In application scenarios
-where a higher-level protocol has established a unique sid value this parameter can be used to
-bind the CPace protocol execution to one specific session.
+- sid denotes an OPTIONAL octet string serving as session identifier that needs to be available to both parties. In application scenarios
+where a higher-level protocol has established a unique sid value, this parameter can be used to ensure strong composability guarantees of CPace, and to bind a CPace execution to the application.
 
-- ADa and ADb denote OPTIONAL "associated data" octet strings that are publicly transmitted as part of the protocol flow. ADa and ADb can for instance include party identifiers or a protocol version information
-(e.g. for avoiding downgrade attacks). In a setting with initiator and responder roles, the information ADa sent by the
-initiator can be used by the responder for identifying which among possibly several different PRS are to be
-used for the given user in this protocol session.
+- ADa and ADb denote OPTIONAL octet strings containing arbitrary associated data, each available to one of the parties. They are not required to be equal, and are publicly transmitted as part of the protocol flow. ADa and ADb can for instance include party identifiers or protocol version information
+(to avoid, e.g., downgrade attacks). In a setting with initiator and responder roles, the information ADa sent by the
+initiator can be used by the responder for identifying which among possibly several different PRS to use for the CPace session.
 
 ## Notation
 
@@ -346,25 +336,31 @@ fails. (i.e. if the call to G.scalar\_mult\_vfy produced the neutral element G.I
 # CPace cipher suites
 
 This section documents RECOMMENDED CPACE ciphersuite configurations. Any ciphersuite configuration for CPace
-is REQUIRED to specify,
+is REQUIRED to specify
 
-- a group environment object G with associated definitions for
+- a group environment G specified by
 
-  - the four CPace functions functions G.sample\_scalar(), G.scalar\_mult() and G.scalar\_mult\_vfy() and G.calculate\_generator()
+  - functions G.sample\_scalar(), G.scalar\_mult(), G.scalar\_mult\_vfy() and G.calculate\_generator()
+
+  - neutral element G.I
 
   - a domain separation identifier string G.DSI unique for this cipher suite.
 
-- a hash function H
+- a hash function H specified by
 
-Currently, test vectors are available for the following RECOMMENDED cipher suites
+  - function H.hash()
 
-- CPACE-X25519-SHA512. This suite uses G\_X25519 defined in {{CPaceMontgomery}} and H = SHA-512.
+  - constants H.b\_in\_bytes, H.bmax\_in\_bytes and H.s\_in\_bytes
 
-- CPACE-X448-SHAKE256. This suite uses G\_X448 defined in {{CPaceMontgomery}} and H = SHAKE-256.
+For naming cipher suites we use the convention "CPACE-G-H". Currently, test vectors are available for the following RECOMMENDED cipher suites
+
+- CPACE-X25519-SHA512. This suite uses curve G\_X25519 defined in {{CPaceMontgomery}} and SHA-512 as hash function.
+
+- CPACE-X448-SHAKE256. This suite uses curve G\_X448 defined in {{CPaceMontgomery}} and SHAKE-256 as hash function.
 
 - CPACE-P256\_XMD:SHA-256\_SSWU_NU\_-SHA256.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P256\_XMD:SHA-256\_SSWU_NU\_
-from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P256 with H = SHA-256.
+from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P256, and hash function SHA-256.
 
 - CPACE-P384\_XMD:SHA-384\_SSWU_NU\_-SHA384.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P384\_XMD:SHA-384\_SSWU_NU\_
