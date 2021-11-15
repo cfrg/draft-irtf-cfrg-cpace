@@ -143,8 +143,8 @@ composability guarantees for settings where CPace forms a substep in a larger so
 
 For CPace both communication partners need to agree on a common cipher suite. Cipher suites consist of a combination of
 a hash function and an elliptic curve environment G. With "environment" we denote a compilation of all of
-an elliptic curve group with associated group operations and an calculate_generator() method that maps an octet
-string to a group element.
+an elliptic curve group with associated group operations and a calculate_generator() method that maps octet
+strings to a group element.
 
 Throughout this document we will be using an object-style notation such as, e.g. H.b\_in\_bytes and G.sample\_scalar(),
 for refering to constants and functions asociated with with the group environment and the hash function. (For instance H.b\_in\_bytes
@@ -155,7 +155,8 @@ used for a group environment G for sampling scalars for use as a secret key.)
 
 With H we denote a hash function, where H.hash(m,l)
 operates on an input octet string m and returns a hashing result of l octets.
-Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}.
+Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}. (I.e. the hash function
+does output octet strings and does _not_ directly output group elements.)
 For considering both, variable-output-length hashes and fixed-length output hashes we use the following convention.
 In case that the hash function is specified for a fixed-size output, we define H.hash(m,l) such
 that it returns the first l octets of the output.
@@ -175,8 +176,9 @@ while for SHAKE-256 the input block size amounts to 136 bytes.
 
 ### Group environment objects G
 
-For a given group G this document specifies how to define the following set of group-specific
-functions and constants for the protocol execution. We use the following notation for referring to the specific properties of a group environment G:
+For a given group G this document defines the following set of group-specific
+functions and constants that are required for the protocol execution.
+We use the following notation for referring to the specific properties of a group environment G:
 
 - G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a
 representation of a group element which is derived from input octet strings PRS, CI, sid by the help of
@@ -186,12 +188,13 @@ the hash function H.
 private Diffie-Hellman key for the group G.
 
 - G.scalar\_mult(y,g) is a function operating on an encoding of a generator g and a scalar y.
-It returns an octet string representation of a group element Y.
+It returns an octet string representation of a group element Y = g^y.
 
 - With G.I we denote a unique octet string representation of the neutral element of the group G. This representation
 will be used for for detecting error conditions.
 
-- G.scalar\_mult\_vfy(y,X) is a function that returns an octet string representation of a group element K which is
+- G.scalar\_mult\_vfy(y,X) is a function that returns an octet string representation of a shared secret. The shared secret will be
+derived from a group element K = X^y which is
 calculated from a scalar y and an encoding of a group element X. Moreover scalar\_mult\_vfy implements validity verifications of the inputs
 and returns the neutral element G.I in case of error conditions if the validity checks fail.
 
@@ -201,7 +204,7 @@ and returns the neutral element G.I in case of error conditions if the validity 
 
 - PRS denotes a password-related octet string which is a MANDATORY input for all CPace instantiations.
 Typically PRS is derived from a low-entropy secret such as a user-supplied password (pw) or a personal
-identification number.
+identification number, e.g. by use of a password-based key derivation function PRS = PBKDF(pw).
 
 - CI denotes an OPTIONAL octet string for the channel identifier. CI can be used for
 binding CPace to one specific communication channel, for which CI needs to be
@@ -292,18 +295,18 @@ The sid string MAY also be the emtpy string, nil. I.e. use of the sid string is 
 ## Protocol flow
 
 ~~~
-              A                  B
-              | (setup protocol  |
-(sample sid)  |     and sid)     |
-              |----------------->|
+  Inputs:
+                  PRS, CI, sid
+  ADa                                      ADb
     ---------------------------------------
-              |                  |
-(compute Ya)  |      Ya, ADa     | (compute Yb)
+ compute Ya   |      Ya, ADa     |  compute Yb
               |----------------->|
               |      Yb, ADb     |
               |<-----------------|
-              |   (verify data)  |
-(derive ISK)  |                  | (derive ISK)
+ verify data  |                  |  verify data
+ derive ISK   |                  |  derive ISK
+    ---------------------------------------
+ output ISK                         output ISK
 ~~~
 
 ## CPace
@@ -354,57 +357,49 @@ is REQUIRED to specify,
 
 Currently, test vectors are available for the following RECOMMENDED cipher suites
 
-- CPACE-X25519-SHA512. This suite uses G\_X25519 defined in {{CPaceMontgomery}} and SHA-512.
+- CPACE-X25519-SHA512. This suite uses G\_X25519 defined in {{CPaceMontgomery}} and H = SHA-512.
 
-- CPACE-X448-SHAKE256. This suite uses G\_X448 defined in {{CPaceMontgomery}} and SHAKE-256.
+- CPACE-X448-SHAKE256. This suite uses G\_X448 defined in {{CPaceMontgomery}} and H = SHAKE-256.
 
 - CPACE-P256\_XMD:SHA-256\_SSWU_NU\_-SHA256.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P256\_XMD:SHA-256\_SSWU_NU\_
-from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P256 with the SHA-256 hash.
+from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P256 with H = SHA-256.
 
 - CPACE-P384\_XMD:SHA-384\_SSWU_NU\_-SHA384.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P384\_XMD:SHA-384\_SSWU_NU\_
-from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with the SHA-384 hash.
+from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with H = SHA-384.
 
 - CPACE-P521\_XMD:SHA-512\_SSWU_NU\_-SHA512.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P521\_XMD:SHA-384\_SSWU_NU\_
-from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with the SHA-512 hash.
+from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with H = SHA-512.
 
 - CPACE-RISTR255-SHA512.
-This suite uses G\_ristretto255 defined in {{CPaceCoffee}} and SHA-512.
+This suite uses G\_ristretto255 defined in {{CPaceCoffee}} and H = SHA-512.
 
 - CPACE-DECAF448-SHAKE256
-This suite uses G\_decaf448 defined in {{CPaceCoffee}} and SHAKE-256.
+This suite uses G\_decaf448 defined in {{CPaceCoffee}} and H = SHAKE-256.
 
 CPace can securely be implemented on further elliptic curves when following the guidance given in {{sec-considerations}}.
 
-# Implementation of CPace cipher suites
+# Implementation of recommended CPace cipher suites
 
-## Common function for calculating generator strings generator\_string()
+## Common function for calculating generator strings
 
-The different cipher suites for CPace defined in the upcoming sections share the same method for combining the individual strings PRS, CI, sid and the domain-separation string G.DSI to a generator string.
+The different cipher suites for CPace defined in the upcoming sections share the same method for combining the individual strings PRS, CI, sid and the domain-separation string DSI to a generator string.
 
-- generator\_string(PRS,DSI,CI,sid, s) denotes a function that returns the string
-prefix\_free\_cat(PRS,zero\_bytes(len\_zpad), DSI, CI, sid) in which all input strings are concatenated.
+- generator\_string(DSI,PRS,CI,sid, s\_in\_bytes) denotes a function that returns the string
+prefix\_free\_cat(DSI, PRS, zero\_bytes(len\_zpad), CI, sid) in which all input strings are concatenated.
 
-- len\_zpad = MAX(0, H.s\_in\_bytes - len(prepend\_len(PRS)) - len(prepend\_len(DSI)) - 1)
+- len\_zpad = MAX(0, s\_in\_bytes - len(prepend\_len(PRS)) - len(prepend\_len(DSI)) - 1)
 
 The zero padding of length len\_zpad is designed such that the encoding of DSI and PRS together with the zero padding field completely
-fills the first input block of the hash.
-As a result the number of bytes to hash becomes independent of the actual length of the password (PRS).
+fills the first input block (of length s\_in\_bytes) of the hash.
+As a result the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation
+and test vectors are provided in the appendix.)
 
-The following reference code implements the generator\_string function.
-
-~~~
-def generator_string(PRS,DSI,CI,sid, H.s_in_bytes):
-    len_zpad = MAX(0, H.s_in_bytes - len(prepend_len(PRS))
-                      - len(prepend_len(DSI)) - 1)
-    return prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid)
-~~~
-
-The introduction of a zero-padding within the generator string also helps at mitigating attacks of a side-channel adversary that
+The introduction of a zero-padding within the generator string also helps mitigating attacks of a side-channel adversary that
 analyzes correlations between publicly known variable information with the low-entropy PRS string.
-Note that the hash of the first block does not depend on session-specific inputs, such as sid oder CI.
+Note that the hash of the first block is intentionally made indedependent of session-specific inputs, such as sid or CI.
 
 ## CPace group objects G\_X25519 and G\_X448 for single-coordinate Ladders on Montgomery curves {#CPaceMontgomery}
 
@@ -450,7 +445,7 @@ to use G\_X25519 in combination with SHAKE-256.
 
 For both, G\_X448 and G\_X25519 The G.calculate\_generator(H, PRS,sid,CI) function shall be implemented as follows.
 
- - First gen\_str = generator\_string(PRS,G.DSI,CI,sid, H.s\_in\_bytes) SHALL BE calculated using the input block size of the
+ - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) SHALL BE calculated using the input block size of the
    chosen hash function.
 
  - This string SHALL then BE hashed to the required length
@@ -499,7 +494,8 @@ For decaf448 the following definitions apply:
 - G\_Decaf448.group\_size\_bits = 445
 
 - G\_Decaf448.group\_order = l = 2^446 -
-    13818066809895115352007386748515426880336692474882178609894547503885
+    1381806680989511535200738674851542
+    6880336692474882178609894547503885
 
 CPace cipher suites using G\_Decaf448 MUST use a hash function producing at least H.b\_max\_in\_bytes >= 112 bytes of output.
 It is RECOMMENDED to use G\_Decaf448 in combination with SHAKE-256.
@@ -525,7 +521,7 @@ uniform sampling process might provide a larger side-channel attack surface for 
 
 - The G.calculate\_generator(H, PRS,sid,CI) function SHALL return a decoded point and SHALL BE implemented as follows.
 
-   - First gen\_str = generator\_string(PRS,G.DSI,CI,sid, H.s\_in\_bytes) is calculated using the input block size of the chosen hash function.
+   - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) is calculated using the input block size of the chosen hash function.
 
    - This string is then hashed to the required length gen\_str\_hash = H.hash(gen\_str, 2 * G.field\_size\_bytes).  Note that this
      implies that the permissible output length H.maxb\_in\_bytes MUST BE larger or equal to twice the field size of the group G for making a
@@ -584,7 +580,7 @@ Using the above definitions, the CPace functions required for the group object G
 
 - G.calculate\_generator(H, PRS,sid,CI) function SHALL be implemented as follows.
 
-   - First gen\_str = generator\_string(PRS,G.DSI,CI,sid, H.s\_in\_bytes) is calculated.
+   - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) is calculated.
 
    - Then the output of a call to G.encode\_to\_curve(gen\_str) is returned, using the selected function from {{!I-D.irtf-cfrg-hash-to-curve}}.
 
@@ -742,6 +738,7 @@ No IANA action is required.
 Thanks to the members of the CFRG for comments and advice. Any comment and advice is appreciated.
 
 --- back
+
 
 
 
@@ -1648,9 +1645,9 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Invalid inputs for scalar\_mult\_vfy which MUST result in aborts
+### Invalid inputs for scalar\_mult\_vfy
 
-For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. A G.I result from scalar\_mult\_vfy MUST make the protocol abort!
+For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. When points Y\_i1 or Y\_i2 are included in MSGa or MSGb the protocol MUST abort.
 
 ~~~
     s: (length: 32 bytes)
@@ -1900,9 +1897,9 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Invalid inputs for scalar\_mult\_vfy which MUST result in aborts
+### Invalid inputs for scalar\_mult\_vfy
 
-For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. A G.I result from scalar\_mult\_vfy MUST make the protocol abort!
+For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. When points Y\_i1 or Y\_i2 are included in MSGa or MSGb the protocol MUST abort.
 
 ~~~
     s: (length: 56 bytes)
@@ -2144,9 +2141,9 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Invalid inputs for scalar\_mult\_vfy which MUST result in aborts
+### Invalid inputs for scalar\_mult\_vfy
 
-For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. A G.I result from scalar\_mult\_vfy MUST make the protocol abort!
+For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. When including Y\_i1 or Y\_i2 in MSGa or MSGb the protocol MUST abort.
 
 
 ~~~
@@ -2422,9 +2419,9 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Invalid inputs for scalar\_mult\_vfy which MUST result in aborts
+### Invalid inputs for scalar\_mult\_vfy
 
-For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. A G.I result from scalar\_mult\_vfy MUST make the protocol abort!
+For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. When including Y\_i1 or Y\_i2 in MSGa or MSGb the protocol MUST abort.
 
 
 ~~~
@@ -2747,9 +2744,9 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Invalid inputs for scalar\_mult\_vfy which MUST result in aborts
+### Invalid inputs for scalar\_mult\_vfy
 
-For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. A G.I result from scalar\_mult\_vfy MUST make the protocol abort!
+For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. When including Y\_i1 or Y\_i2 in MSGa or MSGb the protocol MUST abort.
 
 
 ~~~
