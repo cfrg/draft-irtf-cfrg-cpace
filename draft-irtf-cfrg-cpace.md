@@ -574,7 +574,8 @@ is important for fending off relay attacks.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C use the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
 Including and checking party identifiers can fend off such relay attacks.
 
-## Security considerations regarding sampling of scalars
+## Sampling of scalars
+
 For curves over fields F\_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
 with respect to side-channels for embedded systems in hostile environments.
 The effect of non-uniform sampling on security was demonstrated to be begning in {{CPacePaper}} for the case of Curve25519 and Curve448.
