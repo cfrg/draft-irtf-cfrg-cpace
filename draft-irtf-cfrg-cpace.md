@@ -163,14 +163,14 @@ that it returns the first l octets of the output.
 We use the following notation for referring to the specific properties of a hash function H:
 
 - With H.b\_in\_bytes we denote the _default_ output size in bytes corresponding to the symmetric
-security level of the hash function. E.g. H.b\_in\_bytes = 64 for SHA512 and SHAKE256 and H.b\_in_bytes = 32 for
-SHA256 and SHAKE128. We use the notation H.hash(m) = H.hash(m, H.b\_in\_bytes) and let the hash operation
+security level of the hash function. E.g. H.b\_in\_bytes = 64 for SHA-512 and SHAKE-256 and H.b\_in_bytes = 32 for
+SHA-256 and SHAKE-128. We use the notation H.hash(m) = H.hash(m, H.b\_in\_bytes) and let the hash operation
 output the default length if no explicit length parameter is given.
 
 - With H.bmax\_in\_bytes we denote the _maximum_ output size in octets supported by the hash function. In case of fixed-size
 hashes such as SHA-256, this is the same as H.b\_in\_bytes, while there is no such limit for hash functions such as SHAKE-256.
 
-- With H.s\_in\_bytes we denote the _input block size_ used by H. For instance, for SHA512 the input block size s\_in\_bytes is 128,
+- With H.s\_in\_bytes we denote the _input block size_ used by H. For instance, for SHA-512 the input block size s\_in\_bytes is 128,
 while for SHAKE-256 the input block size amounts to 136 bytes.
 
 ### Group environment objects G
@@ -634,7 +634,7 @@ objects from {{CPaceWeierstrass}}.
 
 In order to prevent analysis of length-extension attacks on hash functions, all hash input strings in CPace are designed to be prefix-free strings which have the length of individual substrings prependeded.
 This choice was made in order to make CPace suitable also for hash function instantiations using
-Merkle-Damgard constructions such as SHA2 or SHA512 along the lines of {{CDMP05}}.
+Merkle-Damgard constructions such as SHA-2 or SHA-512 along the lines of {{CDMP05}}.
 This is guaranteed by the design of the prefix\_free\_cat() function. In case that an application whishes to use an
 other form of encoding, the guidance given in {{CDMP05}} SHOULD BE considered.
 
