@@ -136,7 +136,7 @@ as detailed below. To access these we use an object-style notation such as, e.g.
 
 With H we denote a hash function.
 Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}. (I.e. the hash function
-outputs octet strings, and _not_ group elements.)
+outputs octet strings, and not group elements.)
 For considering both, variable-output-length hashes and fixed-length output hashes, we use the following convention.
 In case that the hash function is specified for a fixed-size output, we define H.hash(m,l) such
 that it returns the first l octets of the output.
@@ -145,7 +145,7 @@ We use the following notation for referring to the specific properties of a hash
 
 - H.hash(m,l) is a function that operates on an input octet string m and returns a hashing result of l octets.
 
-- H.b\_in\_bytes denotes the _default_ output size in bytes corresponding to the symmetric
+- H.b\_in\_bytes denotes the default output size in bytes corresponding to the symmetric
 security level of the hash function. E.g. H.b\_in\_bytes = 64 for SHA-512 and SHAKE-256 and H.b\_in_bytes = 32 for
 SHA-256 and SHAKE-128. We use the notation H.hash(m) = H.hash(m, H.b\_in\_bytes) and let the hash operation
 output the default length if no explicit length parameter is given.
@@ -201,9 +201,9 @@ initiator can be used by the responder for identifying which among possibly seve
 
 - str1 \|\| str2 denotes concatenation of octet strings.
 
-- oCat(str1,str2) denotes _ordered_ concatenation of octet strings as specified in the appendix.
+- oCat(str1,str2) denotes ordered concatenation of octet strings as specified in the appendix.
 
-- concat(MSGa,MSGb) denotes a concatenation method allows both parties to concatenate CPace's protocol messages in the same way. In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is not enforced by the protocol flow, concat(MSGa,MSGb) = oCat(MSGa,MSGb) SHALL be used. In settings where the protocol flow enforces ordering, concat(MSGa,MSGb) SHOULD BE implemented such that the _later_ message is appended to the _earlier_ message, i.e., concat(MSGa,MSGb) = MSGa\|\|MSGb if MSGa is sent first.
+- concat(MSGa,MSGb) denotes a concatenation method allows both parties to concatenate CPace's protocol messages in the same way. In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is not enforced by the protocol flow, concat(MSGa,MSGb) = oCat(MSGa,MSGb) SHALL be used. In settings where the protocol flow enforces ordering, concat(MSGa,MSGb) SHOULD BE implemented such that the later message is appended to the earlier message, i.e., concat(MSGa,MSGb) = MSGa\|\|MSGb if MSGa is sent first.
 
 - len(S) denotes the number of octets in a string S.
 
@@ -493,7 +493,7 @@ uniform sampling process might provide a larger side-channel attack surface for 
    - Finally the internal representation of the generator \_g is calculated as \_g = one\_way\_map(gen\_str\_hash)
      using the one-way map function from the abstraction.
 
-Note that with these definitions the scalar\_mult function operates on a _decoded_ point \_g and returns an encoded point,
+Note that with these definitions the scalar\_mult function operates on a decoded point \_g and returns an encoded point,
 while the scalar\_mult\_vfy(y,X) function operates on an encoded point X (and also returns an encoded point).
 
 ### Verification tests
@@ -517,7 +517,7 @@ The specification for the group environment objects specified in this section cl
 I.e. we use the same methods and encodings and protocol substeps as employed in the TLS
  {{?RFC5246}} {{?RFC8446}} protocol family.
 
-For CPace only the uncompressed full-coordinate encodings from {{SEC1}} (x _and_ y coordinate) SHOULD be used.
+For CPace only the uncompressed full-coordinate encodings from {{SEC1}} (x and y coordinate) SHOULD be used.
 Commonly used curve groups are specified in {{SEC2}} and {{?RFC5639}}. A typical representative of such a Short-Weierstrass curve is NIST-P256.
 Point verification as used in ECKAS-DH1 is described in Annex A.16.10. of {{IEEE1363}}.
 
