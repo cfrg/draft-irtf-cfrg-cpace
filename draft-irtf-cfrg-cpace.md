@@ -395,7 +395,7 @@ For X448 the following definitions apply:
 - G\_X448.DSI = "CPace448"
 
 CPace cipher suites using G\_X448 MUST use a hash function producing at least H.b\_max\_in\_bytes >= 56 bytes of output. It is RECOMMENDED
-to use G\_X25519 in combination with SHAKE-256.
+to use G\_X448 in combination with SHAKE-256.
 
 For both G\_X448 and G\_X25519 the G.calculate\_generator(H, PRS,sid,CI) function shall be implemented as follows.
 
