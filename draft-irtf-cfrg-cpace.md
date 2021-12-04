@@ -604,7 +604,7 @@ This analysis however does not transfer to most curves in Short-Weierstrass form
 
 In order to prevent analysis of length extension attacks on hash functions, all hash input strings in CPace are designed to be prefix-free strings which have the length of individual substrings prepended, enforced by the prefix\_free\_cat() function.
 This choice was made in order to make CPace suitable also for hash function instantiations using
-Merkle-Damgard constructions such as SHA-2 or SHA-512 along the lines of {{CDMP05}}.
+Merkle-Damgard constructions such as SHA-256 or SHA-512 along the lines of {{CDMP05}}.
 In case that an application whishes to use another form of encoding, the guidance given in {{CDMP05}} SHOULD BE considered.
 
 Although already K is a shared value, it MUST NOT itself be used as an application key. Instead, ISK MUST BE used. Leakage of K to an adversary can lead to offline dictionary attacks.
