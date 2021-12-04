@@ -565,7 +565,7 @@ It SHALL BE implemented as follows:
      either return "error" (in case that X^s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
      the big-endian encoding of the x-coordinate of the result point X^s according to {{SEC1}}.
 
-- We represent the neutral element G.I by using the representation of the "error" result case from {{IEEE1363}} used in the G.scalar\_mult\_vfy method above.
+- We represent the neutral element G.I by using the representation of the "error" result case from {{IEEE1363}} as used in the G.scalar\_mult\_vfy method above.
 
 ### Verification tests
 
