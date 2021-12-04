@@ -559,7 +559,7 @@ G.scalar\_mult(s,X) SHALL return an encoding of the point X^s according to {{SEC
 - G.scalar\_mult\_vfy(s,X) merges verification of point X according to {{IEEE1363}} A.16.10. and the the ECSVDP-DH procedure from {{IEEE1363}}.
 It SHALL BE implemented as follows:
 
-   - If is\_valid(X) = False then G.scalar\_mult\_vfy(s,X) SHALL return "error".
+   - If is\_valid(X) = False then G.scalar\_mult\_vfy(s,X) SHALL return "error" as specified in {{IEEE1363}} A.16.10 and 7.2.1.
 
    - Otherwise G.scalar\_mult\_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from {{IEEE1363}} (section 7.2.1). I.e. it shall
      either return "error" (in case that X^s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
