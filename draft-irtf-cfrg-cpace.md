@@ -645,9 +645,9 @@ the task for a side-channel attack somewhat more complex. Still this feature alo
 
 ## Quantum computers
 
-CPace is proven secure under the hardness of the computational Simultaneous Diffie-Hellmann (SDH)
-assumption in the group G (as defined in {{CPacePaper}}).
-This assumption is not expected to hold any longer when large-scale quantum computers (LSQC) are available.
+CPace is proven secure under the hardness of the strong computational Simultaneous Diffie-Hellmann (sSDH) and strong computational Diffie-Hellmann assumption (sCDH)
+assumptions in the group G (as defined in {{CPacePaper}}).
+These assumptions are not expected to hold any longer when large-scale quantum computers (LSQC) are available.
 Still, even in case that LSQC emerge, it is reasonable to assume that discrete-logarithm computations will remain costly. CPace with ephemeral session id values
 sid forces the adversary to solve one computational Diffie-Hellman problem per password guess {{CPacePaper2}}.
 In this sense, using the wording suggested by Steve Thomas on the CFRG mailing list, CPace is "quantum-annoying".
