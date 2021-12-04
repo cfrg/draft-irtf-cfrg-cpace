@@ -229,7 +229,7 @@ We use multiplicative notation for the group, i.e., X^2  denotes the element tha
 
 # The CPace protocol
 
-CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G,H and OPTIONAL public CI,sid,ADa (for A) and ADb (for B).
+CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G,H and OPTIONAL public CI,sid,ADa (for A) and CI,sid,ADb (for B).
 A sends a message MSGa to B. MSGa contains the public share Ya
 and OPTIONAL associated data ADa (i.e. an ADa field that MAY have a length of 0 bytes).
 Likewise, B sends a message MSGb to A. MSGb contains the public share Yb
@@ -474,8 +474,8 @@ For both abstractions the following definitions apply:
 
   - Interpret the result as the little-endian encoding of an integer value and return the result.
 
--  Alternatively, G.sample\_scalar() MAY also implement uniform sampling between 1 and (G.group\_order - 1). (The more complex
-uniform sampling process might provide a larger side-channel attack surface for embedded systems in hostile environments.)
+-  Alternatively, if G.sample\_scalar() is not implemented according to the above recommendation, it SHALL be implemented using uniform sampling between 1 and (G.group\_order - 1). Note that the more complex
+uniform sampling process can provide a larger side-channel attack surface for embedded systems in hostile environments.
 
 - G.scalar\_mult(y,\_g) SHALL operate on a scalar y and a group element \_g in the internal representation of the group abstraction environment. It returns the value Y = encode((\_g)^y), i.e. it returns a value using the public encoding.
 
@@ -535,7 +535,7 @@ In this paragraph we use the following notation for defining the group object G 
 
 - With group\_order we denote the order of the elliptic curve which MUST BE a prime.
 
-- With is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid or false otherwise. This G.is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
+- With is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid or false otherwise. This is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
 
 - With encode\_to\_curve(str) we denote a selected mapping function from {{!I-D.irtf-cfrg-hash-to-curve}}. I.e. a function that maps
 octet string str to a point on the group. {{!I-D.irtf-cfrg-hash-to-curve}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{!I-D.irtf-cfrg-hash-to-curve}}.
