@@ -84,7 +84,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
         #         curve parameter A and field size in bits
         Fq = GF(q); A = Fq(A); B = Fq(1);
 
-        # calculate non-square z as specified in the hash2curve draft.
+        # get non-square z as specified in the hash2curve draft.
         z = Fq(find_z_ell2(Fq))
         powerForLegendreSymbol = floor((q-1)/2)
 

@@ -663,8 +663,6 @@ Thanks to the members of the CFRG for comments and advice. Any comment and advic
 --- back
 
 
-
-
 # CPace function definitions
 
 
@@ -731,7 +729,8 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     # Add zero padding in the first hash block after DSI and PRS.
     len_zpad = max(0,s_in_bytes - 1 - len(prepend_len(PRS))
                      - len(prepend_len(DSI)))
-    return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
+    return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad),
+                            CI, sid), len_zpad)
 ~~~
 
 
@@ -741,7 +740,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
 ### Definitions ordered concatenation
 
 ~~~
-  def oCat(str1,str2):
+  def oCAT(str1,str2):
       if str1 > str2:
           return str1 + str2
       else:
@@ -751,7 +750,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
 ### Test vectors ordered concatenation
 
 ~~~
-  string comparison for oCat:
+  string comparison for oCAT:
     b"\0" > b"\0\0" == False
     b"\1" > b"\0\0" == True
     b"\0\0" > b"\0" == True
@@ -759,9 +758,9 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     b"\0\1" > b"\1" == False
     b"ABCD" > b"BCD" == False
 
-  oCat(b"ABCD",b"BCD"): (length: 7 bytes)
+  oCAT(b"ABCD",b"BCD"): (length: 7 bytes)
     42434441424344
-  oCat(b"BCD",b"ABCDE"): (length: 8 bytes)
+  oCAT(b"BCD",b"ABCDE"): (length: 8 bytes)
     4243444142434445
 ~~~
 
@@ -814,7 +813,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
         #         curve parameter A and field size in bits
         Fq = GF(q); A = Fq(A); B = Fq(1);
 
-        # calculate non-square z as specified in the hash2curve draft.
+        # get non-square z as specified in the hash2curve draft.
         z = Fq(find_z_ell2(Fq))
         powerForLegendreSymbol = floor((q-1)/2)
 
@@ -936,7 +935,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
       0ccf2fd375498225e45a5206536103414461
     DSI = G.DSI_ISK, b'CPace255_ISK': (length: 12 bytes)
       43506163653235355f49534b
-    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
     (length: 137 bytes)
       0c43506163653235355f49534b107e4b4791d6a8ef019b936c79fb7f
       2c57202a905bc5f0b93ee72ac4b6ea8723520941adfc892935bf6f86
@@ -1177,7 +1176,7 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
       1c51a58ce4b503414461
     DSI = G.DSI_ISK, b'CPace448_ISK': (length: 12 bytes)
       43506163653434385f49534b
-    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
     (length: 209 bytes)
       0c43506163653434385f49534b105223e0cdc45d6575668d64c55200
       412438e00af217556a40ccbc9822cc27a43542e45166a653aa4df746
@@ -1466,7 +1465,7 @@ Test vectors for scalar_mult with nonzero outputs
     DSI = G.DSI_ISK, b'CPaceRistretto255_ISK':
     (length: 21 bytes)
       435061636552697374726574746f3235355f49534b
-    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
     (length: 146 bytes)
       15435061636552697374726574746f3235355f49534b107e4b4791d6
       a8ef019b936c79fb7f2c57203efef1706f42efa354020b087b37fbd9
@@ -1704,7 +1703,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       989f091e2be303414461
     DSI = G.DSI_ISK, b'CPaceDecaf448_ISK': (length: 17 bytes)
       435061636544656361663434385f49534b
-    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
     (length: 214 bytes)
       11435061636544656361663434385f49534b105223e0cdc45d657566
       8d64c55200412438dc504938fb70eb13916697aa3e076e82537c171a
@@ -1954,7 +1953,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     (length: 34 bytes)
       4350616365503235365f584d443a5348412d3235365f535357555f4e
       555f5f49534b
-    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
     (length: 225 bytes)
       224350616365503235365f584d443a5348412d3235365f535357555f
       4e555f5f49534b1034b36454cab2e7842c389f7d88ecb7df2027f705
@@ -2214,7 +2213,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     (length: 34 bytes)
       4350616365503338345f584d443a5348412d3338345f535357555f4e
       555f5f49534b
-    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
     (length: 305 bytes)
       224350616365503338345f584d443a5348412d3338345f535357555f
       4e555f5f49534b105b3773aa90e8f23c61563a4b645b276c30e5ef57
@@ -2511,7 +2510,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     (length: 34 bytes)
       4350616365503532315f584d443a5348412d3531325f535357555f4e
       555f5f49534b
-    prefix_free_cat(DSI,sid,K)||oCat(MSGa,MSGb):
+    prefix_free_cat(DSI,sid,K)||oCAT(MSGa,MSGb):
     (length: 397 bytes)
       224350616365503532315f584d443a5348412d3531325f535357555f
       4e555f5f49534b107e4b4791d6a8ef019b936c79fb7f2c57420070a7

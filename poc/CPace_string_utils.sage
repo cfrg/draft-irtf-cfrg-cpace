@@ -159,7 +159,8 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     # Add zero padding in the first hash block after DSI and PRS.
     len_zpad = max(0,s_in_bytes - 1 - len(prepend_len(PRS))
                      - len(prepend_len(DSI)))
-    return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
+    return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad),
+                            CI, sid), len_zpad)
 ~~~
 """, file = file);
     
