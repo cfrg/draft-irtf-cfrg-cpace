@@ -47,6 +47,22 @@ informative:
         ins: E. Eaton
       -
         ins: D. Stebila
+
+  CPacePaper3:
+    title: Algebraic Adversaries in the Universal Composability Framework.
+    target: https://eprint.iacr.org/2021/1218
+    author:
+      -
+        ins: Michel Abdalla
+      -
+        ins: Manuel Barbosa
+      -
+        ins: Jonathan Katz
+      -
+        ins: Julian Loss
+      -
+        ins: Jiayu Xu
+
   CPacePaper:
     title: "Security analysis of CPace"
     target: https://eprint.iacr.org/2021/114
@@ -227,7 +243,7 @@ uniformly distributed between 0 and 255.
 
 We use multiplicative notation for the group, i.e., X^2  denotes the element that is obtained by computing X*X, for group element X and group operation *.
 
-# The CPace protocol
+# The CPace protocol {#protocol-section}
 
 CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G,H and OPTIONAL public CI,sid,ADa (for A) and CI,sid,ADb (for B).
 A sends a message MSGa to B. MSGa contains the public share Ya
@@ -593,14 +609,7 @@ is important for fending off relay attacks.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C use the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
 Including and checking party identifiers can fend off such relay attacks.
 
-## Sampling of scalars
-
-For curves over fields F\_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
-with respect to side-channels for embedded systems in hostile environments.
-The effect of non-uniform sampling on security was demonstrated to be begning in {{CPacePaper}} for the case of Curve25519 and Curve448.
-This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}.
-
-## Hashing and key derivation
+## Hashing and key derivation {#key-derivation}
 
 In order to prevent analysis of length extension attacks on hash functions, all hash input strings in CPace are designed to be prefix-free strings which have the length of individual substrings prepended, enforced by the prefix\_free\_cat() function.
 This choice was made in order to make CPace suitable also for hash function instantiations using
@@ -608,6 +617,32 @@ Merkle-Damgard constructions such as SHA-256 or SHA-512 along the lines of {{CDM
 In case that an application whishes to use another form of encoding, the guidance given in {{CDMP05}} SHOULD BE considered.
 
 Although already K is a shared value, it MUST NOT itself be used as an application key. Instead, ISK MUST BE used. Leakage of K to an adversary can lead to offline dictionary attacks.
+
+As noted already in {{protocol-section}} it is RECOMMENDED to process ISK
+by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) first,
+before using the key in a higher-level protocol.
+
+
+## Key confirmation
+
+In some applications it is advisable to add an explicit key confirmation round after the CPace protocol flow. However, as this
+is anyway already a built-in feature in many higher-level protocols, such as e.g. TLS 1.3, the CPace protocol described here does not mandate
+use of a key confirmation on the level of the CPace sub-protocol.
+
+Already without explicit key confirmation, CPace enjoys weak forward security under the sCDH and sSDH assumptions {{CPacePaper}} and
+also enjoys perfect forward security under the stronger assumption of the algebraic adversary model
+{{CPacePaper3}}.
+With added explicit confirmation, CPace enjoys perfect forward security also under the strong sCDH and sSDH assumptions {{CPacePaper}}.
+
+When implementing explicit key confirmation, it is recommended to use an appropriate message-authentication code such as HMAC {{?RFC2104}} or
+CMAC {{?RFC4493}} using a key derived from ISK. One suitable option that works also in the parallel setting without message ordering is to make each party send an authenticator tag that is calculated over the protocol message that it has sent previously, i.e. let party A calculate its transmitted authentication code over MSGa and let party B calculate its transmitted authentication code over MSGb.
+
+## Sampling of scalars
+
+For curves over fields F\_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
+with respect to side-channels for embedded systems in hostile environments.
+The effect of non-uniform sampling on security was demonstrated to be begning in {{CPacePaper}} for the case of Curve25519 and Curve448.
+This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}.
 
 ## Single-coordinate CPace on Montgomery curves
 
