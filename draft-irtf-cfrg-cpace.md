@@ -712,12 +712,14 @@ def prepend_len(data):
     "prepend LEB128 encoding of length"
     length = len(data)
     length_encoded = b""
-    while length > 0:
+    while True:
         if length < 128:
             length_encoded += bytes([length])
         else:
             length_encoded += bytes([(length & 0x7f) + 0x80])
         length = int(length >> 7)
+        if length == 0:
+            break;
     return length_encoded + data
 ~~~
 
@@ -725,8 +727,8 @@ def prepend_len(data):
 ### prepend\_len test vectors
 
 ~~~
-  prepend_len(b""): (length: 0 bytes)
-
+  prepend_len(b""): (length: 1 bytes)
+    00
   prepend_len(b"1234"): (length: 5 bytes)
     0431323334
   prepend_len(bytes(range(127))): (length: 128 bytes)
@@ -759,8 +761,8 @@ def prepend_len(data):
 
 ~~~
   prefix_free_cat(b"1234",b"5",b"",b"6789"):
-  (length: 12 bytes)
-    043132333401350436373839
+  (length: 13 bytes)
+    04313233340135000436373839
 ~~~
 
 ## Definition of generator\_string function.
