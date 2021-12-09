@@ -625,7 +625,7 @@ before using the key in a higher-level protocol.
 
 ## Key confirmation
 
-In many applications it is advisable to add an explicit key confirmation round after the CPace protocol flow. However, as some application
+In many applications it is advisable to add an explicit key confirmation round after the CPace protocol flow. However, as some applications
 might only require implicit authentication and as explicit authentication messageres are already a built-in feature in many higher-level protocols (e.g. TLS 1.3) the CPace protocol described here does not mandate
 use of a key confirmation on the level of the CPace sub-protocol.
 
