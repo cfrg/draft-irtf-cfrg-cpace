@@ -210,7 +210,7 @@ initiator can be used by the responder for identifying which among possibly seve
 - nil denotes an empty octet string, i.e., len(nil) = 0.
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
-the length of the octet string to the string itself. The length shall be prepended by using an UTF-8 encoding of the length.
+the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
 This will result in a single-byte encoding for values below 128. (Test vectors and reference implementations are given in the appendix.)
 
 - prefix\_free\_cat(a0,a1, ...) denotes a function that outputs the prefix-free encoding of
@@ -673,17 +673,25 @@ Thanks to the members of the CFRG for comments and advice. Any comment and advic
 
 
 ~~~
-  def prepend_len(data):
-      length_as_utf8_string = chr(len(data)).encode('utf-8')
-      return (length_as_utf8_string + data)
+def prepend_len(data):
+    "prepend LEB128 encoding of length"
+    length = len(data)
+    length_encoded = b""
+    while length > 0:
+        if length < 128:
+            length_encoded += bytes([length])
+        else:
+            length_encoded += bytes([(length & 0x7f) + 0x80])
+        length = int(length >> 7)
+    return length_encoded + data
 ~~~
 
 
 ### prepend\_len test vectors
 
 ~~~
-  prepend_len(b""): (length: 1 bytes)
-    00
+  prepend_len(b""): (length: 0 bytes)
+
   prepend_len(b"1234"): (length: 5 bytes)
     0431323334
   prepend_len(bytes(range(127))): (length: 128 bytes)
@@ -693,7 +701,7 @@ Thanks to the members of the CFRG for comments and advice. Any comment and advic
     565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172
     737475767778797a7b7c7d7e
   prepend_len(bytes(range(128))): (length: 130 bytes)
-    c280000102030405060708090a0b0c0d0e0f101112131415161718191a
+    8001000102030405060708090a0b0c0d0e0f101112131415161718191a
     1b1c1d1e1f202122232425262728292a2b2c2d2e2f3031323334353637
     38393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f5051525354
     55565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f7071
@@ -716,8 +724,8 @@ Thanks to the members of the CFRG for comments and advice. Any comment and advic
 
 ~~~
   prefix_free_cat(b"1234",b"5",b"",b"6789"):
-  (length: 13 bytes)
-    04313233340135000436373839
+  (length: 12 bytes)
+    043132333401350436373839
 ~~~
 
 ## Definition of generator\_string function.
@@ -2407,7 +2415,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       348cd410ddb9245c61889fe97b2bbb98b2038eb2ed23e989ec7013a6
       10fb2f3b4fb958cc860dd10c98745b9d89e37f2bf9
     MSGa: (length: 139 bytes)
-      c2850400484dcee6d54cb356830cd764079360a03b06a7db1a82188e
+      85010400484dcee6d54cb356830cd764079360a03b06a7db1a82188e
       09c92e02d7e78a1e3710da9554db11697d242893e2114d6cbee89f59
       99b7e545d9fdf59f4c9acd408901ad73e01ec22ae6ecc122cf257e81
       826e348cd410ddb9245c61889fe97b2bbb98b2038eb2ed23e989ec70
@@ -2431,7 +2439,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       2e65c36e7b960646c89aaf0262a4803ee4c90d1b58775a409a135bd1
       8fedbf4ba0eae172b4fe8a0fada83d699e44f2f861
     MSGb: (length: 139 bytes)
-      c2850401edf767bd7d9e67ff137b8f3210c55e9192e9ac8a10f32a2f
+      85010401edf767bd7d9e67ff137b8f3210c55e9192e9ac8a10f32a2f
       0eef9ce34524a543e0d4eb9b3328ca114b02ab23b291f61b5bc81463
       9a9ecaff07e870733131747637004c2df1bec8abe6b252e7fe91bdb6
       f7242e65c36e7b960646c89aaf0262a4803ee4c90d1b58775a409a13
@@ -2456,12 +2464,12 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
 
 ~~~
     unordered cat of transcript : (length: 278 bytes)
-      c2850400484dcee6d54cb356830cd764079360a03b06a7db1a82188e
+      85010400484dcee6d54cb356830cd764079360a03b06a7db1a82188e
       09c92e02d7e78a1e3710da9554db11697d242893e2114d6cbee89f59
       99b7e545d9fdf59f4c9acd408901ad73e01ec22ae6ecc122cf257e81
       826e348cd410ddb9245c61889fe97b2bbb98b2038eb2ed23e989ec70
-      13a610fb2f3b4fb958cc860dd10c98745b9d89e37f2bf903414461c2
-      850401edf767bd7d9e67ff137b8f3210c55e9192e9ac8a10f32a2f0e
+      13a610fb2f3b4fb958cc860dd10c98745b9d89e37f2bf90341446185
+      010401edf767bd7d9e67ff137b8f3210c55e9192e9ac8a10f32a2f0e
       ef9ce34524a543e0d4eb9b3328ca114b02ab23b291f61b5bc814639a
       9ecaff07e870733131747637004c2df1bec8abe6b252e7fe91bdb6f7
       242e65c36e7b960646c89aaf0262a4803ee4c90d1b58775a409a135b
@@ -2475,33 +2483,33 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       4e555f5f49534b107e4b4791d6a8ef019b936c79fb7f2c57420070a7
       460122c65d86bf9dd012ab45fc94be362619d1a1f0e75f14333ed8b8
       73b5724616b88dadaaba5f28bb783aeb01f60df5fdb8c0a23745900f
-      462f405debfd51c2850400484dcee6d54cb356830cd764079360a03b
+      462f405debfd5185010400484dcee6d54cb356830cd764079360a03b
       06a7db1a82188e09c92e02d7e78a1e3710da9554db11697d242893e2
       114d6cbee89f5999b7e545d9fdf59f4c9acd408901ad73e01ec22ae6
       ecc122cf257e81826e348cd410ddb9245c61889fe97b2bbb98b2038e
       b2ed23e989ec7013a610fb2f3b4fb958cc860dd10c98745b9d89e37f
-      2bf903414461c2850401edf767bd7d9e67ff137b8f3210c55e9192e9
+      2bf90341446185010401edf767bd7d9e67ff137b8f3210c55e9192e9
       ac8a10f32a2f0eef9ce34524a543e0d4eb9b3328ca114b02ab23b291
       f61b5bc814639a9ecaff07e870733131747637004c2df1bec8abe6b2
       52e7fe91bdb6f7242e65c36e7b960646c89aaf0262a4803ee4c90d1b
       58775a409a135bd18fedbf4ba0eae172b4fe8a0fada83d699e44f2f8
       6103414462
     ISK result: (length: 64 bytes)
-      9f6bd237f8740689ea9871b45200720a2d834106985bb3a0f2ab3ea5
-      35cd22cfa8a68eb8ac373462fda361532e4f5fb3059e8400252324ee
-      d9a8348171b20cd0
+      2b2c534c352c446773bd334fac2f2c50ef8cd7991bd4e070f85b0367
+      a2f7ffca445066cf20b756773687e1038b170896ec2677fe722acb0f
+      9e6c2f11830e808a
 ~~~
 
 ###  Test vector for ISK calculation parallel execution
 
 ~~~
     ordered cat of transcript : (length: 278 bytes)
-      c2850401edf767bd7d9e67ff137b8f3210c55e9192e9ac8a10f32a2f
+      85010401edf767bd7d9e67ff137b8f3210c55e9192e9ac8a10f32a2f
       0eef9ce34524a543e0d4eb9b3328ca114b02ab23b291f61b5bc81463
       9a9ecaff07e870733131747637004c2df1bec8abe6b252e7fe91bdb6
       f7242e65c36e7b960646c89aaf0262a4803ee4c90d1b58775a409a13
-      5bd18fedbf4ba0eae172b4fe8a0fada83d699e44f2f86103414462c2
-      850400484dcee6d54cb356830cd764079360a03b06a7db1a82188e09
+      5bd18fedbf4ba0eae172b4fe8a0fada83d699e44f2f8610341446285
+      010400484dcee6d54cb356830cd764079360a03b06a7db1a82188e09
       c92e02d7e78a1e3710da9554db11697d242893e2114d6cbee89f5999
       b7e545d9fdf59f4c9acd408901ad73e01ec22ae6ecc122cf257e8182
       6e348cd410ddb9245c61889fe97b2bbb98b2038eb2ed23e989ec7013
@@ -2516,21 +2524,21 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       4e555f5f49534b107e4b4791d6a8ef019b936c79fb7f2c57420070a7
       460122c65d86bf9dd012ab45fc94be362619d1a1f0e75f14333ed8b8
       73b5724616b88dadaaba5f28bb783aeb01f60df5fdb8c0a23745900f
-      462f405debfd51c2850401edf767bd7d9e67ff137b8f3210c55e9192
+      462f405debfd5185010401edf767bd7d9e67ff137b8f3210c55e9192
       e9ac8a10f32a2f0eef9ce34524a543e0d4eb9b3328ca114b02ab23b2
       91f61b5bc814639a9ecaff07e870733131747637004c2df1bec8abe6
       b252e7fe91bdb6f7242e65c36e7b960646c89aaf0262a4803ee4c90d
       1b58775a409a135bd18fedbf4ba0eae172b4fe8a0fada83d699e44f2
-      f86103414462c2850400484dcee6d54cb356830cd764079360a03b06
+      f8610341446285010400484dcee6d54cb356830cd764079360a03b06
       a7db1a82188e09c92e02d7e78a1e3710da9554db11697d242893e211
       4d6cbee89f5999b7e545d9fdf59f4c9acd408901ad73e01ec22ae6ec
       c122cf257e81826e348cd410ddb9245c61889fe97b2bbb98b2038eb2
       ed23e989ec7013a610fb2f3b4fb958cc860dd10c98745b9d89e37f2b
       f903414461
     ISK result: (length: 64 bytes)
-      8cc687c86f7405f1ccef348d6f97111d1cedc50813f7315bfb2eb1e9
-      52b3222eb72332e785565c1b8ddbb545710afc519203e29b1e7731d5
-      fa0d62948ad8e210
+      78c4dd7136309a2bbe1fdef3cf24a08690006b0c9de253b770c147dd
+      0800681c82e4e67a388ed1cd9182e595b8e9e3f2976a0e6dab48b2cd
+      205b19489e20f571
 ~~~
 
 ###  Corresponding ANSI-C initializers
@@ -2620,20 +2628,20 @@ const uint8_t tc_K[] = {
  0x2f,0x40,0x5d,0xeb,0xfd,0x51,
 };
 const uint8_t tc_ISK_IR[] = {
- 0x9f,0x6b,0xd2,0x37,0xf8,0x74,0x06,0x89,0xea,0x98,0x71,0xb4,
- 0x52,0x00,0x72,0x0a,0x2d,0x83,0x41,0x06,0x98,0x5b,0xb3,0xa0,
- 0xf2,0xab,0x3e,0xa5,0x35,0xcd,0x22,0xcf,0xa8,0xa6,0x8e,0xb8,
- 0xac,0x37,0x34,0x62,0xfd,0xa3,0x61,0x53,0x2e,0x4f,0x5f,0xb3,
- 0x05,0x9e,0x84,0x00,0x25,0x23,0x24,0xee,0xd9,0xa8,0x34,0x81,
- 0x71,0xb2,0x0c,0xd0,
+ 0x2b,0x2c,0x53,0x4c,0x35,0x2c,0x44,0x67,0x73,0xbd,0x33,0x4f,
+ 0xac,0x2f,0x2c,0x50,0xef,0x8c,0xd7,0x99,0x1b,0xd4,0xe0,0x70,
+ 0xf8,0x5b,0x03,0x67,0xa2,0xf7,0xff,0xca,0x44,0x50,0x66,0xcf,
+ 0x20,0xb7,0x56,0x77,0x36,0x87,0xe1,0x03,0x8b,0x17,0x08,0x96,
+ 0xec,0x26,0x77,0xfe,0x72,0x2a,0xcb,0x0f,0x9e,0x6c,0x2f,0x11,
+ 0x83,0x0e,0x80,0x8a,
 };
 const uint8_t tc_ISK_SY[] = {
- 0x8c,0xc6,0x87,0xc8,0x6f,0x74,0x05,0xf1,0xcc,0xef,0x34,0x8d,
- 0x6f,0x97,0x11,0x1d,0x1c,0xed,0xc5,0x08,0x13,0xf7,0x31,0x5b,
- 0xfb,0x2e,0xb1,0xe9,0x52,0xb3,0x22,0x2e,0xb7,0x23,0x32,0xe7,
- 0x85,0x56,0x5c,0x1b,0x8d,0xdb,0xb5,0x45,0x71,0x0a,0xfc,0x51,
- 0x92,0x03,0xe2,0x9b,0x1e,0x77,0x31,0xd5,0xfa,0x0d,0x62,0x94,
- 0x8a,0xd8,0xe2,0x10,
+ 0x78,0xc4,0xdd,0x71,0x36,0x30,0x9a,0x2b,0xbe,0x1f,0xde,0xf3,
+ 0xcf,0x24,0xa0,0x86,0x90,0x00,0x6b,0x0c,0x9d,0xe2,0x53,0xb7,
+ 0x70,0xc1,0x47,0xdd,0x08,0x00,0x68,0x1c,0x82,0xe4,0xe6,0x7a,
+ 0x38,0x8e,0xd1,0xcd,0x91,0x82,0xe5,0x95,0xb8,0xe9,0xe3,0xf2,
+ 0x97,0x6a,0x0e,0x6d,0xab,0x48,0xb2,0xcd,0x20,0x5b,0x19,0x48,
+ 0x9e,0x20,0xf5,0x71,
 };
 ~~~
 

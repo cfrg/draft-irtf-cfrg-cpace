@@ -67,8 +67,16 @@ def tv_output_byte_array(data, test_vector_name = "", line_prefix = "  ", max_le
             return
             
 def prepend_len(data):
-    length_as_utf8_string = chr(len(data)).encode('utf-8')
-    return length_as_utf8_string + data 
+    "prepend LEB128 encoding of length"
+    length = len(data)
+    length_encoded = b""
+    while length > 0:
+        if length < 128:
+            length_encoded += bytes([length])
+        else:
+            length_encoded += bytes([(length & 0x7f) + 0x80])
+        length = int(length >> 7)
+    return length_encoded + data 
 
 def prefix_free_cat(*args):
     result = b""
@@ -103,9 +111,17 @@ def generate_testvectors_string_functions(file = sys.stdout):
     print (
 """
 ~~~
-  def prepend_len(data):
-      length_as_utf8_string = chr(len(data)).encode('utf-8')
-      return (length_as_utf8_string + data)
+def prepend_len(data):
+    "prepend LEB128 encoding of length"
+    length = len(data)
+    length_encoded = b""
+    while length > 0:
+        if length < 128:
+            length_encoded += bytes([length])
+        else:
+            length_encoded += bytes([(length & 0x7f) + 0x80])
+        length = int(length >> 7)
+    return length_encoded + data
 ~~~
 """, file = file);
 
