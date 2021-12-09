@@ -39,7 +39,7 @@ normative:
     date: 2000
 
 informative:
-  CPacePaper2:
+  ES21:
     title: The 'quantum annoying' property of password-authenticated key exchange protocols.
     target: https://eprint.iacr.org/2021/696
     author:
@@ -48,22 +48,22 @@ informative:
       -
         ins: D. Stebila
 
-  CPacePaper3:
+  ABKLX21:
     title: Algebraic Adversaries in the Universal Composability Framework.
     target: https://eprint.iacr.org/2021/1218
     author:
       -
-        ins: Michel Abdalla
+        ins: M. Abdalla
       -
-        ins: Manuel Barbosa
+        ins: M. Barbosa
       -
-        ins: Jonathan Katz
+        ins: J. Katz
       -
-        ins: Julian Loss
+        ins: J. Loss
       -
-        ins: Jiayu Xu
+        ins: J. Xu
 
-  CPacePaper:
+  AHH21:
     title: "Security analysis of CPace"
     target: https://eprint.iacr.org/2021/114
     author:
@@ -599,7 +599,7 @@ Corresponding test vectors are given in the appendix for all recommended cipher 
 
 # Security Considerations {#sec-considerations}
 
-A security proof of CPace is found in {{CPacePaper}}. This proof covers all recommended cipher suites included in this document.
+A security proof of CPace is found in {{AHH21}}. This proof covers all recommended cipher suites included in this document.
 In the following sections we describe how to protect CPace against several attack families, such as relay-, length extension- or side channel attacks. We also describe aspects to consider when deviating from recommended cipher suites.
 
 ## Party identifiers and relay attacks
@@ -629,10 +629,10 @@ In many applications it is advisable to add an explicit key confirmation round a
 might only require implicit authentication and as explicit authentication messageres are already a built-in feature in many higher-level protocols (e.g. TLS 1.3) the CPace protocol described here does not mandate
 use of a key confirmation on the level of the CPace sub-protocol.
 
-Already without explicit key confirmation, CPace enjoys weak forward security under the sCDH and sSDH assumptions {{CPacePaper}} and
+Already without explicit key confirmation, CPace enjoys weak forward security under the sCDH and sSDH assumptions {{AHH21}} and
 also enjoys perfect forward security under the stronger assumption of the algebraic adversary model
-{{CPacePaper3}}.
-With added explicit confirmation, CPace enjoys perfect forward security also under the strong sCDH and sSDH assumptions {{CPacePaper}}.
+{{ABKLX21}}.
+With added explicit confirmation, CPace enjoys perfect forward security also under the strong sCDH and sSDH assumptions {{AHH21}}.
 
 When implementing explicit key confirmation, it is recommended to use an appropriate message-authentication code such as HMAC {{?RFC2104}} or
 CMAC {{?RFC4493}} using a key derived from ISK. One suitable option that works also in the parallel setting without message ordering is to make each party send an authenticator tag that is calculated over the protocol message that it has sent previously, i.e. let party A calculate its transmitted authentication code over MSGa and let party B calculate its transmitted authentication code over MSGb.
@@ -641,18 +641,18 @@ CMAC {{?RFC4493}} using a key derived from ISK. One suitable option that works a
 
 For curves over fields F\_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
 with respect to side-channels for embedded systems in hostile environments.
-The effect of non-uniform sampling on security was demonstrated to be begning in {{CPacePaper}} for the case of Curve25519 and Curve448.
+The effect of non-uniform sampling on security was demonstrated to be begning in {{AHH21}} for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}.
 
 ## Single-coordinate CPace on Montgomery curves
 
-The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in {{CPaceMontgomery}} rely on the following properties  {{CPacePaper}}:
+The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in {{CPaceMontgomery}} rely on the following properties  {{AHH21}}:
 
 - The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' * c') with p' prime and c' a cofactor.
 
 - The cofactor c' of the twist MUST BE EQUAL to or an integer multiple of the cofactor c of the curve.
 
-- Both field order q and group order p MUST BE close to a power of two along the lines of {{CPacePaper}}, Appendix E.
+- Both field order q and group order p MUST BE close to a power of two along the lines of {{AHH21}}, Appendix E.
 
 - The representation of the neutral element G.I MUST BE the same for both, the curve and its twist.
 
@@ -663,7 +663,7 @@ Montgomery curves other than the ones recommended here can use the specification
 ## Nonce values
 
 Secret scalars ya and yb MUST NOT be reused. Values for sid SHOULD NOT be reused since the composability
-guarantees established by the simulation-based proof rely on the uniqueness of session ids {{CPacePaper}}.
+guarantees established by the simulation-based proof rely on the uniqueness of session ids {{AHH21}}.
 
 If CPace is used in a concurrent system, it is RECOMMENDED that a unique sid is generated by the higher-level protocol and passed to CPace. One suitable option is that sid is generated by concatenating ephemeral random strings contributed by both parties.
 
@@ -681,10 +681,10 @@ the task for a side-channel attack somewhat more complex. Still this feature alo
 ## Quantum computers
 
 CPace is proven secure under the hardness of the strong computational Simultaneous Diffie-Hellmann (sSDH) and strong computational Diffie-Hellmann (sCDH)
-assumptions in the group G (as defined in {{CPacePaper}}).
+assumptions in the group G (as defined in {{AHH21}}).
 These assumptions are not expected to hold any longer when large-scale quantum computers (LSQC) are available.
 Still, even in case that LSQC emerge, it is reasonable to assume that discrete-logarithm computations will remain costly. CPace with ephemeral session id values
-sid forces the adversary to solve one computational Diffie-Hellman problem per password guess {{CPacePaper2}}.
+sid forces the adversary to solve one computational Diffie-Hellman problem per password guess {{ES21}}.
 In this sense, using the wording suggested by Steve Thomas on the CFRG mailing list, CPace is "quantum-annoying".
 
 # IANA Considerations
