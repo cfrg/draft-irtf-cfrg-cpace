@@ -635,13 +635,24 @@ In many applications it is advisable to add an explicit key confirmation round a
 might only require implicit authentication and as explicit authentication messages are already a built-in feature in many higher-level protocols (e.g. TLS 1.3) the CPace protocol described here does not mandate
 use of a key confirmation on the level of the CPace sub-protocol.
 
-Already without explicit key confirmation, CPace enjoys weak forward security under the sCDH and sSDH assumptions {{AHH21}} and
-also enjoys perfect forward security under the stronger assumption of the algebraic adversary model
-{{ABKLX21}}.
+Already without explicit key confirmation, CPace enjoys weak forward security under the sCDH and sSDH assumptions {{AHH21}}.
 With added explicit confirmation, CPace enjoys perfect forward security also under the strong sCDH and sSDH assumptions {{AHH21}}.
 
-When implementing explicit key confirmation, it is recommended to use an appropriate message-authentication code such as HMAC {{?RFC2104}} or
-CMAC {{?RFC4493}} using a key derived from ISK. One suitable option that works also in the parallel setting without message ordering is to make each party send an authenticator tag that is calculated over the protocol message that it has sent previously, i.e. let party A calculate its transmitted authentication code over MSGa and let party B calculate its transmitted authentication code over MSGb.
+Note that in {{ABKLX21}} it was shown that an idealized variant of CPace
+also enjoys perfect forward security, however this proof does not fully cover the recommended cipher suites 
+in this document and requires the stronger assumption of an algebraic adversary model.
+
+When implementing explicit key confirmation, it is recommended to use an appropriate message-authentication code (MAC) 
+such as HMAC {{?RFC2104}} or
+CMAC {{?RFC4493}} using a key mac\_key derived from ISK. 
+
+One suitable option that works also in the parallel setting without message ordering is to proceed as follows:
+
+- calculate mac\_key as H.hash(b"CPaceMac" || ISK).
+
+- let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously, i.e. 
+  let party A calculate its transmitted authentication code Ta = MAC(mac\_key, MSGa) and let party B calculate its transmitted 
+  authentication code Tb as Tb = MAC(mac\_key, MSGb).
 
 ## Sampling of scalars
 
