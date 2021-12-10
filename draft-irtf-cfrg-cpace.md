@@ -641,7 +641,7 @@ Already without explicit key confirmation, CPace enjoys weak forward security un
 With added explicit confirmation, CPace enjoys perfect forward security also under the strong sCDH and sSDH assumptions {{AHH21}}.
 
 Note that in {{ABKLX21}} it was shown that an idealized variant of CPace
-also enjoys perfect forward security, however this proof does not fully cover the recommended cipher suites
+also enjoys perfect forward security without explicit key confirmation. However this proof does not fully cover the recommended cipher suites
 in this document and requires the stronger assumption of an algebraic adversary model.
 
 When implementing explicit key confirmation, it is recommended to use an appropriate message-authentication code (MAC)
