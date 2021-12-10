@@ -656,6 +656,8 @@ One suitable option that works also in the parallel setting without message orde
 - Then let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously. I.e.
   let party A calculate its transmitted authentication code Ta = MAC(mac\_key, MSGa) and let party B calculate its transmitted
   authentication code Tb as Tb = MAC(mac\_key, MSGb).
+  
+- Let the receiving party check the remote authentication tag for the correct value and abort in case that it's incorrect.
 
 
 ## Sampling of scalars

@@ -143,7 +143,7 @@ if __name__ == "__main__":
         G.output_markdown_description_for_decodeUCoordinate(file = f);
         G.output_markdown_description_for_elligator2(file = f);
         
-        print ("Z for Curve25519 :", G.find_z_ell2(GF(G.q)))
+        print ("Z for Curve25519: ", G.find_z_ell2(GF(G.q)))
         
         print("\n# Test vectors\n", file = f)
     
