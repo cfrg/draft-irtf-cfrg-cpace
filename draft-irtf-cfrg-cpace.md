@@ -447,6 +447,9 @@ expected results for non-canonical u coordinate values with bit #255 set, which 
 
 Corresponding test vectors are provided in the appendix.
 
+Moreover all implementations SHALL be verified with respect to invalidly encoded messages for MSGa and MSGb with incorrectly prepended
+length fields. Corresponding test vectors are provided in the appendix.
+
 ## CPace group objects G\_Ristretto255 and G\_Decaf448 for prime-order group abstractions {#CPaceCoffee}
 
 In this section we consider the case of CPace using the Ristretto255 and Decaf448 group abstractions {{!I-D.draft-irtf-cfrg-ristretto255-decaf448}}.
