@@ -143,6 +143,8 @@ if __name__ == "__main__":
         G.output_markdown_description_for_decodeUCoordinate(file = f);
         G.output_markdown_description_for_elligator2(file = f);
         
+        print ("Z for Curve25519 :", G.find_z_ell2(GF(G.q)))
+        
         print("\n# Test vectors\n", file = f)
     
         H = H_SHA512()
@@ -152,6 +154,9 @@ if __name__ == "__main__":
  
         H = H_SHAKE256()
         G = G_X448()
+        
+        print ("Z for Ed448 : -", -G.find_z_ell2(GF(G.q)))
+
         generate_test_vector(H,G, file=f)
         output_test_vectors_for_weak_points_448(file = f)
    

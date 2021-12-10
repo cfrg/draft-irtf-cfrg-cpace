@@ -70,13 +70,15 @@ def prepend_len(data):
     "prepend LEB128 encoding of length"
     length = len(data)
     length_encoded = b""
-    while length > 0:
+    while True:
         if length < 128:
             length_encoded += bytes([length])
         else:
             length_encoded += bytes([(length & 0x7f) + 0x80])
         length = int(length >> 7)
-    return length_encoded + data 
+        if length == 0:
+            break;
+    return length_encoded + data
 
 def prefix_free_cat(*args):
     result = b""
@@ -102,7 +104,6 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     len_zpad = max(0,s_in_bytes - 1 - len(prepend_len(PRS))
                      - len(prepend_len(DSI)))
     return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
-
     
 def generate_testvectors_string_functions(file = sys.stdout):
     print ("\n## Definition and test vectors for string utility functions\n", file = file)
@@ -115,12 +116,14 @@ def prepend_len(data):
     "prepend LEB128 encoding of length"
     length = len(data)
     length_encoded = b""
-    while length > 0:
+    while True:
         if length < 128:
             length_encoded += bytes([length])
         else:
             length_encoded += bytes([(length & 0x7f) + 0x80])
         length = int(length >> 7)
+        if length == 0:
+            break;
     return length_encoded + data
 ~~~
 """, file = file);
@@ -143,8 +146,9 @@ def prepend_len(data):
                          line_prefix = "  ", max_len = 60, file = file);
 
     print ("~~~", file = file)
-    
-    print ("\n### prefix\\_free\\_cat function\n", file = file)
+
+
+    print ("\n\n### prefix\\_free\\_cat function\n", file = file)
     
     print (
 """
@@ -162,6 +166,31 @@ def prepend_len(data):
     print ("~~~", file = file)
     tv_output_byte_array(prefix_free_cat(b"1234",b"5",b"",b"6789"), 
                          test_vector_name = 'prefix_free_cat(b"1234",b"5",b"",b"6789")', 
+                         line_prefix = "  ", max_len = 60, file = file);
+    
+    print ("~~~", file = file)
+
+    print ("\n### Examples for invalid encoded messages\n", file = file)
+   
+    print ("""
+The following messages are examples which have invalid encoded length fields. I.e. examples
+where parsing for the sum of the length of subfields as expected for a message geenerated for the prefix free concatenation
+does not give the correct length of the message. Parties MUST abort upon reception of such invalid messages.
+""", file = file)
+    
+    print ("\n\n~~~", file = file)
+    
+    tv_output_byte_array(bytes([255,255,255]), 
+                         test_vector_name = 'MSG with invalid encoded length', 
+                         line_prefix = "  ", max_len = 60, file = file);
+    tv_output_byte_array(bytes([255,255,3]), 
+                         test_vector_name = 'MSG with invalid encoded length', 
+                         line_prefix = "  ", max_len = 60, file = file);
+    tv_output_byte_array(bytes([0,255,255,3]), 
+                         test_vector_name = 'MSG with invalid encoded length', 
+                         line_prefix = "  ", max_len = 60, file = file);
+    tv_output_byte_array(bytes([0,255,255,255]), 
+                         test_vector_name = 'MSG with invalid encoded length', 
                          line_prefix = "  ", max_len = 60, file = file);
     
     print ("~~~", file = file)

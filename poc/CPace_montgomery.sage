@@ -75,6 +75,9 @@ as follows.
             ctr += 1
 ~~~
 
+The values of the non-square Z only depend on the curve. The algorithm above
+results in a value of Z = 2 for Curve25519 and Z=-1 for Ed448.
+
 The following code maps a field element r to an encoded field element which
 is a valid u-coordinate of a Montgomery curve with curve parameter A.
 

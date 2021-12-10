@@ -293,12 +293,14 @@ optional associated data ADa to B. ADa MAY have length zero.
 
 B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_mult(yb,g). B sends MSGb = prefix\_free\_cat(Yb, ADb) to A.
 
-Upon reception of MSGa, B parses MSGa as Ya and ADa using the prepended lengths of the substrings added by the prefix\_free\_cat() function. B then computes
+Upon reception of MSGa, B checks that the actual length of MSGa matches the sum of the decoded prepended lengths for Ya and ADa in MSGa. If length fields within MSGa are invalid then B MUST abort. Testvectors of examples for such invalid messages are given in the appendix.
+Then B parses MSGa as Ya and ADa using the prepended lengths of the substrings added by the prefix\_free\_cat() function. B then computes
 K = G.scalar\_mult_vfy(yb,Ya). B MUST abort if K=G.I.
 Otherwise B returns
 ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|concat(MSGa, MSGb)). B returns ISK and terminates.
 
-Upon reception of MSGb, A parses MSGb as Yb and ADb using the prepended lengths of the substrings added by the prefix\_free\_cat() function. A then computes
+Upon reception of MSGb, A checks that the actual length of MSGb matches the sum of the decoded prepended lengths for Yb and ADb in MSGb. If length fields within MSGb are invalid then A MUST abort.
+Then A parses MSGb as Yb and ADb using the prepended lengths of the substrings added by the prefix\_free\_cat() function. A then computes
 K = G.scalar\_mult\_vfy(ya,Yb). A MUST abort if K=G.I.
 Otherwise A returns
 ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| concat(MSGa, MSGb). A returns ISK and terminates.
@@ -594,6 +596,10 @@ Implementation MUST be verified to abort upon conditions where G.scalar\_mult\_v
 For testing an implementation it is RECOMMENDED to include weak or invalid points in MSGa and MSGb and introduce this
 in a protocol run. It SHALL be verified that the abort condition is properly handled.
 
+Moreover any implementation MUST be tested with respect invalid encodings of MSGa and MSGb where the length of the message
+does not match the specified encoding (i.e. where the sum of the prepended length information does not match the actual length
+of the message).
+
 Corresponding test vectors are given in the appendix for all recommended cipher suites.
 
 
@@ -698,6 +704,7 @@ Thanks to the members of the CFRG for comments and advice. Any comment and advic
 --- back
 
 
+
 # CPace function definitions
 
 
@@ -745,6 +752,7 @@ def prepend_len(data):
     72737475767778797a7b7c7d7e7f
 ~~~
 
+
 ### prefix\_free\_cat function
 
 
@@ -763,6 +771,26 @@ def prepend_len(data):
   prefix_free_cat(b"1234",b"5",b"",b"6789"):
   (length: 13 bytes)
     04313233340135000436373839
+~~~
+
+### Examples for invalid encoded messages
+
+
+The following messages are examples which have invalid encoded length fields. I.e. examples
+where parsing for the sum of the length of subfields as expected for a message geenerated for the prefix free concatenation
+does not give the correct length of the message. Parties MUST abort upon reception of such invalid messages.
+
+
+
+~~~
+  MSG with invalid encoded length: (length: 3 bytes)
+    ffffff
+  MSG with invalid encoded length: (length: 3 bytes)
+    ffff03
+  MSG with invalid encoded length: (length: 4 bytes)
+    00ffff03
+  MSG with invalid encoded length: (length: 4 bytes)
+    00ffffff
 ~~~
 
 ## Definition of generator\_string function.
@@ -848,6 +876,9 @@ as follows.
                 return Z_cand
             ctr += 1
 ~~~
+
+The values of the non-square Z only depend on the curve. The algorithm above
+results in a value of Z = 2 for Curve25519 and Z=-1 for Ed448.
 
 The following code maps a field element r to an encoded field element which
 is a valid u-coordinate of a Montgomery curve with curve parameter A.
