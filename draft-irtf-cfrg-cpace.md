@@ -643,7 +643,8 @@ With added explicit confirmation, CPace enjoys perfect forward security also und
 Note that in {{ABKLX21}} it was shown that an idealized variant of CPace
 also enjoys perfect forward security without explicit key confirmation. However this proof does not explicitly cover
 the recommended cipher suites
-in this document and requires the stronger assumption of an algebraic adversary model.
+in this document and requires the stronger assumption of an algebraic adversary model. For this reason, we RECOMMEND adding
+explicit key confirmation if perfect forward security is required.
 
 When implementing explicit key confirmation, it is recommended to use an appropriate message-authentication code (MAC)
 such as HMAC {{?RFC2104}} or
