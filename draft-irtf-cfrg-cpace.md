@@ -791,8 +791,8 @@ def prepend_len(data):
 ### Examples for invalid encoded messages
 
 
-The following messages are examples which have invalid encoded length fields. I.e. examples
-where parsing for the sum of the length of subfields as expected for a message geenerated for the prefix free concatenation
+The following messages are examples which have invalid encoded length fields. I.e. they are examples
+where parsing for the sum of the length of subfields as expected for a message generated for the prefix free concatenation
 does not give the correct length of the message. Parties MUST abort upon reception of such invalid messages.
 
 
