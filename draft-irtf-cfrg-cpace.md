@@ -506,8 +506,10 @@ uniform sampling process can provide a larger side-channel attack surface for em
    - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) is calculated using the input block size of the chosen hash function.
 
    - This string is then hashed to the required length gen\_str\_hash = H.hash(gen\_str, 2 * G.field\_size\_bytes).  Note that this
-     implies that the permissible output length H.maxb\_in\_bytes MUST BE larger or equal to twice the field size of the group G for making a
+     implies that the permissible output length H.maxb\_in\_bytes MUST BE larger or equal to twice the field size of the group
+     G for making a
      hash function suitable.
+
    - Finally the internal representation of the generator \_g is calculated as \_g = one\_way\_map(gen\_str\_hash)
      using the one-way map function from the abstraction.
 
@@ -639,20 +641,21 @@ Already without explicit key confirmation, CPace enjoys weak forward security un
 With added explicit confirmation, CPace enjoys perfect forward security also under the strong sCDH and sSDH assumptions {{AHH21}}.
 
 Note that in {{ABKLX21}} it was shown that an idealized variant of CPace
-also enjoys perfect forward security, however this proof does not fully cover the recommended cipher suites 
+also enjoys perfect forward security, however this proof does not fully cover the recommended cipher suites
 in this document and requires the stronger assumption of an algebraic adversary model.
 
-When implementing explicit key confirmation, it is recommended to use an appropriate message-authentication code (MAC) 
+When implementing explicit key confirmation, it is recommended to use an appropriate message-authentication code (MAC)
 such as HMAC {{?RFC2104}} or
-CMAC {{?RFC4493}} using a key mac\_key derived from ISK. 
+CMAC {{?RFC4493}} using a key mac\_key derived from ISK.
 
-One suitable option that works also in the parallel setting without message ordering is to proceed as follows:
+One suitable option that works also in the parallel setting without message ordering is to proceed as follows.
 
-- calculate mac\_key as H.hash(b"CPaceMac" || ISK).
+- First calculate mac\_key as as mac\_key = H.hash(b"CPaceMac" \|\| ISK).
 
-- let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously, i.e. 
-  let party A calculate its transmitted authentication code Ta = MAC(mac\_key, MSGa) and let party B calculate its transmitted 
+- Then let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously. I.e.
+  let party A calculate its transmitted authentication code Ta = MAC(mac\_key, MSGa) and let party B calculate its transmitted
   authentication code Tb as Tb = MAC(mac\_key, MSGb).
+
 
 ## Sampling of scalars
 
