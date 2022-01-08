@@ -221,12 +221,8 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     
     print ("\n## Definitions and test vector ordered concatenation\n", file = file)
 
-    print ("\n### Definitions ordered concatenation\n", file = file)
-
-    print ("\n### Definitions ordered concatenation\n", file = file)
-    
-    print ("\n### Definitions ordered concatenation\n", file = file)
-    
+    print ("\n### Definitions for lexiographical ordering\n", file = file)
+        
     print ("\nFor ordered concatenation lexiographical ordering of byte sequences is used:\n\n" +
 """
 ~~~
@@ -241,7 +237,9 @@ def lexiographically_larger(bytes1,bytes2):
   return len(bytes1) > len(bytes2)
 ~~~
 
-With this definition ordered concatenation is specified as follows.
+### Definitions for ordered concatenation
+
+With the above definition of lexiographical ordering ordered concatenation is specified as follows.
 
 """ + "\n\n", file = file)
 

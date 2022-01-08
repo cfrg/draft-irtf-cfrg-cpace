@@ -727,7 +727,6 @@ Thanks to the members of the CFRG for comments and advice. Any comment and advic
 --- back
 
 
-
 # CPace function definitions
 
 
@@ -833,13 +832,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
 ## Definitions and test vector ordered concatenation
 
 
-### Definitions ordered concatenation
-
-
-### Definitions ordered concatenation
-
-
-### Definitions ordered concatenation
+### Definitions for lexiographical ordering
 
 
 For ordered concatenation lexiographical ordering of byte sequences is used:
@@ -857,7 +850,9 @@ def lexiographically_larger(bytes1,bytes2):
   return len(bytes1) > len(bytes2)
 ~~~
 
-With this definition ordered concatenation is specified as follows.
+### Definitions for ordered concatenation
+
+With the above definition of lexiographical ordering ordered concatenation is specified as follows.
 
 
 
