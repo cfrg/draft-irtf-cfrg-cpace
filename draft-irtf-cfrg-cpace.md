@@ -215,9 +215,9 @@ initiator can be used by the responder for identifying which among possibly seve
 
 ## Notation
 
-- str1 \|\| str2 denotes concatenation of octet strings.
+- bytes1 \|\| bytes2 denotes concatenation of octet strings.
 
-- oCat(str1,str2) denotes ordered concatenation of octet strings as specified in the appendix.
+- oCat(bytes1,bytes2) denotes ordered concatenation of octet strings, which places the lexiographically larger octet string first. (Explicit code for this function is given in the appendix.)
 
 - concat(MSGa,MSGb) denotes a concatenation method allows both parties to concatenate CPace's protocol messages in the same way. In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is not enforced by the protocol flow, concat(MSGa,MSGb) = oCat(MSGa,MSGb) SHALL be used. In settings where the protocol flow enforces ordering, concat(MSGa,MSGb) SHOULD BE implemented such that the later message is appended to the earlier message, i.e., concat(MSGa,MSGb) = MSGa\|\|MSGb if MSGa is sent first.
 
@@ -806,13 +806,13 @@ does not give the correct length of the message. Parties MUST abort upon recepti
 
 
 ~~~
-  MSG with invalid encoded length: (length: 3 bytes)
+  Inv_MSG1 with invalid encoded length: (length: 3 bytes)
     ffffff
-  MSG with invalid encoded length: (length: 3 bytes)
+  Inv_MSG2 with invalid encoded length: (length: 3 bytes)
     ffff03
-  MSG with invalid encoded length: (length: 4 bytes)
+  Inv_MSG3 with invalid encoded length: (length: 4 bytes)
     00ffff03
-  MSG with invalid encoded length: (length: 4 bytes)
+  Inv_MSG4 with invalid encoded length: (length: 4 bytes)
     00ffffff
 ~~~
 
@@ -835,24 +835,51 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
 
 ### Definitions ordered concatenation
 
+
+### Definitions ordered concatenation
+
+
+### Definitions ordered concatenation
+
+
+For ordered concatenation lexiographical ordering of byte sequences is used:
+
+
 ~~~
-  def oCAT(str1,str2):
-      if str1 > str2:
-          return str1 + str2
+def lexiographically_larger(bytes1,bytes2):
+  "Returns True if bytes1 > bytes2 using lexiographical ordering."
+  min_len = min (len(bytes1), len(bytes2))
+  for m in range(min_len):
+      if bytes1[m] > bytes2[m]:
+          return True;
+      elif bytes1[m] < bytes2[m]:
+          return False;
+  return len(bytes1) > len(bytes2)
+~~~
+
+With this definition ordered concatenation is specified as follows.
+
+
+
+
+~~~
+  def oCAT(bytes1,bytes2):
+      if lexiographically_larger(bytes1,bytes2):
+          return bytes1 + bytes2
       else:
-          return str2 + str1
+          return bytes2 + bytes1
 ~~~
 
 ### Test vectors ordered concatenation
 
 ~~~
   string comparison for oCAT:
-    b"\0" > b"\0\0" == False
-    b"\1" > b"\0\0" == True
-    b"\0\0" > b"\0" == True
-    b"\0\0" > b"\1" == False
-    b"\0\1" > b"\1" == False
-    b"ABCD" > b"BCD" == False
+    lexiographically_larger(b"\0", b"\0\0") == False
+    lexiographically_larger(b"\1", b"\0\0") == True
+    lexiographically_larger(b"\0\0", b"\0") == True
+    lexiographically_larger(b"\0\0", b"\1") == False
+    lexiographically_larger(b"\0\1", b"\1") == False
+    lexiographically_larger(b"ABCD", b"BCD") == False
 
   oCAT(b"ABCD",b"BCD"): (length: 7 bytes)
     42434441424344

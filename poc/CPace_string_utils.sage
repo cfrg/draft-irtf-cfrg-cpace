@@ -86,11 +86,21 @@ def prefix_free_cat(*args):
         result += prepend_len(arg)
     return result
 
-def oCAT(str1,str2):
-    if str1 > str2:
-        return str1 + str2
+def lexiographically_larger(bytes1,bytes2):
+    "Returns True if bytes1 > bytes2 for lexiographical ordering."
+    min_len = min (len(bytes1), len(bytes2))
+    for m in range(min_len):
+        if bytes1[m] > bytes2[m]:
+            return True;
+        elif bytes1[m] < bytes2[m]:
+            return False;
+    return len(bytes1) > len(bytes2)
+
+def oCAT(bytes1,bytes2):
+    if lexiographically_larger(bytes1,bytes2):
+        return bytes1 + bytes2
     else:
-        return str2 + str1
+        return bytes2 + bytes1
 
 def zero_bytes(length):
     result = b"\0" * length
@@ -181,16 +191,16 @@ does not give the correct length of the message. Parties MUST abort upon recepti
     print ("\n\n~~~", file = file)
     
     tv_output_byte_array(bytes([255,255,255]), 
-                         test_vector_name = 'MSG with invalid encoded length', 
+                         test_vector_name = 'Inv_MSG1 with invalid encoded length', 
                          line_prefix = "  ", max_len = 60, file = file);
     tv_output_byte_array(bytes([255,255,3]), 
-                         test_vector_name = 'MSG with invalid encoded length', 
+                         test_vector_name = 'Inv_MSG2 with invalid encoded length', 
                          line_prefix = "  ", max_len = 60, file = file);
     tv_output_byte_array(bytes([0,255,255,3]), 
-                         test_vector_name = 'MSG with invalid encoded length', 
+                         test_vector_name = 'Inv_MSG3 with invalid encoded length', 
                          line_prefix = "  ", max_len = 60, file = file);
     tv_output_byte_array(bytes([0,255,255,255]), 
-                         test_vector_name = 'MSG with invalid encoded length', 
+                         test_vector_name = 'Inv_MSG4 with invalid encoded length', 
                          line_prefix = "  ", max_len = 60, file = file);
     
     print ("~~~", file = file)
@@ -213,24 +223,47 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
 
     print ("\n### Definitions ordered concatenation\n", file = file)
 
+    print ("\n### Definitions ordered concatenation\n", file = file)
+    
+    print ("\n### Definitions ordered concatenation\n", file = file)
+    
+    print ("\nFor ordered concatenation lexiographical ordering of byte sequences is used:\n\n" +
+"""
+~~~
+def lexiographically_larger(bytes1,bytes2):
+  "Returns True if bytes1 > bytes2 using lexiographical ordering."
+  min_len = min (len(bytes1), len(bytes2))
+  for m in range(min_len):
+      if bytes1[m] > bytes2[m]:
+          return True;
+      elif bytes1[m] < bytes2[m]:
+          return False;
+  return len(bytes1) > len(bytes2)
+~~~
+
+With this definition ordered concatenation is specified as follows.
+
+""" + "\n\n", file = file)
+
+
     print ("~~~", file = file)
-    print ("  def oCAT(str1,str2):", file = file);
-    print ("      if str1 > str2:", file = file);
-    print ("          return str1 + str2", file = file);
+    print ("  def oCAT(bytes1,bytes2):", file = file);
+    print ("      if lexiographically_larger(bytes1,bytes2):", file = file);
+    print ("          return bytes1 + bytes2", file = file);
     print ("      else:", file = file);
-    print ("          return str2 + str1", file = file);
+    print ("          return bytes2 + bytes1", file = file);
     print ("~~~", file = file)
 
     print ("\n### Test vectors ordered concatenation\n", file = file)
     
     print ("~~~", file = file)
     print ("  string comparison for oCAT:", file = file)    
-    print ('    b"\\0" > b"\\0\\0" ==', b"\0" > b"\0\0", file = file)
-    print ('    b"\\1" > b"\\0\\0" ==', b"\1" > b"\0\0", file = file)
-    print ('    b"\\0\\0" > b"\\0" ==', b"\0\0" > b"\0", file = file)
-    print ('    b"\\0\\0" > b"\\1" ==', b"\0\0" > b"\1", file = file)
-    print ('    b"\\0\\1" > b"\\1" ==', b"\0\1" > b"\1", file = file)
-    print ('    b"ABCD" > b"BCD" ==', b"ABCD" > b"BCD", file = file)
+    print ('    lexiographically_larger(b"\\0", b"\\0\\0") ==', lexiographically_larger(b"\\0", b"\\0\\0"), file = file)
+    print ('    lexiographically_larger(b"\\1", b"\\0\\0") ==', lexiographically_larger(b"\1", b"\0\0"), file = file)
+    print ('    lexiographically_larger(b"\\0\\0", b"\\0") ==', lexiographically_larger(b"\0\0", b"\0"), file = file)
+    print ('    lexiographically_larger(b"\\0\\0", b"\\1") ==', lexiographically_larger(b"\0\0", b"\1"), file = file)
+    print ('    lexiographically_larger(b"\\0\\1", b"\\1") ==', lexiographically_larger(b"\0\1", b"\1"), file = file)
+    print ('    lexiographically_larger(b"ABCD", b"BCD") ==', lexiographically_larger(b"ABCD", b"BCD"), file = file)
     print ('', file = file)
 
     tv_output_byte_array(oCAT(b"ABCD",b"BCD"), 
