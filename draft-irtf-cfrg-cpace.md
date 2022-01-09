@@ -580,7 +580,7 @@ Using the above definitions, the CPace functions required for the group object G
    - Then the output of a call to encode\_to\_curve(gen\_str) is returned, using the selected function from {{!I-D.irtf-cfrg-hash-to-curve}}.
 
 - G.scalar\_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
-G.scalar\_mult(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to {{SEC1}}. It SHOULD use the full-coordinate format without compression that encodes both, x and y coordinates of the result point as the full-coordinate format appears to be more-widely supported in implementations. Implementations of scalar\_mult(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and
+G.scalar\_mult(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to {{SEC1}}. It is RECOMMENDED to use the full-coordinate format without compression that encodes both, x and y coordinates of the result point as the full-coordinate format appears to be more-widely supported in implementations. Implementations of scalar\_mult(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and
 result in the same Diffie-Hellman secrets K.
 (This allows implementations to opt for x-coordinate-only scalar multiplication algorithms.)
 
@@ -728,14 +728,6 @@ No IANA action is required.
 Thanks to the members of the CFRG for comments and advice. Any comment and advice is appreciated.
 
 --- back
-
-
-
-
-
-
-
-
 
 
 
@@ -1007,7 +999,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
       45acf93116ae5d3dae995a7c627df2924321a8e857d9a200807131e3
       8839b0c2
   Outputs
-    Ya = g^ya: (length: 32 bytes)
+    Ya: (length: 32 bytes)
       6f7fd31863b18b0cc9830fc842c60dea80120ccf2fd375498225e45a
       52065361
     MSGa: (length: 37 bytes)
@@ -1239,7 +1231,7 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
       21b4f4bd9e64ed355c3eb676a28ebedaf6d8f17bdc365995b3190971
       53044080516bd083bfcce66121a3072646994c8430cc382b8dc543e8
   Outputs
-    Ya = g^ya: (length: 56 bytes)
+    Ya: (length: 56 bytes)
       396bd11daf223711e575cac6021e3fa31558012048a1cec7876292b9
       6c61eda353fe04f33028d2352779668a934084da776c1c51a58ce4b5
     MSGa: (length: 61 bytes)
@@ -1534,7 +1526,7 @@ Test vectors for scalar_mult with nonzero outputs
       1433dd19359992d4e06d740d3993d429af6338ffb4531ce175d22449
       853a790b
   Outputs
-    Ya = g^ya: (length: 32 bytes)
+    Ya: (length: 32 bytes)
       a8fc42c4d57b3c7346661011122a00563d0995fd72b62123ae244400
       e86d7b1a
     MSGa: (length: 37 bytes)
@@ -1766,7 +1758,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       d8d2e26c821a12d7f59a8dee023d3f6155976152e16c73cbf68c303d
       f0404399f0a7b614a65df50a9788f00b410586b443f738ad7ff03930
   Outputs
-    Ya = g^ya: (length: 56 bytes)
+    Ya: (length: 56 bytes)
       223f95a5430a2f2a499431696d23ea2d0a90f432e5491e45e4005f3d
       d785e7be1235b79252670099bc993c2df5c261dfb7a8989f091e2be3
     MSGa: (length: 61 bytes)
@@ -2010,11 +2002,12 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       c9e47ca5debd2285727af47e55f5b7763fa79719da428f800190cc66
       59b4eafb
   Outputs
-    Ya = g^ya: (length: 65 bytes)
+    Ya: (length: 65 bytes)
       0478ac925a6e3447a537627a2163be005a422f55c08385c1ef7d051c
       a94593df5946314120faa87165cba131c1da3aac429dc3d99a9bac7d
       4c4cbb8570b4d5ea10
-    Alternative correct value: g^(-ya): (length: 65 bytes)
+    Alternative correct value for Ya: g^(-ya):
+    (length: 65 bytes)
       0478ac925a6e3447a537627a2163be005a422f55c08385c1ef7d051c
       a94593df59b9cebede05578e9b345ece3e25c553bd623c2666645382
       b3b3447a8f4b2a15ef
@@ -2037,7 +2030,8 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       04df13ffa89b0ce3cc553b1495ff027886564d94b8d9165cd50e5f65
       4247959951bfac90839fca218bf8e2d1258eb7d7d9f733fe4cd558e6
       fa57bf1f801aae7d3a
-    Alternative correct value: g^(-yb): (length: 65 bytes)
+    Alternative correct value for Yb: g^(-yb):
+    (length: 65 bytes)
       04df13ffa89b0ce3cc553b1495ff027886564d94b8d9165cd50e5f65
       424795995140536f7b6035de75071d2eda7148282608cc01b42aa719
       05a840e07fe55182c5
@@ -2266,12 +2260,13 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       ef433dd5ad142c860e7cb6400dd315d388d5ec5420c550e9d6f0907f
       375d988bc4d704837e43561c497e7dd93edcdb9d
   Outputs
-    Ya = g^ya: (length: 97 bytes)
+    Ya: (length: 97 bytes)
       047214fc512921b3fa0b555b41d841c9c20227fa1ab0dda5bfc051f6
       de9be7983e6df11d4e8da738b739adfbd85d8f5e80b2b4bbc66f3dff
       c02136ee19773d05f9c0242c0dd51857763de98a2fdfec73a4b1010c
       bc419c7b23b50adedbb3ff6644
-    Alternative correct value: g^(-ya): (length: 97 bytes)
+    Alternative correct value for Ya: g^(-ya):
+    (length: 97 bytes)
       047214fc512921b3fa0b555b41d841c9c20227fa1ab0dda5bfc051f6
       de9be7983e6df11d4e8da738b739adfbd85d8f5e804d4b443990c200
       3fdec911e688c2fa063fdbd3f22ae7a889c21675d020138c5a4efef3
@@ -2297,7 +2292,8 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       46efcb18e4b51ecfaf2e8ebab82addb6245f9bb1ff8138317c8045c4
       d2550e1566832b94acb91b670c4c4c00e59f5c15c74d4260e490caca
       aa860c11b8f369b72d5871bd94
-    Alternative correct value: g^(-yb): (length: 97 bytes)
+    Alternative correct value for Yb: g^(-yb):
+    (length: 97 bytes)
       04e34cbd45b13ad11552ea7100b19899fa52662e268f2086e21262f7
       46efcb18e4b51ecfaf2e8ebab82addb6245f9bb1ff7ec7ce837fba3b
       2daaf1ea997cd46b5346e498f3b3b3ff1a60a3ea38b2bd9f1a6f3535
@@ -2557,13 +2553,14 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       bcf2635fd66ca254e82927071001353e265082fd609af47ad06fab42
       0c2295df4056ee9ff997
   Outputs
-    Ya = g^ya: (length: 133 bytes)
+    Ya: (length: 133 bytes)
       0400484dcee6d54cb356830cd764079360a03b06a7db1a82188e09c9
       2e02d7e78a1e3710da9554db11697d242893e2114d6cbee89f5999b7
       e545d9fdf59f4c9acd408901ad73e01ec22ae6ecc122cf257e81826e
       348cd410ddb9245c61889fe97b2bbb98b2038eb2ed23e989ec7013a6
       10fb2f3b4fb958cc860dd10c98745b9d89e37f2bf9
-    Alternative correct value: g^(-ya): (length: 133 bytes)
+    Alternative correct value for Ya: g^(-ya):
+    (length: 133 bytes)
       0400484dcee6d54cb356830cd764079360a03b06a7db1a82188e09c9
       2e02d7e78a1e3710da9554db11697d242893e2114d6cbee89f5999b7
       e545d9fdf59f4c9acd408900528c1fe13dd519133edd30da817e7d91
@@ -2593,7 +2590,8 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       caff07e870733131747637004c2df1bec8abe6b252e7fe91bdb6f724
       2e65c36e7b960646c89aaf0262a4803ee4c90d1b58775a409a135bd1
       8fedbf4ba0eae172b4fe8a0fada83d699e44f2f861
-    Alternative correct value: g^(-yb): (length: 133 bytes)
+    Alternative correct value for Yb: g^(-yb):
+    (length: 133 bytes)
       0401edf767bd7d9e67ff137b8f3210c55e9192e9ac8a10f32a2f0eef
       9ce34524a543e0d4eb9b3328ca114b02ab23b291f61b5bc814639a9e
       caff07e87073313174763701b3d20e413754194dad18016e424908db
@@ -2855,5 +2853,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       00
     G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
+
+
 
 
