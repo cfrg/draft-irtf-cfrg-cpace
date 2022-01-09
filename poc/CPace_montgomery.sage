@@ -149,7 +149,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
                                  line_prefix = "    ", max_len = 60, file=file)
             tv_output_byte_array(string_hash, test_vector_name = "hash generator string", 
                                  line_prefix = "    ", max_len = 60, file=file)
-            tv_output_byte_array(IntegerToByteArray(u), test_vector_name = "decoded field element of %i bits" % self.field_size_bits, 
+            tv_output_byte_array(IntegerToByteArray(u,self.field_size_bytes), test_vector_name = "decoded field element of %i bits" % self.field_size_bits, 
                                  line_prefix = "    ", max_len = 60, file=file)
             tv_output_byte_array(result, test_vector_name = "generator g", 
                                  line_prefix = "    ", max_len = 60, file=file)
@@ -200,6 +200,9 @@ class G_X448(G_Montgomery):
 
 if __name__ == "__main__":
 	G = G_X448()
+	H = H_SHA512()
+
+	G.calculate_generator(H, b"password", b"CI", b"sid", print_test_vector_info = True)
 	G.output_markdown_description_for_decodeUCoordinate()
 	G.output_markdown_description_for_elligator2()
 	

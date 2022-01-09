@@ -47,7 +47,7 @@ class G_ShortWeierstrass():
         scalar = ByteArrayToInteger(string, random_bytes_len)
         scalar = scalar % self.p
         return I2OSP(scalar,self.field_size_bytes)
-
+    
     def point_to_octets(self,point):
         if point == (point * 0):
             return b"\00" # Neutral element.
@@ -74,6 +74,11 @@ class G_ShortWeierstrass():
         point = self.octets_to_point(point_octets)        
         scalar = OS2IP(scalar_octets)
         return self.point_to_octets(point * scalar)
+
+    def scalar_mult_negated_result(self,scalar_octets,point_octets):
+        point = self.octets_to_point(point_octets)        
+        scalar = OS2IP(scalar_octets)
+        return self.point_to_octets(-point * scalar)
 
     def scalar_mult_vfy(self,scalar_octets,point_octets):
         scalar = OS2IP(scalar_octets)

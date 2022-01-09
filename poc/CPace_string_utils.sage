@@ -185,7 +185,7 @@ def prepend_len(data):
     print ("""
 The following messages are examples which have invalid encoded length fields. I.e. they are examples
 where parsing for the sum of the length of subfields as expected for a message generated for the prefix free concatenation
-does not give the correct length of the message. Parties MUST abort upon reception of such invalid messages.
+does not give the correct length of the message. Parties MUST abort upon reception of such invalid messages as MSGa or MSGb.
 """, file = file)
     
     print ("\n\n~~~", file = file)
@@ -214,8 +214,8 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     # Add zero padding in the first hash block after DSI and PRS.
     len_zpad = max(0,s_in_bytes - 1 - len(prepend_len(PRS))
                      - len(prepend_len(DSI)))
-    return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad),
-                            CI, sid), len_zpad)
+    return prefix_free_cat(DSI, PRS, zero_bytes(len_zpad),
+                           CI, sid)
 ~~~
 """, file = file);
     
@@ -226,15 +226,15 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     print ("\nFor ordered concatenation lexiographical ordering of byte sequences is used:\n\n" +
 """
 ~~~
-def lexiographically_larger(bytes1,bytes2):
-  "Returns True if bytes1 > bytes2 using lexiographical ordering."
-  min_len = min (len(bytes1), len(bytes2))
-  for m in range(min_len):
-      if bytes1[m] > bytes2[m]:
-          return True;
-      elif bytes1[m] < bytes2[m]:
-          return False;
-  return len(bytes1) > len(bytes2)
+   def lexiographically_larger(bytes1,bytes2):
+      "Returns True if bytes1 > bytes2 using lexiographical ordering."
+      min_len = min (len(bytes1), len(bytes2))
+      for m in range(min_len):
+          if bytes1[m] > bytes2[m]:
+              return True;
+          elif bytes1[m] < bytes2[m]:
+              return False;
+      return len(bytes1) > len(bytes2)
 ~~~
 
 ### Definitions for ordered concatenation

@@ -40,7 +40,7 @@ def CPace_ISK(H, DSI,sid,K,MSGa,MSGb,doPrint = 1, symmetric_execution = False, f
 
     return ISK
 
-def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout):
+def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, print_negated_Y = False):
     print ("##  Test vector for CPace using group " + G.name + " and hash "+H.name +"\n", file=file)
 
     sid = H.hash(b"sid")
@@ -76,8 +76,13 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout):
                          line_prefix = "    ", max_len = 60, file=file)
     
     print ("  Outputs",file=file)
-    tv_output_byte_array(Ya, test_vector_name = "Ya", 
+    tv_output_byte_array(Ya, test_vector_name = "Ya = g^ya", 
                          line_prefix = "    ", max_len = 60, file=file)
+                         
+    if (print_negated_Y):
+        tv_output_byte_array(G.scalar_mult_negated_result(ya, g), test_vector_name = "Alternative correct value: g^(-ya)", 
+                             line_prefix = "    ", max_len = 60, file=file)
+    
     tv_output_byte_array(MSGa, test_vector_name = "MSGa", 
                          line_prefix = "    ", max_len = 60, file=file)
     print ("~~~", file=file)
@@ -90,6 +95,9 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout):
     print ("  Outputs", file=file)
     tv_output_byte_array(Yb, test_vector_name = "Yb", 
                          line_prefix = "    ", max_len = 60, file=file)
+    if (print_negated_Y):
+        tv_output_byte_array(G.scalar_mult_negated_result(yb, g), test_vector_name = "Alternative correct value: g^(-yb)", 
+                             line_prefix = "    ", max_len = 60, file=file)
     tv_output_byte_array(MSGb, test_vector_name = "MSGb", 
                          line_prefix = "    ", max_len = 60, file=file)
     
@@ -172,16 +180,16 @@ if __name__ == "__main__":
     
         H = H_SHA256()
         G = G_ShortWeierstrass(p256_sswu_nu)
-        generate_test_vector(H,G, file=f)
+        generate_test_vector(H,G, file=f,print_negated_Y = True)
         output_weierstrass_invalid_point_test_cases(G, file=f)
 
         H = H_SHA384()
         G = G_ShortWeierstrass(p384_sswu_nu)
-        generate_test_vector(H,G, file=f)
+        generate_test_vector(H,G, file=f,print_negated_Y = True)
         output_weierstrass_invalid_point_test_cases(G, file=f)
 
         H = H_SHA512()
         G = G_ShortWeierstrass(p521_sswu_nu)
-        generate_test_vector(H,G, file=f)
+        generate_test_vector(H,G, file=f,print_negated_Y = True)
         output_weierstrass_invalid_point_test_cases(G, file=f)
 
