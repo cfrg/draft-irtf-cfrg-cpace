@@ -543,7 +543,7 @@ For CPace only the uncompressed full-coordinate encodings from {{SEC1}} (x and y
 Commonly used curve groups are specified in {{SEC2}} and {{?RFC5639}}. A typical representative of such a Short-Weierstrass curve is NIST-P256.
 Point verification as used in ECKAS-DH1 is described in Annex A.16.10. of {{IEEE1363}}.
 
-For deriving Diffie-Hellman shared secrets ECKAS-DH1 from {{IEEE1363}} specifies the use of an ECSVDP-DH method. ECSVDP-DH either returns "error" or the x-coordinate of the Diffie-Hellman shared secret.
+For deriving Diffie-Hellman shared secrets ECKAS-DH1 from {{IEEE1363}} specifies the use of an ECSVDP-DH method. We use ECSVDP-DH in combination with the identy map such that it either returns "error" or the x-coordinate of the Diffie-Hellman result point as shared secret in big endian format (fixed length output by FE2OSP without truncating leading zeros).
 
 ### Suitable encode\_to\_curve methods
 
