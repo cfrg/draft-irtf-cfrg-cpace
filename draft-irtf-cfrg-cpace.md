@@ -447,9 +447,6 @@ expected results for non-canonical u coordinate values with bit #255 set, which 
 
 Corresponding test vectors are provided in the appendix.
 
-Moreover all implementations SHALL be verified with respect to invalidly encoded messages for MSGa and MSGb with incorrectly prepended
-length fields. Corresponding test vectors are provided in the appendix.
-
 ## CPace group objects G\_Ristretto255 and G\_Decaf448 for prime-order group abstractions {#CPaceCoffee}
 
 In this section we consider the case of CPace using the Ristretto255 and Decaf448 group abstractions {{!I-D.draft-irtf-cfrg-ristretto255-decaf448}}.
@@ -580,8 +577,8 @@ Using the above definitions, the CPace functions required for the group object G
    - Then the output of a call to encode\_to\_curve(gen\_str) is returned, using the selected function from {{!I-D.irtf-cfrg-hash-to-curve}}.
 
 - G.scalar\_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
-G.scalar\_mult(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to {{SEC1}}. It is RECOMMENDED to use the full-coordinate format without compression that encodes both, x and y coordinates of the result point as the full-coordinate format appears to be more-widely supported in implementations. Implementations of scalar\_mult(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and
-result in the same Diffie-Hellman secrets K.
+G.scalar\_mult(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to {{SEC1}}. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar\_mult(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and
+result in the same Diffie-Hellman shared secrets K.
 (This allows implementations to opt for x-coordinate-only scalar multiplication algorithms.)
 
 - G.scalar\_mult\_vfy(s,X) merges verification of point X according to {{IEEE1363}} A.16.10. and the the ECSVDP-DH procedure from {{IEEE1363}}.
