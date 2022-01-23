@@ -43,6 +43,9 @@ def CPace_ISK(H, DSI,sid,K,MSGa,MSGb,doPrint = 1, symmetric_execution = False, f
 def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, print_negated_Y = False):
     print ("##  Test vector for CPace using group " + G.name + " and hash "+H.name +"\n", file=file)
 
+    #
+    prefix_for_json_file_variables = G.name + "-" + H.name
+
     sid = H.hash(b"sid")
     sid = sid [:16]
 
