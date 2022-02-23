@@ -340,14 +340,15 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
 
 - nil denotes an empty octet string, i.e., len(nil) = 0.
 
+- prefix\_free\_cat(a0,a1, ...) denotes a function that outputs a prefix-free encoding of
+all input octet strings such as the concatenation of the individual strings with their respective
+length prepended: prepend\_len(a0) \|\| prepend\_len(a1) \|\| ... . Such prefix-free encoding
+of multiple substrings allows for parsing individual subcomponents of a network message. (Test vectors and reference implementations for
+one suitable prefix-free encoding are given in the appendix.)
+
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
 the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
 This will result in a single-byte encoding for values below 128. (Test vectors and reference implementations are given in the appendix.)
-
-- prefix\_free\_cat(a0,a1, ...) denotes a function that outputs the prefix-free encoding of
-all input octet strings as the concatenation of the individual strings with their respective
-length prepended: prepend\_len(a0) \|\| prepend\_len(a1) \|\| ... . Such prefix-free encoding
-of multiple substrings allows for parsing individual subcomponents of a network message. (Test vectors and reference implementations are given in the appendix.)
 
 - sample\_random\_bytes(n) denotes a function that returns n octets
 uniformly distributed between 0 and 255.
