@@ -724,12 +724,20 @@ is important for fending off relay attacks.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C use the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
 Including and checking party identifiers can fend off such relay attacks.
 
-## Hashing and key derivation {#key-derivation}
+## Message encoding and string concatenation for hash inputs
 
-In order to prevent analysis of length extension attacks on hash functions, all hash input strings in CPace are designed to be prefix-free strings which have the length of individual substrings prepended, enforced by the prefix\_free\_cat() function.
-This choice was made in order to make CPace suitable also for hash function instantiations using
-Merkle-Damgard constructions such as SHA-256 or SHA-512 along the lines of {{CDMP05}}.
+The CPace protocol messages MSGa and MSGb consist of several subcomponents. In order to allow for parsing of messages and for considering
+imperfections of Merkle-Damgard hash function constructions (such as the SHA-2 family), 
+this specification uses a prefix-free encoding. Test vectors of this document prepend the length of any individual substring to the 
+substring itself (prefix\_free\_cat() end prepend\_len() functions). Alternatively other prefix-free encoding formats that prepend the 
+length of any variable-length subcomponent are equally suitable. This includes type-length-value encodings as specified in the 
+DER encoding format (X.690) or the protocol message encoding used in the TLS standard family.
+
+A prefix-free encoding of string inputs to hash functions was made in order to make CPace suitable also for hash function instantiations using
+Merkle-Damgard constructions such as SHA-256 or SHA-512 along the lines of {{CDMP05}} for which length-extension imperfections apply.
 In case that an application whishes to use another form of encoding, the guidance given in {{CDMP05}} SHOULD BE considered.
+
+## Key derivation {#key-derivation}
 
 Although already K is a shared value, it MUST NOT itself be used as an application key. Instead, ISK MUST BE used. Leakage of K to an adversary can lead to offline dictionary attacks.
 
