@@ -160,13 +160,15 @@ this document is structured as follows.
   of CPace are outlined. Specifically we discuss the respective differences which are
   prepared for serving different application environments and discuss which
   application-level aspects are important for secure use of CPace.
-
+  
 - Then in section {{CipherSuites}} we give an overview over the different recommended
   cipher suites for CPace which were optimized for different types of cryptographic
   library ecosystems.
 
 - Subsequently, we formally introduce the notation as used throughout this document and
   expicitly define the CPace protocol.
+  
+- Section {{protocol-section}} specifies the protocol.
 
 - Finally we provide explicit reference implementations and test vectors of all of the
   functions defined for CPace in the appendix.
@@ -256,17 +258,44 @@ The following definitions are out of the scope of this document and left to the 
   the clear-text password SHOULD BE encoded according to {{?RFC8265}}.
 
 - Finally the application needs to define whether CPace is used in the initiator-responder or the symmetric setting as to specify how
-  the protocol messages are concatenated for the transcript string.
+  the protocol messages are to be concatenated for the transcript string.
 
-# Definitions {#Definition}
 
-## Setup
+# CPace cipher suites {#CipherSuites}
 
-For CPace both communication partners need to agree on a common cipher suite. Cipher suites consist of a combination of
-a hash function H and an elliptic curve environment G. We assume both G and H to come with associated constants and functions
-as detailed below. To access these we use an object-style notation such as, e.g., H.b\_in\_bytes and G.sample\_scalar().
+In the setup phase of CPace both communication partners need to agree on a common cipher suite. 
+Cipher suites consist of a combination of a hash function H and an elliptic curve environment G. 
 
-### Hash function H
+For naming cipher suites we use the convention "CPACE-G-H". Currently, test vectors are available for the following RECOMMENDED cipher suites:
+
+- CPACE-X25519-SHA512. This suite uses the group environment G\_X25519 defined in {{CPaceMontgomery}} and SHA-512 as hash function.
+
+- CPACE-X448-SHAKE256. This suite uses the group environment G\_X448 defined in {{CPaceMontgomery}} and SHAKE-256 as hash function.
+
+- CPACE-P256\_XMD:SHA-256\_SSWU_NU\_-SHA256.
+This suite instantiates the group environment G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P256\_XMD:SHA-256\_SSWU_NU\_
+from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P256, and hash function SHA-256.
+
+- CPACE-P384\_XMD:SHA-384\_SSWU_NU\_-SHA384.
+This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P384\_XMD:SHA-384\_SSWU_NU\_
+from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with H = SHA-384.
+
+- CPACE-P521\_XMD:SHA-512\_SSWU_NU\_-SHA512.
+This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P521\_XMD:SHA-384\_SSWU_NU\_
+from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with H = SHA-512.
+
+- CPACE-RISTR255-SHA512.
+This suite uses G\_ristretto255 as defined in {{CPaceCoffee}} and H = SHA-512.
+
+- CPACE-DECAF448-SHAKE256
+This suite uses G\_decaf448 as defined in {{CPaceCoffee}} and H = SHAKE-256.
+
+CPace can securely be implemented on further elliptic curves when following the guidance given in {{sec-considerations}}.
+
+  
+# Definitions and notation {#Definition}
+
+## Hash function H
 
 With H we denote a hash function.
 Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}. (I.e. the hash function
@@ -290,7 +319,7 @@ hashes such as SHA-256, this is the same as H.b\_in\_bytes, while there is no su
 - H.s\_in\_bytes denotes the _input block size_ used by H. For instance, for SHA-512 the input block size s\_in\_bytes is 128,
 while for SHAKE-256 the input block size amounts to 136 bytes.
 
-### Group environment G
+## Group environment G
 
 The group environment G specifies an elliptic curve group (also denoted G for convenience)  and associated constants
 and functions as detailed below. In this document we use multiplicative notation for the group operation.
@@ -313,7 +342,7 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
 
 - G.DSI denotes a domain-separation identifier string which SHALL be uniquely identifying the group environment G.
 
-## Inputs
+## Protocol inputs
 
 - PRS denotes a password-related octet string which is a MANDATORY input for all CPace instantiations and needs to be available to both parties.
 
@@ -328,7 +357,7 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
 - ADa and ADb denote OPTIONAL octet strings containing arbitrary associated data, each available to one of the parties. They are not required
   to be equal, and are publicly transmitted as part of the protocol flow.
 
-## Notation
+## Notation for string operations
 
 - bytes1 \|\| bytes2 denotes concatenation of octet strings.
 
@@ -342,9 +371,9 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
 
 - prefix\_free\_cat(a0,a1, ...) denotes a function that outputs a prefix-free encoding of
 all input octet strings such as the concatenation of the individual strings with their respective
-length prepended: prepend\_len(a0) \|\| prepend\_len(a1) \|\| ... . Such prefix-free encoding
-of multiple substrings allows for parsing individual subcomponents of a network message. (Test vectors and reference implementations for
-one suitable prefix-free encoding are given in the appendix.)
+length prepended for any variable-length component. Such prefix-free encoding
+of allows for parsing individual subcomponents of a network message. Test vectors and reference implementations for
+one suitable prefix-free encoding are given in the appendix.
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
 the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
@@ -355,7 +384,7 @@ uniformly distributed between 0 and 255.
 
 - zero\_bytes(n) denotes a function that returns n octets with value 0.
 
-### Notation for group operations
+## Notation for group operations
 
 We use multiplicative notation for the group, i.e., X^2  denotes the element that is obtained by computing X*X, for group element X and group operation *.
 
@@ -414,50 +443,6 @@ The session key ISK returned by A and B is identical if and only if the supplied
 
 We note that the above protocol instructions implement a parallel setting with no specific initiator/responder and no assumptions about the order in which messages arrive. If implemented as initiator-responder protocol, the responder, say, B, starts with computation of the generator only upon reception of MSGa.
 
-# CPace cipher suites {#CipherSuites}
-
-This section documents RECOMMENDED CPace cipher suite configurations. Any cipher suite configuration for CPace
-is REQUIRED to specify
-
-- A group environment G specified by
-
-  - Functions G.sample\_scalar(), G.scalar\_mult(), G.scalar\_mult\_vfy() and G.calculate\_generator()
-
-  - A neutral element G.I
-
-  - A domain separation identifier string G.DSI unique for the group environment.
-
-- A hash function H specified by
-
-  - Function H.hash()
-
-  - Constants H.b\_in\_bytes, H.bmax\_in\_bytes and H.s\_in\_bytes
-
-For naming cipher suites we use the convention "CPACE-G-H". Currently, test vectors are available for the following RECOMMENDED cipher suites:
-
-- CPACE-X25519-SHA512. This suite uses curve G\_X25519 defined in {{CPaceMontgomery}} and SHA-512 as hash function.
-
-- CPACE-X448-SHAKE256. This suite uses curve G\_X448 defined in {{CPaceMontgomery}} and SHAKE-256 as hash function.
-
-- CPACE-P256\_XMD:SHA-256\_SSWU_NU\_-SHA256.
-This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P256\_XMD:SHA-256\_SSWU_NU\_
-from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P256, and hash function SHA-256.
-
-- CPACE-P384\_XMD:SHA-384\_SSWU_NU\_-SHA384.
-This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P384\_XMD:SHA-384\_SSWU_NU\_
-from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with H = SHA-384.
-
-- CPACE-P521\_XMD:SHA-512\_SSWU_NU\_-SHA512.
-This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P521\_XMD:SHA-384\_SSWU_NU\_
-from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with H = SHA-512.
-
-- CPACE-RISTR255-SHA512.
-This suite uses G\_ristretto255 defined in {{CPaceCoffee}} and H = SHA-512.
-
-- CPACE-DECAF448-SHAKE256
-This suite uses G\_decaf448 defined in {{CPaceCoffee}} and H = SHAKE-256.
-
-CPace can securely be implemented on further elliptic curves when following the guidance given in {{sec-considerations}}.
 
 # Implementation of recommended CPace cipher suites
 
