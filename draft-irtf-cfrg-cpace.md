@@ -727,10 +727,10 @@ Including and checking party identifiers can fend off such relay attacks.
 ## Message encoding and string concatenation for hash inputs
 
 The CPace protocol messages MSGa and MSGb consist of several subcomponents. In order to allow for parsing of messages and for considering
-imperfections of Merkle-Damgard hash function constructions (such as the SHA-2 family), 
-this specification uses a prefix-free encoding. Test vectors of this document prepend the length of any individual substring to the 
-substring itself (prefix\_free\_cat() end prepend\_len() functions). Alternatively other prefix-free encoding formats that prepend the 
-length of any variable-length subcomponent are equally suitable. This includes type-length-value encodings as specified in the 
+imperfections of Merkle-Damgard hash function constructions (such as the SHA-2 family),
+this specification uses a prefix-free encoding. Test vectors of this document prepend the length of any individual substring to the
+substring itself (prefix\_free\_cat() end prepend\_len() functions). Alternatively other prefix-free encoding formats that prepend the
+length of any variable-length subcomponent are equally suitable. This includes type-length-value encodings as specified in the
 DER encoding format (X.690) or the protocol message encoding used in the TLS standard family.
 
 A prefix-free encoding of string inputs to hash functions was made in order to make CPace suitable also for hash function instantiations using
@@ -835,12 +835,6 @@ No IANA action is required.
 Thanks to the members of the CFRG for comments and advice. Any comment and advice is appreciated.
 
 --- back
-
-
-
-
-
-
 
 
 
@@ -1014,7 +1008,6 @@ With the above definition of lexiographical ordering ordered concatenation is sp
        return decodeLittleEndian(u_list, bits)
 
    def encodeUCoordinate(u, bits):
-       u = u % p
        return ''.join([chr((u >> 8*i) & 0xff)
                        for i in range((bits+7)/8)])
 ~~~
@@ -2960,6 +2953,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       00
     G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
+
 
 
 
