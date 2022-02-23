@@ -45,8 +45,8 @@ class G_Montgomery:
            u_list[-1] &= (1<<(bits%8))-1
        return decodeLittleEndian(u_list, bits)
 
-   def encodeUCoordinate(u, bits):
-       u = u % p
+   def encodeUCoordinate(u, bits, field_prime = (2^255 - 19)):
+       u = u % field_prime 
        return ''.join([chr((u >> 8*i) & 0xff)
                        for i in range((bits+7)/8)])
 ~~~
