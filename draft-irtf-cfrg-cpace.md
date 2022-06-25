@@ -127,8 +127,8 @@ is compatible with any cyclic group of prime- and non-prime order.
 
 # Introduction
 
-This document describes CPace which is a balanced Password-Authenticated-Key-Establishment (PAKE) protocol for two parties where both parties
-derive a cryptographic key
+This document describes CPace which is a balanced Password-Authenticated-Key-Establishment (PAKE)
+protocol for two parties where both parties derive a cryptographic key
 of high entropy from a shared secret of low-entropy.
 CPace protects the passwords against offline dictionary attacks by requiring
 adversaries to actively interact with a protocol party and by allowing
@@ -160,14 +160,14 @@ this document is structured as follows.
   of CPace are outlined. Specifically we discuss the respective differences which are
   prepared for serving different application environments and discuss which
   application-level aspects are important for secure use of CPace.
-  
+
 - Then in section {{CipherSuites}} we give an overview over the different recommended
   cipher suites for CPace which were optimized for different types of cryptographic
   library ecosystems.
 
 - Subsequently, we formally introduce the notation as used throughout this document and
   expicitly define the CPace protocol.
-  
+
 - Section {{protocol-section}} specifies the protocol.
 
 - Finally we provide explicit reference implementations and test vectors of all of the
@@ -200,7 +200,8 @@ security guarantees in case of server compromise events.
 In the course of the CPace protocol A sends one message MSGa to B and B sends one message,
 MSGb to A. CPace does not mandate any ordering, i.e. both, applications where MSGa always comes
 first and applications where either MSGa or MSGb might come first
-can use CPace. We will refer these two use-cases as "initiator-responder" and "symmetric" setting respectively.
+can use CPace. We will refer these two use-cases as "initiator-responder" (A always comes first) and "symmetric" setting
+(no ordering enforced) respectively.
 
 As a result of the protocol CPace will either abort (in case of an invalid received message) or
 output an intermediate session key (ISK). A and B will produce the same ISK value if and only if both sides did
@@ -211,7 +212,7 @@ The naming of ISK key as "intermediate" session key highlights the fact that it 
 ISK by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) first,
 before using the key in a higher-level protocol.
 
-### Optional CPace inputs
+## Optional CPace inputs
 
 For accomodating different application settings, CPace offers the following OPTIONAL inputs, i.e. inputs which MAY also be the empty string:
 
@@ -227,7 +228,8 @@ For accomodating different application settings, CPace offers the following OPTI
   In this case applications can execute CPace with these optional inputs.
 
   ADa and ADb can for instance include party identifiers or protocol
-  version information (e.g. to avoid downgrade attacks). In a setting with clear initiator and responder roles, the information ADa
+  version information regarding the higher-level application protocol (e.g. to avoid downgrade attacks).
+  In a setting with clear initiator and responder roles, the information ADa
   sent by the initiator can be used by the responder for selecting which among possibly several different PRS to use for
   the CPace session.
 
@@ -247,24 +249,32 @@ For accomodating different application settings, CPace offers the following OPTI
   random sid and send it to B together with the first message.
   If a sid string is used it SHOULD HAVE a length of at least 8 bytes.
 
-### Required definitions by an application protocol
+## Responsibilities of the application protocol layer
 
 The following definitions are out of the scope of this document and left to the application level.
 
-- In order to run the CPace protocol, the application is responsible for establishing agreement on a common CPace cipher suite.
+- Setup phase:
+
+  - In order to run the CPace protocol, the application layer is responsible for the setup phase that establishes
+    agreement on a common CPace cipher suite.
+  - Both parties also need to agree on how to encode the CPace data fields for transfer over the network.
+    For CPace it is RECOMMENDED to encode network messages by using the lv\_cat function specified below for which we provide
+    test vectors in this document.
+    However, alternative network encodings, e.g. the encoding specification
+    used for the client hello and server hello messages of the TLS protocol MAY be used
+    when following the guidance given in the security-consideration section.
 
 - This document does not specify which encodings applications use for the mandatory PRS input and the optional inputs
-  CI, sid, ADa and ADb. If PRS is a clear-text password derived from a clear-text password, e.g. by use of a key-derivation function,
-  the clear-text password SHOULD BE encoded according to {{?RFC8265}}.
+  CI, sid, ADa and ADb. If PRS is a clear-text password or an octet string derived from a clear-text password,
+  e.g. by use of a key-derivation function, the clear-text password SHOULD BE encoded according to {{?RFC8265}}.
 
 - Finally the application needs to define whether CPace is used in the initiator-responder or the symmetric setting as to specify how
   the protocol messages are to be concatenated for the transcript string.
 
-
 # CPace cipher suites {#CipherSuites}
 
-In the setup phase of CPace both communication partners need to agree on a common cipher suite. 
-Cipher suites consist of a combination of a hash function H and an elliptic curve environment G. 
+In the setup phase of CPace both communication partners need to agree on a common cipher suite.
+Cipher suites consist of a combination of a hash function H and an elliptic curve environment G.
 
 For naming cipher suites we use the convention "CPACE-G-H". Currently, test vectors are available for the following RECOMMENDED cipher suites:
 
@@ -292,7 +302,6 @@ This suite uses G\_decaf448 as defined in {{CPaceCoffee}} and H = SHAKE-256.
 
 CPace can securely be implemented on further elliptic curves when following the guidance given in {{sec-considerations}}.
 
-  
 # Definitions and notation {#Definition}
 
 ## Hash function H
@@ -359,30 +368,41 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
 
 ## Notation for string operations
 
-- bytes1 \|\| bytes2 denotes concatenation of octet strings.
-
-- oCat(bytes1,bytes2) denotes ordered concatenation of octet strings, which places the lexiographically larger octet string first. (Explicit reference code for this function is given in the appendix.)
-
-- concat(MSGa,MSGb) denotes a concatenation method allows both parties to concatenate CPace's protocol messages in the same way. In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is not enforced by the protocol flow, concat(MSGa,MSGb) = oCat(MSGa,MSGb) SHALL be used. In the initiator-responder setting concat(MSGa,MSGb) SHALL BE implemented such that the later message is appended to the earlier message, i.e., concat(MSGa,MSGb) = MSGa\|\|MSGb if MSGa is sent first.
+- bytes1 \|\| bytes2 and denotes concatenation of octet strings.
 
 - len(S) denotes the number of octets in a string S.
 
 - nil denotes an empty octet string, i.e., len(nil) = 0.
 
-- prefix\_free\_cat(a0,a1, ...) denotes a function that outputs a prefix-free encoding of
-all input octet strings such as the concatenation of the individual strings with their respective
-length prepended for any variable-length component. Such prefix-free encoding
-of allows for parsing individual subcomponents of a network message. Test vectors and reference implementations for
-one suitable prefix-free encoding are given in the appendix.
-
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
-the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
-This will result in a single-byte encoding for values below 128. (Test vectors and reference implementations are given in the appendix.)
+  the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
+  This will result in a single-byte encoding for values below 128. (Test vectors and reference implementations
+  for prepend\_len and the LEB128 encodings are given in the appendix.)
 
-- sample\_random\_bytes(n) denotes a function that returns n octets
-uniformly distributed between 0 and 255.
+- lv\_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
+  their respective length prepended. E.g. lv\_cat(a0,a1) returns
+  prepend\_len(a0) \|\| prepend\_len(a1). The detailed specification of lv\_cat and a reference implementations are given in the appendix.
+
+- network\_encode(Y,AD) denotes a function that outputs an octet string encoding of the input octet strings Y and AD
+  for transfer on the network. The implementation of MSG = network\_encode(Y,AD) SHALL allow the receiver party to parse MSG for the
+  individual subcomponents Y and AD.
+  For CPace we RECOMMEND to implement network\_encode(Y,AD) as network\_encode(Y,AD) = lv\_cat(Y,AD).
+
+  Other prefix-free encodings, such as the network encoding
+  used for the client-hello messages in TLS MAY also be used
+  but here the guidance given in the security consideration section MUST be considered.
+
+- sample\_random\_bytes(n) denotes a function that returns n octets uniformly distributed between 0 and 255.
 
 - zero\_bytes(n) denotes a function that returns n octets with value 0.
+
+- oCat(bytes1,bytes2) denotes ordered concatenation of octet strings, which places the lexiographically larger octet string first. (Explicit reference code for this function is given in the appendix.)
+
+- transcript(MSGa,MSGb) denotes function outputing a string for the protocol transcript with messages MSGa and MSGb.
+  In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
+  not enforced by the protocol flow, transcript(MSGa,MSGb) = oCat(MSGa,MSGb) SHOULD be used.
+  In the initiator-responder setting transcript(MSGa,MSGb) SHOULD BE implemented such that the later message is appended to the
+  earlier message, i.e., transcript(MSGa,MSGb) = MSGa\|\|MSGb if MSGa is sent first.
 
 ## Notation for group operations
 
@@ -402,47 +422,42 @@ Both A and B use the received messages for deriving a shared intermediate sessio
 Optional parameters and messages are denoted with [].
 
 ~~~
-
             public: G, H, [CI], [sid]
 
   A: PRS,[ADa]                    B: PRS,[ADb]
     ---------------------------------------
- compute Ya   |     Ya, [ADa]    |  compute Yb
-              |----------------->|
-              |     Yb, [ADb]    |
-              |<-----------------|
- verify data  |                  |  verify data
- derive ISK   |                  |  derive ISK
+ compute Ya    |     Ya,[ADa]     |  compute Yb
+               |----------------->|
+               |     Yb,[ADb]     |
+ verify inputs |<-----------------|  verify inputs
+ derive ISK    |                  |  derive ISK
     ---------------------------------------
- output ISK                         output ISK
+ output ISK                          output ISK
 
 ~~~
 
 ## CPace protocol instructions
 
-A computes a generator g = G.calculate\_generator(H,PRS,CI,sid), scalar ya = G.sample\_scalar() and group element Ya = G.scalar\_mult (ya,g). A then transmits MSGa = prefix\_free\_cat(Ya, ADa) with
-optional associated data ADa to B. ADa MAY have length zero.
+A computes a generator g = G.calculate\_generator(H,PRS,CI,sid), scalar ya = G.sample\_scalar() and group element Ya = G.scalar\_mult (ya,g). A then transmits MSGa = network\_encode(Ya, ADa) with
+optional associated data ADa to B. ADa is an OPTIONAL parameter.
 
-B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_mult(yb,g). B sends MSGb = prefix\_free\_cat(Yb, ADb) to A.
+B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_mult(yb,g). B sends MSGb = network\_encode(Yb, ADb) to A. ADb is an OPTIONAL parameter.
 
-Note that as prefix\_free\_cat prepends the respective lengths of the input fields, the receivers can parse MSGa and MSGb for subcomponents.
-
-Upon reception of MSGa, B checks that MSGa was properly generated by prefix\_free\_cat. I.e. it checks that the actual length of MSGa
-matches the sum of the decoded prepended lengths for Ya and ADa. If this parsing fails, then B MUST abort. (Testvectors of examples for invalid messages are given in the appendix.)
+Upon reception of MSGa, B checks that MSGa was properly generated by the specification defined for the network\_encode function.
+If this parsing fails, then B MUST abort. (Testvectors of examples for invalid messages when using lv\_cat() as network\_encode function for
+CPace are given in the appendix.)
 B then computes K = G.scalar\_mult_vfy(yb,Ya). B MUST abort if K=G.I.
 Otherwise B returns
 ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|concat(MSGa, MSGb)). B returns ISK and terminates.
 
-Upon reception of MSGb, A parses MSGb for Yb and ADb. I.e. it checks that the actual length of MSGb
-matches the sum of the decoded prepended lengths for Yb and ADb. If this parsing fails, then A MUST abort.
-A then computes K = G.scalar\_mult\_vfy(ya,Yb). A MUST abort if K=G.I.
+Likewise upon reception of MSGb, A parses MSGb for Yb and ADb and checks for a valid encoding.
+If this parsing fails, then A MUST abort. A then computes K = G.scalar\_mult\_vfy(ya,Yb). A MUST abort if K=G.I.
 Otherwise A returns
-ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| concat(MSGa, MSGb). A returns ISK and terminates.
+ISK = H.hash(lv\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| transcript(MSGa, MSGb). A returns ISK and terminates.
 
 The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view (containing of MSGa and MSGb) of both parties match.
 
 We note that the above protocol instructions implement a parallel setting with no specific initiator/responder and no assumptions about the order in which messages arrive. If implemented as initiator-responder protocol, the responder, say, B, starts with computation of the generator only upon reception of MSGa.
-
 
 # Implementation of recommended CPace cipher suites
 
@@ -451,7 +466,7 @@ We note that the above protocol instructions implement a parallel setting with n
 The different cipher suites for CPace defined in the upcoming sections share the same method for deterministically combining the individual strings PRS, CI, sid and the domain-separation identifier DSI to a generator string that we describe here. Let CPACE-G-H denote the cipher suite.
 
 - generator\_string(G.DSI, PRS, CI, sid, s\_in\_bytes) denotes a function that returns the string
-prefix\_free\_cat(G.DSI, PRS, zero\_bytes(len\_zpad), CI, sid).
+lv\_cat(G.DSI, PRS, zero\_bytes(len\_zpad), CI, sid).
 
 - len\_zpad = MAX(0, s\_in\_bytes - len(prepend\_len(PRS)) - len(prepend\_len(G.DSI)) - 1)
 
@@ -710,18 +725,17 @@ is important for fending off relay attacks.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C use the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
 Including and checking party identifiers can fend off such relay attacks.
 
-## Message encoding and string concatenation for hash inputs
+## Network message encoding and hashing protocol transcripts
 
-The CPace protocol messages MSGa and MSGb consist of several subcomponents. In order to allow for parsing of messages and for considering
-imperfections of Merkle-Damgard hash function constructions (such as the SHA-2 family),
-this specification uses a prefix-free encoding. Test vectors of this document prepend the length of any individual substring to the
-substring itself (prefix\_free\_cat() end prepend\_len() functions). Alternatively other prefix-free encoding formats that prepend the
-length of any variable-length subcomponent are equally suitable. This includes type-length-value encodings as specified in the
-DER encoding format (X.690) or the protocol message encoding used in the TLS standard family.
+It is RECOMMENDED to encode the (Ya,ADa) and (Yb,ADb) fields on the network by using network\_encode(Y,AD) = lv\_cat(Y,AD). As the length
+of the variable-size input strings are prepended this results in a so-called prefix-free encoding of transcript strings, using terminology introduced in {{CDMP05}}. This property allows for disregarding length-extension imperfections that come with the commonly used
+Merkle-Damgard hash function constructions such as SHA256 and SHA512.
 
-A prefix-free encoding of string inputs to hash functions was made in order to make CPace suitable also for hash function instantiations using
-Merkle-Damgard constructions such as SHA-256 or SHA-512 along the lines of {{CDMP05}} for which length-extension imperfections apply.
-In case that an application whishes to use another form of encoding, the guidance given in {{CDMP05}} SHOULD BE considered.
+Other alternative network encoding formats which prepend the length of variable size data fields in the protocol messages are equally suitable.
+This includes, e.g., the type-length-value format specified in the DER encoding standard (X.690) or the protocol message encoding used in the TLS protocol family for the TLS client-hello or server-hello messages.
+
+In case that an application whishes to use another form of network message encoding which is not prefix-free,
+the guidance given in {{CDMP05}} SHOULD BE considered (e.g. by replacing hash functions with HMAC constructions {{?RFC2104}}).
 
 ## Key derivation {#key-derivation}
 
@@ -730,7 +744,6 @@ Although already K is a shared value, it MUST NOT itself be used as an applicati
 As noted already in {{protocol-section}} it is RECOMMENDED to process ISK
 by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) first,
 before using the key in a higher-level protocol.
-
 
 ## Key confirmation
 
@@ -821,8 +834,6 @@ No IANA action is required.
 Thanks to the members of the CFRG for comments and advice. Any comment and advice is appreciated.
 
 --- back
-
-
 
 # CPace function definitions
 
