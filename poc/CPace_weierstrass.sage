@@ -142,7 +142,7 @@ def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
        
     print ("\n### Invalid inputs for scalar\\_mult\\_vfy\n", file = file)
     print ("For these test cases scalar\\_mult\\_vfy(y,.) MUST return the representation"+
-           " of the neutral element G.I. When including Y\_i1 or Y\_i2 in MSGa or MSGb the protocol MUST abort.\n", file = file)
+           " of the neutral element G.I. When including Y\\_i1 or Y\\_i2 in MSGa or MSGb the protocol MUST abort.\n", file = file)
     print ("\n~~~", file = file)
     tv_output_byte_array(y, test_vector_name = "s", 
                          line_prefix = "    ", max_len = 60, file = file)
