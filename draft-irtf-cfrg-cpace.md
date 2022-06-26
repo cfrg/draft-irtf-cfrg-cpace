@@ -384,20 +384,22 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
   their respective length prepended. E.g. lv\_cat(a0,a1) returns
   prepend\_len(a0) \|\| prepend\_len(a1). The detailed specification of lv\_cat and a reference implementations are given in the appendix.
 
-- network\_encode(Y,AD) denotes a function that outputs an octet string encoding of the input octet strings Y and AD
+- network\_encode(Y,AD) denotes the function specified by the application layer that outputs an octet string encoding
+  of the input octet strings Y and AD
   for transfer on the network. The implementation of MSG = network\_encode(Y,AD) SHALL allow the receiver party to parse MSG for the
   individual subcomponents Y and AD.
   For CPace we RECOMMEND to implement network\_encode(Y,AD) as network\_encode(Y,AD) = lv\_cat(Y,AD).
 
   Other prefix-free encodings, such as the network encoding
-  used for the client-hello messages in TLS MAY also be used
+  used for the client-hello messages in TLS MAY also be used. We give guidance in the security consideration sections.
   but here the guidance given in the security consideration section MUST be considered.
 
 - sample\_random\_bytes(n) denotes a function that returns n octets uniformly distributed between 0 and 255.
 
 - zero\_bytes(n) denotes a function that returns n octets with value 0.
 
-- oCat(bytes1,bytes2) denotes ordered concatenation of octet strings, which places the lexiographically larger octet string first. (Explicit reference code for this function is given in the appendix.)
+- oCat(bytes1,bytes2) denotes ordered concatenation of octet strings, which places the lexiographically larger octet
+  string first. (Explicit reference code for this function is given in the appendix.)
 
 - transcript(MSGa,MSGb) denotes function outputing a string for the protocol transcript with messages MSGa and MSGb.
   In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
