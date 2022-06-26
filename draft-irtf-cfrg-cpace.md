@@ -261,7 +261,7 @@ The following definitions are out of the scope of this document and left to the 
     For CPace it is RECOMMENDED to encode network messages by using MSGa = lv\_cat(Ya,ADa) and MSGb = lv\_cat(Yb,ADb) using the length-value concatenation function lv\_cat
     speficied below.
     We will provide test vectors for lv\_cat-encoded messages in this document.
-    However, alternative network encodings, e.g. the encoding specification
+    However, alternative network encodings, e.g. the encoding method
     used for the client hello and server hello messages of the TLS protocol MAY be used
     when considering the guidance given in the security-consideration section.
 
