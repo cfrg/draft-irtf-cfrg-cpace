@@ -80,7 +80,7 @@ def prepend_len(data):
             break;
     return length_encoded + data
 
-def prefix_free_cat(*args):
+def lv_cat(*args):
     result = b""
     for arg in args:
         result += prepend_len(arg)
@@ -113,7 +113,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     """
     len_zpad = max(0,s_in_bytes - 1 - len(prepend_len(PRS))
                      - len(prepend_len(DSI)))
-    return (prefix_free_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
+    return (lv_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid), len_zpad)
     
 def generate_testvectors_string_functions(file = sys.stdout):
     print ("\n## Definition and test vectors for string utility functions\n", file = file)
@@ -158,12 +158,12 @@ def prepend_len(data):
     print ("~~~", file = file)
 
 
-    print ("\n\n### prefix\\_free\\_cat function\n", file = file)
+    print ("\n\n### lv\\_cat function\n", file = file)
     
     print (
 """
 ~~~
-  def prefix_free_cat(*args):
+  def lv_cat(*args):
       result = b""
       for arg in args:
           result += prepend_len(arg)
@@ -172,35 +172,35 @@ def prepend_len(data):
 """, file = file);
 
 
-    print ("\n### Testvector for prefix\\_free\\_cat()\n", file = file)
+    print ("\n### Testvector for lv\\_cat()\n", file = file)
     print ("~~~", file = file)
-    tv_output_byte_array(prefix_free_cat(b"1234",b"5",b"",b"6789"), 
-                         test_vector_name = 'prefix_free_cat(b"1234",b"5",b"",b"6789")', 
+    tv_output_byte_array(lv_cat(b"1234",b"5",b"",b"6789"), 
+                         test_vector_name = 'lv_cat(b"1234",b"5",b"",b"6789")', 
                          line_prefix = "  ", max_len = 60, file = file);
     
     print ("~~~", file = file)
 
-    print ("\n### Examples for invalid encoded messages\n", file = file)
+    print ("\n### Examples for messages not obtained from a lv\\_cat-based encoding\n", file = file)
    
     print ("""
 The following messages are examples which have invalid encoded length fields. I.e. they are examples
-where parsing for the sum of the length of subfields as expected for a message generated for the prefix free concatenation
+where parsing for the sum of the length of subfields as expected for a message generated using lv\\_cat(Y,AD)
 does not give the correct length of the message. Parties MUST abort upon reception of such invalid messages as MSGa or MSGb.
 """, file = file)
     
     print ("\n\n~~~", file = file)
     
     tv_output_byte_array(bytes([255,255,255]), 
-                         test_vector_name = 'Inv_MSG1 with invalid encoded length', 
+                         test_vector_name = 'Inv_MSG1 not encoded by lv_cat', 
                          line_prefix = "  ", max_len = 60, file = file);
     tv_output_byte_array(bytes([255,255,3]), 
-                         test_vector_name = 'Inv_MSG2 with invalid encoded length', 
+                         test_vector_name = 'Inv_MSG2 not encoded by lv_cat', 
                          line_prefix = "  ", max_len = 60, file = file);
     tv_output_byte_array(bytes([0,255,255,3]), 
-                         test_vector_name = 'Inv_MSG3 with invalid encoded length', 
+                         test_vector_name = 'Inv_MSG3 not encoded by lv_cat', 
                          line_prefix = "  ", max_len = 60, file = file);
     tv_output_byte_array(bytes([0,255,255,255]), 
-                         test_vector_name = 'Inv_MSG4 with invalid encoded length', 
+                         test_vector_name = 'Inv_MSG4 not encoded by lv_cat', 
                          line_prefix = "  ", max_len = 60, file = file);
     
     print ("~~~", file = file)
@@ -214,7 +214,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     # Add zero padding in the first hash block after DSI and PRS.
     len_zpad = max(0,s_in_bytes - 1 - len(prepend_len(PRS))
                      - len(prepend_len(DSI)))
-    return prefix_free_cat(DSI, PRS, zero_bytes(len_zpad),
+    return lv_cat(DSI, PRS, zero_bytes(len_zpad),
                            CI, sid)
 ~~~
 """, file = file);
