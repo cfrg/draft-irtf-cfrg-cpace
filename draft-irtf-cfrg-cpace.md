@@ -203,9 +203,7 @@ before using the key in a higher-level protocol.
 
 For accomodating different application settings, CPace offers the following OPTIONAL inputs, i.e. inputs which MAY also be the empty string:
 
-- Channel identifier (CI). CI can be used to bind a session key exchanged with CPace to a specific
-  networking channel which interconnects the protocol parties. Both parties are required to have the same view of CI. 
-  CI will not be publicly sent on the wire and may also include confidential information.
+- Channel identifier (CI). CI can be used to bind a session key exchanged with CPace to a specific networking channel which interconnects the protocol parties. Both parties are required to have the same view of CI. CI will not be publicly sent on the wire and may also include confidential information.
 
 - Associated data fields (ADa and ADb).
   These fields can be used to authenticate public associated data alongside the CPace protocol. The values ADa (and ADb, respectively) are guaranteed to be authenticated in case both parties agree on a key.
