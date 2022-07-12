@@ -159,10 +159,7 @@ The CPace design was tailored considering the following main objectives:
 - The final section provides explicit reference implementations and test vectors of all of the
   functions defined for CPace in the appendix.
 
-As this document is primarily written for implementers and application designers, we would like
-to refer the theory-inclined reader
-to the scientific paper {{AHH21}} which covers the detailed security analysis of the different CPace 
-instantiations as defined in this document via the cipher suites.
+As this document is primarily written for implementers and application designers, we would like to refer the theory-inclined reader to the scientific paper {{AHH21}} which covers the detailed security analysis of the different CPace instantiations as defined in this document via the cipher suites.
 
 # Requirements Notation
 
@@ -177,22 +174,13 @@ A and B. PRS can be a low-entropy secret itself, for instance a clear-text passw
 encoded according to {{?RFC8265}}, or any string derived from a common secret, for instance by use of a
 password-based key derivation function.
 
-Applications with clients and servers where the server side is storing account and password
-information in its persistent memory are recommended to use augmented PAKE
-protocols such as OPAQUE {{!I-D.irtf-cfrg-opaque}}. 
+Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use augmented PAKE protocols such as OPAQUE {{!I-D.irtf-cfrg-opaque}}. 
 
-In the course of the CPace protocol, A sends one message MSGa to B and B sends one message
-MSGb to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting
-where anyone can speak first.
+In the course of the CPace protocol, A sends one message MSGa to B and B sends one message MSGb to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first.
 
-CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. 
-A and B will produce the same ISK value only if both sides did
-initiate the protocol using the same protocol inputs, specifically the same PRS string and the same
-value for the optional input parameters CI, ADa, ADb and sid that will be specified in the upcoming sections.
+CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS string and the same value for the optional input parameters CI, ADa, ADb and sid that will be specified in the upcoming sections.
 
-The naming of ISK key as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process
-ISK by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}})
-before using the key in a higher-level protocol.
+The naming of ISK key as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) before using the key in a higher-level protocol.
 
 ## Optional CPace inputs
 
