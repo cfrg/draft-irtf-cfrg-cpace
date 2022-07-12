@@ -168,11 +168,7 @@ As this document is primarily written for implementers and application designers
 
 # High-level application perspective {#ApplicationPerspective}
 
-CPace enables balanced password-authenticated key establishment. CPace requires a
-shared secret octet string, the password-related string (PRS), is available for both parties
-A and B. PRS can be a low-entropy secret itself, for instance a clear-text password
-encoded according to {{?RFC8265}}, or any string derived from a common secret, for instance by use of a
-password-based key derivation function.
+CPace enables balanced password-authenticated key establishment. CPace requires a shared secret octet string, the password-related string (PRS), is available for both parties A and B. PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to {{?RFC8265}}, or any string derived from a common secret, for instance by use of a password-based key derivation function.
 
 Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use augmented PAKE protocols such as OPAQUE {{!I-D.irtf-cfrg-opaque}}. 
 
