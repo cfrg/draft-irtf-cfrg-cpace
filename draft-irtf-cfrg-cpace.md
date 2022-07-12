@@ -136,145 +136,123 @@ for at most one single password guess per active interaction.
 
 The CPace design was tailored considering the following main objectives:
 
-- Firstly CPace it aims at facilating for secure integration into different application
-  scenarios by allowing tailoring by different optional inputs and by supporting
+- Efficiency: Deployment of CPace is feasible on resource-constrained devices.
+
+- Versatility: CPace supports different application
+  scenarios via versatile input formats, and by supporting
   applications with and without clear initiator and responder roles.
 
-- Secondly the design aims at facilitating secure implementation e.g. by
-  tailoring the protocol for resource-constrained target platforms without giving
-  incentives for insecure speed-ups and avoiding common implementation pitfalls by the
-  protocol design. For smooth integration in different cryptographic library ecosystems
-  different corresponding cipher suite alternatives are given.
+- Implementation error resistance: CPace avoids common implementation pitfalls already by-design, and it does not offer 
+  incentives for insecure speed-ups. For smooth integration into different cryptographic library ecosystems,
+  this document provides a variety of cipher suites.
 
-- Finally, CPace comes with built-in mitigations with respect to adversaries that
-  might become capable of breaking the discrete logarithm problem on elliptic curves
-  by quantum computers.
+- Post-quantum annoyance: CPace comes with mitigations with respect to adversaries that
+  become capable of breaking the discrete logarithm problem on elliptic curves.
 
 ## Outline of this document
 
-For this document we consider different groups of readers. For best readability
-despite the level of flexibility that comes with the above design-objectives
-this document is structured as follows.
+- Section {{ApplicationPerspective}} describes the expected properties of an application using CPace, and discusses in particular which application-level aspects are relevant for CPace's security.
 
-- First in section {{ApplicationPerspective}} the high-level application properties
-  of CPace are outlined. Specifically we discuss the respective differences which are
-  prepared for serving different application environments and discuss which
-  application-level aspects are important for secure use of CPace.
-
-- Then in section {{CipherSuites}} we give an overview over the different recommended
+- Section {{CipherSuites}} gives an overview over the recommended
   cipher suites for CPace which were optimized for different types of cryptographic
   library ecosystems.
 
-- Subsequently, we formally introduce the notation as used throughout this document and
-  expicitly define the CPace protocol.
+- Section {{Definition}} introduces the notation used throughout this document.
 
-- Section {{protocol-section}} specifies the protocol.
+- Section {{protocol-section}} specifies the CPace protocol.
 
-- Finally we provide explicit reference implementations and test vectors of all of the
+- The final section provides explicit reference implementations and test vectors of all of the
   functions defined for CPace in the appendix.
 
 As this document is primarily written for implementers and application designers, we would like
 to refer the theory-inclined reader
-group to the scientific paper {{AHH21}} which covers the detailed security analysis of
-the recommended cipher suites as defined in this document.
+to the scientific paper {{AHH21}} which covers the detailed security analysis of the different CPace 
+instantiations as defined in this document via the cipher suites.
 
 # Requirements Notation
 
 {::boilerplate bcp14}
 
 
-# CPace: High-level application perspective {#ApplicationPerspective}
+# High-level application perspective {#ApplicationPerspective}
 
-CPace considers the application set of balanced password-authenticated key establishment. Here a
+CPace enables balanced password-authenticated key establishment. CPace requires a
 shared secret octet string, the password-related string (PRS), is available for both parties
-A and B. PRS can for instance be a low-entropy secret itself, for instance a clear-text password
+A and B. PRS can be a low-entropy secret itself, for instance a clear-text password
 encoded according to {{?RFC8265}}, or any string derived from a common secret, for instance by use of a
 password-based key derivation function.
 
 Applications with clients and servers where the server side is storing account and password
-information in its persistent memory are recommended to seriously consider using augmented PAKE
-protocols such as OPAQUE {{!I-D.irtf-cfrg-opaque}}. Augmented PAKE protocols are also
-designed for exchanging user identifiers and for providing additional
-security guarantees in case of server compromise events.
+information in its persistent memory are recommended to use augmented PAKE
+protocols such as OPAQUE {{!I-D.irtf-cfrg-opaque}}. 
 
-In the course of the CPace protocol A sends one message MSGa to B and B sends one message,
-MSGb to A. CPace does not mandate any ordering, i.e. both, applications where MSGa always comes
-first and applications where either MSGa or MSGb might come first
-can use CPace. We will refer these two use-cases as "initiator-responder" (A always comes first) and "symmetric" setting
-(no ordering enforced) respectively.
+In the course of the CPace protocol, A sends one message MSGa to B and B sends one message
+MSGb to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting
+where anyone can speak first.
 
-As a result of the protocol CPace will either abort (in case of an invalid received message) or
-output an intermediate session key (ISK). A and B will produce the same ISK value if and only if both sides did
+CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. 
+A and B will produce the same ISK value only if both sides did
 initiate the protocol using the same protocol inputs, specifically the same PRS string and the same
 value for the optional input parameters CI, ADa, ADb and sid that will be specified in the upcoming sections.
 
 The naming of ISK key as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process
-ISK by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) first,
+ISK by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}})
 before using the key in a higher-level protocol.
 
 ## Optional CPace inputs
 
 For accomodating different application settings, CPace offers the following OPTIONAL inputs, i.e. inputs which MAY also be the empty string:
 
-- Channel identifier, CI. CPace considers that some applications may want to bind a protocol instance to a specific
-  networking channel which interconnects the protocol parties. If a corresponding
-  channel identifier string CI is available for both parties upon protocol start
-  a CPace protocol execution can use the CI input for binding the established session key to the specific
-  channel. CI will not be publicly sent on the wire and may also include confidential information.
+- Channel identifier (CI). CI can be used to bind a session key exchanged with CPace to a specific
+  networking channel which interconnects the protocol parties. Both parties are required to have the same view of CI. 
+  CI will not be publicly sent on the wire and may also include confidential information.
 
-- Associated data fields ADa and ADb.
-  Applications using CPace may require authentication of public asociated data fields ADa and ADb to be transmitted by parties A
-  and B respectively as part of the protocol messages MSGa and MSGb.
-  In this case applications can execute CPace with these optional inputs.
+- Associated data fields (ADa and ADb).
+  These fields can be used to authenticate public associated data alongside the CPace protocol. The values ADa (and ADb, respectively) are guaranteed to be authenticated in case both parties agree on a key.
 
-  ADa and ADb can for instance include party identifiers or protocol
-  version information regarding the higher-level application protocol (e.g. to avoid downgrade attacks).
+  ADa and ADb can for instance include party identities or protocol
+  version information of an application protocol (e.g. to avoid downgrade attacks).
   In a setting with clear initiator and responder roles, the information ADa
   sent by the initiator can be used by the responder for selecting which among possibly several different PRS to use for
   the CPace session.
 
-- Session identifier sid.
-
+- Session identifier (sid).
   CPace comes with a security analysis {{AHH21}} in the framework of universal composability.
   This framework allows for modular analysis of a larger application protocol which uses CPace as a building block. For such analysis
-  the CPace subprotocol is bound to a specific session of the larger protocol by use of a sid string that is unique
-  for this session. As a result, when used with a unique sid session string, the security proof of CPace also covers
-  settings with an unlimited amount of concurrent sessions.
+  the CPace protocol is bound to a specific session of the larger protocol by use of a sid string that is globally unique. As a result, when used with a unique sid, CPace instances remain secure when running concurrently with other CPace instances, and even arbitrary other protocols.
 
   For this reason, it is RECOMMENDED that applications establish a unique session identifier sid
-  prior to entering the CPace protocol. If a message round is available prior to the CPace protocol messages
-  this can be implemented by concatenating random bytes produced by A
-  with random bytes produced by B. If no such preceding protocol flow round is available in an application but
+  prior to running the CPace protocol. This can be implemented by concatenating random bytes produced by A
+  with random bytes produced by B. If such preceding round is not an option but
   parties are assigned clear initiator-responder roles, it is RECOMMENDED to let the initiator A choose a fresh
   random sid and send it to B together with the first message.
   If a sid string is used it SHOULD HAVE a length of at least 8 bytes.
 
-## Responsibilities of the application protocol layer
+## Responsibilities of the application layer
 
-The following definitions are out of the scope of this document and left to the application level.
+The following tasks are out of the scope of this document and left to the application layer
 
 - Setup phase:
 
-  - In order to run the CPace protocol, the application layer is responsible for the setup phase that establishes
-    agreement on a common CPace cipher suite.
-  - The application protocol layer needs to specify how to encode the CPace data fields Y and AD for transfer over the network.
+  - The application layer is responsible for parties agreeing on a common CPace cipher suite.
+  - The application layer needs to specify how to encode the CPace data fields Y and AD for transfer over the network.
     For CPace it is RECOMMENDED to encode network messages by using MSGa = lv\_cat(Ya,ADa) and MSGb = lv\_cat(Yb,ADb) using the length-value concatenation function lv\_cat
     speficied below.
-    We will provide test vectors for lv\_cat-encoded messages in this document.
-    However, alternative network encodings, e.g. the encoding method
-    used for the client hello and server hello messages of the TLS protocol MAY be used
-    when considering the guidance given in the security-consideration section.
+    This document provides test vectors for lv\_cat-encoded messages.
+    Alternative network encodings, e.g., the encoding method
+    used for the client hello and server hello messages of the TLS protocol, MAY be used
+    when considering the guidance given in section {{sec-considerations}}.
 
 - This document does not specify which encodings applications use for the mandatory PRS input and the optional inputs
   CI, sid, ADa and ADb. If PRS is a clear-text password or an octet string derived from a clear-text password,
   e.g. by use of a key-derivation function, the clear-text password SHOULD BE encoded according to {{?RFC8265}}.
 
-- Finally the application needs to define whether CPace is used in the initiator-responder or the symmetric setting as in the symmetric
+- The application needs to settle whether CPace is used in the initiator-responder or the symmetric setting, as in the symmetric
   setting transcripts must be generated using ordered string concatenation.
 
 # CPace cipher suites {#CipherSuites}
 
-In the setup phase of CPace both communication partners need to agree on a common cipher suite.
+In the setup phase of CPace, both communication partners need to agree on a common cipher suite.
 Cipher suites consist of a combination of a hash function H and an elliptic curve environment G.
 
 For naming cipher suites we use the convention "CPACE-G-H". Currently, test vectors are available for the following RECOMMENDED cipher suites:
@@ -307,10 +285,9 @@ CPace can securely be implemented on further elliptic curves when following the 
 
 ## Hash function H
 
-With H we denote a hash function.
 Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}. (I.e. the hash function
 outputs octet strings, and not group elements.)
-For considering both, variable-output-length hashes and fixed-length output hashes, we use the following convention.
+For considering both variable-output-length hashes and fixed-output-length hashes, we use the following convention.
 In case that the hash function is specified for a fixed-size output, we define H.hash(m,l) such
 that it returns the first l octets of the output.
 
