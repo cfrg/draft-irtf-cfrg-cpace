@@ -138,16 +138,11 @@ The CPace design was tailored considering the following main objectives:
 
 - Efficiency: Deployment of CPace is feasible on resource-constrained devices.
 
-- Versatility: CPace supports different application
-  scenarios via versatile input formats, and by supporting
-  applications with and without clear initiator and responder roles.
+- Versatility: CPace supports different application scenarios via versatile input formats, and by supporting applications with and without clear initiator and responder roles.
 
-- Implementation error resistance: CPace avoids common implementation pitfalls already by-design, and it does not offer 
-  incentives for insecure speed-ups. For smooth integration into different cryptographic library ecosystems,
-  this document provides a variety of cipher suites.
+- Implementation error resistance: CPace avoids common implementation pitfalls already by-design, and it does not offer incentives for insecure speed-ups. For smooth integration into different cryptographic library ecosystems, this document provides a variety of cipher suites.
 
-- Post-quantum annoyance: CPace comes with mitigations with respect to adversaries that
-  become capable of breaking the discrete logarithm problem on elliptic curves.
+- Post-quantum annoyance: CPace comes with mitigations with respect to adversaries that become capable of breaking the discrete logarithm problem on elliptic curves.
 
 ## Outline of this document
 
