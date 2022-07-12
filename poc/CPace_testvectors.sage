@@ -27,12 +27,12 @@ def CPace_ISK(H, DSI,sid,K,MSGa,MSGb,doPrint = 1, symmetric_execution = False, f
                          line_prefix = "    ", max_len = 60, file=file)
             cat_string = "MSGa||MSGb"
 
-    string = prefix_free_cat(DSI,sid,K) + concatenated_msg_transcript
+    string = lv_cat(DSI,sid,K) + concatenated_msg_transcript
     ISK = H.hash(string)
     if doPrint:
         tv_output_byte_array(DSI, test_vector_name = "DSI = G.DSI_ISK, " + str(DSI), 
                          line_prefix = "    ", max_len = 60, file=file)
-        tv_output_byte_array(string, test_vector_name = "prefix_free_cat(DSI,sid,K)||" + cat_string, 
+        tv_output_byte_array(string, test_vector_name = "lv_cat(DSI,sid,K)||" + cat_string, 
                          line_prefix = "    ", max_len = 60, file=file)
         tv_output_byte_array(ISK, test_vector_name = "ISK result", 
                          line_prefix = "    ", max_len = 60, file=file)
@@ -68,8 +68,8 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
             break;
         seed += b" "
                
-    MSGa = prefix_free_cat(Ya,ADa)
-    MSGb = prefix_free_cat(Yb,ADb)
+    MSGa = lv_cat(Ya,ADa)
+    MSGb = lv_cat(Yb,ADb)
    
     print ("\n###  Test vector for MSGa\n", file=file)
     print ("~~~", file=file)
@@ -86,7 +86,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
         tv_output_byte_array(G.scalar_mult_negated_result(ya, g), test_vector_name = "Alternative correct value for Ya: g^(-ya)", 
                              line_prefix = "    ", max_len = 60, file=file)
     
-    tv_output_byte_array(MSGa, test_vector_name = "MSGa", 
+    tv_output_byte_array(MSGa, test_vector_name = "MSGa = lv_cat(Ya,ADa)", 
                          line_prefix = "    ", max_len = 60, file=file)
     print ("~~~", file=file)
     print ("\n###  Test vector for MSGb\n", file=file)
@@ -101,7 +101,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     if (print_negated_Y):
         tv_output_byte_array(G.scalar_mult_negated_result(yb, g), test_vector_name = "Alternative correct value for Yb: g^(-yb)", 
                              line_prefix = "    ", max_len = 60, file=file)
-    tv_output_byte_array(MSGb, test_vector_name = "MSGb", 
+    tv_output_byte_array(MSGb, test_vector_name = "MSGb = lv_cat(Yb,ADb)", 
                          line_prefix = "    ", max_len = 60, file=file)
     
     print ("~~~", file=file)
