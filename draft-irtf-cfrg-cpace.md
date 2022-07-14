@@ -146,15 +146,15 @@ The CPace design was tailored considering the following main objectives:
 
 ## Outline of this document
 
-- Section {{ApplicationPerspective}} describes the expected properties of an application using CPace, and discusses in particular which application-level aspects are relevant for CPace's security.
+- {{ApplicationPerspective}} describes the expected properties of an application using CPace, and discusses in particular which application-level aspects are relevant for CPace's security.
 
-- Section {{CipherSuites}} gives an overview over the recommended
+- {{CipherSuites}} gives an overview over the recommended
   cipher suites for CPace which were optimized for different types of cryptographic
   library ecosystems.
 
-- Section {{Definition}} introduces the notation used throughout this document.
+- {{Definition}} introduces the notation used throughout this document.
 
-- Section {{protocol-section}} specifies the CPace protocol.
+- {{protocol-section}} specifies the CPace protocol.
 
 - The final section provides explicit reference implementations and test vectors of all of the
   functions defined for CPace in the appendix.
@@ -189,9 +189,11 @@ For accomodating different application settings, CPace offers the following OPTI
 
   ADa and ADb can for instance include party identities or protocol
   version information of an application protocol (e.g. to avoid downgrade attacks).
-  In a setting with clear initiator and responder roles, the information ADa
-  sent by the initiator can be used by the responder for selecting which among possibly several different PRS to use for
-  the CPace session.
+
+  If party identities are not encoded as part of CI, party identities SHOULD be included in ADa and ADB
+   (see {{sec-considerations-ids}}).
+  In a setting with clear initiator and responder roles, identity information in ADa
+  sent by the initiator can be used by the responder for choosing the right PRS string (respectively password) for this identity.
 
 - Session identifier (sid).
   CPace comes with a security analysis {{AHH21}} in the framework of universal composability.
@@ -211,36 +213,43 @@ The following tasks are out of the scope of this document and left to the applic
 
 - Setup phase:
 
-  - The application layer is responsible for parties agreeing on a common CPace cipher suite.
-  - The application layer needs to specify how to encode the CPace data fields Y and AD for transfer over the network.
-    For CPace it is RECOMMENDED to encode network messages by using MSGa = lv\_cat(Ya,ADa) and MSGb = lv\_cat(Yb,ADb) using the length-value concatenation function lv\_cat
-    speficied below.
+  - The application layer is responsible for the handshake that makes parties agree on a common CPace cipher suite.
+  - The application layer needs to specify how to encode the CPace byte strings Ya/Yb and ADa/ADb defined in section
+   {{protocol-section}}
+    for transfer over the network.
+    For CPace it is RECOMMENDED to encode network messages by using MSGa = lv\_cat(Ya,ADa) and MSGb = lv\_cat(Yb,ADb)
+    using the length-value concatenation function lv\_cat
+    speficied in {{notation-section}}.
     This document provides test vectors for lv\_cat-encoded messages.
     Alternative network encodings, e.g., the encoding method
     used for the client hello and server hello messages of the TLS protocol, MAY be used
-    when considering the guidance given in section {{sec-considerations}}.
+    when considering the guidance given in {{sec-considerations}}.
 
 - This document does not specify which encodings applications use for the mandatory PRS input and the optional inputs
   CI, sid, ADa and ADb. If PRS is a clear-text password or an octet string derived from a clear-text password,
   e.g. by use of a key-derivation function, the clear-text password SHOULD BE encoded according to {{?RFC8265}}.
 
 - The application needs to settle whether CPace is used in the initiator-responder or the symmetric setting, as in the symmetric
-  setting transcripts must be generated using ordered string concatenation.
+  setting transcripts must be generated using ordered string concatenation. In this document we will provide test vectors
+  for both, initiator-responder and symmetric settings.
 
 # CPace cipher suites {#CipherSuites}
 
 In the setup phase of CPace, both communication partners need to agree on a common cipher suite.
 Cipher suites consist of a combination of a hash function H and an elliptic curve environment G.
 
-For naming cipher suites we use the convention "CPACE-G-H". Currently, test vectors are available for the following RECOMMENDED cipher suites:
+For naming cipher suites we use the convention "CPACE-G-H". We RECOMMEND the following cipher suites:
 
 - CPACE-X25519-SHA512. This suite uses the group environment G\_X25519 defined in {{CPaceMontgomery}} and SHA-512 as hash function.
-
-- CPACE-X448-SHAKE256. This suite uses the group environment G\_X448 defined in {{CPaceMontgomery}} and SHAKE-256 as hash function.
+  This cipher suite comes with the smallest messages on the wire and a low computational cost.
 
 - CPACE-P256\_XMD:SHA-256\_SSWU_NU\_-SHA256.
 This suite instantiates the group environment G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P256\_XMD:SHA-256\_SSWU_NU\_
 from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P256, and hash function SHA-256.
+
+The following RECOMMENDED cipher suites provide higher security margins.
+
+- CPACE-X448-SHAKE256. This suite uses the group environment G\_X448 defined in {{CPaceMontgomery}} and SHAKE-256 as hash function.
 
 - CPACE-P384\_XMD:SHA-384\_SSWU_NU\_-SHA384.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P384\_XMD:SHA-384\_SSWU_NU\_
@@ -250,13 +259,9 @@ from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with H = SHA-384.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P521\_XMD:SHA-384\_SSWU_NU\_
 from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with H = SHA-512.
 
-- CPACE-RISTR255-SHA512.
-This suite uses G\_ristretto255 as defined in {{CPaceCoffee}} and H = SHA-512.
 
-- CPACE-DECAF448-SHAKE256
-This suite uses G\_decaf448 as defined in {{CPaceCoffee}} and H = SHAKE-256.
-
-CPace can securely be implemented on further elliptic curves when following the guidance given in {{sec-considerations}}.
+CPace can also securely be implemented using the cipher suites CPACE-RISTR255-SHA512 and CPACE-DECAF448-SHAKE256 defined in
+{{CPaceCoffee}}. {{sec-considerations}} gives guidance on how to implement CPace on further elliptic curves.
 
 # Definitions and notation {#Definition}
 
@@ -306,22 +311,7 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
 
 - G.DSI denotes a domain-separation identifier string which SHALL be uniquely identifying the group environment G.
 
-## Protocol inputs
-
-- PRS denotes a password-related octet string which is a MANDATORY input for all CPace instantiations and needs to be available to both parties.
-
-- CI denotes an OPTIONAL octet string identifying a communication channel that needs to be available to both parties. CI can be used for
-  binding a CPace execution to one specific channel. Typically CI is obtained by concatenating strings that
-  uniquely identify the protocol partner's identities, such as their networking addresses.
-
-- sid denotes an OPTIONAL octet string serving as session identifier that needs to be available to both parties. In application scenarios
-  where a higher-level protocol has established a unique sid value, this parameter can be used to ensure strong composability guarantees of
-  CPace, and to bind a CPace execution to the application.
-
-- ADa and ADb denote OPTIONAL octet strings containing arbitrary associated data, each available to one of the parties. They are not required
-  to be equal, and are publicly transmitted as part of the protocol flow.
-
-## Notation for string operations
+## Notation for string operations {#notation-section}
 
 - bytes1 \|\| bytes2 and denotes concatenation of octet strings.
 
@@ -367,7 +357,7 @@ We use multiplicative notation for the group, i.e., X^2  denotes the element tha
 
 # The CPace protocol {#protocol-section}
 
-CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G,H and OPTIONAL public CI,sid,ADa (for A) and CI,sid,ADb (for B).
+CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G,H and OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb (for B).
 A sends a message MSGa to B. MSGa contains the public share Ya
 and OPTIONAL associated data ADa (i.e. an ADa field that MAY have a length of 0 bytes).
 Likewise, B sends a message MSGb to A. MSGb contains the public share Yb
@@ -396,16 +386,16 @@ Optional parameters and messages are denoted with [].
 ## CPace protocol instructions
 
 A computes a generator g = G.calculate\_generator(H,PRS,CI,sid), scalar ya = G.sample\_scalar() and group element Ya = G.scalar\_mult (ya,g). A then transmits MSGa = network\_encode(Ya, ADa) with
-optional associated data ADa to B. ADa is an OPTIONAL parameter.
+optional associated data ADa to B.
 
-B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_mult(yb,g). B sends MSGb = network\_encode(Yb, ADb) to A. ADb is an OPTIONAL parameter.
+B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_mult(yb,g). B sends MSGb = network\_encode(Yb, ADb) with optional associated data ADb to A.
 
 Upon reception of MSGa, B checks that MSGa was properly generated conform with the chosen encoding of network messages (notably correct length fields).
 If this parsing fails, then B MUST abort. (Testvectors of examples for invalid messages when using lv\_cat() as network\_encode function for
 CPace are given in the appendix.)
 B then computes K = G.scalar\_mult_vfy(yb,Ya). B MUST abort if K=G.I.
 Otherwise B returns
-ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|concat(MSGa, MSGb)). B returns ISK and terminates.
+ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|transcript(MSGa, MSGb)). B returns ISK and terminates.
 
 Likewise upon reception of MSGb, A parses MSGb for Yb and ADb and checks for a valid encoding.
 If this parsing fails, then A MUST abort. A then computes K = G.scalar\_mult\_vfy(ya,Yb). A MUST abort if K=G.I.
@@ -414,7 +404,8 @@ ISK = H.hash(lv\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| transcript(MSGa, MSGb). A 
 
 The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view (containing of MSGa and MSGb) of both parties match.
 
-We note that the above protocol instructions implement a parallel setting with no specific initiator/responder and no assumptions about the order in which messages arrive. If implemented as initiator-responder protocol, the responder, say, B, starts with computation of the generator only upon reception of MSGa.
+Note that in case of a symmetric protocol execution without clear initiator/responder roles, ordered concatenation needs to be used for
+generating a matching view of the transcript by both parties.
 
 # Implementation of recommended CPace cipher suites
 
@@ -675,7 +666,7 @@ Corresponding test vectors are given in the appendix for all recommended cipher 
 A security proof of CPace is found in {{AHH21}}. This proof covers all recommended cipher suites included in this document.
 In the following sections we describe how to protect CPace against several attack families, such as relay-, length extension- or side channel attacks. We also describe aspects to consider when deviating from recommended cipher suites.
 
-## Party identifiers and relay attacks
+## Party identifiers and relay attacks {#sec-considerations-ids}
 
 If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities. Incorporating party identifier strings
 is important for fending off relay attacks.
