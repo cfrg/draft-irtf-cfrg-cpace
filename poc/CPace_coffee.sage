@@ -51,7 +51,9 @@ class G_CoffeeEcosystem():
     def calculate_generator(self, H, PRS, CI, sid, print_test_vector_info = False, file = sys.stdout):
         (gen_string, len_zpad) = generator_string(self.DSI, PRS, CI, sid, H.s_in_bytes)
         string_hash = H.hash(gen_string, self.field_size_bytes * 2)
-        result = self.point_class.map(string_hash)
+        P1 = self.point_class.map(string_hash[:self.field_size_bytes])
+        P2 = self.point_class.map(string_hash[self.field_size_bytes:])
+        result = P1 + P2
         if print_test_vector_info:
             print ("\n###  Test vectors for calculate\\_generator with group "+self.name+"\n", file = file)
             print ("~~~", file = file)
