@@ -334,9 +334,8 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
   individual subcomponents Y and AD.
   For CPace we RECOMMEND to implement network\_encode(Y,AD) as network\_encode(Y,AD) = lv\_cat(Y,AD).
 
-  Other prefix-free encodings, such as the network encoding
-  used for the client-hello messages in TLS MAY also be used. We give guidance in the security consideration sections.
-  but here the guidance given in the security consideration section MUST be considered.
+  Other encodings, such as the network encoding used for the client-hello messages in TLS MAY also be used when
+  following the guidance given in the security consideration section.
 
 - sample\_random\_bytes(n) denotes a function that returns n octets uniformly distributed between 0 and 255.
 
