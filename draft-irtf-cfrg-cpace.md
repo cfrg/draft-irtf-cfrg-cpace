@@ -257,7 +257,7 @@ from {{?RFC9380}} on curve NIST-P384 with H = SHA-384.
 
 - CPACE-P521\_XMD:SHA-512\_SSWU_NU\_-SHA512.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P521\_XMD:SHA-384\_SSWU_NU\_
-from {{?RFC9380}} on curve NIST-P384 with H = SHA-512.
+from {{?RFC9380}} on curve NIST-P521 with H = SHA-512.
 
 
 CPace can also securely be implemented using the cipher suites CPACE-RISTR255-SHA512 and CPACE-DECAF448-SHAKE256 defined in
