@@ -48,10 +48,18 @@ class G_CoffeeEcosystem():
             return self.I
         return (point * scalar_as_int).encode()
 
+    def _derive_element(self, string_hash):
+        P1 = self.point_class.map(string_hash[:self.field_size_bytes])
+        P2 = self.point_class.map(string_hash[self.field_size_bytes:])
+        result = P1 + P2
+        return result
+    	
     def calculate_generator(self, H, PRS, CI, sid, print_test_vector_info = False, file = sys.stdout):
         (gen_string, len_zpad) = generator_string(self.DSI, PRS, CI, sid, H.s_in_bytes)
         string_hash = H.hash(gen_string, self.field_size_bytes * 2)
-        result = self.point_class.map(string_hash)
+        
+        result = self._derive_element(string_hash)
+        
         if print_test_vector_info:
             print ("\n###  Test vectors for calculate\\_generator with group "+self.name+"\n", file = file)
             print ("~~~", file = file)
@@ -109,6 +117,53 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
     print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I", file = file)
     print ("~~~\n", file = file)    
 
+       
 if __name__ == "__main__":
+
+
+    # Check implementation here against Ristretto255 draft.
+    
     G = G_CoffeeEcosystem(Ed25519Point)
+    
+    testvector_in = bytearray.fromhex("5d1be09e3d0c82fc538112490e35701979d99e06ca3e2b5b54bffe8b4dc772c1" 
+                                      + "4d98b696a1bbfb5ca32c436cc61c16563790306c79eaca7705668b47dffe5bb6")
+    
+    correct_result = bytearray.fromhex("3066f82a 1a747d45 120d1740 f1435853 1a8f04bb ffe6a819 f86dfe50 f44a0a46")
+    
+    out = G._derive_element(testvector_in)
+
+    tv_output_byte_array(out.encode(), test_vector_name = "encoded result of ristretto255 test vector.", 
+                         line_prefix = "    ", max_len = 60)
+
+    tv_output_byte_array(correct_result, test_vector_name = "testvector from ristretto255 draft", 
+                         line_prefix = "    ", max_len = 60)
+
+    assert out.encode() == correct_result;
+    
+
+
+    # Check implementation here against Decaf448 draft.
+
+    G = G_CoffeeEcosystem(Ed448GoldilocksPoint)
+    
+    testvector_in = bytearray.fromhex("cbb8c991fd2f0b7e1913462d6463e4fd2ce4ccdd28274dc2ca1f4165"
+                                      + "d5ee6cdccea57be3416e166fd06718a31af45a2f8e987e301be59ae6"
+                                      + "673e963001dbbda80df47014a21a26d6c7eb4ebe0312aa6fffb8d1b2"
+                                      + "6bc62ca40ed51f8057a635a02c2b8c83f48fa6a2d70f58a1185902c0")
+   
+    correct_result = bytearray.fromhex("0c709c96 07dbb01c 94513358 745b7c23 953d03b3 3e39c723 4e268d1d"
+                                       + "6e24f340 14ccbc22 16b965dd 231d5327 e591dc3c 0e8844cc fd568848")
+                                       
+    out = G._derive_element(testvector_in)
+
+    tv_output_byte_array(out.encode(), test_vector_name = "encoded result of decaf448 test vector.", 
+                         line_prefix = "    ", max_len = 60)
+
+    tv_output_byte_array(correct_result, test_vector_name = "testvector from decaf448 draft", 
+                         line_prefix = "    ", max_len = 60)
+
+    assert out.encode() == correct_result;
+
+    
+    
     output_coffee_invalid_point_test_cases(G)
