@@ -18,24 +18,33 @@ from sagelib.suite_p521 import *
 # Definitions for Short-Weierstrass-Curves
 
 class G_ShortWeierstrass():
-    def __init__(self, mapping_primitive):        
-        self.map = mapping_primitive
-        self.curve = self.map("some arbitrary string").curve();
+    def __init__(self, mapping_primitive_generator): 
+
+        # we first generate a dummy map object for deriving the curve and the
+        # suite name strings.
+        #     
+        map_with_dummy_dst = mapping_primitive_generator(b"dummy")
+        
+        self.curve = map_with_dummy_dst("some arbitrary string").curve();
         
         self.field = self.curve.base_field();
         self.q = self.field.order()
         self.field_size_bytes = ceil(log(float(self.q),2) / 8)
         self.p = self.curve.order();
-        self.name = mapping_primitive.curve_name
+        self.name = map_with_dummy_dst.curve_name
         
         if not (self.p.is_prime()):
             raise ValueError ("Group order for Short-Weierstrass must be prime")
 
         self.I = b"" # Represent the neutral element as the empty string.
 
-        self.DSI = b"CPace" + mapping_primitive.suite_name.encode("ascii")
+        self.DSI = b"CPace" + map_with_dummy_dst.suite_name.encode("ascii")
         self.DSI_ISK = self.DSI + b"_ISK"
         self.encoding_of_scalar = "big endian"
+        self.DST = self.DSI + b"_DST"
+        
+        self.map = mapping_primitive_generator(self.DST)
+
       
     def sample_scalar(self, deterministic_scalar_for_test_vectors = "False"):
         random_bytes_len =  self.field_size_bytes * 2
@@ -106,7 +115,7 @@ class G_ShortWeierstrass():
             print ("    H   =", H.name, "with input block size", H.s_in_bytes, "bytes.", file = file)
             print ("    PRS =", PRS, "; ZPAD length:", len_zpad,";",file = file);
             print ("    DSI =", self.DSI, file = file)
-            print ("    DST = %s (for hash to curve suite)" % self.DSI, file = file)
+            print ("    DST = %s (as used for hash to curve suite)" % self.DST, file = file)
             print ("    CI =", CI, file = file)
             print ("    CI =", ByteArrayToLEPrintString(CI), file = file)
             print ("    sid =", ByteArrayToLEPrintString(sid), file = file)
@@ -304,6 +313,6 @@ if __name__ == "__main__":
     assert y3 != y
 
 
-    G_P256 = G_ShortWeierstrass(p256_sswu_nu)
+    G_P256 = G_ShortWeierstrass(cpace_map_for_nist_p256)
     output_weierstrass_invalid_point_test_cases(G_P256)
 

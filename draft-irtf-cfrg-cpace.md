@@ -619,13 +619,15 @@ on curve NIST-P384 the resulting value SHALL BE G.DSI = "CPaceP384\_XMD:SHA-384\
 
 Using the above definitions, the CPace functions required for the group object G are defined as follows.
 
+- G.DST denotes the domain-separation tag value DST which is an implicit parameter of all the maps from {{!I-D.irtf-cfrg-hash-to-curve}}. G.DST shall be obtained by concatenating G.DSI and "_DST". 
+
 - G.sample\_scalar() SHALL return a value between 1 and (G.group\_order - 1). The value sampling MUST BE uniformly random. It is RECOMMENDED to use rejection sampling for converting a uniform bitstring to a uniform value between 1 and (G.group\_order - 1).
 
 - G.calculate\_generator(H, PRS,sid,CI) function SHALL be implemented as follows.
 
    - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) is calculated.
 
-   - Then the output of a call to encode\_to\_curve(gen\_str) is returned, using the selected function from {{!I-D.irtf-cfrg-hash-to-curve}}.
+   - Then the output of a call to encode\_to\_curve(gen\_str, G.DST) is returned, using the selected suite from {{!I-D.irtf-cfrg-hash-to-curve}} parametrized by the domain separation tag G.DST.
 
 - G.scalar\_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
 G.scalar\_mult(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to {{SEC1}}. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar\_mult(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and

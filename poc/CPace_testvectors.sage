@@ -182,17 +182,17 @@ if __name__ == "__main__":
         output_coffee_invalid_point_test_cases(G, file=f)
     
         H = H_SHA256()
-        G = G_ShortWeierstrass(p256_sswu_nu)
+        G = G_ShortWeierstrass(cpace_map_for_nist_p256)
         generate_test_vector(H,G, file=f,print_negated_Y = True)
         output_weierstrass_invalid_point_test_cases(G, file=f)
 
         H = H_SHA384()
-        G = G_ShortWeierstrass(p384_sswu_nu)
+        G = G_ShortWeierstrass(cpace_map_for_nist_p384)
         generate_test_vector(H,G, file=f,print_negated_Y = True)
         output_weierstrass_invalid_point_test_cases(G, file=f)
 
         H = H_SHA512()
-        G = G_ShortWeierstrass(p521_sswu_nu)
+        G = G_ShortWeierstrass(cpace_map_for_nist_p521)
         generate_test_vector(H,G, file=f,print_negated_Y = True)
         output_weierstrass_invalid_point_test_cases(G, file=f)
 
