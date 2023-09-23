@@ -257,7 +257,7 @@ from {{?RFC9380}} on curve NIST-P384 with H = SHA-384.
 
 - CPACE-P521\_XMD:SHA-512\_SSWU_NU\_-SHA512.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P521\_XMD:SHA-384\_SSWU_NU\_
-from {{?RFC9380}} on curve NIST-P521 with H = SHA-512.
+from {{?RFC9380}} on curve NIST-P5 with H = SHA-512.
 
 
 CPace can also securely be implemented using the cipher suites CPACE-RISTR255-SHA512 and CPACE-DECAF448-SHAKE256 defined in
@@ -607,19 +607,19 @@ the flexibility to opt for x-coordinate-only scalar multiplication algorithms.)
 
 In this paragraph we use the following notation for defining the group object G for a selected curve and encode\_to\_curve method:
 
-- With group\_order we denote the order of the elliptic curve which MUST BE a prime.
+- With G.group\_order we denote the order of the elliptic curve which MUST BE a prime.
 
-- With is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid or false otherwise. This is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
+- With is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid and returns false otherwise. This is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
 
-- With encode\_to\_curve(str) we denote a selected mapping function from {{?RFC9380}}. I.e. a function that maps
-octet string str to a point on the group. {{?RFC9380}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{?RFC9380}}.
+- With encode\_to\_curve(str,DST) we denote a selected mapping function from {{?RFC9380}}. I.e. a function that maps
+octet string str to a point on the group using domain separation tag DST. {{?RFC9380}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{?RFC9380}}.
 
 - G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of "CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{?RFC9380}}. E.g. when using the map with the name "P384\_XMD:SHA-384\_SSWU\_NU\_"
 on curve NIST-P384 the resulting value SHALL BE G.DSI = "CPaceP384\_XMD:SHA-384\_SSWU\_NU\_".
 
 Using the above definitions, the CPace functions required for the group object G are defined as follows.
 
-- G.DST denotes the domain-separation tag value DST which is an implicit parameter of all the maps from {{?RFC9380}}. G.DST shall be obtained by concatenating G.DSI and "_DST".
+- G.DST denotes the domain-separation tag value to use in conjunction with the encode\_to\_curve function from {{?RFC9380}}. G.DST shall be obtained by concatenating G.DSI and "_DST".
 
 - G.sample\_scalar() SHALL return a value between 1 and (G.group\_order - 1). The value sampling MUST BE uniformly random. It is RECOMMENDED to use rejection sampling for converting a uniform bitstring to a uniform value between 1 and (G.group\_order - 1).
 
@@ -627,7 +627,7 @@ Using the above definitions, the CPace functions required for the group object G
 
    - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) is calculated.
 
-   - Then the output of a call to encode\_to\_curve(gen\_str, G.DST) is returned, using the selected suite from {{?RFC9380}} parametrized by the domain separation tag G.DST.
+   - Then the output of a call to encode\_to\_curve(gen\_str, G.DST) is returned, using the selected suite from {{?RFC9380}}.
 
 - G.scalar\_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
 G.scalar\_mult(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to {{SEC1}}. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar\_mult(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and
