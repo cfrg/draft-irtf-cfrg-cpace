@@ -115,7 +115,7 @@ class G_ShortWeierstrass():
             print ("    H   =", H.name, "with input block size", H.s_in_bytes, "bytes.", file = file)
             print ("    PRS =", PRS, "; ZPAD length:", len_zpad,";",file = file);
             print ("    DSI =", self.DSI, file = file)
-            print ("    DST = %s (as used for hash to curve suite)" % self.DST, file = file)
+            print ("    DST =", self.DST, file = file)
             print ("    CI =", CI, file = file)
             print ("    CI =", ByteArrayToLEPrintString(CI), file = file)
             print ("    sid =", ByteArrayToLEPrintString(sid), file = file)

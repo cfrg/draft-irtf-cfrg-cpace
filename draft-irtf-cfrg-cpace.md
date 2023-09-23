@@ -214,7 +214,7 @@ The following tasks are out of the scope of this document and left to the applic
 - Setup phase:
 
   - The application layer is responsible for the handshake that makes parties agree on a common CPace cipher suite.
-  - The application layer needs to specify how to encode the CPace byte strings Ya/Yb and ADa/ADb defined in section
+  - The application layer needs to specify how to encode the CPace byte strings Ya / Yb and ADa / ADb defined in section
    {{protocol-section}}
     for transfer over the network.
     For CPace it is RECOMMENDED to encode network messages by using MSGa = lv\_cat(Ya,ADa) and MSGb = lv\_cat(Yb,ADb)
@@ -245,7 +245,7 @@ For naming cipher suites we use the convention "CPACE-G-H". We RECOMMEND the fol
 
 - CPACE-P256\_XMD:SHA-256\_SSWU_NU\_-SHA256.
 This suite instantiates the group environment G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P256\_XMD:SHA-256\_SSWU_NU\_
-from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P256, and hash function SHA-256.
+from {{?RFC9380}} on curve NIST-P256, and hash function SHA-256.
 
 The following RECOMMENDED cipher suites provide higher security margins.
 
@@ -253,11 +253,11 @@ The following RECOMMENDED cipher suites provide higher security margins.
 
 - CPACE-P384\_XMD:SHA-384\_SSWU_NU\_-SHA384.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P384\_XMD:SHA-384\_SSWU_NU\_
-from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with H = SHA-384.
+from {{?RFC9380}} on curve NIST-P384 with H = SHA-384.
 
 - CPACE-P521\_XMD:SHA-512\_SSWU_NU\_-SHA512.
 This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P521\_XMD:SHA-384\_SSWU_NU\_
-from {{!I-D.irtf-cfrg-hash-to-curve}} on curve NIST-P384 with H = SHA-512.
+from {{?RFC9380}} on curve NIST-P384 with H = SHA-512.
 
 
 CPace can also securely be implemented using the cipher suites CPACE-RISTR255-SHA512 and CPACE-DECAF448-SHAKE256 defined in
@@ -411,7 +411,7 @@ generating a matching view of the transcript by both parties.
 
 ## Common function for computing generators
 
-The different cipher suites for CPace defined in the upcoming sections share the same method for deterministically combining the individual strings PRS, CI, sid and the domain-separation identifier DSI to a generator string that we describe here. Let CPACE-G-H denote the cipher suite.
+The different cipher suites for CPace defined in the upcoming sections share the same method for deterministically combining the individual strings PRS, CI, sid and the domain-separation identifier G.DSI to a generator string that we describe here.
 
 - generator\_string(G.DSI, PRS, CI, sid, s\_in\_bytes) denotes a function that returns the string
 lv\_cat(G.DSI, PRS, zero\_bytes(len\_zpad), CI, sid).
@@ -483,8 +483,8 @@ For both G\_X448 and G\_X25519 the G.calculate\_generator(H, PRS,sid,CI) functio
    repeat in the appendix for convenience.
 
  - The result point g is then calculated as (g,v) = map\_to\_curve\_elligator2(u) using the function
-   from {{!I-D.irtf-cfrg-hash-to-curve}}. Note that the v coordinate produced by the map\_to\_curve\_elligator2 function
-   is not required for CPace and discarded. The appendix repeats the definitions from {{!I-D.irtf-cfrg-hash-to-curve}} for convenience.
+   from {{?RFC9380}}. Note that the v coordinate produced by the map\_to\_curve\_elligator2 function
+   is not required for CPace and discarded. The appendix repeats the definitions from {{?RFC9380}} for convenience.
 
 In the appendix we show sage code that can be used as reference implementation.
 
@@ -598,9 +598,9 @@ For deriving Diffie-Hellman shared secrets ECKAS-DH1 from {{IEEE1363}} specifies
 
 ### Suitable encode\_to\_curve methods
 
-All the encode\_to\_curve methods specified in {{!I-D.irtf-cfrg-hash-to-curve}}
+All the encode\_to\_curve methods specified in {{?RFC9380}}
 are suitable for CPace. For Short-Weierstrass curves it is RECOMMENDED to use the non-uniform variant of the SSWU
-mapping primitive from {{!I-D.irtf-cfrg-hash-to-curve}} if a SSWU mapping is available for the chosen curve. (We recommend non-uniform maps in order to give implementations
+mapping primitive from {{?RFC9380}} if a SSWU mapping is available for the chosen curve. (We recommend non-uniform maps in order to give implementations
 the flexibility to opt for x-coordinate-only scalar multiplication algorithms.)
 
 ### Definition of the group environment G for Short-Weierstrass curves
@@ -611,15 +611,15 @@ In this paragraph we use the following notation for defining the group object G 
 
 - With is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid or false otherwise. This is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
 
-- With encode\_to\_curve(str) we denote a selected mapping function from {{!I-D.irtf-cfrg-hash-to-curve}}. I.e. a function that maps
-octet string str to a point on the group. {{!I-D.irtf-cfrg-hash-to-curve}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{!I-D.irtf-cfrg-hash-to-curve}}.
+- With encode\_to\_curve(str) we denote a selected mapping function from {{?RFC9380}}. I.e. a function that maps
+octet string str to a point on the group. {{?RFC9380}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{?RFC9380}}.
 
-- G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of "CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{!I-D.irtf-cfrg-hash-to-curve}}. E.g. when using the map with the name "P384\_XMD:SHA-384\_SSWU\_NU\_"
+- G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of "CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{?RFC9380}}. E.g. when using the map with the name "P384\_XMD:SHA-384\_SSWU\_NU\_"
 on curve NIST-P384 the resulting value SHALL BE G.DSI = "CPaceP384\_XMD:SHA-384\_SSWU\_NU\_".
 
 Using the above definitions, the CPace functions required for the group object G are defined as follows.
 
-- G.DST denotes the domain-separation tag value DST which is an implicit parameter of all the maps from {{!I-D.irtf-cfrg-hash-to-curve}}. G.DST shall be obtained by concatenating G.DSI and "_DST". 
+- G.DST denotes the domain-separation tag value DST which is an implicit parameter of all the maps from {{?RFC9380}}. G.DST shall be obtained by concatenating G.DSI and "_DST".
 
 - G.sample\_scalar() SHALL return a value between 1 and (G.group\_order - 1). The value sampling MUST BE uniformly random. It is RECOMMENDED to use rejection sampling for converting a uniform bitstring to a uniform value between 1 and (G.group\_order - 1).
 
@@ -627,7 +627,7 @@ Using the above definitions, the CPace functions required for the group object G
 
    - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) is calculated.
 
-   - Then the output of a call to encode\_to\_curve(gen\_str, G.DST) is returned, using the selected suite from {{!I-D.irtf-cfrg-hash-to-curve}} parametrized by the domain separation tag G.DST.
+   - Then the output of a call to encode\_to\_curve(gen\_str, G.DST) is returned, using the selected suite from {{?RFC9380}} parametrized by the domain separation tag G.DST.
 
 - G.scalar\_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
 G.scalar\_mult(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to {{SEC1}}. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar\_mult(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and
@@ -786,6 +786,7 @@ No IANA action is required.
 We would like to thank the participants on the CFRG list for comments and advice. Any comment and advice is appreciated.
 
 --- back
+
 
 
 
@@ -2023,7 +2024,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     H   = SHA-256 with input block size 64 bytes.
     PRS = b'Password' ; ZPAD length: 23 ;
     DSI = b'CPaceP256_XMD:SHA-256_SSWU_NU_'
-    DST = b'CPaceP256_XMD:SHA-256_SSWU_NU__DST' (as used for hash to curve suite)
+    DST = b'CPaceP256_XMD:SHA-256_SSWU_NU__DST'
     CI = b'\nAinitiator\nBresponder'
     CI = 0a41696e69746961746f720a42726573706f6e646572
     sid = 34b36454cab2e7842c389f7d88ecb7df
@@ -2278,7 +2279,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     H   = SHA-384 with input block size 128 bytes.
     PRS = b'Password' ; ZPAD length: 87 ;
     DSI = b'CPaceP384_XMD:SHA-384_SSWU_NU_'
-    DST = b'CPaceP384_XMD:SHA-384_SSWU_NU__DST' (as used for hash to curve suite)
+    DST = b'CPaceP384_XMD:SHA-384_SSWU_NU__DST'
     CI = b'\nAinitiator\nBresponder'
     CI = 0a41696e69746961746f720a42726573706f6e646572
     sid = 5b3773aa90e8f23c61563a4b645b276c
@@ -2569,7 +2570,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
     H   = SHA-512 with input block size 128 bytes.
     PRS = b'Password' ; ZPAD length: 87 ;
     DSI = b'CPaceP521_XMD:SHA-512_SSWU_NU_'
-    DST = b'CPaceP521_XMD:SHA-512_SSWU_NU__DST' (as used for hash to curve suite)
+    DST = b'CPaceP521_XMD:SHA-512_SSWU_NU__DST'
     CI = b'\nAinitiator\nBresponder'
     CI = 0a41696e69746961746f720a42726573706f6e646572
     sid = 7e4b4791d6a8ef019b936c79fb7f2c57
@@ -2899,5 +2900,4 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       00
     G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
-
 
