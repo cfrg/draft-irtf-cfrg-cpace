@@ -106,6 +106,7 @@ class G_ShortWeierstrass():
             print ("    H   =", H.name, "with input block size", H.s_in_bytes, "bytes.", file = file)
             print ("    PRS =", PRS, "; ZPAD length:", len_zpad,";",file = file);
             print ("    DSI =", self.DSI, file = file)
+            print ("    DST = %s (for hash to curve suite)" % self.DSI, file = file)
             print ("    CI =", CI, file = file)
             print ("    CI =", ByteArrayToLEPrintString(CI), file = file)
             print ("    sid =", ByteArrayToLEPrintString(sid), file = file)
@@ -153,8 +154,156 @@ def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
     print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I", file = file)
     print ("~~~\n", file = file)    
     
+    	    	
+def cpace_map_for_nist_p256(dst):
+    suite_name = "P256_XMD:SHA-256_SSWU_NU_"
+    is_ro = False
+    
+    p = 2^256 - 2^224 + 2^192 + 2^96 - 1
+    F = GF(p)
+    A = F(-3)
+    B = F(0x5ac635d8aa3a93e7b3ebbd55769886bc651d06b0cc53b0f63bce3c3e27d2604b)
+
+    k = 128
+    expander = XMDExpander(dst, hashlib.sha256, k)
+    suite_def = BasicH2CSuiteDef("NIST P-256", F, A, B, expander, hashlib.sha256, 48, GenericSSWU, 1, k, is_ro, dst)
+
+    return BasicH2CSuite(suite_name,suite_def)
+
+def cpace_map_for_nist_p384(dst):
+    suite_name = "P384_XMD:SHA-384_SSWU_NU_"
+    is_ro = False
+    
+    p = 2^384 - 2^128 - 2^96 + 2^32 - 1
+    F = GF(p)
+    A = F(-3)
+    B = F(0xb3312fa7e23ee7e4988e056be3f82d19181d9c6efe8141120314088f5013875ac656398d8a2ed19d2a85c8edd3ec2aef)
+
+    k = 192
+    expander = XMDExpander(dst, hashlib.sha384, k)
+    suite_def = BasicH2CSuiteDef("NIST P-384", F, A, B, expander, hashlib.sha384, 72, GenericSSWU, 1, k, is_ro, dst)
+
+    return BasicH2CSuite(suite_name,suite_def)
+
+def cpace_map_for_nist_p521(dst):
+    suite_name = "P521_XMD:SHA-512_SSWU_NU_"
+    is_ro = False
+    
+    p = 2^521 - 1
+    F = GF(p)
+    A = F(-3)
+    B =  F(0x51953eb9618e1c9a1f929a21a0b68540eea2da725b99b315f3b8b489918ef109e156193951ec7e937b1652c0bd3bb1bf073573df883d2c34f1ef451fd46b503f00)
+
+    k = 256
+    expander = XMDExpander(dst, hashlib.sha512, k)
+    suite_def = BasicH2CSuiteDef("NIST P-521", F, A, B, expander, hashlib.sha512, 98, GenericSSWU, 1, k, is_ro, dst)
+
+    return BasicH2CSuite(suite_name,suite_def)
+
+    
 if __name__ == "__main__":
-    print ("Test vectors for short Weierstrass on P256:");
+    print ("Checking correct implementation of the encode_to_curve map for P256:\n");
+
+    dst_p256_for_hash2curve_testvectors = b"QUUX-V01-CS02-with-P256_XMD:SHA-256_SSWU_NU_"
+
+    print ("Results for P256 from the hash2curve sample code:");
+    point = p256_sswu_nu(b"");
+    x,y = point.xy()
+    tv_output_byte_array(I2OSP(x,32), test_vector_name = "X_b''", max_len = 60) 
+    tv_output_byte_array(I2OSP(y,32), test_vector_name = "Y_b''", max_len = 60)
+
+    print ("Our results for P256 when using the hash to curve dummy dst\n'%s':" % dst_p256_for_hash2curve_testvectors)
+    test_p256_map = cpace_map_for_nist_p256(dst_p256_for_hash2curve_testvectors)
+    print ("Checking correct implementation of the encode_to_curve map for P256\nif we use the DST from the hash2curve test vectors:");
+    point2 = test_p256_map(b"");
+    x2,y2 = point2.xy()
+    tv_output_byte_array(I2OSP(x2,32), test_vector_name = "X2_b''", max_len = 60) 
+    tv_output_byte_array(I2OSP(y2,32), test_vector_name = "Y2_b''", max_len = 60)
+
+    print ("Our results for P256 when using the hash to curve dst 'dummy'")
+    test_p256_map = cpace_map_for_nist_p256(b"dummy")
+    print ("Checking correct implementation of the encode_to_curve map for P256\nif we use DST == 'dummy':");
+    point3 = test_p256_map(b"");
+    x3,y3 = point3.xy()
+    tv_output_byte_array(I2OSP(x3,32), test_vector_name = "X3_b''", max_len = 60) 
+    tv_output_byte_array(I2OSP(y3,32), test_vector_name = "Y3_b''", max_len = 60)
+
+    assert x2 == x
+    assert y2 == y
+
+    assert x3 != x
+    assert y3 != y
+
+
+
+    print ("####\n" * 3)
+    print ("Checking correct implementation of the encode_to_curve map for P384:\n");
+
+    dst_p384_for_hash2curve_testvectors = b"QUUX-V01-CS02-with-P384_XMD:SHA-384_SSWU_NU_"
+
+    print ("Results for P384 from the hash2curve sample code:");
+    point = p384_sswu_nu(b"");
+    x,y = point.xy()
+    tv_output_byte_array(I2OSP(x,48), test_vector_name = "X_b''", max_len = 60) 
+    tv_output_byte_array(I2OSP(y,48), test_vector_name = "Y_b''", max_len = 60)
+
+    print ("Our results for P384 when using the hash to curve dummy dst\n'%s':" % dst_p384_for_hash2curve_testvectors)
+    test_p384_map = cpace_map_for_nist_p384(dst_p384_for_hash2curve_testvectors)
+    print ("Checking correct implementation of the encode_to_curve map for P384\nif we use the DST from the hash2curve test vectors:");
+    point2 = test_p384_map(b"");
+    x2,y2 = point2.xy()
+    tv_output_byte_array(I2OSP(x2,48), test_vector_name = "X2_b''", max_len = 60) 
+    tv_output_byte_array(I2OSP(y2,48), test_vector_name = "Y2_b''", max_len = 60)
+
+    print ("Our results for P384 when using the hash to curve dst 'dummy'")
+    test_p384_map = cpace_map_for_nist_p384(b"dummy")
+    print ("Checking correct implementation of the encode_to_curve map for P256\nif we use DST == 'dummy':");
+    point3 = test_p384_map(b"");
+    x3,y3 = point3.xy()
+    tv_output_byte_array(I2OSP(x3,48), test_vector_name = "X3_b''", max_len = 60) 
+    tv_output_byte_array(I2OSP(y3,48), test_vector_name = "Y3_b''", max_len = 60)
+
+    assert x2 == x
+    assert y2 == y
+
+    assert x3 != x
+    assert y3 != y
+
+
+    print ("####\n" * 3)
+    print ("Checking correct implementation of the encode_to_curve map for P521:\n");
+
+    dst_p521_for_hash2curve_testvectors = b"QUUX-V01-CS02-with-P521_XMD:SHA-512_SSWU_NU_"
+
+    print ("Results for P521 from the hash2curve sample code:");
+    point = p521_sswu_nu(b"");
+    x,y = point.xy()
+    tv_output_byte_array(I2OSP(x,66), test_vector_name = "X_b''", max_len = 60) 
+    tv_output_byte_array(I2OSP(y,66), test_vector_name = "Y_b''", max_len = 60)
+
+    print ("Our results for P5212 when using the hash to curve dummy dst\n'%s':" % dst_p521_for_hash2curve_testvectors)
+    test_p521_map = cpace_map_for_nist_p521(dst_p521_for_hash2curve_testvectors)
+    print ("Checking correct implementation of the encode_to_curve map for P521\nif we use the DST from the hash2curve test vectors:");
+    point2 = test_p521_map(b"");
+    x2,y2 = point2.xy()
+    tv_output_byte_array(I2OSP(x2,66), test_vector_name = "X2_b''", max_len = 60) 
+    tv_output_byte_array(I2OSP(y2,66), test_vector_name = "Y2_b''", max_len = 60)
+
+    print ("Our results for P521 when using the hash to curve dst 'dummy'")
+    test_p521_map = cpace_map_for_nist_p521(b"dummy")
+    print ("Checking correct implementation of the encode_to_curve map for P256\nif we use DST == 'dummy':");
+    point3 = test_p521_map(b"");
+    x3,y3 = point3.xy()
+    tv_output_byte_array(I2OSP(x3,66), test_vector_name = "X3_b''", max_len = 60) 
+    tv_output_byte_array(I2OSP(y3,66), test_vector_name = "Y3_b''", max_len = 60)
+
+    assert x2 == x
+    assert y2 == y
+
+    assert x3 != x
+    assert y3 != y
+
+
     G_P256 = G_ShortWeierstrass(p256_sswu_nu)
     output_weierstrass_invalid_point_test_cases(G_P256)
 
