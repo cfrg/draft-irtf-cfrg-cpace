@@ -244,7 +244,7 @@ For naming cipher suites we use the convention "CPACE-G-H". We RECOMMEND the fol
   This cipher suite comes with the smallest messages on the wire and a low computational cost.
 
 - CPACE-P256\_XMD:SHA-256\_SSWU_NU\_-SHA256.
-This suite instantiates the group environment G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P256\_XMD:SHA-256\_SSWU_NU\_
+This suite instantiates the group environment G as specified in {{CPaceWeierstrass}} using the encode\_to\_curve function P256\_XMD:SHA-256\_SSWU_NU\_
 from {{?RFC9380}} on curve NIST-P256, and hash function SHA-256.
 
 The following RECOMMENDED cipher suites provide higher security margins.
@@ -252,11 +252,11 @@ The following RECOMMENDED cipher suites provide higher security margins.
 - CPACE-X448-SHAKE256. This suite uses the group environment G\_X448 defined in {{CPaceMontgomery}} and SHAKE-256 as hash function.
 
 - CPACE-P384\_XMD:SHA-384\_SSWU_NU\_-SHA384.
-This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P384\_XMD:SHA-384\_SSWU_NU\_
+This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode\_to\_curve function P384\_XMD:SHA-384\_SSWU_NU\_
 from {{?RFC9380}} on curve NIST-P384 with H = SHA-384.
 
 - CPACE-P521\_XMD:SHA-512\_SSWU_NU\_-SHA512.
-This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode_to_curve function P521\_XMD:SHA-384\_SSWU_NU\_
+This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode\_to\_curve function P521\_XMD:SHA-384\_SSWU_NU\_
 from {{?RFC9380}} on curve NIST-P521 with H = SHA-512.
 
 
@@ -577,8 +577,8 @@ that does not decode to a valid group element.
 ## CPace group objects for curves in Short-Weierstrass representation {#CPaceWeierstrass}
 
 The group environment objects G defined in this section for use with Short-Weierstrass curves,
-are parametrized by the choice of an elliptic curve and by choice of a suitable encode\_to\_curve(str) function.
-encode\_to\_curve(str) must map an octet string str to a point on the curve.
+are parametrized by the choice of an elliptic curve and by choice of a suitable encode\_to\_curve function.
+encode\_to\_curve must map an octet string to a point on the curve.
 
 ### Curves and associated functions
 
@@ -611,8 +611,8 @@ In this paragraph we use the following notation for defining the group object G 
 
 - With is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid and returns false otherwise. This is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
 
-- With encode\_to\_curve(str,DST) we denote a selected mapping function from {{?RFC9380}}. I.e. a function that maps
-octet string str to a point on the group using domain separation tag DST. {{?RFC9380}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{?RFC9380}}.
+- With encode\_to\_curve(str,DST) we denote mapping function from {{?RFC9380}}. I.e. a function that maps
+octet string str to a point on the group using the domain separation tag DST. {{?RFC9380}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{?RFC9380}}.
 
 - G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of "CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{?RFC9380}}. E.g. when using the map with the name "P384\_XMD:SHA-384\_SSWU\_NU\_"
 on curve NIST-P384 the resulting value SHALL BE G.DSI = "CPaceP384\_XMD:SHA-384\_SSWU\_NU\_".
