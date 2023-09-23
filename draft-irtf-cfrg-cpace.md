@@ -140,7 +140,7 @@ The CPace design was tailored considering the following main objectives:
 
 - Versatility: CPace supports different application scenarios via versatile input formats, and by supporting applications with and without clear initiator and responder roles.
 
-- Implementation error resistance: CPace avoids common implementation pitfalls already by-design, and it does not offer incentives for insecure speed-ups. For smooth integration into different cryptographic library ecosystems, this document provides a variety of cipher suites.
+- Implementation error resistance: CPace aims at avoiding common implementation pitfalls already by-design, such as avoiding incentives for insecure execution-time speed optimizations. For smooth integration into different cryptographic library ecosystems, this document provides a variety of cipher suites.
 
 - Post-quantum annoyance: CPace comes with mitigations with respect to adversaries that become capable of breaking the discrete logarithm problem on elliptic curves.
 
@@ -190,7 +190,7 @@ For accomodating different application settings, CPace offers the following OPTI
   ADa and ADb can for instance include party identities or protocol
   version information of an application protocol (e.g. to avoid downgrade attacks).
 
-  If party identities are not encoded as part of CI, party identities SHOULD be included in ADa and ADB
+  If party identities are not encoded as part of CI, party identities SHOULD be included in ADa and ADb
    (see {{sec-considerations-ids}}).
   In a setting with clear initiator and responder roles, identity information in ADa
   sent by the initiator can be used by the responder for choosing the right PRS string (respectively password) for this identity.
@@ -256,7 +256,7 @@ This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode\
 from {{?RFC9380}} on curve NIST-P384 with H = SHA-384.
 
 - CPACE-P521\_XMD:SHA-512\_SSWU_NU\_-SHA512.
-This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode\_to\_curve function P521\_XMD:SHA-384\_SSWU_NU\_
+This suite instantiates G as specified in {{CPaceWeierstrass}} using the encode\_to\_curve function P521\_XMD:SHA-512\_SSWU_NU\_
 from {{?RFC9380}} on curve NIST-P521 with H = SHA-512.
 
 
