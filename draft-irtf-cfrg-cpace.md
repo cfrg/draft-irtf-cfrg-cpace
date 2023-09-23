@@ -411,17 +411,16 @@ generating a matching view of the transcript by both parties.
 
 ## Common function for computing generators
 
-The different cipher suites for CPace defined in the upcoming sections share the same method for deterministically combining the individual strings PRS, CI, sid and the domain-separation identifier G.DSI to a generator string that we describe here.
+The different cipher suites for CPace defined in the upcoming sections share the same method for deterministically combining the individual strings PRS, CI, sid and the domain-separation identifier DSI to a generator string that we describe here.
 
-- generator\_string(G.DSI, PRS, CI, sid, s\_in\_bytes) denotes a function that returns the string
-lv\_cat(G.DSI, PRS, zero\_bytes(len\_zpad), CI, sid).
+- generator\_string(DSI, PRS, CI, sid, s\_in\_bytes) denotes a function that returns the string
+lv\_cat(DSI, PRS, zero\_bytes(len\_zpad), CI, sid).
 
 - len\_zpad = MAX(0, s\_in\_bytes - len(prepend\_len(PRS)) - len(prepend\_len(G.DSI)) - 1)
 
-The zero padding of length len\_zpad is designed such that the encoding of G.DSI and PRS together with the zero padding field completely
+The zero padding of length len\_zpad is designed such that the encoding of DSI and PRS together with the zero padding field completely
 fills the first input block (of length s\_in\_bytes) of the hash.
-As a result the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation
-and test vectors are provided in the appendix.)
+As a result for the common case of short PRS the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation and test vectors are provided in the appendix.)
 
 The introduction of a zero-padding within the generator string also helps mitigating attacks of a side-channel adversary that
 analyzes correlations between publicly known variable information with the low-entropy PRS string.
@@ -653,15 +652,13 @@ For Short-Weierstrass curves verification tests according to {{verification}} SH
 
 Any CPace implementation MUST be tested against invalid or weak point attacks.
 Implementation MUST be verified to abort upon conditions where G.scalar\_mult\_vfy functions outputs G.I.
-For testing an implementation it is RECOMMENDED to include weak or invalid points in MSGa and MSGb and introduce this
+For testing an implementation it is RECOMMENDED to include weak or invalid point encodings within MSGa and MSGb and introduce this
 in a protocol run. It SHALL be verified that the abort condition is properly handled.
 
-Moreover any implementation MUST be tested with respect invalid encodings of MSGa and MSGb where the length of the message
-does not match the specified encoding (i.e. where the sum of the prepended length information does not match the actual length
-of the message).
+Moreover any implementation MUST be tested with respect invalid encodings of MSGa and MSGb. E.g. when lv\_cat is used for
+encoding MSGa and MSGb, the sum of the prepended lengths of the fields must be verified to match the actual length of the message.
 
 Corresponding test vectors are given in the appendix for all recommended cipher suites.
-
 
 # Security Considerations {#sec-considerations}
 
@@ -678,15 +675,14 @@ Including and checking party identifiers can fend off such relay attacks.
 ## Network message encoding and hashing protocol transcripts
 
 It is RECOMMENDED to encode the (Ya,ADa) and (Yb,ADb) fields on the network by using network\_encode(Y,AD) = lv\_cat(Y,AD). I.e. we RECOMMEND
-to prepend an encoding of the length of the subfields. As the length
-of the variable-size input strings are prepended this results in a so-called prefix-free encoding of transcript strings, using terminology introduced in {{CDMP05}}. This property allows for disregarding length-extension imperfections that come with the commonly used
-Merkle-Damgard hash function constructions such as SHA256 and SHA512.
+to prepend an encoding of the length of the subfields. Prepending the length of
+of all variable-size input strings results in a so-called prefix-free encoding of transcript strings, using terminology introduced in {{CDMP05}}. This property allows for disregarding length-extension imperfections that come with the commonly used Merkle-Damgard hash function constructions such as SHA256 and SHA512.
 
 Other alternative network encoding formats which prepend an encoding of the length of variable-size data fields in the protocol
 messages are equally suitable.
 This includes, e.g., the type-length-value format specified in the DER encoding standard (X.690) or the protocol message encoding used in the TLS protocol family for the TLS client-hello or server-hello messages.
 
-In case that an application whishes to use another form of network message encoding which is not prefix-free,
+In case that an application uses another form of network message encoding which is not prefix-free,
 the guidance given in {{CDMP05}} SHOULD BE considered (e.g. by replacing hash functions with the HMAC constructions from{{?RFC2104}}).
 
 ## Key derivation {#key-derivation}
