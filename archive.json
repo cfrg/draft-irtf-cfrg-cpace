@@ -1,0 +1,513 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2022-03-24T00:21:18.517112+00:00",
+  "repo": "cfrg/draft-irtf-cfrg-cpace",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "MDU6SXNzdWU4MzU4MDUwMTg=",
+      "title": "Clarify choice of sid & pid",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/1",
+      "state": "CLOSED",
+      "author": "juhesse",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "[ First we should fix the paper ]\r\n\r\n- remove party identifier from password hash (if analysis in paper approves that this is not needed)\r\n- make clear that sid needs to be chosen unique, suggest how to do that (taking into account Ran's email on cfrg list)\r\n",
+      "createdAt": "2021-03-19T10:23:43Z",
+      "updatedAt": "2021-12-04T12:16:45Z",
+      "closedAt": "2021-12-04T12:16:44Z",
+      "comments": [
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Handled in the latest version of the draft.",
+          "createdAt": "2021-12-04T12:16:44Z",
+          "updatedAt": "2021-12-04T12:16:44Z"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOEXTfys5BXq-5",
+      "title": "Encoding vs. hashing to point",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/5",
+      "state": "CLOSED",
+      "author": "bytemare",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The current draft uses hash-to-curve's `encode_to_curve` encoding. Given its non-uniform distribution in G, is there a particular reason to favor it to `hash_to_curve`?",
+      "createdAt": "2022-01-07T22:37:01Z",
+      "updatedAt": "2022-01-09T13:03:19Z",
+      "closedAt": "2022-01-09T13:03:19Z",
+      "comments": [
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes. Firstly, the computational complexity is lower than the one for the uniform hash. \r\nSecondly and more importantly specifying hash_to_curve effectively rules out the use of x-coordinate-only Diffie-Hellman. x-coordinate-only algorithms can provide advantages with respect to side-channel leakage.\r\n\r\nIn my opinion this is also the reason, why also the IEEE standard intentionally only uses the x-coordinate of the Diffie-Hellman result for calculating the shared secret. When requiring hash_to_curve, a single-coordinate DH-Library would be forced to also add full-coordinate point addition (with the risk of additional implementation bugs).\r\n\r\nActually the security guarantees regarding the Diffie-Hellman assumptions for the non-uniform hash are *stronger* than for the uniform hash as the proof simulator for the uniform hash becomes significantly more complex. On the other hand the collision probability bound becomes better for the uniform hash in comparison to the non-uniform hash.\r\n\r\nAs we percieve the possible implementation pitfalls for current x-coordinate-only implementations to be the most relevant topic, we specified the non-uniform hash. (See also the last appendix in the CPace paper).",
+          "createdAt": "2022-01-08T10:16:00Z",
+          "updatedAt": "2022-01-08T10:16:00Z"
+        },
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Would it be OK for you if I copy your feedbacks to a mail to the CFRG list, so that it gets archived there ?",
+          "createdAt": "2022-01-08T10:17:30Z",
+          "updatedAt": "2022-01-08T10:17:30Z"
+        },
+        {
+          "author": "bytemare",
+          "authorAssociation": "NONE",
+          "body": "Of course, go ahead :)\r\n\r\nThank you very much for the details! Do you think it would be beneficial to add this rationale to the document? I think this would be relevant to clarify the difference with Ristretto255 and Decaf448, as their mapping maps two to points and then adds them (i.e. like `hash_to_curve` minus cofactor clearing).",
+          "createdAt": "2022-01-08T14:48:02Z",
+          "updatedAt": "2022-01-08T14:48:02Z"
+        },
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I just pushed a corresponding discussion.",
+          "createdAt": "2022-01-09T13:03:19Z",
+          "updatedAt": "2022-01-09T13:03:19Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOEXTfys5BXsFm",
+      "title": "More context on oCat",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/6",
+      "state": "CLOSED",
+      "author": "bytemare",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The `oCat` function could benefit from some explanation of what the ordering is. The POC uses Python's \">\" operator, which is lexicographical ordering, using the Unicode code point number to order individual characters. This might not be super clear to the reader.\r\n\r\nBesides, what's the reason for that ordering?",
+      "createdAt": "2022-01-07T22:39:57Z",
+      "updatedAt": "2022-01-09T14:14:51Z",
+      "closedAt": "2022-01-09T13:02:40Z",
+      "comments": [
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hello \"bytemare\",\r\n\r\nthank you for your feedback. I agree with you, in that the specification benefits from a more information on the octet string comparison.\r\n\r\nI have just pushed a revised version of the draft to the repo. Specifically, I have replaced the variable names str1,str2 with bytes1, bytes2 in order to make clear that it's not a unicode python string that is compared but a plain octet string.\r\n\r\nSecondly I have added an explicit comparison function implementation (that matches the python spec.).\r\n\r\nI would appreciate your feedback on my suggested fix and would close the issue and upload a new draft revision if you think that the issue is resolved.\r\n\r\nThank you again!",
+          "createdAt": "2022-01-08T10:05:15Z",
+          "updatedAt": "2022-01-08T10:05:15Z"
+        },
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "BTW: \r\n\"Besides, what's the reason for that ordering?\":\r\n\r\nWe considered that lexiographical ordering of bytes would be the simplest straight-forward approach to use if both parties use the symmetric setting where no message-sequencing is enforced. Do you actually have a suggestion on how to implement that even more simple?",
+          "createdAt": "2022-01-08T10:07:27Z",
+          "updatedAt": "2022-01-08T10:07:27Z"
+        },
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "\n \n  \n  \n \n Salut, Daniel,Merci pour regarder le draft de CPace.Je viens de laisser des reponses sur les issues chez github (je ne sais pas, si github t'a aussi deja averti.),Bj\u00f6rn.--Diese Nachricht wurde von meinem Android Mobiltelefon mit WEB.DE Mail gesendet.Am 07.01.22, 23:40 schrieb Daniel Bourdrez ***@***.***>:\n\n   \n  The oCat function could benefit from some explanation of what the ordering is. The POC uses Python's \">\" operator, which is lexicographical ordering, using the Unicode code point number to order individual characters. This might not be super clear to the reader. \n  Besides, what's the reason for that ordering? \n  \u2014Reply to this email directly, view it on GitHub, or unsubscribe.Triage notifications on the go with GitHub Mobile for iOS or Android. You are receiving this because you are subscribed to this thread.Message ID: ***@***.***>",
+          "createdAt": "2022-01-08T10:36:23Z",
+          "updatedAt": "2022-01-08T10:36:23Z"
+        },
+        {
+          "author": "bytemare",
+          "authorAssociation": "NONE",
+          "body": "Vielen Dank Bj\u00f6rn \ud83d\ude03 Ja, auf Github antworten reicht \ud83d\ude09 ",
+          "createdAt": "2022-01-08T15:29:12Z",
+          "updatedAt": "2022-01-08T15:29:12Z"
+        },
+        {
+          "author": "bytemare",
+          "authorAssociation": "NONE",
+          "body": "The new description is abundantly clear, thank you very much! I'm not sure this is worth a new version, though, as this is simply editorial and doesn't change the spec :)\r\n\r\nFor the ordering, the most straightforward concatenation to me is to keep it simple: since oCat is only used in one place and to concatenate msgA and msgB, I think it's more interesting to just keep that order, i.e. `oCat(msgA, msgB) = length_prefixed(msgA) || length_prefixed(msgB)`.\r\nYou mentioned\r\n\r\n> the symmetric setting where no message-sequencing is enforced\r\n\r\nWhen does that happen? Doesn't msgA (initiator) always come before msgB (responder)?",
+          "createdAt": "2022-01-08T15:59:00Z",
+          "updatedAt": "2022-01-08T16:29:40Z"
+        },
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In the symmetric setting there is indeed no ordering. Both, party A or party B might come first. That's for instance the case in the \"magic wormhole\" use case. That's why it's unclear in the symmetric case for both parties which message needs to go first in the transcript. The oCat procedure resolves this issue.--Diese Nachricht wurde von meinem Android Mobiltelefon mit WEB.DE Mail gesendet.",
+          "createdAt": "2022-01-08T17:43:20Z",
+          "updatedAt": "2022-01-08T17:43:20Z"
+        },
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I just pushed corresponding fixes.",
+          "createdAt": "2022-01-09T13:02:40Z",
+          "updatedAt": "2022-01-09T13:02:40Z"
+        },
+        {
+          "author": "bytemare",
+          "authorAssociation": "NONE",
+          "body": "Very clear! I missed the fact there could be different settings. Hence, I agree this method might be the most straightforward way to go with.",
+          "createdAt": "2022-01-09T14:14:51Z",
+          "updatedAt": "2022-01-09T14:14:51Z"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOEXTfys5CAA5S",
+      "title": "Reorder sections",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/7",
+      "state": "OPEN",
+      "author": "bytemare",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "As discussed offline with Bj\u00f6rn, I have some editorial suggestions which, I think, could add some clarity to the document. I'll add issues with each PR to track suggestions and discuss them.\r\n\r\nMy first suggestion is to rethink a bit the section layout. Currently, there's a mix between notation, setup, protocol execution, etc.\r\n\r\nI suggest the following layout for the first sections\r\n\r\n1. Notation\r\n2. Cryptographic Dependencies\r\n3. The CPACE Protocol\r\n     3.1 Protocol flow\r\n     3.2 Setup\r\n     3.3 Inputs\r\n          3.3.1 Session identifier establishment\r\n     3.4 Online Key Exchange\r\n\r\nN.b. that I may be biaised by the redaction of the OPAQUE spec.",
+      "createdAt": "2022-01-18T19:47:00Z",
+      "updatedAt": "2022-01-21T17:38:57Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "juhesse",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Daniel, thank you very much for reviewing the draft, and for your suggestions. We are currently waiting for additional reviews, and then we will resolve all open issues and incorporate comments with the next version of the draft. Again, thanks a lot for the very useful input. Best regards, Julia",
+          "createdAt": "2022-01-21T11:08:01Z",
+          "updatedAt": "2022-01-21T11:08:01Z"
+        },
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Daniel,\n\nregarding possible double work. I think that it might be worth waiting for the other reviews before suggesting changes in form of a PR.\nThank's for your review also from my side.\n",
+          "createdAt": "2022-01-21T12:46:18Z",
+          "updatedAt": "2022-01-21T12:46:18Z"
+        },
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Before starting a restructuring, we might best get a common agreement on the target-audience for the document and how to priorize the respective needs of the different \"personas\".\r\n\r\nFor Issue #8 I have added a suggestion on a definition of the different personas that might be relevant. https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/8. \r\n\r\nMy suggestion would be to focus on the respective needs of \"Archibald\", \"Cody\" and \"Veronica\" and have corresponding main subsections in the I-D which should be possibly rather self-contained.? I.e. I would be willing to accept that we have some level of redundancy that avoids that \"Cody\" and \"Veronica\" will have to jump back and forth reading sections not primarily meant for them in order to find the information that is relevant for her.",
+          "createdAt": "2022-01-21T17:38:57Z",
+          "updatedAt": "2022-01-21T17:38:57Z"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOEXTfys5CACVr",
+      "title": "Scenarios",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/8",
+      "state": "OPEN",
+      "author": "bytemare",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The document mentions different scenarios. A dedicated section enumerating and explaining them would be greatly beneficial to the reader not familiar with them.",
+      "createdAt": "2022-01-18T19:54:45Z",
+      "updatedAt": "2022-01-21T17:32:06Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes I agree.\r\n\r\nI think it might be useful to get a clearer picture on the \"personas\" that might be reading the draft and tailor it for them. Effectively I see the following sketch of \"personas\" that might be relevant:\r\n\r\n\"Archibald\" : Is a software architecture engineer for networking applications. Archibald is looking for suitable protocols for his larger solution and mainly interrested in the required input and outputs of the protocol.\r\n\r\n\"Cody\": Is an SW engineer coding low-level crypto code and would like to verify that his implementation matches the specification.\r\n\r\n\"Veronica\": Is a SW engineer that verifies and checks Cody's work and implements network penetration tests and unit tests.\r\n\r\n\"Thekla\": Is a theory-inclined security researcher considering provable security.\r\n\r\n\r\nI agree that \"Archibald\" might deserve some more attention. \"Thekla\" should be given the reference already in the introduction that the document is not written for her but that she should rather have a look at the CPace paper in the first place.\r\n",
+          "createdAt": "2022-01-21T17:32:06Z",
+          "updatedAt": "2022-01-21T17:32:06Z"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "I_kwDOEXTfys5CADmU",
+      "title": "Message structures",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/9",
+      "state": "OPEN",
+      "author": "bytemare",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The document mentions messages exchanged between the parties. It would be interesting to have their wire format properly described (e.g. like in rfc8446)",
+      "createdAt": "2022-01-18T20:01:19Z",
+      "updatedAt": "2022-01-23T08:41:40Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Actually I believe that specifying the wire format beyond the details that are given here should and needs to be left over to the actual application.\r\n\r\nThe mandatory part should be, in my opinion to include MSGa and MSGb somehow in a possibly existing ecosystem. For instance how TLS incorporates MSGa and MSGb on the wire will reasonably be different from another protocol such as IPSEC.\r\n\r\nHowever, it might be worth drawing more attention to the fact that actually scalar_mult_verify returns an octet string that is expected in exactly this form on the wire included inside MSGa and MSGb.\r\n\r\n\r\n",
+          "createdAt": "2022-01-21T17:21:26Z",
+          "updatedAt": "2022-01-21T17:21:26Z"
+        },
+        {
+          "author": "bytemare",
+          "authorAssociation": "NONE",
+          "body": "> For instance how TLS incorporates MSGa and MSGb on the wire will reasonably be different from another protocol such as IPSEC.\r\n\r\nThat's interesting. Can you elaborate?",
+          "createdAt": "2022-01-23T00:50:55Z",
+          "updatedAt": "2022-01-23T00:50:55Z"
+        },
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "\n \n  \n  \n \n For instance MSGa would be integrated at some spot in the body of a client hello together with several other fields such as the tls nonce and handshake information.The message on the wire will, thus be fairy different as for a ipsec message.The only important aspect is to find MSGa and MSGb somewhere in the frames of the higher level protocol. I see thus no reason to constrain applications in the way they encode the two cpace messages in their protocol flow.--Diese Nachricht wurde von meinem Android Mobiltelefon mit WEB.DE Mail gesendet.Am 23.01.22, 01:51 schrieb Daniel Bourdrez ***@***.***>:\n\n   \n   \n   For instance how TLS incorporates MSGa and MSGb on the wire will reasonably be different from another protocol such as IPSEC. \n   \n  That's interesting. Can you elaborate? \n  \u2014Reply to this email directly, view it on GitHub, or unsubscribe.Triage notifications on the go with GitHub Mobile for iOS or Android. You are receiving this because you commented.Message ID: ***@***.***>",
+          "createdAt": "2022-01-23T08:41:40Z",
+          "updatedAt": "2022-01-23T08:41:40Z"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOEXTfys5CAEf4",
+      "title": "CPace API and functions",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/10",
+      "state": "OPEN",
+      "author": "bytemare",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently, the draft describes the protocols with words in the CPace section and defines some functions at the end of the spec.\r\nI suggest folding them together, and defining the outer CPace API and main functions in the same section as the protocol description, as well as the smaller inner functions.",
+      "createdAt": "2022-01-18T20:05:49Z",
+      "updatedAt": "2022-01-18T20:05:49Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOEXTfys5CAFEd",
+      "title": "Key confirmation",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/11",
+      "state": "OPEN",
+      "author": "bytemare",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The Key Confirmation section mentions a MAC function and a new message. With regard to #9 and #10, it could be interesting to add the message structure extension and MAC function in that section.",
+      "createdAt": "2022-01-18T20:08:31Z",
+      "updatedAt": "2022-01-18T20:08:31Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOEXTfys5CAFd6",
+      "title": "Test vectors",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/12",
+      "state": "OPEN",
+      "author": "bytemare",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently, the test vectors are directly added to the draft document.\r\n\r\nI suggest adding a dedicated .json file with these vectors, allowing implementers to more easily test their code. This would help shorten the feedback loop.",
+      "createdAt": "2022-01-18T20:10:32Z",
+      "updatedAt": "2022-01-23T09:16:13Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hello Daniel,\r\n\r\nI'm a bit confused. Do you suggest to add this .json format to the markdown file, or rather to extend the current test vector generation code such that it outputs, e.g. ANSI-C source code and a .json file?",
+          "createdAt": "2022-01-21T17:09:07Z",
+          "updatedAt": "2022-01-21T17:09:07Z"
+        },
+        {
+          "author": "bytemare",
+          "authorAssociation": "NONE",
+          "body": "No, not to the markdown file, but as an extra file that the current POC would output.\r\n\r\nA use case: when that file is updated, I can drop it as-is in my implementation without touching the code.\r\nHere's an example of such a file: https://github.com/cfrg/draft-irtf-cfrg-voprf/tree/main/poc/vectors",
+          "createdAt": "2022-01-23T00:41:26Z",
+          "updatedAt": "2022-01-23T00:41:26Z"
+        },
+        {
+          "author": "bytemare",
+          "authorAssociation": "NONE",
+          "body": "By the way, it looks like https://github.com/bytemare/draft-irtf-cfrg-cpace/blob/master/poc/test_vectors.sage is not tracked (or at least it's empty).\r\n\r\nI would gladly add the JSON functionality if you could share that file :)",
+          "createdAt": "2022-01-23T01:07:33Z",
+          "updatedAt": "2022-01-23T01:07:33Z"
+        },
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "\n \n  \n  \n \n Hello Daniel,Indeed this file was unused. The code for generating testvectors is called CPace_Tesrvectors.sage.Your contribution of a code change for also adding a json file would be great.There is one function that outputs the markdown for one choice of G and H.For a single Json file you might need some prefix in order to distinguish the test vectors for different cipher suites. I have just added a suggestion.For the place for adding your extension maybe have a look at my last commit.--Diese Nachricht wurde von meinem Android Mobiltelefon mit WEB.DE Mail gesendet.Am 23.01.22, 02:07 schrieb Daniel Bourdrez ***@***.***>:\n\n   \n  By the way, it looks like https://github.com/bytemare/draft-irtf-cfrg-cpace/blob/master/poc/test_vectors.sage is not tracked (or at least it's empty). \n  I would gladly add the JSON functionality if you could share that file :) \n  \u2014Reply to this email directly, view it on GitHub, or unsubscribe.Triage notifications on the go with GitHub Mobile for iOS or Android. You are receiving this because you commented.Message ID: ***@***.***>",
+          "createdAt": "2022-01-23T09:16:12Z",
+          "updatedAt": "2022-01-23T09:16:12Z"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOEXTfys5CRuqR",
+      "title": "Tracker",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/13",
+      "state": "OPEN",
+      "author": "dbasophiawisebanks",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-01-23T18:08:27Z",
+      "updatedAt": "2022-01-23T18:08:27Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOEXTfys5ELf6c",
+      "title": "Error in Ristretto test vectors",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/14",
+      "state": "OPEN",
+      "author": "sgued",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Hi,\r\nWhile trying to implement CPace with Ristretto255, I found that the test vectors are incorrect.\r\n\r\n```\r\n       hash result: (length: 64 bytes)\r\n         a5ce446f63a1ae6d1fee80fa67d0b4004a4b1283ec5549a462bf33a6\r\n         c1ae06a0871f9bf48545f49b2a792eed255ac04f52758c9c60448306\r\n         810b44e986e3dcbb\r\n       encoded generator g: (length: 32 bytes)\r\n         9c5712178570957204d89ac11acbef789dd076992ba361429acb2bc3\r\n         8c71d14c\r\n```\r\n\r\nI get the same hash, but the encoded generator is different. Looking at the Sage code used to generate the test vectors, there seems to be an issue with the way `one-way map` [is used](https://github.com/cfrg/draft-irtf-cfrg-cpace/blob/5ec030ad9f761381ccd41b06efbf1ad13ee7078f/poc/CPace_coffee.sage#L54). I think\r\n\r\n```python\r\nresult = self.point_class.map(string_hash)\r\n```\r\n\r\nshould be replaced by:\r\n\r\n```python\r\nP1 = self.point_class.map(string_hash[:self.field_size_bytes])\r\nP2 = self.point_class.map(string_hash[self.field_size_bytes:])\r\nresult = P1+P2\r\n```\r\n\r\nThis is matches the [ristretto draft](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-ristretto255-decaf448-02#section-4.4.4) and  [the tests](https://github.com/cfrg/draft-irtf-cfrg-voprf/blob/6ec89bf24664fe872e230f57fe2bca26a9ef04a8/poc/ristretto_decaf.sage#L387) in draft-irtf-cfrg-voprf. When recreating the testvectors with this modification I get an encoded generator `5e25411ca1ad7c9debfd0b33ad987a95cefef2d3f15dcc8bd26415a5dfe2e15a` which matches all three ristretto255 one-way map implementations I tested it with (curve25519-dalek, libsodium and  [ristretto255](https://github.com/gtank/ristretto255)).\r\n\r\nI think this also impacts the test vectors for MSGa, MSGb, K and ISK because they depend on the generator, for both ristretto255 and decaf448 because the code is shared.",
+      "createdAt": "2022-02-18T22:25:49Z",
+      "updatedAt": "2022-02-18T22:25:49Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 15,
+      "id": "I_kwDOEXTfys5GEynF",
+      "title": " B.5.1. Test vectors for calculate_generator with group NIST P-256 ",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/issues/15",
+      "state": "OPEN",
+      "author": "abbypan",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "As described  in  https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-10.html#name-domain-separation-requiremen\r\n\r\nu = hash_to_field is impacted by DST.\r\n\r\nhttps://www.ietf.org/archive/id/draft-irtf-cfrg-cpace-05.html \r\n\r\nThe QUUX is a fictional application named at hash_to_curve's draft:\r\n`generator_string: 1e4350616365503235365f584d443a5348412d3235365f535357555f4e555f0850617373776f7264170000000000000000000000000000000000000000000000160a41696e69746961746f720a42726573706f6e6465721034b36454cab2e7842c389f7d88ecb7df \r\n\r\ncount: 1 \r\n\r\nDST: QUUX-V01-CS02-with-P256_XMD:SHA-256_SSWU_NU_\r\n\r\n=> \r\n\r\nu: ea083a886a38ef4d15d95bd6a4b4d65620d3c57e4ed00e09fd2d67d67afd0797\r\n\r\ngenerator g: 04993B46E30BA9CFC3DC2D3AE2CF9733CF03994E74383C4E1B4A92E8D6D466B321C4A642979162FBDE9E1C9A6180BD27A0594491E4C231F51006D0BF7992D07127\r\n`\r\n\r\nIn CPace, we can use CPaceP256_XMD:SHA-256_SSWU_NU_  as DST, the test vector in B.5.1 will become:\r\n`\r\ngenerator_string: 1e4350616365503235365f584d443a5348412d3235365f535357555f4e555f0850617373776f7264170000000000000000000000000000000000000000000000160a41696e69746961746f720a42726573706f6e6465721034b36454cab2e7842c389f7d88ecb7df \r\n\r\ncount: 1 \r\n\r\nDST: CPaceP256_XMD:SHA-256_SSWU_NU_\r\n\r\n=>\r\n\r\nu: bf08bae3b88286f77d23be4a5125d31f561e61d51f515f260ed72b19f2aeacf1\r\n\r\ngenerator g: 046E69443BF0FC9B58CB5EA0A454D24C444E699C32DA9A9FB23AF0C0E1299984AF324099C4C0F7BE13559F84D62FAC7ACC0B3AD47BC99499E3A744D9DEE0E7E4E1\r\n`\r\nAnd update the B.5.2, ..., B.5.7  too.\r\n\r\n",
+      "createdAt": "2022-03-21T16:51:08Z",
+      "updatedAt": "2022-03-22T02:03:08Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 2,
+      "id": "PR_kwDOEXTfys4uCkIx",
+      "title": "Convert to markdown",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/pull/2",
+      "state": "MERGED",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Run `make` to compile the document to various output formats (.txt, .html, etc). Run `make submit` to prep the document for submission.",
+      "createdAt": "2021-11-03T14:18:14Z",
+      "updatedAt": "2021-11-03T16:02:53Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-cpace",
+      "baseRefName": "master",
+      "baseRefOid": "b2a7293285d827ff938afe9d2c0d10641bc040b5",
+      "headRepository": "chris-wood/draft-irtf-cfrg-cpace",
+      "headRefName": "caw/markdown",
+      "headRefOid": "7b16d92c2cf604dcd2cdea409444e02e438dc29b",
+      "closedAt": "2021-11-03T16:02:05Z",
+      "mergedAt": "2021-11-03T16:02:05Z",
+      "mergedBy": "BjoernMHaase",
+      "mergeCommit": {
+        "oid": "fc76027082a26fcf9ec1371ce232180555dfe2b7"
+      },
+      "comments": [
+        {
+          "author": "BjoernMHaase",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thank's chris for helping out. I believe that now working on the text will be much more efficient.",
+          "createdAt": "2021-11-03T16:02:53Z",
+          "updatedAt": "2021-11-03T16:02:53Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOEXTfys4uD88H",
+      "title": "reformatted \"itemize\"-style lists with empty lines before and after",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/pull/3",
+      "state": "MERGED",
+      "author": "BjoernMHaase",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-11-03T20:26:52Z",
+      "updatedAt": "2022-01-08T11:16:53Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-cpace",
+      "baseRefName": "master",
+      "baseRefOid": "cb34a6e07d289a4b5e2251afc54a4db2d402d9d7",
+      "headRepository": "cfrg/draft-irtf-cfrg-cpace",
+      "headRefName": "BjoernMHaase/typesetting_tests",
+      "headRefOid": "50855e479d1a747ceadc8d3a7f3abcca536bf8a2",
+      "closedAt": "2021-11-03T20:27:56Z",
+      "mergedAt": "2021-11-03T20:27:56Z",
+      "mergedBy": "BjoernMHaase",
+      "mergeCommit": {
+        "oid": "ba431eab19a1fbb401522b340078a65e0a3fb325"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOEXTfys4uJHks",
+      "title": "Rework security consideration section.",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cpace/pull/4",
+      "state": "OPEN",
+      "author": "BjoernHaase-EH",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-11-05T11:27:38Z",
+      "updatedAt": "2021-11-05T11:27:39Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-cpace",
+      "baseRefName": "master",
+      "baseRefOid": "93fa6d5454405f171ad99506080383e8d85c40d9",
+      "headRepository": "BjoernHaase-EH/draft-irtf-cfrg-cpace",
+      "headRefName": "patch-1",
+      "headRefOid": "d9482953d5b276d3a43a266d56154e3cf328fa87",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
