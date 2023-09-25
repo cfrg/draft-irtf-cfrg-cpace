@@ -120,8 +120,8 @@ informative:
 This document describes CPace which is a protocol that allows two
 parties that share a low-entropy secret (password) to derive a strong shared key without
 disclosing the secret to offline dictionary attacks.
-The CPace protocol was tailored for constrained devices,
-is compatible with any cyclic group of prime- and non-prime order.
+The CPace protocol was tailored for constrained devices and
+can be used on groups of prime- and non-prime order.
 
 --- middle
 
@@ -334,7 +334,7 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
   individual subcomponents Y and AD.
   For CPace we RECOMMEND to implement network\_encode(Y,AD) as network\_encode(Y,AD) = lv\_cat(Y,AD).
 
-  Other encodings, such as the network encoding used for the client-hello messages in TLS MAY also be used when
+  Other encodings, such as the network encoding used for the client-hello and server-hello messages in TLS MAY also be used when
   following the guidance given in the security consideration section.
 
 - sample\_random\_bytes(n) denotes a function that returns n octets uniformly distributed between 0 and 255.
@@ -392,9 +392,9 @@ B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sa
 Upon reception of MSGa, B checks that MSGa was properly generated conform with the chosen encoding of network messages (notably correct length fields).
 If this parsing fails, then B MUST abort. (Testvectors of examples for invalid messages when using lv\_cat() as network\_encode function for
 CPace are given in the appendix.)
-B then computes K = G.scalar\_mult_vfy(yb,Ya). B MUST abort if K=G.I.
+B then computes K = G.scalar\_mult\_vfy(yb,Ya). B MUST abort if K=G.I.
 Otherwise B returns
-ISK = H.hash(prefix\_free\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|transcript(MSGa, MSGb)). B returns ISK and terminates.
+ISK = H.hash(lv\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|transcript(MSGa, MSGb)). B returns ISK and terminates.
 
 Likewise upon reception of MSGb, A parses MSGb for Yb and ADb and checks for a valid encoding.
 If this parsing fails, then A MUST abort. A then computes K = G.scalar\_mult\_vfy(ya,Yb). A MUST abort if K=G.I.
@@ -403,8 +403,7 @@ ISK = H.hash(lv\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| transcript(MSGa, MSGb)). A
 
 The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view (containing of MSGa and MSGb) of both parties match.
 
-Note that in case of a symmetric protocol execution without clear initiator/responder roles, ordered concatenation needs to be used for
-generating a matching view of the transcript by both parties.
+(Note that in case of a symmetric protocol execution without clear initiator/responder roles, transcript(MSGa, MSGb) needs to be implemented using ordered concatenation for generating a matching view by both parties.)
 
 # Implementation of recommended CPace cipher suites
 
@@ -489,10 +488,11 @@ In the appendix we show sage code that can be used as reference implementation.
 ### Verification tests
 
 For single-coordinate Montgomery ladders on Montgomery curves verification tests according to {{verification}} SHALL
-consider the u coordinate values that encode a low-order point on either, the curve or the quadratic twist.
+check for proper handling of the abort conditions, when a party is receiving u coordinate values that encode a low-order
+point on either, the curve or the quadratic twist.
 
 In addition to that in case of G_X25519 the tests SHALL also verify that the implementation of G.scalar\_mult\_vfy(y,g) produces the
-expected results for non-canonical u coordinate values with bit #255 set, which also encode low-order points.
+expected results for non-canonical u coordinate values with bit #255 set, which may also encode low-order points.
 
 Corresponding test vectors are provided in the appendix.
 
@@ -500,7 +500,8 @@ Corresponding test vectors are provided in the appendix.
 
 In this section we consider the case of CPace using the Ristretto255 and Decaf448 group abstractions {{!I-D.draft-irtf-cfrg-ristretto255-decaf448}}.
 These abstractions define an encode and decode function, group operations using an internal encoding
-and a one-way-map. With the group abstractions there is a distinction between an internal representation
+and an element-derivation function that maps a byte string to a group element.
+With the group abstractions there is a distinction between an internal representation
 of group elements and an external encoding of the same group element. In order to distinguish between these
 different representations, we prepend an underscore before values using the internal representation within this
 section.
@@ -561,7 +562,7 @@ uniform sampling process can provide a larger side-channel attack surface for em
      G for making a
      hash function suitable.
 
-   - Finally the internal representation of the generator \_g is calculated as \_g = one\_way\_map(gen\_str\_hash)
+   - Finally the internal representation of the generator \_g is calculated as \_g = element\_derivation(gen\_str\_hash)
      using the element derivation function from the abstraction.
 
 Note that with these definitions the scalar\_mult function operates on a decoded point \_g and returns an encoded point,
@@ -569,7 +570,9 @@ while the scalar\_mult\_vfy(y,X) function operates on an encoded point X (and al
 
 ### Verification tests
 
-For group abstractions verification tests according to {{verification}} SHALL consider encodings of the neutral element and an octet string
+For group abstractions verification tests according to {{verification}} SHALL
+check for proper handling of the abort conditions, when a party is receiving
+encodings of the neutral element or receives an octet string
 that does not decode to a valid group element.
 
 ## CPace group objects for curves in Short-Weierstrass representation {#CPaceWeierstrass}
@@ -609,7 +612,7 @@ In this paragraph we use the following notation for defining the group object G 
 
 - With is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid and returns false otherwise. This is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
 
-- With encode\_to\_curve(str,DST) we denote mapping function from {{?RFC9380}}. I.e. a function that maps
+- With encode\_to\_curve(str,DST) we denote a mapping function from {{?RFC9380}}. I.e. a function that maps
 octet string str to a point on the group using the domain separation tag DST. {{?RFC9380}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{?RFC9380}}.
 
 - G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of "CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{?RFC9380}}. E.g. when using the map with the name "P384\_XMD:SHA-384\_SSWU\_NU\_"
@@ -645,7 +648,9 @@ It SHALL BE implemented as follows:
 
 ### Verification tests
 
-For Short-Weierstrass curves verification tests according to {{verification}} SHALL consider encodings of the point at infinity and an encoding of a point not on the group.
+For Short-Weierstrass curves verification tests according to {{verification}} SHALL
+check for proper handling of the abort conditions, when a party is receiving an
+encoding of the point at infinity and an encoding of a point not on the group.
 
 # Implementation verification {#verification}
 
@@ -654,8 +659,10 @@ Implementation MUST be verified to abort upon conditions where G.scalar\_mult\_v
 For testing an implementation it is RECOMMENDED to include weak or invalid point encodings within MSGa and MSGb and introduce this
 in a protocol run. It SHALL be verified that the abort condition is properly handled.
 
-Moreover any implementation MUST be tested with respect invalid encodings of MSGa and MSGb. E.g. when lv\_cat is used for
-encoding MSGa and MSGb, the sum of the prepended lengths of the fields must be verified to match the actual length of the message.
+Moreover regarding the network format any implementation MUST be tested with respect invalid encodings of MSGa and MSGb.
+E.g. when lv\_cat is used as network format for encoding MSGa and MSGb,
+the sum of the prepended lengths of the fields must be verified to match the actual length of the message.
+Tests SHALL verify that a party aborts in case that incorrectly encoded messages are recieved.
 
 Corresponding test vectors are given in the appendix for all recommended cipher suites.
 
@@ -781,8 +788,6 @@ No IANA action is required.
 We would like to thank the participants on the CFRG list for comments and advice. Any comment and advice is appreciated.
 
 --- back
-
-
 
 
 
@@ -2896,4 +2901,5 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       00
     G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
+
 
