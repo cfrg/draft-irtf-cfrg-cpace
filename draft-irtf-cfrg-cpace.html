@@ -1927,9 +1927,9 @@ Both A and B use the received messages for deriving a shared intermediate sessio
 <p id="section-6.1-1">Optional parameters and messages are denoted with [].<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.1-2">
 <pre>
-            public: G, H, [CI], [sid]
+                        public: G, H
 
-  A: PRS,[ADa]                    B: PRS,[ADb]
+  A: PRS,[ADa],[CI],[sid]         B: PRS,[ADb],[CI],[sid]
     ---------------------------------------
  compute Ya    |     Ya,[ADa]     |  compute Yb
                |-----------------&gt;|
