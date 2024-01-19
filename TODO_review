@@ -4,49 +4,60 @@ Thomas
 
 Detailed comments below:
 
-1.1: "Section 4 gives an overview over" -> "... an overview of"
+# 1.1: "Section 4 gives an overview over" -> "... an overview of"
+#
+# Fixed
 
-5.1: "the default output size in bytes corresponding to the symmetric
-security level of the hash function": this sentence is a bit confusing
-because hash function security has several meanings that would call for
-distinct output sizes. E.g. SHA-256 and SHAKE-128 are normally said to
-offer "128-bit security" but here H.b_in_bytes is asserted to be 32 for
-these functions. At this point in the document I suppose that what is
-meant is "the minimal output size needed for collision resistance at the
-expected security level" (i.e. you need at least 32 bytes to get 128-bit
-security against collisions).
+# 5.1: "the default output size in bytes corresponding to the symmetric
+# security level of the hash function": this sentence is a bit confusing
+# because hash function security has several meanings that would call for
+# distinct output sizes. E.g. SHA-256 and SHAKE-128 are normally said to
+# offer "128-bit security" but here H.b_in_bytes is asserted to be 32 for
+# these functions. At this point in the document I suppose that what is
+# meant is "the minimal output size needed for collision resistance at the
+# expected security level" (i.e. you need at least 32 bytes to get 128-bit
+# security against collisions).
+#
+# Fixed.
 
-5.1: "input block size": maybe add a remark that this "block size" is
-the same concept as the one used in HMAC (with a reference to RFC 2104).
+# 5.1: "input block size": maybe add a remark that this "block size" is
+# the same concept as the one used in HMAC (with a reference to RFC 2104).
+#
+# Fixed
 
-5.2: "returning a representation of a scalar (referred to as 'scalar'
-from now on)": this feels weirdly circular. The word "scalar" was not
-defined before in the document, and the definition of a scalar should
-not be "it is a scalar". I suppose that the sentence should read as:
-"... returning a representation of an integer (referred to as 'scalar'
-from now on)"
+#5.2: "returning a representation of a scalar (referred to as 'scalar'
+#from now on)": this feels weirdly circular. The word "scalar" was not
+#defined before in the document, and the definition of a scalar should
+#not be "it is a scalar". I suppose that the sentence should read as:
+#"... returning a representation of an integer (referred to as 'scalar'
+#from now on)"
+#
+# Fixed.
 
 5.2: the document uses multiplicative notation for the group operation,
 but the function scalar_mult is called scalar_mult and not pow or exp.
+
 
 5.3: LEB128 and lv_cat are specified in an appendix. Shouldn't that be
 moved to the main document? It feels weird to have these parts in an
 appendix.
 
-5.3: sample_random_bytes(n) is defined as "a function that returns n
-octets uniformly distributed between 0 and 255", which can be understood
-in several ways. It can be "n octets, each selected with a uniform
-distribution between 0 and 255, and the octets are sampled independently
-of each other" (this is what is meant in the document). But it can also
-be read as "n copies of a single value which is sampled uniformly
-between 0 and 255". Or even "n octets out of the 256 that are between 0
-and 255", i.e. implicitly n distinct octets. I suggest making the
-wording a bit more precise, under the assumption that the document
-reader may be an implementer who is not ncessarily a professional
-cryptographer. This matters in particular for random selection of
-values, because bad sampling code will still "work", and thus may evade
-detection through functional testing (there are known precedents, e.g.
-when Sony was generating ECDSA signatures with a fixed secret scalar k).
+# 5.3: sample_random_bytes(n) is defined as "a function that returns n
+# octets uniformly distributed between 0 and 255", which can be understood
+# in several ways. It can be "n octets, each selected with a uniform
+# distribution between 0 and 255, and the octets are sampled independently
+# of each other" (this is what is meant in the document). But it can also
+# be read as "n copies of a single value which is sampled uniformly
+# between 0 and 255". Or even "n octets out of the 256 that are between 0
+# and 255", i.e. implicitly n distinct octets. I suggest making the
+# wording a bit more precise, under the assumption that the document
+# reader may be an implementer who is not ncessarily a professional
+# cryptographer. This matters in particular for random selection of
+# values, because bad sampling code will still "work", and thus may evade
+# detection through functional testing (there are known precedents, e.g.
+# when Sony was generating ECDSA signatures with a fixed secret scalar k).
+#
+# Fixed.
 
 6.1: The diagram shows "[CI]" as being "public", but section 3.1 said
 that CI "may also include confidential information", which means that it

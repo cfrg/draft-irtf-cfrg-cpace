@@ -298,7 +298,7 @@ and functions as detailed below. In this document we use multiplicative notation
 - G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group
 which is derived from input octet strings PRS, CI, and sid and with the help of the hash function H.
 
-- G.sample\_scalar() is a function returning a representation of a scalar (referred to as "scalar" from now on) appropriate as a
+- G.sample\_scalar() is a function returning a representation of an integer (referred to as "scalar" from now on) appropriate as a
 private Diffie-Hellman key for the group.
 
 - G.scalar\_mult(y,g) is a function operating on a scalar
@@ -339,16 +339,16 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
   Other encodings, such as the network encoding used for the client-hello and server-hello messages in TLS MAY also be used when
   following the guidance given in the security consideration section.
 
-- sample\_random\_bytes(n) denotes a function that returns n octets uniformly distributed between 0 and 255.
+- sample\_random\_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from an uniform distribution between 0 and 255.
 
 - zero\_bytes(n) denotes a function that returns n octets with value 0.
 
-- o_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexiographically larger octet
+- o\_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexiographically larger octet
   string first and prepends the two bytes from the octet string "oc" to the result. (Explicit reference code for this function is given in the appendix.)
 
 - transcript(MSGa,MSGb) denotes function outputing a string for the protocol transcript with messages MSGa and MSGb.
   In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
-  not enforced by the protocol flow, transcript(MSGa,MSGb) = o_cat(MSGa,MSGb) SHALL be used.
+  not enforced by the protocol flow, transcript(MSGa,MSGb) = o\_cat(MSGa,MSGb) SHALL be used.
   In the initiator-responder setting transcript(MSGa,MSGb) SHALL BE implemented such that the later message is appended to the
   earlier message, i.e., transcript(MSGa,MSGb) = MSGa\|\|MSGb if MSGa is sent first.
 
