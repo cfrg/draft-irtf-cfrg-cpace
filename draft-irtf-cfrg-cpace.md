@@ -311,7 +311,7 @@ maintaining consistency with the additive group notation used in {{AHH21}} for t
 a scalar y and a group element g. It returns an octet string
 representation of the group element g^y. Additionally, scalar\_mult\_vfy specifies validity conditions for y,g and g^y and outputs G.I in case they are not met.
 
-- G.DSI denotes a domain-separation identifier string which SHALL be uniquely identifying the group environment G.
+- G.DSI denotes a domain-separation identifier octet string which SHALL be uniquely identifying the group environment G.
 
 ## Notation for string operations {#notation-section}
 
@@ -625,7 +625,7 @@ In this paragraph we use the following notation for defining the group object G 
 - With encode\_to\_curve(str,DST) we denote a mapping function from {{?RFC9380}}. I.e. a function that maps
 octet string str to a point on the group using the domain separation tag DST. {{?RFC9380}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{?RFC9380}}.
 
-- G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of b"CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{?RFC9380}}. E.g. when using the map with the name P384\_XMD:SHA-384\_SSWU\_NU\_
+- G.DSI denotes a domain-separation identifier octet string. G.DSI which SHALL BE obtained by the concatenation of b"CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{?RFC9380}}. E.g. when using the map with the name P384\_XMD:SHA-384\_SSWU\_NU\_
 on curve NIST-P384 the resulting value SHALL BE G.DSI = b"CPaceP384\_XMD:SHA-384\_SSWU\_NU\_".
 
 Using the above definitions, the CPace functions required for the group object G are defined as follows.
