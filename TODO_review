@@ -1,0 +1,243 @@
+Here is my review of the CPace draft 10. As a summary: looks like a decent protocol, there are a few presentation issues which are not hard to fix (e.g. there’s no actual specification of how character strings are turned into octet strings); my main reproach would be the use of the “network_encode()” function, which nominally is handled on the transport layer, but is here integrated into the key derivation, which breaches abstraction layers. This is likely to induce interoperability woes and much misery down the line, and I strongly recommend that the spec instead mandates use of the lv_cat() function (which the draft specifies, and uses for test vectors), systematically, regardless of whatever is used at the transport layer to convey the message elements to the other party (and is not even necessarily using octets).
+
+Thomas
+
+Detailed comments below:
+
+1.1: "Section 4 gives an overview over" -> "... an overview of"
+
+5.1: "the default output size in bytes corresponding to the symmetric
+security level of the hash function": this sentence is a bit confusing
+because hash function security has several meanings that would call for
+distinct output sizes. E.g. SHA-256 and SHAKE-128 are normally said to
+offer "128-bit security" but here H.b_in_bytes is asserted to be 32 for
+these functions. At this point in the document I suppose that what is
+meant is "the minimal output size needed for collision resistance at the
+expected security level" (i.e. you need at least 32 bytes to get 128-bit
+security against collisions).
+
+5.1: "input block size": maybe add a remark that this "block size" is
+the same concept as the one used in HMAC (with a reference to RFC 2104).
+
+5.2: "returning a representation of a scalar (referred to as 'scalar'
+from now on)": this feels weirdly circular. The word "scalar" was not
+defined before in the document, and the definition of a scalar should
+not be "it is a scalar". I suppose that the sentence should read as:
+"... returning a representation of an integer (referred to as 'scalar'
+from now on)"
+
+5.2: the document uses multiplicative notation for the group operation,
+but the function scalar_mult is called scalar_mult and not pow or exp.
+
+5.3: LEB128 and lv_cat are specified in an appendix. Shouldn't that be
+moved to the main document? It feels weird to have these parts in an
+appendix.
+
+5.3: sample_random_bytes(n) is defined as "a function that returns n
+octets uniformly distributed between 0 and 255", which can be understood
+in several ways. It can be "n octets, each selected with a uniform
+distribution between 0 and 255, and the octets are sampled independently
+of each other" (this is what is meant in the document). But it can also
+be read as "n copies of a single value which is sampled uniformly
+between 0 and 255". Or even "n octets out of the 256 that are between 0
+and 255", i.e. implicitly n distinct octets. I suggest making the
+wording a bit more precise, under the assumption that the document
+reader may be an implementer who is not ncessarily a professional
+cryptographer. This matters in particular for random selection of
+values, because bad sampling code will still "work", and thus may evade
+detection through functional testing (there are known precedents, e.g.
+when Sony was generating ECDSA signatures with a fixed secret scalar k).
+
+6.1: The diagram shows "[CI]" as being "public", but section 3.1 said
+that CI "may also include confidential information", which means that it
+is not, in fact, public. Maybe what is meant here is that it is a common
+value known to both parties.
+
+6.2: "was properly generated conform with" -> "was properly generated,
+in conformity with" ("conform" is a verb, it cannot be used that way).
+
+6.2: "Otherwise B returns ISK = H.hash(...). B returns ISK and terminates."
+-> the first "returns ISK" should be "computes ISK"
+-> idem for "Otherwise A returns ISK" in the next paragraph
+
+6.2: the specification uses lv_cat on the concatenation of two character
+strings (G.DSI and "_ISK") but lv_cat expects octet strings, so that
+leaves the question of how character strings are converted to octet
+strings. There are several conventions in wide usage; even for strings
+with only ASCII characters, they could be encoded in UTF-8 (one byte per
+character), or some UTF-16 variant (two bytes per character, and in that
+case there is the question of endianness); there could (or could not) be
+a leading BOM; and there may or may not be a terminating NUL character,
+which could be included in the resulting sequence of octets. How
+characters become octets should really be specified somewhere in the
+document (e.g. in section 5.3).
+(See also point below on section 9.4 and strings with a 'b' prefix.)
+
+6.2: if A and B don't agree with each other about whether the protocol
+is in initiator/responder mode or in symmetric mode, then they will
+still get the same key about half of the time. It would feel "cleaner"
+if the actually used convention was explicitly part of the input to
+H.hash() for the key derivation, so that A and B do not end up with the
+same key out of luck if they do not have the same notion of how the
+protocol should go.
+
+6.2: The derived key depends on the used encoding, represented by
+network_encode() and nominally open to whatever the outer layer chooses.
+This is a somewhat leaky abstraction; the outer layer might use a
+representation that is not amenable to easy canonicalization; e.g.
+somebody will certainly try to put that in JSON, or even XML. Should the
+parties somehow order and hash XML data? Some network encodings could
+even be non-binary (e.g. QR codes mostly convey _characters_ in a
+specific subset of ASCII). That looks like a recipe for disaster, or at
+least implementation annoyance. An illustration of the problem is the
+test vectors from appendix B, which (necessarily) must assume a specific
+network_encode() (namely, lv_cat()) in order to provide the ISK value
+that should be obtained.
+
+Also, concatenation of network_encode() values could be ambiguous. As
+5.3 specifies it, network_encode() shall be such that an _individual_
+output of network_encode() can be unambiguously split into its two
+parameters, but that does not necessarily implies that concatenating
+both values is unambiguous. For instance, one could make
+network_encode(Y,AD) as the concatenation of, in that order: the length
+of Y (with LEB128), then Y, then AD. Given network_encode(Y,AD), you can
+recover Y and AD (by decoding the length of Y, which starts the string,
+so you know where the split occurs between Y and AD). But then, if you
+receive network_encode(Ya,ADa)||network_encode(Yb,ADb), you cannot
+always unambiguously recover Ya, ADa, Yb and ADb. This can imply
+unwanted collisions in ISK and that might make security proofs derail a
+bit.
+
+To avoid such issues, I would strongly recommend that the specification
+mandates that key derivation (computations of ISK) always uses
+lv_cat(Y,AD) regardless of how the messages were actually encoded over
+the wire (with network_encode()). This implies that in symmetric mode,
+the lexicographic order would be evaluated over lv_cat(), not
+necessarily what was sent.
+(In fact I think network_encode() should be removed from the document
+altogether; there should be lv_cat(), for key computation purposes, and
+otherwise some text that says "MSGa is the pair of values (Ya, ADa),
+sent to the peer with an unambiguous encoding format appropriate for the
+used transport medium".)
+
+7.1: maybe add a sentence to assert that the zero padding should not be
+considered as a requirement that the length of PRS be limited so that
+DSI||PRS||padding always fits on exactly one block? There are already
+too many systems out there that enforce _maximum_ password lengths at 8
+or 10 characters, for mostly mythical reasons. It might be good to
+preach the good word and state that PRS length should not be
+artificially limited, notwithstanding the zero padding. In particular,
+password managers tend to generate large high-entropy random passwords,
+and limitations on password length are a usual annoyance for them.
+
+7.2.1: "on either, the curve or the quadratic twist" -> the comma looks
+misplaced. With the Oxford comma, it should be "on either the curve, or
+the quadratic twist". Or the comma could be simply removed.
+
+8: "with respect invalid encodings" -> "with respect to invalid encodings"
+
+8: "recieved" -> "received"
+
+9.2: "the length of of all" -> "the length of all"
+
+9.4: "calculate mac_key as as" -> "calculate mac_key as"
+
+9.4: Starting at the point, we begin to see notations like b"CPaceMac",
+i.e. the Python-like syntax for character strings which really are octet
+strings. This should be harmonized with the previous use of character
+strings (G.DSI, "_ISK",...) since these strings also implicitly assumed
+some sort of characters-to-octets conversion.
+
+9.5: "We do so in order to reduce both, complexity of the implementation
+and reducing the attack surface" -> "We do so in order to reduce both the
+complexity of the implementation and the attack surface" (you don't
+reduce the reduction)
+
+9.5: Rejection sampling can be a bit tricky to implement in practice; I
+encountered many implementations that did it in a non-constant-time way,
+thus leaking information on the scalars. Also, it means that the amount
+of randomness and generation time are only probalistically bounded; this
+can be a problem for embedded systems operating under strong latency
+constraints. In RFC 9380, the hash_to_field() process uses instead some
+oversampling (say, 16 extra bytes, beyond the field length) and a
+modular reduction. RFC 9380 is already referenced and used (for the
+computation of the generator); it cannot be used exactly "as is" because
+hash_to_field() targets the base field for the curve, not the scalar
+field, but the method is still applicable here and may be preferable to
+rejection sampling, at least in some usage contexts. Since the output of
+the oversampling+reduction method is not entirely uniform in the
+mathematical sense (it has a bias which is negligible, but it is still
+conceptually there), it is formally forbidden by this specification
+document (section 7.4.3 says "MUST BE uniformly random"; it does not say
+"MUST BE computationally indistinguishable from uniform random
+selection"). It might be worth adding a note in section 9.5 that the
+oversampling+reduction method is actually OK?
+
+9.5: "begning" -> "benign"
+
+9.6: "The cofactor c' of the twist MUST BE EQUAL to or an integer
+multiple of the cofactor c of the curve." -> it's the opposite! The
+cofactor c must be a multiple of c'. The reason is that the x-only
+multiplication routine ensures that the scalar is a multiple of c
+(through the so-called "clamping") and we want in fact the scalar to be
+a multiple of both c and c'.
+
+Speaking of which, this point is missing from section 9.6: the scalar
+must be a multiple of c and c'. The general method is: generate the
+random (uniform) scalar, then multiply it by lcm(c,c') to get the actual
+scalar. X25519 and X448 can get away with "clamping" because the
+subgroup order is close enough to a power of two, the cofactors are
+themselves powers of 2 (c = 8 and c' = 4 for X25519), and X-only
+computations don't distinguish between points P and -P, so that the
+clamped scalars are still unbiased enough. Section 9.6 should state it
+clearly that being a multiple of lcm(c,c') is important and must be
+ensured in some way.
+
+9.6: The text lists as a requirement that the base field order p and the
+group order q must be "close to a power of two". This is not strictly
+necessary; having q close to a power of two only makes scalar sampling
+more convenient (you can avoid rejection sampling, and also
+oversampling, thus not requiring any reduction modulo q). If q is close
+to a power of two, then p will be close too (by Hasse's theorem,
+assuming the cofactor is itself a power of two). But if neither was
+close to a power of two, then everything would still be fine, provided
+that the scalars are sampled properly? This requirement is not really
+about using a Montgomery curve, but about using a simple scalar sampling
+method.
+
+9.6: The section talks about Montgomery curves, but it really applies to
+any elliptic curve, since X-only algorithms work on all curve. It is
+just that Montgomery curves offer _efficient_ (hence tempting) X-only
+algorithms, and, on the other hand, necessarily have a cofactor (which
+is a multiple of 4), thereby requiring some specific extra care related
+to that cofactor.
+
+9.8: About side-channel attacks: while the paragraph points out that
+calculate_generator is the primary target for such attacks, the scalar
+sampling and subsequent operations should be protected from
+side-channels as well. It is noteworthy that for short Weierstraß
+curves, the used reference is IEEE1363, which says nothing about
+side-channels and in particular describes curve operations with
+non-constant-time algorithms.
+
+A.5: pseudocode for Elligator2 uses the field order as parameter 'q'
+which is a bit confusing because it was called 'p' previously in the
+document, while 'q' designated the curve (sub)group order.
+
+B.1.7 (and others): Some nitpicking: "ANSI-C" (or "ANSI C") was the C
+language as standardized by ANSI in 1989, but in 1990 the language was
+handed over to ISO, so that "ANSI-C" cannot formally include anything
+that was made part of the C language after 1990. In particular,
+'uint8_t' was integrated in the language in the 1999 version (in a pure
+"ANSI C" dialect, you would have to use 'unsigned char' instead, and
+there would be the usual question about hardware platforms with bytes
+which are not octets). Thus, these section title should not be saying
+"ANSI-C". I suggest a more neutral wording, e.g. "Corresponding
+initializers in the C language". The complete formal name of the
+language is "ISO/IEC 9899:2017", which is precise but not very
+informative.
+(There is supposed to be a new variant soon, dubbed "C23", but it will
+probably show up only in 2024.)
+
+(I do not have time to check the test vectors right now.)
+
