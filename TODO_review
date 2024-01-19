@@ -34,10 +34,14 @@ Detailed comments below:
 #
 # Fixed.
 
-#5.2: the document uses multiplicative notation for the group operation,
-#but the function scalar_mult is called scalar_mult and not pow or exp.
-#
-# Fixed.
+*5.2: the document uses multiplicative notation for the group operation,
+*but the function scalar_mult is called scalar_mult and not pow or exp.
+*
+* Not fixed but we added a comment that we stick to this mix of multiplicative
+* and additive group operations as we want to keep the draft in line with
+* the notation of the security analysis pape and because most
+* libraries use the notation scalar multiplication on elliptic curve groups
+* and not exponentiation.
 
 5.3: LEB128 and lv_cat are specified in an appendix. Shouldn't that be
 moved to the main document? It feels weird to have these parts in an
