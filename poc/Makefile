@@ -20,7 +20,7 @@ print:
 #	echo $(wildcard ./draft-irtf-cfrg-voprf/poc/*.sage)
 	echo $(PYFILES)
 	
-testvectors: $(PYFILES)
+testvectors: pyfiles $(PYFILES)
 	sage CPace_testvectors.sage
 	
 sagelib/__init__.py:
