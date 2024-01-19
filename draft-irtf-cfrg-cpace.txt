@@ -136,7 +136,7 @@ Table of Contents
        B.1.4.  Test vector for secret points K
        B.1.5.  Test vector for ISK calculation initiator/responder
        B.1.6.  Test vector for ISK calculation parallel execution
-       B.1.7.  Corresponding ANSI-C initializers
+       B.1.7.  Corresponding C programming language initializers
        B.1.8.  Test vectors for G_X25519.scalar_mult_vfy: low order
                points
      B.2.  Test vector for CPace using group X448 and hash SHAKE-256
@@ -146,7 +146,7 @@ Table of Contents
        B.2.4.  Test vector for secret points K
        B.2.5.  Test vector for ISK calculation initiator/responder
        B.2.6.  Test vector for ISK calculation parallel execution
-       B.2.7.  Corresponding ANSI-C initializers
+       B.2.7.  Corresponding C programming language initializers
        B.2.8.  Test vectors for G_X448.scalar_mult_vfy: low order
                points
      B.3.  Test vector for CPace using group ristretto255 and hash
@@ -158,7 +158,7 @@ Table of Contents
        B.3.4.  Test vector for secret points K
        B.3.5.  Test vector for ISK calculation initiator/responder
        B.3.6.  Test vector for ISK calculation parallel execution
-       B.3.7.  Corresponding ANSI-C initializers
+       B.3.7.  Corresponding C programming language initializers
        B.3.8.  Test case for scalar_mult with valid inputs
        B.3.9.  Invalid inputs for scalar_mult_vfy
      B.4.  Test vector for CPace using group decaf448 and hash
@@ -170,7 +170,7 @@ Table of Contents
        B.4.4.  Test vector for secret points K
        B.4.5.  Test vector for ISK calculation initiator/responder
        B.4.6.  Test vector for ISK calculation parallel execution
-       B.4.7.  Corresponding ANSI-C initializers
+       B.4.7.  Corresponding C programming language initializers
        B.4.8.  Test case for scalar_mult with valid inputs
        B.4.9.  Invalid inputs for scalar_mult_vfy
      B.5.  Test vector for CPace using group NIST P-256 and hash
@@ -182,7 +182,7 @@ Table of Contents
        B.5.4.  Test vector for secret points K
        B.5.5.  Test vector for ISK calculation initiator/responder
        B.5.6.  Test vector for ISK calculation parallel execution
-       B.5.7.  Corresponding ANSI-C initializers
+       B.5.7.  Corresponding C programming language initializers
        B.5.8.  Test case for scalar_mult_vfy with correct inputs
        B.5.9.  Invalid inputs for scalar_mult_vfy
      B.6.  Test vector for CPace using group NIST P-384 and hash
@@ -194,7 +194,7 @@ Table of Contents
        B.6.4.  Test vector for secret points K
        B.6.5.  Test vector for ISK calculation initiator/responder
        B.6.6.  Test vector for ISK calculation parallel execution
-       B.6.7.  Corresponding ANSI-C initializers
+       B.6.7.  Corresponding C programming language initializers
        B.6.8.  Test case for scalar_mult_vfy with correct inputs
        B.6.9.  Invalid inputs for scalar_mult_vfy
      B.7.  Test vector for CPace using group NIST P-521 and hash
@@ -206,7 +206,7 @@ Table of Contents
        B.7.4.  Test vector for secret points K
        B.7.5.  Test vector for ISK calculation initiator/responder
        B.7.6.  Test vector for ISK calculation parallel execution
-       B.7.7.  Corresponding ANSI-C initializers
+       B.7.7.  Corresponding C programming language initializers
        B.7.8.  Test case for scalar_mult_vfy with correct inputs
        B.7.9.  Invalid inputs for scalar_mult_vfy
    Authors' Addresses
@@ -1120,7 +1120,7 @@ Table of Contents
 
 9.5.  Sampling of scalars
 
-   For curves over fields F_p where p is a prime close to a power of
+   For curves over fields F_q where q is a prime close to a power of
    two, we recommend sampling scalars as a uniform bit string of length
    field_size_bits.  We do so in order to reduce both, complexity of the
    implementation and the attack surface with respect to side-channels
@@ -1179,15 +1179,26 @@ Table of Contents
 9.8.  Side channel attacks
 
    All state-of-the art methods for realizing constant-time execution
-   SHOULD be used.  In case that side channel attacks are to be
-   considered practical for a given application, it is RECOMMENDED to
-   pay special attention on computing the secret generator
-   G.calculate_generator(PRS,CI,sid).  The most critical substep to
-   consider might be the processing of the first block of the hash that
-   includes the PRS string.  The zero-padding introduced when hashing
-   the sensitive PRS string can be expected to make the task for a side-
-   channel attack somewhat more complex.  Still this feature alone is
-   not sufficient for ruling out power analysis attacks.
+   SHOULD be used.  Special care is RECOMMENDED specifically for
+   elliptic curves in Short-Weierstrass form as important standard
+   documents including [IEEE1363] describe curve operations with non-
+   constant-time algorithms.
+
+   In case that side channel attacks are to be considered practical for
+   a given application, it is RECOMMENDED to pay special attention on
+   computing the secret generator G.calculate_generator(PRS,CI,sid).
+   The most critical substep to consider might be the processing of the
+   first block of the hash that includes the PRS string.  The zero-
+   padding introduced when hashing the sensitive PRS string can be
+   expected to make the task for a side-channel attack somewhat more
+   complex.  Still this feature alone is not sufficient for ruling out
+   power analysis attacks.
+
+   Even though the calculate_generator operation might be considered to
+   form the primary target for side-channel attacks as information on
+   long-term secrets might be exposed, also the subsequent operations on
+   ephemeral values, such as scalar sampling and scalar multiplication
+   should be protected from side-channels.
 
 9.9.  Quantum computers
 
@@ -1610,7 +1621,7 @@ B.1.6.  Test vector for ISK calculation parallel execution
          737478c1350e14619bc0fcd4f028d10e4102dfca39f91fe9b829a503
          ab3e0549bd835edf
 
-B.1.7.  Corresponding ANSI-C initializers
+B.1.7.  Corresponding C programming language initializers
 
    const uint8_t tc_PRS[] = {
     0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -1836,7 +1847,7 @@ B.2.6.  Test vector for ISK calculation parallel execution
          284a32995ea3430b5c47fc7dd771b534ad38eaea5d8c8f97bd548966
          7facfc044615075f
 
-B.2.7.  Corresponding ANSI-C initializers
+B.2.7.  Corresponding C programming language initializers
 
    const uint8_t tc_PRS[] = {
     0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -2094,7 +2105,7 @@ B.3.6.  Test vector for ISK calculation parallel execution
          7bf52cd4df4ca0fe51146492a9ba6dd6a42ac402bc2d60adb4084c81
          758d754d1d81482a
 
-B.3.7.  Corresponding ANSI-C initializers
+B.3.7.  Corresponding C programming language initializers
 
    const uint8_t tc_PRS[] = {
     0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -2311,7 +2322,7 @@ B.4.6.  Test vector for ISK calculation parallel execution
          09844896c72a723b1f1b6da1ab281d759a15624d2bcd0e423b70b8b8
          50a4d0ed126a3026
 
-B.4.7.  Corresponding ANSI-C initializers
+B.4.7.  Corresponding C programming language initializers
 
    const uint8_t tc_PRS[] = {
     0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -2551,7 +2562,7 @@ B.5.6.  Test vector for ISK calculation parallel execution
          5600a5c5bea5e92695dd68bd33d7f7b58326199c27c9b7326d76e4f9
          cb2fb276
 
-B.5.7.  Corresponding ANSI-C initializers
+B.5.7.  Corresponding C programming language initializers
 
    const uint8_t tc_PRS[] = {
     0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -2803,7 +2814,7 @@ B.6.6.  Test vector for ISK calculation parallel execution
          eebf988a62b5c854f0ba32822ab45d23329bd1c78c84a4a0e1b40704
          c99c0a6f6c01c29af5fc6943254b883ce8a65ea1
 
-B.6.7.  Corresponding ANSI-C initializers
+B.6.7.  Corresponding C programming language initializers
 
    const uint8_t tc_PRS[] = {
     0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -3097,7 +3108,7 @@ B.7.6.  Test vector for ISK calculation parallel execution
          277bbc543d943182889154704d80f2b0756ed62da87e0eb4e6d07920
          480100d5e800ca85
 
-B.7.7.  Corresponding ANSI-C initializers
+B.7.7.  Corresponding C programming language initializers
 
    const uint8_t tc_PRS[] = {
     0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
