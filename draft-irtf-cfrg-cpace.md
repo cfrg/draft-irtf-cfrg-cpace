@@ -317,9 +317,18 @@ representation of the group element g^y. Additionally, scalar\_pow\_vfy specifie
 
 - bytes1 \|\| bytes2 and denotes concatenation of octet strings.
 
-- len(S) denotes the number of octets in a string S.
+- len(S) denotes the number of octets in an octet string S.
 
 - nil denotes an empty octet string, i.e., len(nil) = 0.
+
+- In this specification use a quotation marks both for general language use and as syntax for octet strings.
+
+  If a character sequence in between quotation marks is considered to be a defined octet string sequence,
+  we use a preceeding lower-case letter b in front of the quotation marks as, e.g., for the domain separation octet string b"CPace25519".
+  I.e. we use the notation for byte string representation from the python programming language.
+  We do so for clearly
+  separating octet string representations from places where quotation marks are used for the normal language use and for making clear
+  that a single-byte ASCII encoding of the characters shall be used if a leading b"" is prepended to the quotation marks.
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
   the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
@@ -344,7 +353,7 @@ representation of the group element g^y. Additionally, scalar\_pow\_vfy specifie
 - zero\_bytes(n) denotes a function that returns n octets with value 0.
 
 - o\_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexiographically larger octet
-  string first and prepends the two bytes from the octet string "oc" to the result. (Explicit reference code for this function is given in the appendix.)
+  string first and prepends the two bytes from the octet string b"oc" to the result. (Explicit reference code for this function is given in the appendix.)
 
 - transcript(MSGa,MSGb) denotes function outputing a string for the protocol transcript with messages MSGa and MSGb.
   In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
@@ -396,12 +405,12 @@ If this parsing fails, then B MUST abort. (Testvectors of examples for invalid m
 CPace are given in the appendix.)
 B then computes K = G.scalar\_pow\_vfy(yb,Ya). B MUST abort if K=G.I.
 Otherwise B returns
-ISK = H.hash(lv\_cat(G.DSI \|\| "\_ISK", sid, K)\|\|transcript(MSGa, MSGb)). B returns ISK and terminates.
+ISK = H.hash(lv\_cat(G.DSI \|\| b"\_ISK", sid, K)\|\|transcript(MSGa, MSGb)). B returns ISK and terminates.
 
 Likewise upon reception of MSGb, A parses MSGb for Yb and ADb and checks for a valid encoding.
 If this parsing fails, then A MUST abort. A then computes K = G.scalar\_pow\_vfy(ya,Yb). A MUST abort if K=G.I.
 Otherwise A returns
-ISK = H.hash(lv\_cat(G.DSI \|\| "\_ISK", sid, K) \|\| transcript(MSGa, MSGb)). A returns ISK and terminates.
+ISK = H.hash(lv\_cat(G.DSI \|\| b"\_ISK", sid, K) \|\| transcript(MSGa, MSGb)). A returns ISK and terminates.
 
 The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view (containing of MSGa and MSGb) of both parties match.
 
@@ -445,7 +454,7 @@ For the group environment G\_X25519 the following definitions apply:
 
 - G\_X25519.I = zero\_bytes(G.field\_size\_bytes)
 
-- G\_X25519.DSI = "CPace255"
+- G\_X25519.DSI = b"CPace255"
 
 CPace cipher suites using G\_X25519 MUST use a hash function producing at least H.b\_max\_in\_bytes >= 32 bytes of output. It is RECOMMENDED
 to use G\_X25519 in combination with SHA-512.
@@ -462,7 +471,7 @@ For X448 the following definitions apply:
 
 - G\_X448.I = zero\_bytes(G.field\_size\_bytes)
 
-- G\_X448.DSI = "CPace448"
+- G\_X448.DSI = b"CPace448"
 
 CPace cipher suites using G\_X448 MUST use a hash function producing at least H.b\_max\_in\_bytes >= 56 bytes of output. It is RECOMMENDED
 to use G\_X448 in combination with SHAKE-256.
@@ -510,7 +519,7 @@ section.
 
 For Ristretto255 the following definitions apply:
 
-- G\_Ristretto255.DSI = "CPaceRistretto255"
+- G\_Ristretto255.DSI = b"CPaceRistretto255"
 
 - G\_Ristretto255.field\_size\_bytes = 32
 
@@ -523,7 +532,7 @@ It is RECOMMENDED to use G\_Ristretto255 in combination with SHA-512.
 
 For decaf448 the following definitions apply:
 
-- G\_Decaf448.DSI = "CPaceDecaf448"
+- G\_Decaf448.DSI = b"CPaceDecaf448"
 
 - G\_Decaf448.field\_size\_bytes = 56
 
@@ -617,12 +626,12 @@ In this paragraph we use the following notation for defining the group object G 
 - With encode\_to\_curve(str,DST) we denote a mapping function from {{?RFC9380}}. I.e. a function that maps
 octet string str to a point on the group using the domain separation tag DST. {{?RFC9380}} considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within {{?RFC9380}}.
 
-- G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of "CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{?RFC9380}}. E.g. when using the map with the name "P384\_XMD:SHA-384\_SSWU\_NU\_"
-on curve NIST-P384 the resulting value SHALL BE G.DSI = "CPaceP384\_XMD:SHA-384\_SSWU\_NU\_".
+- G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of b"CPace" and the associated name of the cipher suite used for the encode\_to\_curve function as specified in {{?RFC9380}}. E.g. when using the map with the name P384\_XMD:SHA-384\_SSWU\_NU\_
+on curve NIST-P384 the resulting value SHALL BE G.DSI = b"CPaceP384\_XMD:SHA-384\_SSWU\_NU\_".
 
 Using the above definitions, the CPace functions required for the group object G are defined as follows.
 
-- G.DST denotes the domain-separation tag value to use in conjunction with the encode\_to\_curve function from {{?RFC9380}}. G.DST shall be obtained by concatenating G.DSI and "_DST".
+- G.DST denotes the domain-separation tag value to use in conjunction with the encode\_to\_curve function from {{?RFC9380}}. G.DST shall be obtained by concatenating G.DSI and b"_DST".
 
 - G.sample\_scalar() SHALL return a value between 1 and (G.group\_order - 1). The value sampling MUST BE uniformly random. It is RECOMMENDED to use rejection sampling for converting a uniform bitstring to a uniform value between 1 and (G.group\_order - 1).
 
@@ -722,7 +731,7 @@ CMAC {{?RFC4493}} using a key mac\_key derived from ISK.
 
 One suitable option that works also in the parallel setting without message ordering is to proceed as follows.
 
-- First calculate mac\_key as mac\_key = H.hash("CPaceMac" \|\| ISK).
+- First calculate mac\_key as mac\_key = H.hash(b"CPaceMac" \|\| ISK).
 
 - Then let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously. I.e.
   let party A calculate its transmitted authentication code Ta as Ta = MAC(mac\_key, MSGa) and let party B calculate its transmitted
@@ -733,7 +742,7 @@ One suitable option that works also in the parallel setting without message orde
 
 ## Sampling of scalars
 
-For curves over fields F\_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
+For curves over fields F\_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
 with respect to side-channels for embedded systems in hostile environments.
 The effect of non-uniform sampling on security was demonstrated to be begnin in {{AHH21}} for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}.

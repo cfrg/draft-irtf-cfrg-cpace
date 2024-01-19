@@ -173,12 +173,15 @@ the quadratic twist". Or the comma could be simply removed.
 # strings (G.DSI, "_ISK",...) since these strings also implicitly assumed
 # some sort of characters-to-octets conversion.
 #
-# Yes Removed b"" syntax in the text body
+# Yes Consistently used the b"" syntax in the text body where octet strings
+# are meant.
 
-9.5: "We do so in order to reduce both, complexity of the implementation
-and reducing the attack surface" -> "We do so in order to reduce both the
-complexity of the implementation and the attack surface" (you don't
-reduce the reduction)
+# 9.5: "We do so in order to reduce both, complexity of the implementation
+# and reducing the attack surface" -> "We do so in order to reduce both the
+# complexity of the implementation and the attack surface" (you don't
+# reduce the reduction)
+#
+# Fixed.
 
 9.5: Rejection sampling can be a bit tricky to implement in practice; I
 encountered many implementations that did it in a non-constant-time way,
