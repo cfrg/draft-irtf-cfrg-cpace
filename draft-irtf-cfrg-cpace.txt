@@ -479,8 +479,8 @@ Table of Contents
       octet strings PRS, CI, and sid and with the help of the hash
       function H.
 
-   *  G.sample_scalar() is a function returning a representation of a
-      scalar (referred to as "scalar" from now on) appropriate as a
+   *  G.sample_scalar() is a function returning a representation of an
+      integer (referred to as "scalar" from now on) appropriate as a
       private Diffie-Hellman key for the group.
 
    *  G.scalar_mult(y,g) is a function operating on a scalar y and a
@@ -535,8 +535,9 @@ Table of Contents
       following the guidance given in the security consideration
       section.
 
-   *  sample_random_bytes(n) denotes a function that returns n octets
-      uniformly distributed between 0 and 255.
+   *  sample_random_bytes(n) denotes a function that returns n octets,
+      each of which is to be independently sampled from an uniform
+      distribution between 0 and 255.
 
    *  zero_bytes(n) denotes a function that returns n octets with value
       0.

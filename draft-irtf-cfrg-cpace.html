@@ -1812,7 +1812,7 @@ and functions as detailed below. In this document we use multiplicative notation
 which is derived from input octet strings PRS, CI, and sid and with the help of the hash function H.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.2">
-            <p id="section-5.2-2.2.1">G.sample_scalar() is a function returning a representation of a scalar (referred to as "scalar" from now on) appropriate as a
+            <p id="section-5.2-2.2.1">G.sample_scalar() is a function returning a representation of an integer (referred to as "scalar" from now on) appropriate as a
 private Diffie-Hellman key for the group.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.3">
@@ -1871,7 +1871,7 @@ Other encodings, such as the network encoding used for the client-hello and serv
 following the guidance given in the security consideration section.<a href="#section-5.3-1.6.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.7">
-            <p id="section-5.3-1.7.1">sample_random_bytes(n) denotes a function that returns n octets uniformly distributed between 0 and 255.<a href="#section-5.3-1.7.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.7.1">sample_random_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from an uniform distribution between 0 and 255.<a href="#section-5.3-1.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.8">
             <p id="section-5.3-1.8.1">zero_bytes(n) denotes a function that returns n octets with value 0.<a href="#section-5.3-1.8.1" class="pilcrow">¶</a></p>
