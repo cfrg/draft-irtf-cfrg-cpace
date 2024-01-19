@@ -34,12 +34,12 @@ class G_CoffeeEcosystem():
         result = IntegerToByteArray(reduced_value,self.field_size_bytes)        
         return result
 
-    def scalar_mult(self,scalar,encoded_point):
+    def scalar_pow(self,scalar,encoded_point):
         point = self.point_class.decode(encoded_point)
         scalar_as_int = ByteArrayToInteger(scalar, self.field_size_bytes);
         return (point * scalar_as_int).encode()
 
-    def scalar_mult_vfy(self,scalar,encoded_point):
+    def scalar_pow_vfy(self,scalar,encoded_point):
         scalar_as_int = ByteArrayToInteger(scalar, self.field_size_bytes);
         try:
             point = self.point_class.decode(encoded_point);
@@ -83,24 +83,24 @@ class G_CoffeeEcosystem():
 def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
     X = G.calculate_generator( H_SHAKE256(), b"Password", b"CI", b"sid")
     y = G.sample_scalar(deterministic_scalar_for_test_vectors= b"yes we want it")
-    K = G.scalar_mult_vfy(y,X)
-    Z = G.scalar_mult(y,X)
+    K = G.scalar_pow_vfy(y,X)
+    Z = G.scalar_pow(y,X)
     print ("\n### Test case for scalar\\_mult with valid inputs\n", file = file)
     print ("\n~~~", file = file)
     tv_output_byte_array(y, test_vector_name = "s", 
                          line_prefix = "    ", max_len = 60, file = file)
     tv_output_byte_array(X, test_vector_name = "X", 
                          line_prefix = "    ", max_len = 60, file = file)
-    tv_output_byte_array(Z, test_vector_name = "G.scalar_mult(s,decode(X))", 
+    tv_output_byte_array(Z, test_vector_name = "G.scalar_pow(s,decode(X))", 
                          line_prefix = "    ", max_len = 60, file = file)
-    tv_output_byte_array(K, test_vector_name = "G.scalar_mult_vfy(s,X)", 
+    tv_output_byte_array(K, test_vector_name = "G.scalar_pow_vfy(s,X)", 
                          line_prefix = "    ", max_len = 60, file = file)
     print ("~~~\n", file = file)
     
     Y_inv1 = bytearray(X)
     for m in range(16*256):
         Y_inv1[m%16] = (Y_inv1[m%16] - 1) % 256 # choose an incorrect value    
-        K_inv1 = G.scalar_mult_vfy(y,Y_inv1)
+        K_inv1 = G.scalar_pow_vfy(y,Y_inv1)
         if K_inv1 == G.I:
             break
                    
@@ -114,7 +114,7 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
                          line_prefix = "    ", max_len = 60, file = file)   
     tv_output_byte_array(G.I, test_vector_name = "Y_i2 == G.I", 
                          line_prefix = "    ", max_len = 60, file = file)
-    print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I", file = file)
+    print ("    G.scalar_pow_vfy(s,Y_i1) = G.scalar_pow_vfy(s,Y_i2) = G.I", file = file)
     print ("~~~\n", file = file)    
 
        

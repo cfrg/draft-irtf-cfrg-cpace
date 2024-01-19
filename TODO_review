@@ -34,9 +34,10 @@ Detailed comments below:
 #
 # Fixed.
 
-5.2: the document uses multiplicative notation for the group operation,
-but the function scalar_mult is called scalar_mult and not pow or exp.
-
+#5.2: the document uses multiplicative notation for the group operation,
+#but the function scalar_mult is called scalar_mult and not pow or exp.
+#
+# Fixed.
 
 5.3: LEB128 and lv_cat are specified in an appendix. Shouldn't that be
 moved to the main document? It feels weird to have these parts in an
@@ -84,13 +85,17 @@ characters become octets should really be specified somewhere in the
 document (e.g. in section 5.3).
 (See also point below on section 9.4 and strings with a 'b' prefix.)
 
-6.2: if A and B don't agree with each other about whether the protocol
-is in initiator/responder mode or in symmetric mode, then they will
-still get the same key about half of the time. It would feel "cleaner"
-if the actually used convention was explicitly part of the input to
-H.hash() for the key derivation, so that A and B do not end up with the
-same key out of luck if they do not have the same notion of how the
-protocol should go.
+#6.2: if A and B don't agree with each other about whether the protocol
+#is in initiator/responder mode or in symmetric mode, then they will
+#still get the same key about half of the time. It would feel "cleaner"
+#if the actually used convention was explicitly part of the input to
+#H.hash() for the key derivation, so that A and B do not end up with the
+#same key out of luck if they do not have the same notion of how the
+#protocol should go.
+#
+# Fixed by a change of the definition of the o_cat function.
+# Accidental success can now be ruled out as o_cat prepends b"oc".
+
 
 6.2: The derived key depends on the used encoding, represented by
 network_encode() and nominally open to whatever the outer layer chooses.
@@ -145,9 +150,12 @@ and limitations on password length are a usual annoyance for them.
 misplaced. With the Oxford comma, it should be "on either the curve, or
 the quadratic twist". Or the comma could be simply removed.
 
-8: "with respect invalid encodings" -> "with respect to invalid encodings"
-
-8: "recieved" -> "received"
+# 8: "with respect invalid encodings" -> "with respect to invalid encodings"
+#
+# 
+# 8: "recieved" -> "received"
+#
+# Fixed
 
 9.2: "the length of of all" -> "the length of all"
 
