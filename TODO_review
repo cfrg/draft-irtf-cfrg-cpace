@@ -73,9 +73,11 @@ appendix.
 #
 # Fixed.
 
-6.2: "Otherwise B returns ISK = H.hash(...). B returns ISK and terminates."
--> the first "returns ISK" should be "computes ISK"
--> idem for "Otherwise A returns ISK" in the next paragraph
+# 6.2: "Otherwise B returns ISK = H.hash(...). B returns ISK and terminates."
+# -> the first "returns ISK" should be "computes ISK"
+# -> idem for "Otherwise A returns ISK" in the next paragraph
+#
+# Fixed.
 
 6.2: the specification uses lv_cat on the concatenation of two character
 strings (G.DSI and "_ISK") but lv_cat expects octet strings, so that
@@ -141,15 +143,17 @@ otherwise some text that says "MSGa is the pair of values (Ya, ADa),
 sent to the peer with an unambiguous encoding format appropriate for the
 used transport medium".)
 
-7.1: maybe add a sentence to assert that the zero padding should not be
-considered as a requirement that the length of PRS be limited so that
-DSI||PRS||padding always fits on exactly one block? There are already
-too many systems out there that enforce _maximum_ password lengths at 8
-or 10 characters, for mostly mythical reasons. It might be good to
-preach the good word and state that PRS length should not be
-artificially limited, notwithstanding the zero padding. In particular,
-password managers tend to generate large high-entropy random passwords,
-and limitations on password length are a usual annoyance for them.
+# 7.1: maybe add a sentence to assert that the zero padding should not be
+# considered as a requirement that the length of PRS be limited so that
+# DSI||PRS||padding always fits on exactly one block? There are already
+# too many systems out there that enforce _maximum_ password lengths at 8
+# or 10 characters, for mostly mythical reasons. It might be good to
+# preach the good word and state that PRS length should not be
+# artificially limited, notwithstanding the zero padding. In particular,
+# password managers tend to generate large high-entropy random passwords,
+# and limitations on password length are a usual annoyance for them.
+#
+# Fixed. Note was added.
 
 7.2.1: "on either, the curve or the quadratic twist" -> the comma looks
 misplaced. With the Oxford comma, it should be "on either the curve, or

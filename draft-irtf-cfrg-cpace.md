@@ -402,12 +402,12 @@ Upon reception of MSGa, B checks that MSGa was properly generated in conformity 
 If this parsing fails, then B MUST abort. (Testvectors of examples for invalid messages when using lv\_cat() as network\_encode function for
 CPace are given in the appendix.)
 B then computes K = G.scalar\_mult\_vfy(yb,Ya). B MUST abort if K=G.I.
-Otherwise B returns
+Otherwise B calculates
 ISK = H.hash(lv\_cat(G.DSI \|\| b"\_ISK", sid, K)\|\|transcript(MSGa, MSGb)). B returns ISK and terminates.
 
 Likewise upon reception of MSGb, A parses MSGb for Yb and ADb and checks for a valid encoding.
 If this parsing fails, then A MUST abort. A then computes K = G.scalar\_mult\_vfy(ya,Yb). A MUST abort if K=G.I.
-Otherwise A returns
+Otherwise A calculates
 ISK = H.hash(lv\_cat(G.DSI \|\| b"\_ISK", sid, K) \|\| transcript(MSGa, MSGb)). A returns ISK and terminates.
 
 The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view (containing of MSGa and MSGb) of both parties match.
@@ -426,12 +426,13 @@ lv\_cat(DSI, PRS, zero\_bytes(len\_zpad), CI, sid).
 - len\_zpad = MAX(0, s\_in\_bytes - len(prepend\_len(PRS)) - len(prepend\_len(G.DSI)) - 1)
 
 The zero padding of length len\_zpad is designed such that the encoding of DSI and PRS together with the zero padding field completely
-fills the first input block (of length s\_in\_bytes) of the hash.
-As a result for the common case of short PRS the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation and test vectors are provided in the appendix.)
+fills at least the first input block (of length s\_in\_bytes) of the hash.
+As a result for the common case of short PRS the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation and test vectors are provided in the appendix.) 
 
 The introduction of a zero-padding within the generator string also helps mitigating attacks of a side-channel adversary that
-analyzes correlations between publicly known variable information with the low-entropy PRS string.
-Note that the hash of the first block is intentionally made independent of session-specific inputs, such as sid or CI.
+analyzes correlations between publicly known variable information with a short low-entropy PRS string.
+Note that the hash of the first block is intentionally made independent of session-specific inputs, such as sid or CI and that there is no limitation
+regarding the maximum length of the PRS string.
 
 ## CPace group objects G\_X25519 and G\_X448 for single-coordinate Ladders on Montgomery curves {#CPaceMontgomery}
 
