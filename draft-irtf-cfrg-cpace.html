@@ -1255,7 +1255,7 @@ can be used on groups of prime- and non-prime order.<a href="#section-abstract-1
                 <p id="section-toc.1-1.9.2.5.1"><a href="#section-9.5" class="auto internal xref">9.5</a>.  <a href="#name-sampling-of-scalars" class="internal xref">Sampling of scalars</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.6">
-                <p id="section-toc.1-1.9.2.6.1"><a href="#section-9.6" class="auto internal xref">9.6</a>.  <a href="#name-single-coordinate-cpace-on-" class="internal xref">Single-coordinate CPace on Montgomery curves</a></p>
+                <p id="section-toc.1-1.9.2.6.1"><a href="#section-9.6" class="auto internal xref">9.6</a>.  <a href="#name-preconditions-for-using-the" class="internal xref">Preconditions for using the simplified CPace specification from Section 7.2</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.7">
                 <p id="section-toc.1-1.9.2.7.1"><a href="#section-9.7" class="auto internal xref">9.7</a>.  <a href="#name-nonce-values" class="internal xref">Nonce values</a></p>
@@ -2423,12 +2423,12 @@ The effect of non-uniform sampling on security was demonstrated to be begnin in 
 This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in <a href="#CPaceWeierstrass" class="auto internal xref">Section 7.4</a>.<a href="#section-9.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="single-coordinate-cpace-on-montgomery-curves">
+<div id="preconditions-for-using-the-simplified-cpace-specification-from-cpacemontgomery">
 <section id="section-9.6">
-        <h3 id="name-single-coordinate-cpace-on-">
-<a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-single-coordinate-cpace-on-" class="section-name selfRef">Single-coordinate CPace on Montgomery curves</a>
+        <h3 id="name-preconditions-for-using-the">
+<a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-preconditions-for-using-the" class="section-name selfRef">Preconditions for using the simplified CPace specification from <span class="cite xref">Section 7.2</span></a>
         </h3>
-<p id="section-9.6-1">The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in <a href="#CPaceMontgomery" class="auto internal xref">Section 7.2</a> rely on the following properties  <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>:<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.6-1">The security of the algorithms used for the recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in <a href="#CPaceMontgomery" class="auto internal xref">Section 7.2</a> rely on the following properties <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>:<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.6-2.1">
             <p id="section-9.6-2.1.1">The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' * c') with p' prime and c' a cofactor.<a href="#section-9.6-2.1.1" class="pilcrow">¶</a></p>
@@ -2450,7 +2450,7 @@ needs to be changed.<a href="#section-9.6-2.3.1" class="pilcrow">¶</a></p>
             <p id="section-9.6-2.5.1">The implementation of G.scalar_mult_vfy(y,X) MUST map all c low-order points on the curve and all c' low-order points on the twist to G.I.<a href="#section-9.6-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.6-3">Montgomery curves other than the ones recommended here can use the specifications given in <a href="#CPaceMontgomery" class="auto internal xref">Section 7.2</a>, given that the above properties hold.<a href="#section-9.6-3" class="pilcrow">¶</a></p>
+<p id="section-9.6-3">Algorithms for curves other than the ones recommended here can be based on the principles from <a href="#CPaceMontgomery" class="auto internal xref">Section 7.2</a> given that the above properties hold.<a href="#section-9.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="nonce-values">

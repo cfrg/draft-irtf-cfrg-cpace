@@ -103,7 +103,8 @@ Table of Contents
      9.3.  Key derivation
      9.4.  Key confirmation
      9.5.  Sampling of scalars
-     9.6.  Single-coordinate CPace on Montgomery curves
+     9.6.  Preconditions for using the simplified CPace specification
+           from Section 7.2
      9.7.  Nonce values
      9.8.  Side channel attacks
      9.9.  Quantum computers
@@ -1129,10 +1130,12 @@ Table of Contents
    not transfer to most curves in Short-Weierstrass form.  As a result,
    we recommend rejection sampling if G is as in Section 7.4.
 
-9.6.  Single-coordinate CPace on Montgomery curves
+9.6.  Preconditions for using the simplified CPace specification from
+      Section 7.2
 
-   The recommended cipher suites for the Montgomery curves Curve25519
-   and Curve448 in Section 7.2 rely on the following properties [AHH21]:
+   The security of the algorithms used for the recommended cipher suites
+   for the Montgomery curves Curve25519 and Curve448 in Section 7.2 rely
+   on the following properties [AHH21]:
 
    *  The curve has order (p * c) with p prime and c a small cofactor.
       Also the curve's quadratic twist must be of order (p' * c') with
@@ -1158,9 +1161,9 @@ Table of Contents
       order points on the curve and all c' low-order points on the twist
       to G.I.
 
-   Montgomery curves other than the ones recommended here can use the
-   specifications given in Section 7.2, given that the above properties
-   hold.
+   Algorithms for curves other than the ones recommended here can be
+   based on the principles from Section 7.2 given that the above
+   properties hold.
 
 9.7.  Nonce values
 
