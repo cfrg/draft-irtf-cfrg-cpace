@@ -11,13 +11,13 @@ from sagelib.test_vectors_X448_X25519 import *
 
 def CPace_ISK(H, DSI,sid,K,MSGa,MSGb,doPrint = 1, symmetric_execution = False, file = sys.stdout):
     if symmetric_execution:
-        concatenated_msg_transcript = oCAT(MSGa,MSGb)
+        concatenated_msg_transcript = o_cat(MSGa,MSGb)
         if doPrint:
             print ("\n###  Test vector for ISK calculation parallel execution\n", file=file)
             print ("~~~", file=file)
             tv_output_byte_array(concatenated_msg_transcript, test_vector_name = "ordered cat of transcript ", 
                          line_prefix = "    ", max_len = 60, file=file)
-            cat_string = "oCAT(MSGa,MSGb)"
+            cat_string = "o_cat(MSGa,MSGb)"
     else:
         concatenated_msg_transcript = MSGa + MSGb
         if doPrint:
@@ -64,7 +64,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
         Ya = G.scalar_mult(ya, g)
         yb = G.sample_scalar(b"B"+seed)
         Yb = G.scalar_mult(yb, g)
-        if not (oCAT(Ya,Yb) == Ya + Yb):
+        if not (o_cat(Ya,Yb) == Ya + Yb):
             break;
         seed += b" "
                

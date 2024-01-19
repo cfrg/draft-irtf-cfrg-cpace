@@ -96,11 +96,11 @@ def lexiographically_larger(bytes1,bytes2):
             return False;
     return len(bytes1) > len(bytes2)
 
-def oCAT(bytes1,bytes2):
+def o_cat(bytes1,bytes2):
     if lexiographically_larger(bytes1,bytes2):
-        return bytes1 + bytes2
+        return b"oc" + bytes1 + bytes2
     else:
-        return bytes2 + bytes1
+        return b"oc" + bytes2 + bytes1
 
 def zero_bytes(length):
     result = b"\0" * length
@@ -245,17 +245,17 @@ With the above definition of lexiographical ordering ordered concatenation is sp
 
 
     print ("~~~", file = file)
-    print ("  def oCAT(bytes1,bytes2):", file = file);
+    print ("  def o_cat(bytes1,bytes2):", file = file);
     print ("      if lexiographically_larger(bytes1,bytes2):", file = file);
-    print ("          return bytes1 + bytes2", file = file);
+    print ('          return b"oc" + bytes1 + bytes2', file = file);
     print ("      else:", file = file);
-    print ("          return bytes2 + bytes1", file = file);
+    print ('          return b"oc" + bytes2 + bytes1', file = file);
     print ("~~~", file = file)
 
     print ("\n### Test vectors ordered concatenation\n", file = file)
     
     print ("~~~", file = file)
-    print ("  string comparison for oCAT:", file = file)    
+    print ("  string comparison for o_cat:", file = file)    
     print ('    lexiographically_larger(b"\\0", b"\\0\\0") ==', lexiographically_larger(b"\\0", b"\\0\\0"), file = file)
     print ('    lexiographically_larger(b"\\1", b"\\0\\0") ==', lexiographically_larger(b"\1", b"\0\0"), file = file)
     print ('    lexiographically_larger(b"\\0\\0", b"\\0") ==', lexiographically_larger(b"\0\0", b"\0"), file = file)
@@ -264,11 +264,11 @@ With the above definition of lexiographical ordering ordered concatenation is sp
     print ('    lexiographically_larger(b"ABCD", b"BCD") ==', lexiographically_larger(b"ABCD", b"BCD"), file = file)
     print ('', file = file)
 
-    tv_output_byte_array(oCAT(b"ABCD",b"BCD"), 
-                         test_vector_name = 'oCAT(b"ABCD",b"BCD")', 
+    tv_output_byte_array(o_cat(b"ABCD",b"BCD"), 
+                         test_vector_name = 'o_cat(b"ABCD",b"BCD")', 
                          line_prefix = "  ", max_len = 60, file = file);
-    tv_output_byte_array(oCAT(b"BCD",b"ABCDE"), 
-                         test_vector_name = 'oCAT(b"BCD",b"ABCDE")', 
+    tv_output_byte_array(o_cat(b"BCD",b"ABCDE"), 
+                         test_vector_name = 'o_cat(b"BCD",b"ABCDE")', 
                          line_prefix = "  ", max_len = 60, file = file);
     print ("~~~", file = file)
 
