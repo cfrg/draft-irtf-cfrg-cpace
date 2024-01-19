@@ -1817,7 +1817,7 @@ private Diffie-Hellman key for the group.<a href="#section-5.2-2.2.1" class="pil
 </li>
           <li class="normal" id="section-5.2-2.3">
             <p id="section-5.2-2.3.1">G.scalar_mult(y,g) is a function operating on a scalar
-y and a group element g. It returns an octet string representation of the group element Y = g * y.<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
+y and a group element g. It returns an octet string representation of the group element Y = g*y.<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.4">
             <p id="section-5.2-2.4.1">G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
@@ -1825,7 +1825,7 @@ y and a group element g. It returns an octet string representation of the group 
           <li class="normal" id="section-5.2-2.5">
             <p id="section-5.2-2.5.1">G.scalar_mult_vfy(y,g) is a function operating on
 a scalar y and a group element g. It returns an octet string
-representation of the group element g * y. Additionally, scalar_mult_vfy specifies validity conditions for y,g and (g * y) and outputs G.I in case they are not met.<a href="#section-5.2-2.5.1" class="pilcrow">¶</a></p>
+representation of the group element g*y. Additionally, scalar_mult_vfy specifies validity conditions for y,g and g*y and outputs G.I in case they are not met.<a href="#section-5.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.6">
             <p id="section-5.2-2.6.1">G.DSI denotes a domain-separation identifier octet string which SHALL be uniquely identifying the group environment G.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
@@ -1849,7 +1849,7 @@ representation of the group element g * y. Additionally, scalar_mult_vfy specifi
             <p id="section-5.3-1.3.1">nil denotes an empty octet string, i.e., len(nil) = 0.<a href="#section-5.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.4">
-            <p id="section-5.3-1.4.1">In this specification use a quotation marks "" both for general language use (e.g. citations of definitions from other documents) and
+            <p id="section-5.3-1.4.1">This document uses quotation marks "" both for general language (e.g. for citation of notation used in other documents) and
 as syntax for specifying octet strings as in b"CPace25519".<a href="#section-5.3-1.4.1" class="pilcrow">¶</a></p>
 <p id="section-5.3-1.4.2">
 We use a preceeding lower-case letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
@@ -1903,7 +1903,7 @@ earlier message, i.e., transcript(MSGa,MSGb) = MSGa||MSGb if MSGa is sent first.
         <h3 id="name-notation-for-group-operatio">
 <a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-notation-for-group-operatio" class="section-name selfRef">Notation for group operations</a>
         </h3>
-<p id="section-5.4-1">We use additive notation for the group, i.e., X * 2  denotes the element that is obtained by computing X+X, for group element X and group operation +.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.4-1">We use additive notation for the group, i.e., X*2  denotes the element that is obtained by computing X+X, for group element X and group operation +.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2082,7 +2082,7 @@ is not required for CPace and discarded. The appendix repeats the definitions fr
           </h4>
 <p id="section-7.2.1-1">For single-coordinate Montgomery ladders on Montgomery curves verification tests according to <a href="#verification" class="auto internal xref">Section 8</a> SHALL
 check for proper handling of the abort conditions, when a party is receiving u coordinate values that encode a low-order
-point on either, the curve or the quadratic twist.<a href="#section-7.2.1-1" class="pilcrow">¶</a></p>
+point on either the curve or the quadratic twist.<a href="#section-7.2.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-2">In addition to that in case of G_X25519 the tests SHALL also verify that the implementation of G.scalar_mult_vfy(y,g) produces the
 expected results for non-canonical u coordinate values with bit #255 set, which may also encode low-order points.<a href="#section-7.2.1-2" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-3">Corresponding test vectors are provided in the appendix.<a href="#section-7.2.1-3" class="pilcrow">¶</a></p>
@@ -2280,7 +2280,7 @@ on curve NIST-P384 the resulting value SHALL BE G.DSI = b"CPaceP384_XMD:SHA-384_
 </li>
             <li class="normal" id="section-7.4.3-4.4">
               <p id="section-7.4.3-4.4.1">G.scalar_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate_generator method above.
-G.scalar_mult(s,X) SHALL return an encoding of either the point X<em>s or the point X</em>(-s) according to <span>[<a href="#SEC1" class="cite xref">SEC1</a>]</span>. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar_mult(s,X) MAY output either X<em>s or X</em>(-s) as both points X<em>s and X</em>(-s) have the same x-coordinate and
+G.scalar_mult(s,X) SHALL return an encoding of either the point X*s or the point X*(-s) according to <span>[<a href="#SEC1" class="cite xref">SEC1</a>]</span>. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar_mult(s,X) MAY output either X*s or X*(-s) as both points X*s and X*(-s) have the same x-coordinate and
 result in the same Diffie-Hellman shared secrets K.
 (This allows implementations to opt for x-coordinate-only scalar multiplication algorithms.)<a href="#section-7.4.3-4.4.1" class="pilcrow">¶</a></p>
 </li>
@@ -2293,8 +2293,8 @@ It SHALL BE implemented as follows:<a href="#section-7.4.3-4.5.1" class="pilcrow
 </li>
                 <li class="normal" id="section-7.4.3-4.5.2.2">
                   <p id="section-7.4.3-4.5.2.2.1">Otherwise G.scalar_mult_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from <span>[<a href="#IEEE1363" class="cite xref">IEEE1363</a>]</span> (section 7.2.1). I.e. it shall
-either return "error" (in case that X<em>s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
-the big-endian encoding of the x-coordinate of the result point X</em>s according to <span>[<a href="#SEC1" class="cite xref">SEC1</a>]</span>.<a href="#section-7.4.3-4.5.2.2.1" class="pilcrow">¶</a></p>
+either return "error" (in case that X*s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
+the big-endian encoding of the x-coordinate of the result point X*s according to <span>[<a href="#SEC1" class="cite xref">SEC1</a>]</span>.<a href="#section-7.4.3-4.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>

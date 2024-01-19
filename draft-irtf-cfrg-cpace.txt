@@ -485,7 +485,7 @@ Table of Contents
 
    *  G.scalar_mult(y,g) is a function operating on a scalar y and a
       group element g.  It returns an octet string representation of the
-      group element Y = g * y.
+      group element Y = g*y.
 
    *  G.I denotes a unique octet string representation of the neutral
       element of the group.  G.I is used for detecting and signaling
@@ -493,9 +493,9 @@ Table of Contents
 
    *  G.scalar_mult_vfy(y,g) is a function operating on a scalar y and a
       group element g.  It returns an octet string representation of the
-      group element g * y.  Additionally, scalar_mult_vfy specifies
-      validity conditions for y,g and (g * y) and outputs G.I in case
-      they are not met.
+      group element g*y.  Additionally, scalar_mult_vfy specifies
+      validity conditions for y,g and g*y and outputs G.I in case they
+      are not met.
 
    *  G.DSI denotes a domain-separation identifier octet string which
       SHALL be uniquely identifying the group environment G.
@@ -508,9 +508,9 @@ Table of Contents
 
    *  nil denotes an empty octet string, i.e., len(nil) = 0.
 
-   *  In this specification use a quotation marks "" both for general
-      language use (e.g. citations of definitions from other documents)
-      and as syntax for specifying octet strings as in b"CPace25519".
+   *  This document uses quotation marks "" both for general language
+      (e.g. for citation of notation used in other documents) and as
+      syntax for specifying octet strings as in b"CPace25519".
 
       We use a preceeding lower-case letter b"" in front of the
       quotation marks if a character sequence is representing an octet
@@ -572,9 +572,9 @@ Table of Contents
 
 5.4.  Notation for group operations
 
-   We use additive notation for the group, i.e., X * 2 denotes the
-   element that is obtained by computing X+X, for group element X and
-   group operation +.
+   We use additive notation for the group, i.e., X*2 denotes the element
+   that is obtained by computing X+X, for group element X and group
+   operation +.
 
 6.  The CPace protocol
 
@@ -750,7 +750,7 @@ Table of Contents
    For single-coordinate Montgomery ladders on Montgomery curves
    verification tests according to Section 8 SHALL check for proper
    handling of the abort conditions, when a party is receiving u
-   coordinate values that encode a low-order point on either, the curve
+   coordinate values that encode a low-order point on either the curve
    or the quadratic twist.
 
    In addition to that in case of G_X25519 the tests SHALL also verify
@@ -965,11 +965,11 @@ Table of Contents
       an input point X.  The input X shall use the same encoding as
       produced by the G.calculate_generator method above.
       G.scalar_mult(s,X) SHALL return an encoding of either the point
-      X_s or the point X_(-s) according to [SEC1].  Implementations
+      X*s or the point X*(-s) according to [SEC1].  Implementations
       SHOULD use the full-coordinate format without compression, as
       important protocols such as TLS 1.3 removed support for
       compression.  Implementations of scalar_mult(s,X) MAY output
-      either X_s or X_(-s) as both points X_s and X_(-s) have the same
+      either X*s or X*(-s) as both points X*s and X*(-s) have the same
       x-coordinate and result in the same Diffie-Hellman shared secrets
       K.  (This allows implementations to opt for x-coordinate-only
       scalar multiplication algorithms.)
@@ -983,10 +983,10 @@ Table of Contents
 
       -  Otherwise G.scalar_mult_vfy(s,X) SHALL return the result of the
          ECSVDP-DH procedure from [IEEE1363] (section 7.2.1).  I.e. it
-         shall either return "error" (in case that X_s is the neutral
+         shall either return "error" (in case that X*s is the neutral
          element) or the secret shared value "z" (otherwise). "z" SHALL
          be encoded by using the big-endian encoding of the x-coordinate
-         of the result point X_s according to [SEC1].
+         of the result point X*s according to [SEC1].
 
    *  We represent the neutral element G.I by using the representation
       of the "error" result case from [IEEE1363] as used in the
