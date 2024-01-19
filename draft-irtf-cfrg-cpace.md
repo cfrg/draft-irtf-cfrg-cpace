@@ -746,9 +746,9 @@ with respect to side-channels for embedded systems in hostile environments.
 The effect of non-uniform sampling on security was demonstrated to be begnin in {{AHH21}} for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}.
 
-## Single-coordinate CPace on Montgomery curves
+## Preconditions for using the simplified CPace specification from {{CPaceMontgomery}}
 
-The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in {{CPaceMontgomery}} rely on the following properties  {{AHH21}}:
+The security of the algorithms used for the recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in {{CPaceMontgomery}} rely on the following properties {{AHH21}}:
 
 - The curve has order (p \* c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' \* c') with p' prime and c' a cofactor.
 
@@ -764,7 +764,7 @@ The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 
 
 - The implementation of G.scalar\_mult\_vfy(y,X) MUST map all c low-order points on the curve and all c' low-order points on the twist to G.I.
 
-Montgomery curves other than the ones recommended here can use the specifications given in {{CPaceMontgomery}}, given that the above properties hold.
+Algorithms for curves other than the ones recommended here can be based on the principles from {{CPaceMontgomery}} given that the above properties hold.
 
 ## Nonce values
 

@@ -239,6 +239,7 @@ oversampling+reduction method is actually OK?
 #
 # Yes! Thank you. Of course it's just as you wrote and fixed now.
 
+
 #9.6: The text lists as a requirement that the base field order p and the
 #group order q must be "close to a power of two". This is not strictly
 #necessary; having q close to a power of two only makes scalar sampling
@@ -253,12 +254,15 @@ oversampling+reduction method is actually OK?
 #
 # Yes agreed. We have added a clearifying note here.
 
-9.6: The section talks about Montgomery curves, but it really applies to
-any elliptic curve, since X-only algorithms work on all curve. It is
-just that Montgomery curves offer _efficient_ (hence tempting) X-only
-algorithms, and, on the other hand, necessarily have a cofactor (which
-is a multiple of 4), thereby requiring some specific extra care related
-to that cofactor.
+
+# 9.6: The section talks about Montgomery curves, but it really applies to
+# any elliptic curve, since X-only algorithms work on all curve. It is
+# just that Montgomery curves offer _efficient_ (hence tempting) X-only
+# algorithms, and, on the other hand, necessarily have a cofactor (which
+# is a multiple of 4), thereby requiring some specific extra care related
+# to that cofactor.
+#
+# Yes. Changed the name of the subsection and added a corresponding sentence.
 
 9.8: About side-channel attacks: while the paragraph points out that
 calculate_generator is the primary target for such attacks, the scalar
