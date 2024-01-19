@@ -752,9 +752,13 @@ The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 
 
 - The curve has order (p \* c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' \* c') with p' prime and c' a cofactor.
 
-- The cofactor c of the curve MUST BE EQUAL to or an integer multiple of the cofactor c' of the curve's quadratic twist.
+- The cofactor c of the curve MUST BE EQUAL to or an integer multiple of the cofactor c' of the curve's quadratic twist. Also, importantly, the
+  implementation of the scalar\_mult and scalar\_mult\_vfy
+  functions must ensure that all scalars actually used for the group operation are integer multiples of
+  c (e.g. such as asserted by the specification of the decodeScalar functions in {{?RFC7748}}).
 
-- Both field order q and group order p MUST BE close to a power of two along the lines of {{AHH21}}, Appendix E.
+- Both field order q and group order p MUST BE close to a power of two along the lines of {{AHH21}}, Appendix E. Otherwise the simplified scalar sampling specified in {{CPaceMontgomery}}
+  needs to be changed.
 
 - The representation of the neutral element G.I MUST BE the same for both, the curve and its twist.
 

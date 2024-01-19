@@ -225,30 +225,33 @@ oversampling+reduction method is actually OK?
 # (through the so-called "clamping") and we want in fact the scalar to be
 # a multiple of both c and c'.
 #
+#
+# Speaking of which, this point is missing from section 9.6: the scalar
+# must be a multiple of c and c'. The general method is: generate the
+# random (uniform) scalar, then multiply it by lcm(c,c') to get the actual
+# scalar. X25519 and X448 can get away with "clamping" because the
+# subgroup order is close enough to a power of two, the cofactors are
+# themselves powers of 2 (c = 8 and c' = 4 for X25519), and X-only
+# computations don't distinguish between points P and -P, so that the
+# clamped scalars are still unbiased enough. Section 9.6 should state it
+# clearly that being a multiple of lcm(c,c') is important and must be
+# ensured in some way.
+#
 # Yes! Thank you. Of course it's just as you wrote and fixed now.
 
-Speaking of which, this point is missing from section 9.6: the scalar
-must be a multiple of c and c'. The general method is: generate the
-random (uniform) scalar, then multiply it by lcm(c,c') to get the actual
-scalar. X25519 and X448 can get away with "clamping" because the
-subgroup order is close enough to a power of two, the cofactors are
-themselves powers of 2 (c = 8 and c' = 4 for X25519), and X-only
-computations don't distinguish between points P and -P, so that the
-clamped scalars are still unbiased enough. Section 9.6 should state it
-clearly that being a multiple of lcm(c,c') is important and must be
-ensured in some way.
-
-9.6: The text lists as a requirement that the base field order p and the
-group order q must be "close to a power of two". This is not strictly
-necessary; having q close to a power of two only makes scalar sampling
-more convenient (you can avoid rejection sampling, and also
-oversampling, thus not requiring any reduction modulo q). If q is close
-to a power of two, then p will be close too (by Hasse's theorem,
-assuming the cofactor is itself a power of two). But if neither was
-close to a power of two, then everything would still be fine, provided
-that the scalars are sampled properly? This requirement is not really
-about using a Montgomery curve, but about using a simple scalar sampling
-method.
+#9.6: The text lists as a requirement that the base field order p and the
+#group order q must be "close to a power of two". This is not strictly
+#necessary; having q close to a power of two only makes scalar sampling
+#more convenient (you can avoid rejection sampling, and also
+#oversampling, thus not requiring any reduction modulo q). If q is close
+#to a power of two, then p will be close too (by Hasse's theorem,
+#assuming the cofactor is itself a power of two). But if neither was
+#close to a power of two, then everything would still be fine, provided
+#that the scalars are sampled properly? This requirement is not really
+#about using a Montgomery curve, but about using a simple scalar sampling
+#method.
+#
+# Yes agreed. We have added a clearifying note here.
 
 9.6: The section talks about Montgomery curves, but it really applies to
 any elliptic curve, since X-only algorithms work on all curve. It is
