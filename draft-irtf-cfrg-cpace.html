@@ -1829,7 +1829,7 @@ a scalar y and a group element g. It returns an octet string
 representation of the group element g^y. Additionally, scalar_mult_vfy specifies validity conditions for y,g and g^y and outputs G.I in case they are not met.<a href="#section-5.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.6">
-            <p id="section-5.2-2.6.1">G.DSI denotes a domain-separation identifier string which SHALL be uniquely identifying the group environment G.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.6.1">G.DSI denotes a domain-separation identifier octet string which SHALL be uniquely identifying the group environment G.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2255,7 +2255,7 @@ the flexibility to opt for x-coordinate-only scalar multiplication algorithms.)<
 octet string str to a point on the group using the domain separation tag DST. <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span>.<a href="#section-7.4.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.4.3-2.4">
-              <p id="section-7.4.3-2.4.1">G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of b"CPace" and the associated name of the cipher suite used for the encode_to_curve function as specified in <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span>. E.g. when using the map with the name P384_XMD:SHA-384_SSWU_NU_
+              <p id="section-7.4.3-2.4.1">G.DSI denotes a domain-separation identifier octet string. G.DSI which SHALL BE obtained by the concatenation of b"CPace" and the associated name of the cipher suite used for the encode_to_curve function as specified in <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span>. E.g. when using the map with the name P384_XMD:SHA-384_SSWU_NU_
 on curve NIST-P384 the resulting value SHALL BE G.DSI = b"CPaceP384_XMD:SHA-384_SSWU_NU_".<a href="#section-7.4.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>

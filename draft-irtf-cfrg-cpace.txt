@@ -499,8 +499,8 @@ Table of Contents
       validity conditions for y,g and g^y and outputs G.I in case they
       are not met.
 
-   *  G.DSI denotes a domain-separation identifier string which SHALL be
-      uniquely identifying the group environment G.
+   *  G.DSI denotes a domain-separation identifier octet string which
+      SHALL be uniquely identifying the group environment G.
 
 5.3.  Notation for string operations
 
@@ -931,8 +931,8 @@ Table of Contents
       different strategies.  It is RECOMMENDED to use the nonuniform
       variant of the SSWU mapping primitive within [RFC9380].
 
-   *  G.DSI denotes a domain-separation identifier string.  G.DSI which
-      SHALL BE obtained by the concatenation of b"CPace" and the
+   *  G.DSI denotes a domain-separation identifier octet string.  G.DSI
+      which SHALL BE obtained by the concatenation of b"CPace" and the
       associated name of the cipher suite used for the encode_to_curve
       function as specified in [RFC9380].  E.g. when using the map with
       the name P384_XMD:SHA-384_SSWU_NU_ on curve NIST-P384 the
