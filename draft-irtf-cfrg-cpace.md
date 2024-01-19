@@ -293,7 +293,7 @@ while for SHAKE-256 the input block size amounts to 136 bytes before the permuta
 ## Group environment G
 
 The group environment G specifies an elliptic curve group (also denoted G for convenience)  and associated constants
-and functions as detailed below. In this document we use multiplicative notation for the group operation.
+and functions as detailed below. In this document we use additive notation for the group operation.
 
 - G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group
 which is derived from input octet strings PRS, CI, and sid and with the help of the hash function H.
@@ -302,14 +302,13 @@ which is derived from input octet strings PRS, CI, and sid and with the help of 
 private Diffie-Hellman key for the group.
 
 - G.scalar\_mult(y,g) is a function operating on a scalar
-y and a group element g. It returns an octet string representation of the group element Y = g^y. (We use the function name scalar\_mult and not scalar\_pow for
-maintaining consistency with the additive group notation used in {{AHH21}} for the CPace function names.)
+y and a group element g. It returns an octet string representation of the group element Y = g * y.
 
 - G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.
 
 - G.scalar\_mult\_vfy(y,g) is a function operating on
 a scalar y and a group element g. It returns an octet string
-representation of the group element g^y. Additionally, scalar\_mult\_vfy specifies validity conditions for y,g and g^y and outputs G.I in case they are not met.
+representation of the group element g * y. Additionally, scalar\_mult\_vfy specifies validity conditions for y,g and (g * y) and outputs G.I in case they are not met.
 
 - G.DSI denotes a domain-separation identifier octet string which SHALL be uniquely identifying the group environment G.
 
@@ -362,7 +361,7 @@ representation of the group element g^y. Additionally, scalar\_mult\_vfy specifi
 
 ## Notation for group operations
 
-We use multiplicative notation for the group, i.e., X^2  denotes the element that is obtained by computing X*X, for group element X and group operation *.
+We use additive notation for the group, i.e., X * 2  denotes the element that is obtained by computing X+X, for group element X and group operation +.
 
 # The CPace protocol {#protocol-section}
 
@@ -557,11 +556,11 @@ For both abstractions the following definitions apply:
 -  Alternatively, if G.sample\_scalar() is not implemented according to the above recommendation, it SHALL be implemented using uniform sampling between 1 and (G.group\_order - 1). Note that the more complex
 uniform sampling process can provide a larger side-channel attack surface for embedded systems in hostile environments.
 
-- G.scalar\_mult(y,\_g) SHALL operate on a scalar y and a group element \_g in the internal representation of the group abstraction environment. It returns the value Y = encode((\_g)^y), i.e. it returns a value using the public encoding.
+- G.scalar\_mult(y,\_g) SHALL operate on a scalar y and a group element \_g in the internal representation of the group abstraction environment. It returns the value Y = encode((\_g) * y), i.e. it returns a value using the public encoding.
 
 - G.I = is the public encoding representation of the identity element.
 
-- G.scalar\_mult\_vfy(y,X) operates on a value using the public encoding and a scalar and is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X)^y ).
+- G.scalar\_mult\_vfy(y,X) operates on a value using the public encoding and a scalar and is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X) * y ).
 
 - The G.calculate\_generator(H, PRS,sid,CI) function SHALL return a decoded point and SHALL BE implemented as follows.
 
@@ -641,7 +640,7 @@ Using the above definitions, the CPace functions required for the group object G
    - Then the output of a call to encode\_to\_curve(gen\_str, G.DST) is returned, using the selected suite from {{?RFC9380}}.
 
 - G.scalar\_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
-G.scalar\_mult(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to {{SEC1}}. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar\_mult(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and
+G.scalar\_mult(s,X) SHALL return an encoding of either the point X*s or the point X*(-s) according to {{SEC1}}. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar\_mult(s,X) MAY output either X*s or X*(-s) as both points X*s and X*(-s) have the same x-coordinate and
 result in the same Diffie-Hellman shared secrets K.
 (This allows implementations to opt for x-coordinate-only scalar multiplication algorithms.)
 
@@ -651,8 +650,8 @@ It SHALL BE implemented as follows:
    - If is\_valid(X) = False then G.scalar\_mult\_vfy(s,X) SHALL return "error" as specified in {{IEEE1363}} A.16.10 and 7.2.1.
 
    - Otherwise G.scalar\_mult\_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from {{IEEE1363}} (section 7.2.1). I.e. it shall
-     either return "error" (in case that X^s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
-     the big-endian encoding of the x-coordinate of the result point X^s according to {{SEC1}}.
+     either return "error" (in case that X*s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
+     the big-endian encoding of the x-coordinate of the result point X*s according to {{SEC1}}.
 
 - We represent the neutral element G.I by using the representation of the "error" result case from {{IEEE1363}} as used in the G.scalar\_mult\_vfy method above.
 
@@ -798,6 +797,9 @@ No IANA action is required.
 We would like to thank the participants on the CFRG list for comments and advice. Any comment and advice is appreciated.
 
 --- back
+
+
+
 
 
 
@@ -2072,7 +2074,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       04b75c1bcda84a0f324aabb7f25cf853ed7fb327c33f23db6aeb320d
       81df014649c2ac691925fce0eceac7dbc75eca25e6a1558066a610b4
       021488279e3b989d52
-    Alternative correct value for Ya: g^(-ya):
+    Alternative correct value for Ya: g*(-ya):
     (length: 65 bytes)
       04b75c1bcda84a0f324aabb7f25cf853ed7fb327c33f23db6aeb320d
       81df0146493d5396e5da031f1415382438a135da195eaa7f9a59ef4b
@@ -2096,7 +2098,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       04bb2783a57337e74671f76452876b27839c0ea9e044e3aadaad2e64
       777ed27a90e80a99438e2f1c072462f2895c6dadf1b43867b92ffb65
       562b78c793947dcada
-    Alternative correct value for Yb: g^(-yb):
+    Alternative correct value for Yb: g*(-yb):
     (length: 65 bytes)
       04bb2783a57337e74671f76452876b27839c0ea9e044e3aadaad2e64
       777ed27a9017f566bb71d0e3f9db9d0d76a392520e4bc79847d0049a
@@ -2332,7 +2334,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       971718cab474fa74c6a44b80a46468699280dd5d271252f3b9c05acc
       93dbd8b939152987cd5a8d1fb7b70c45512c993ec5456cc10f1797c9
       2fac2f1b7e363478a9ecd79e74
-    Alternative correct value for Ya: g^(-ya):
+    Alternative correct value for Ya: g*(-ya):
     (length: 97 bytes)
       04fd864c1a81f0e657a8a3f8e4ebafa421da712b6fb98f0abfa139ff
       971718cab474fa74c6a44b80a46468699280dd5d27edad0c463fa533
@@ -2359,7 +2361,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       f6954ddb57837752a4effa4a5b44627a64b62a2db9d3c9c031c4ad37
       dbe7bf180d6bcba54feb4e84eeb876ebfa64a85d4c5ac2063dc05ba7
       26810824c41e1893faa9373a84
-    Alternative correct value for Yb: g^(-yb):
+    Alternative correct value for Yb: g*(-yb):
     (length: 97 bytes)
       04822b9874755c51adfdf624101eb4dc12a8ae433750be4fd6f4f7eb
       f6954ddb57837752a4effa4a5b44627a64b62a2db92c363fce3b52c8
@@ -2626,7 +2628,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       286c068792ab7ca60ff6ea00919c41c00e789dabc2f42fd94178d7bf
       d8fbe1aff1c1854b3dafb3a0ea13f5a5fc1703860f022bd271740469
       bb322b07c179c7c225499b31727c0ea3ee65578634
-    Alternative correct value for Ya: g^(-ya):
+    Alternative correct value for Ya: g*(-ya):
     (length: 133 bytes)
       04003701ec35caafa3dd416cad29ba1774551f9d2ed89f7e1065706d
       ca230b86a11d02e4cee8b3fde64380d4a05983167d8a2414bc594ad5
@@ -2657,7 +2659,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       82cc1a78de91f3a4e30b5d01a085b453f22bf3dc947386b042e5fc4e
       c691fee47fe3c3ec6408c22a17c26bc0ab73940910614d6fcee32daf
       bfd2d340d6e382d71b1fc763d7cec502fbcbcf93b4
-    Alternative correct value for Yb: g^(-yb):
+    Alternative correct value for Yb: g*(-yb):
     (length: 133 bytes)
       0400f5cb68bf0117bd1a65412a2bc800af92013f9969cf546e1ea6d3
       bcf08643fdc482130aec1eecc33a2b5f33600be51295047fa3399fa2
@@ -2919,4 +2921,8 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       00
     G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
+
+
+
+
 
