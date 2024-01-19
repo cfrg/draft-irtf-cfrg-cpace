@@ -329,7 +329,7 @@ representation of the group element g^y. Additionally, scalar\_pow\_vfy specifie
   We do so for clearly
   distinguishing octet string representations from places where quotation marks correspond to normal language use (e.g. for citations of definitions from other standard documents). 
   We use this convention also
-  for making clear that a single-byte ASCII encoding of the characters is meant if a leading b"" is prepended to the quotation marks.
+  for making clear that a single-byte ASCII encoding of the characters is to be used if a leading b"" is prepended to the quotation marks.
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
   the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
