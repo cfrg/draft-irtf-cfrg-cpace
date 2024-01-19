@@ -246,7 +246,7 @@ Table of Contents
       using CPace, and discusses in particular which application-level
       aspects are relevant for CPace's security.
 
-   *  Section 4 gives an overview over the recommended cipher suites for
+   *  Section 4 gives an overview of the recommended cipher suites for
       CPace which were optimized for different types of cryptographic
       library ecosystems.
 
@@ -443,8 +443,8 @@ Table of Contents
    *  H.hash(m,l) is a function that operates on an input octet string m
       and returns a hashing result of l octets.
 
-   *  H.b_in_bytes denotes the default output size in bytes
-      corresponding to the symmetric security level of the hash
+   *  H.b_in_bytes denotes the minimum output size in bytes for
+      collision resistance for the security level target of the hash
       function.  E.g.  H.b_in_bytes = 64 for SHA-512 and SHAKE-256 and
       H.b_in_bytes = 32 for SHA-256 and SHAKE-128.  We use the notation
       H.hash(m) = H.hash(m, H.b_in_bytes) and let the hash operation
@@ -456,9 +456,15 @@ Table of Contents
       as SHA-256, this is the same as H.b_in_bytes, while there is no
       such limit for hash functions such as SHAKE-256.
 
-   *  H.s_in_bytes denotes the _input block size_ used by H.  For
-      instance, for SHA-512 the input block size s_in_bytes is 128,
-      while for SHAKE-256 the input block size amounts to 136 bytes.
+   *  H.s_in_bytes denotes the _input block size_ used by H.  This
+      number denotes the maximum number of bytes that can be processed
+      in a single block before applying the compression function or
+      permutation becomes necessary.  (See also [RFC2104] for the
+      corresponding block size concepts).  For instance, for SHA-512 the
+      input block size s_in_bytes is 128 as the compression function can
+      process up to 128 bytes, while for SHAKE-256 the input block size
+      amounts to 136 bytes before the permutation of the sponge state
+      needs to be applied.
 
 5.2.  Group environment G
 
