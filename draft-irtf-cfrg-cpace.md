@@ -776,13 +776,21 @@ If CPace is used in a concurrent system, it is RECOMMENDED that a unique sid is 
 ## Side channel attacks
 
 All state-of-the art methods for realizing constant-time execution SHOULD be used.
+Special care is RECOMMENDED specifically for elliptic curves in Short-Weierstrass form
+as important standard documents including {{IEEEE1363}} describe curve operations with
+non-constant-time algorithms.
+
+
 In case that side channel attacks are to be considered practical for a given application, it is RECOMMENDED to pay special
-attention on computing
-the secret generator G.calculate_generator(PRS,CI,sid).
+attention on computing the secret generator G.calculate_generator(PRS,CI,sid).
 The most critical substep to consider might be the processing of the first block of the hash that includes
 the PRS string.
 The zero-padding introduced when hashing the sensitive PRS string can be expected to make
 the task for a side-channel attack somewhat more complex. Still this feature alone is not sufficient for ruling out power analysis attacks.
+
+Even though the calculate_generator operation might be considered to form the primary target for side-channel attacks as information on long-term secrets might be exposed,
+also the subsequent operations on ephemeral values, such as scalar
+sampling and scalar multiplication should be protected from side-channels.
 
 ## Quantum computers
 

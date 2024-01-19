@@ -264,13 +264,15 @@ oversampling+reduction method is actually OK?
 #
 # Yes. Changed the name of the subsection and added a corresponding sentence.
 
-9.8: About side-channel attacks: while the paragraph points out that
-calculate_generator is the primary target for such attacks, the scalar
-sampling and subsequent operations should be protected from
-side-channels as well. It is noteworthy that for short Weierstraß
-curves, the used reference is IEEE1363, which says nothing about
-side-channels and in particular describes curve operations with
-non-constant-time algorithms.
+#9.8: About side-channel attacks: while the paragraph points out that
+#calculate_generator is the primary target for such attacks, the scalar
+#sampling and subsequent operations should be protected from
+#side-channels as well. It is noteworthy that for short Weierstraß
+#curves, the used reference is IEEE1363, which says nothing about
+#side-channels and in particular describes curve operations with
+#non-constant-time algorithms.
+#
+# Yes. Changed the wording. Thank you!
 
 A.5: pseudocode for Elligator2 uses the field order as parameter 'q'
 which is a bit confusing because it was called 'p' previously in the
