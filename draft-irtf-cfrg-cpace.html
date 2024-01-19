@@ -1943,7 +1943,7 @@ Both A and B use the received messages for deriving a shared intermediate sessio
 <p id="section-6.2-1">A computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar ya = G.sample_scalar() and group element Ya = G.scalar_pow (ya,g). A then transmits MSGa = network_encode(Ya, ADa) with
 optional associated data ADa to B.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <p id="section-6.2-2">B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample_scalar() and group element Yb = G.scalar_pow(yb,g). B sends MSGb = network_encode(Yb, ADb) with optional associated data ADb to A.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
-<p id="section-6.2-3">Upon reception of MSGa, B checks that MSGa was properly generated conform with the chosen encoding of network messages (notably correct length fields).
+<p id="section-6.2-3">Upon reception of MSGa, B checks that MSGa was properly generated in conformity with the chosen encoding of network messages (notably correct length fields).
 If this parsing fails, then B MUST abort. (Testvectors of examples for invalid messages when using lv_cat() as network_encode function for
 CPace are given in the appendix.)
 B then computes K = G.scalar_pow_vfy(yb,Ya). B MUST abort if K=G.I.
@@ -2350,7 +2350,7 @@ Including and checking party identifiers can fend off such relay attacks.<a href
         </h3>
 <p id="section-9.2-1">It is RECOMMENDED to encode the (Ya,ADa) and (Yb,ADb) fields on the network by using network_encode(Y,AD) = lv_cat(Y,AD). I.e. we RECOMMEND
 to prepend an encoding of the length of the subfields. Prepending the length of
-of all variable-size input strings results in a so-called prefix-free encoding of transcript strings, using terminology introduced in <span>[<a href="#CDMP05" class="cite xref">CDMP05</a>]</span>. This property allows for disregarding length-extension imperfections that come with the commonly used Merkle-Damgard hash function constructions such as SHA256 and SHA512.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+all variable-size input strings results in a so-called prefix-free encoding of transcript strings, using terminology introduced in <span>[<a href="#CDMP05" class="cite xref">CDMP05</a>]</span>. This property allows for disregarding length-extension imperfections that come with the commonly used Merkle-Damgard hash function constructions such as SHA256 and SHA512.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <p id="section-9.2-2">Other alternative network encoding formats which prepend an encoding of the length of variable-size data fields in the protocol
 messages are equally suitable.
 This includes, e.g., the type-length-value format specified in the DER encoding standard (X.690) or the protocol message encoding used in the TLS protocol family for the TLS client-hello or server-hello messages.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
@@ -2390,7 +2390,7 @@ CMAC <span>[<a href="#RFC4493" class="cite xref">RFC4493</a>]</span> using a key
 <p id="section-9.4-5">One suitable option that works also in the parallel setting without message ordering is to proceed as follows.<a href="#section-9.4-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.4-6.1">
-            <p id="section-9.4-6.1.1">First calculate mac_key as as mac_key = H.hash(b"CPaceMac" || ISK).<a href="#section-9.4-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-9.4-6.1.1">First calculate mac_key as mac_key = H.hash("CPaceMac" || ISK).<a href="#section-9.4-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.4-6.2">
             <p id="section-9.4-6.2.1">Then let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously. I.e.
@@ -2410,7 +2410,7 @@ authentication code Tb as Tb = MAC(mac_key, MSGb).<a href="#section-9.4-6.2.1" c
         </h3>
 <p id="section-9.5-1">For curves over fields F_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field_size_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
 with respect to side-channels for embedded systems in hostile environments.
-The effect of non-uniform sampling on security was demonstrated to be begning in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> for the case of Curve25519 and Curve448.
+The effect of non-uniform sampling on security was demonstrated to be begnin in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in <a href="#CPaceWeierstrass" class="auto internal xref">Section 7.4</a>.<a href="#section-9.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>

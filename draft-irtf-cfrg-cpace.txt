@@ -604,9 +604,9 @@ Table of Contents
    G.scalar_pow(yb,g).  B sends MSGb = network_encode(Yb, ADb) with
    optional associated data ADb to A.
 
-   Upon reception of MSGa, B checks that MSGa was properly generated
-   conform with the chosen encoding of network messages (notably correct
-   length fields).  If this parsing fails, then B MUST abort.
+   Upon reception of MSGa, B checks that MSGa was properly generated in
+   conformity with the chosen encoding of network messages (notably
+   correct length fields).  If this parsing fails, then B MUST abort.
    (Testvectors of examples for invalid messages when using lv_cat() as
    network_encode function for CPace are given in the appendix.)  B then
    computes K = G.scalar_pow_vfy(yb,Ya).  B MUST abort if K=G.I.
@@ -1032,8 +1032,8 @@ Table of Contents
    It is RECOMMENDED to encode the (Ya,ADa) and (Yb,ADb) fields on the
    network by using network_encode(Y,AD) = lv_cat(Y,AD).  I.e. we
    RECOMMEND to prepend an encoding of the length of the subfields.
-   Prepending the length of of all variable-size input strings results
-   in a so-called prefix-free encoding of transcript strings, using
+   Prepending the length of all variable-size input strings results in a
+   so-called prefix-free encoding of transcript strings, using
    terminology introduced in [CDMP05].  This property allows for
    disregarding length-extension imperfections that come with the
    commonly used Merkle-Damgard hash function constructions such as
@@ -1091,8 +1091,7 @@ Table of Contents
    One suitable option that works also in the parallel setting without
    message ordering is to proceed as follows.
 
-   *  First calculate mac_key as as mac_key = H.hash(b"CPaceMac" ||
-      ISK).
+   *  First calculate mac_key as mac_key = H.hash("CPaceMac" || ISK).
 
    *  Then let each party send an authenticator tag Ta, Tb that is
       calculated over the protocol message that it has sent previously.
@@ -1110,7 +1109,7 @@ Table of Contents
    field_size_bits.  We do so in order to reduce both, complexity of the
    implementation and reducing the attack surface with respect to side-
    channels for embedded systems in hostile environments.  The effect of
-   non-uniform sampling on security was demonstrated to be begning in
+   non-uniform sampling on security was demonstrated to be begnin in
    [AHH21] for the case of Curve25519 and Curve448.  This analysis
    however does not transfer to most curves in Short-Weierstrass form.
    As a result, we recommend rejection sampling if G is as in
