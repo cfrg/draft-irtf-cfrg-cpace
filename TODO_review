@@ -282,20 +282,22 @@ oversampling+reduction method is actually OK?
 # Fixed that. Thank you. Naming in the main body was actually inconsistent
 # Now p is the curve subgroup order and q is the field order.
 
-B.1.7 (and others): Some nitpicking: "ANSI-C" (or "ANSI C") was the C
-language as standardized by ANSI in 1989, but in 1990 the language was
-handed over to ISO, so that "ANSI-C" cannot formally include anything
-that was made part of the C language after 1990. In particular,
-'uint8_t' was integrated in the language in the 1999 version (in a pure
-"ANSI C" dialect, you would have to use 'unsigned char' instead, and
-there would be the usual question about hardware platforms with bytes
-which are not octets). Thus, these section title should not be saying
-"ANSI-C". I suggest a more neutral wording, e.g. "Corresponding
-initializers in the C language". The complete formal name of the
-language is "ISO/IEC 9899:2017", which is precise but not very
-informative.
-(There is supposed to be a new variant soon, dubbed "C23", but it will
-probably show up only in 2024.)
+# B.1.7 (and others): Some nitpicking: "ANSI-C" (or "ANSI C") was the C
+# language as standardized by ANSI in 1989, but in 1990 the language was
+# handed over to ISO, so that "ANSI-C" cannot formally include anything
+# that was made part of the C language after 1990. In particular,
+# 'uint8_t' was integrated in the language in the 1999 version (in a pure
+# "ANSI C" dialect, you would have to use 'unsigned char' instead, and
+# there would be the usual question about hardware platforms with bytes
+# which are not octets). Thus, these section title should not be saying
+# "ANSI-C". I suggest a more neutral wording, e.g. "Corresponding
+# initializers in the C language". The complete formal name of the
+# language is "ISO/IEC 9899:2017", which is precise but not very
+# informative.
+# (There is supposed to be a new variant soon, dubbed "C23", but it will
+# probably show up only in 2024.)
+#
+# Fixed. Now we refer to C programming language initializers.
 
 (I do not have time to check the test vectors right now.)
 

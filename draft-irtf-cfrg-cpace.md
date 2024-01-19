@@ -777,7 +777,7 @@ If CPace is used in a concurrent system, it is RECOMMENDED that a unique sid is 
 
 All state-of-the art methods for realizing constant-time execution SHOULD be used.
 Special care is RECOMMENDED specifically for elliptic curves in Short-Weierstrass form
-as important standard documents including {{IEEEE1363}} describe curve operations with
+as important standard documents including {{IEEE1363}} describe curve operations with
 non-constant-time algorithms.
 
 
@@ -810,6 +810,9 @@ No IANA action is required.
 We would like to thank the participants on the CFRG list for comments and advice. Any comment and advice is appreciated.
 
 --- back
+
+
+
 
 
 
@@ -1162,7 +1165,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
       ab3e0549bd835edf
 ~~~
 
-###  Corresponding ANSI-C initializers
+###  Corresponding C programming language initializers
 
 ~~~
 const uint8_t tc_PRS[] = {
@@ -1405,7 +1408,7 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
       7facfc044615075f
 ~~~
 
-###  Corresponding ANSI-C initializers
+###  Corresponding C programming language initializers
 
 ~~~
 const uint8_t tc_PRS[] = {
@@ -1691,7 +1694,7 @@ Test vectors for scalar_mult with nonzero outputs
       758d754d1d81482a
 ~~~
 
-###  Corresponding ANSI-C initializers
+###  Corresponding C programming language initializers
 
 ~~~
 const uint8_t tc_PRS[] = {
@@ -1930,7 +1933,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       50a4d0ed126a3026
 ~~~
 
-###  Corresponding ANSI-C initializers
+###  Corresponding C programming language initializers
 
 ~~~
 const uint8_t tc_PRS[] = {
@@ -2191,7 +2194,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       cb2fb276
 ~~~
 
-###  Corresponding ANSI-C initializers
+###  Corresponding C programming language initializers
 
 ~~~
 const uint8_t tc_PRS[] = {
@@ -2465,7 +2468,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       c99c0a6f6c01c29af5fc6943254b883ce8a65ea1
 ~~~
 
-###  Corresponding ANSI-C initializers
+###  Corresponding C programming language initializers
 
 ~~~
 const uint8_t tc_PRS[] = {
@@ -2781,7 +2784,7 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       480100d5e800ca85
 ~~~
 
-###  Corresponding ANSI-C initializers
+###  Corresponding C programming language initializers
 
 ~~~
 const uint8_t tc_PRS[] = {
@@ -2934,8 +2937,4 @@ For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of th
       00
     G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
-
-
-
-
 
