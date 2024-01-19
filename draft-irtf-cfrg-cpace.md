@@ -391,7 +391,7 @@ optional associated data ADa to B.
 
 B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_pow(yb,g). B sends MSGb = network\_encode(Yb, ADb) with optional associated data ADb to A.
 
-Upon reception of MSGa, B checks that MSGa was properly generated conform with the chosen encoding of network messages (notably correct length fields).
+Upon reception of MSGa, B checks that MSGa was properly generated in conformity with the chosen encoding of network messages (notably correct length fields).
 If this parsing fails, then B MUST abort. (Testvectors of examples for invalid messages when using lv\_cat() as network\_encode function for
 CPace are given in the appendix.)
 B then computes K = G.scalar\_pow\_vfy(yb,Ya). B MUST abort if K=G.I.
@@ -684,7 +684,7 @@ Including and checking party identifiers can fend off such relay attacks.
 
 It is RECOMMENDED to encode the (Ya,ADa) and (Yb,ADb) fields on the network by using network\_encode(Y,AD) = lv\_cat(Y,AD). I.e. we RECOMMEND
 to prepend an encoding of the length of the subfields. Prepending the length of
-of all variable-size input strings results in a so-called prefix-free encoding of transcript strings, using terminology introduced in {{CDMP05}}. This property allows for disregarding length-extension imperfections that come with the commonly used Merkle-Damgard hash function constructions such as SHA256 and SHA512.
+all variable-size input strings results in a so-called prefix-free encoding of transcript strings, using terminology introduced in {{CDMP05}}. This property allows for disregarding length-extension imperfections that come with the commonly used Merkle-Damgard hash function constructions such as SHA256 and SHA512.
 
 Other alternative network encoding formats which prepend an encoding of the length of variable-size data fields in the protocol
 messages are equally suitable.
@@ -722,7 +722,7 @@ CMAC {{?RFC4493}} using a key mac\_key derived from ISK.
 
 One suitable option that works also in the parallel setting without message ordering is to proceed as follows.
 
-- First calculate mac\_key as as mac\_key = H.hash(b"CPaceMac" \|\| ISK).
+- First calculate mac\_key as mac\_key = H.hash("CPaceMac" \|\| ISK).
 
 - Then let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously. I.e.
   let party A calculate its transmitted authentication code Ta as Ta = MAC(mac\_key, MSGa) and let party B calculate its transmitted
@@ -735,7 +735,7 @@ One suitable option that works also in the parallel setting without message orde
 
 For curves over fields F\_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
 with respect to side-channels for embedded systems in hostile environments.
-The effect of non-uniform sampling on security was demonstrated to be begning in {{AHH21}} for the case of Curve25519 and Curve448.
+The effect of non-uniform sampling on security was demonstrated to be begnin in {{AHH21}} for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}.
 
 ## Single-coordinate CPace on Montgomery curves

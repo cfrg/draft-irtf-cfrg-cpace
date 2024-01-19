@@ -65,8 +65,10 @@ that CI "may also include confidential information", which means that it
 is not, in fact, public. Maybe what is meant here is that it is a common
 value known to both parties.
 
-6.2: "was properly generated conform with" -> "was properly generated,
-in conformity with" ("conform" is a verb, it cannot be used that way).
+# 6.2: "was properly generated conform with" -> "was properly generated,
+# in conformity with" ("conform" is a verb, it cannot be used that way).
+#
+# Fixed.
 
 6.2: "Otherwise B returns ISK = H.hash(...). B returns ISK and terminates."
 -> the first "returns ISK" should be "computes ISK"
@@ -157,15 +159,21 @@ the quadratic twist". Or the comma could be simply removed.
 #
 # Fixed
 
-9.2: "the length of of all" -> "the length of all"
+# 9.2: "the length of of all" -> "the length of all"
+#
+# Fixed
 
-9.4: "calculate mac_key as as" -> "calculate mac_key as"
+# 9.4: "calculate mac_key as as" -> "calculate mac_key as"
+#
+# Fixed
 
-9.4: Starting at the point, we begin to see notations like b"CPaceMac",
-i.e. the Python-like syntax for character strings which really are octet
-strings. This should be harmonized with the previous use of character
-strings (G.DSI, "_ISK",...) since these strings also implicitly assumed
-some sort of characters-to-octets conversion.
+#9.4: Starting at the point, we begin to see notations like b"CPaceMac",
+# i.e. the Python-like syntax for character strings which really are octet
+# strings. This should be harmonized with the previous use of character
+# strings (G.DSI, "_ISK",...) since these strings also implicitly assumed
+# some sort of characters-to-octets conversion.
+#
+# Yes Removed b"" syntax in the text body
 
 9.5: "We do so in order to reduce both, complexity of the implementation
 and reducing the attack surface" -> "We do so in order to reduce both the
@@ -192,7 +200,10 @@ document (section 7.4.3 says "MUST BE uniformly random"; it does not say
 selection"). It might be worth adding a note in section 9.5 that the
 oversampling+reduction method is actually OK?
 
-9.5: "begning" -> "benign"
+# 9.5: "begning" -> "benign"
+#
+# Fixed.
+
 
 9.6: "The cofactor c' of the twist MUST BE EQUAL to or an integer
 multiple of the cofactor c of the curve." -> it's the opposite! The
