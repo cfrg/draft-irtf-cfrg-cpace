@@ -325,10 +325,11 @@ representation of the group element g^y. Additionally, scalar\_pow\_vfy specifie
 
   If a character sequence in between quotation marks is considered to be a defined octet string sequence,
   we use a preceeding lower-case letter b in front of the quotation marks as, e.g., for the domain separation octet string b"CPace25519".
-  I.e. we use the notation for byte string representation from the python programming language.
+  I.e. we use the notation for byte string representations as specified by the python programming language.
   We do so for clearly
-  separating octet string representations from places where quotation marks are used for the normal language use and for making clear
-  that a single-byte ASCII encoding of the characters shall be used if a leading b"" is prepended to the quotation marks.
+  distinguishing octet string representations from places where quotation marks correspond to normal language use (e.g. for citations of definitions from other standard documents). 
+  We use this convention also
+  for making clear that a single-byte ASCII encoding of the characters is meant if a leading b"" is prepended to the quotation marks.
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
   the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
