@@ -302,13 +302,13 @@ which is derived from input octet strings PRS, CI, and sid and with the help of 
 private Diffie-Hellman key for the group.
 
 - G.scalar\_mult(y,g) is a function operating on a scalar
-y and a group element g. It returns an octet string representation of the group element Y = g * y.
+y and a group element g. It returns an octet string representation of the group element Y = g\*y.
 
 - G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.
 
 - G.scalar\_mult\_vfy(y,g) is a function operating on
 a scalar y and a group element g. It returns an octet string
-representation of the group element g * y. Additionally, scalar\_mult\_vfy specifies validity conditions for y,g and (g * y) and outputs G.I in case they are not met.
+representation of the group element g\*y. Additionally, scalar\_mult\_vfy specifies validity conditions for y,g and g\*y and outputs G.I in case they are not met.
 
 - G.DSI denotes a domain-separation identifier octet string which SHALL be uniquely identifying the group environment G.
 
@@ -320,7 +320,7 @@ representation of the group element g * y. Additionally, scalar\_mult\_vfy speci
 
 - nil denotes an empty octet string, i.e., len(nil) = 0.
 
-- In this specification use a quotation marks "" both for general language use (e.g. citations of definitions from other documents) and
+- This document uses quotation marks "" both for general language (e.g. for citation of notation used in other documents) and
   as syntax for specifying octet strings as in b"CPace25519".
 
   We use a preceeding lower-case letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
@@ -361,7 +361,7 @@ representation of the group element g * y. Additionally, scalar\_mult\_vfy speci
 
 ## Notation for group operations
 
-We use additive notation for the group, i.e., X * 2  denotes the element that is obtained by computing X+X, for group element X and group operation +.
+We use additive notation for the group, i.e., X\*2  denotes the element that is obtained by computing X+X, for group element X and group operation +.
 
 # The CPace protocol {#protocol-section}
 
@@ -499,7 +499,7 @@ In the appendix we show sage code that can be used as reference implementation.
 
 For single-coordinate Montgomery ladders on Montgomery curves verification tests according to {{verification}} SHALL
 check for proper handling of the abort conditions, when a party is receiving u coordinate values that encode a low-order
-point on either, the curve or the quadratic twist.
+point on either the curve or the quadratic twist.
 
 In addition to that in case of G_X25519 the tests SHALL also verify that the implementation of G.scalar\_mult\_vfy(y,g) produces the
 expected results for non-canonical u coordinate values with bit #255 set, which may also encode low-order points.
@@ -557,17 +557,17 @@ For both abstractions the following definitions apply:
 -  Alternatively, if G.sample\_scalar() is not implemented according to the above recommendation, it SHALL be implemented using uniform sampling between 1 and (G.group\_order - 1). Note that the more complex
 uniform sampling process can provide a larger side-channel attack surface for embedded systems in hostile environments.
 
-- G.scalar\_mult(y,\_g) SHALL operate on a scalar y and a group element \_g in the internal representation of the group abstraction environment. It returns the value Y = encode((\_g) * y), i.e. it returns a value using the public encoding.
+- G.scalar\_mult(y,\_g) SHALL operate on a scalar y and a group element \_g in the internal representation of the group abstraction environment. It returns the value Y = encode((\_g) \* y), i.e. it returns a value using the public encoding.
 
 - G.I = is the public encoding representation of the identity element.
 
-- G.scalar\_mult\_vfy(y,X) operates on a value using the public encoding and a scalar and is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X) * y ).
+- G.scalar\_mult\_vfy(y,X) operates on a value using the public encoding and a scalar and is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X) \* y ).
 
 - The G.calculate\_generator(H, PRS,sid,CI) function SHALL return a decoded point and SHALL BE implemented as follows.
 
    - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) is calculated using the input block size of the chosen hash function.
 
-   - This string is then hashed to the required length gen\_str\_hash = H.hash(gen\_str, 2 * G.field\_size\_bytes).  Note that this
+   - This string is then hashed to the required length gen\_str\_hash = H.hash(gen\_str, 2 \* G.field\_size\_bytes).  Note that this
      implies that the permissible output length H.maxb\_in\_bytes MUST BE larger or equal to twice the field size of the group
      G for making a
      hash function suitable.
@@ -641,7 +641,7 @@ Using the above definitions, the CPace functions required for the group object G
    - Then the output of a call to encode\_to\_curve(gen\_str, G.DST) is returned, using the selected suite from {{?RFC9380}}.
 
 - G.scalar\_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
-G.scalar\_mult(s,X) SHALL return an encoding of either the point X*s or the point X*(-s) according to {{SEC1}}. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar\_mult(s,X) MAY output either X*s or X*(-s) as both points X*s and X*(-s) have the same x-coordinate and
+G.scalar\_mult(s,X) SHALL return an encoding of either the point X\*s or the point X\*(-s) according to {{SEC1}}. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar\_mult(s,X) MAY output either X\*s or X\*(-s) as both points X\*s and X\*(-s) have the same x-coordinate and
 result in the same Diffie-Hellman shared secrets K.
 (This allows implementations to opt for x-coordinate-only scalar multiplication algorithms.)
 
@@ -651,8 +651,8 @@ It SHALL BE implemented as follows:
    - If is\_valid(X) = False then G.scalar\_mult\_vfy(s,X) SHALL return "error" as specified in {{IEEE1363}} A.16.10 and 7.2.1.
 
    - Otherwise G.scalar\_mult\_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from {{IEEE1363}} (section 7.2.1). I.e. it shall
-     either return "error" (in case that X*s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
-     the big-endian encoding of the x-coordinate of the result point X*s according to {{SEC1}}.
+     either return "error" (in case that X\*s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
+     the big-endian encoding of the x-coordinate of the result point X\*s according to {{SEC1}}.
 
 - We represent the neutral element G.I by using the representation of the "error" result case from {{IEEE1363}} as used in the G.scalar\_mult\_vfy method above.
 
@@ -750,7 +750,7 @@ This analysis however does not transfer to most curves in Short-Weierstrass form
 
 The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in {{CPaceMontgomery}} rely on the following properties  {{AHH21}}:
 
-- The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' * c') with p' prime and c' a cofactor.
+- The curve has order (p \* c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' \* c') with p' prime and c' a cofactor.
 
 - The cofactor c' of the twist MUST BE EQUAL to or an integer multiple of the cofactor c of the curve.
 

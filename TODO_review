@@ -155,9 +155,12 @@ used transport medium".)
 #
 # Fixed. Note was added.
 
-7.2.1: "on either, the curve or the quadratic twist" -> the comma looks
-misplaced. With the Oxford comma, it should be "on either the curve, or
-the quadratic twist". Or the comma could be simply removed.
+# 7.2.1: "on either, the curve or the quadratic twist" -> the comma looks
+# misplaced. With the Oxford comma, it should be "on either the curve, or
+# the quadratic twist". Or the comma could be simply removed.
+#
+# Fixed. Comma removed.
+
 
 # 8: "with respect invalid encodings" -> "with respect to invalid encodings"
 #
