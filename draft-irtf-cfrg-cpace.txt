@@ -504,9 +504,23 @@ Table of Contents
 
    *  bytes1 || bytes2 and denotes concatenation of octet strings.
 
-   *  len(S) denotes the number of octets in a string S.
+   *  len(S) denotes the number of octets in an octet string S.
 
    *  nil denotes an empty octet string, i.e., len(nil) = 0.
+
+   *  In this specification use a quotation marks both for general
+      language use and as syntax for octet strings.
+
+      If a character sequence in between quotation marks is considered
+      to be a defined octet string sequence, we use a preceeding lower-
+      case letter b in front of the quotation marks as, e.g., for the
+      domain separation octet string b"CPace25519".  I.e. we use the
+      notation for byte string representation from the python
+      programming language.  We do so for clearly separating octet
+      string representations from places where quotation marks are used
+      for the normal language use and for making clear that a single-
+      byte ASCII encoding of the characters shall be used if a leading
+      b"" is prepended to the quotation marks.
 
    *  prepend_len(octet_string) denotes the octet sequence that is
       obtained from prepending the length of the octet string to the
@@ -544,9 +558,9 @@ Table of Contents
 
    *  o_cat(bytes1,bytes2) denotes a function for ordered concatenation
       of octet strings.  It places the lexiographically larger octet
-      string first and prepends the two bytes from the octet string "oc"
-      to the result.  (Explicit reference code for this function is
-      given in the appendix.)
+      string first and prepends the two bytes from the octet string
+      b"oc" to the result.  (Explicit reference code for this function
+      is given in the appendix.)
 
    *  transcript(MSGa,MSGb) denotes function outputing a string for the
       protocol transcript with messages MSGa and MSGb.  In applications
@@ -610,14 +624,14 @@ Table of Contents
    (Testvectors of examples for invalid messages when using lv_cat() as
    network_encode function for CPace are given in the appendix.)  B then
    computes K = G.scalar_pow_vfy(yb,Ya).  B MUST abort if K=G.I.
-   Otherwise B returns ISK = H.hash(lv_cat(G.DSI || "_ISK", sid,
+   Otherwise B returns ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid,
    K)||transcript(MSGa, MSGb)).  B returns ISK and terminates.
 
    Likewise upon reception of MSGb, A parses MSGb for Yb and ADb and
    checks for a valid encoding.  If this parsing fails, then A MUST
    abort.  A then computes K = G.scalar_pow_vfy(ya,Yb).  A MUST abort if
-   K=G.I.  Otherwise A returns ISK = H.hash(lv_cat(G.DSI || "_ISK", sid,
-   K) || transcript(MSGa, MSGb)).  A returns ISK and terminates.
+   K=G.I.  Otherwise A returns ISK = H.hash(lv_cat(G.DSI || b"_ISK",
+   sid, K) || transcript(MSGa, MSGb)).  A returns ISK and terminates.
 
    The session key ISK returned by A and B is identical if and only if
    the supplied input parameters PRS, CI and sid match on both sides and
@@ -681,7 +695,7 @@ Table of Contents
 
    *  G_X25519.I = zero_bytes(G.field_size_bytes)
 
-   *  G_X25519.DSI = "CPace255"
+   *  G_X25519.DSI = b"CPace255"
 
    CPace cipher suites using G_X25519 MUST use a hash function producing
    at least H.b_max_in_bytes >= 32 bytes of output.  It is RECOMMENDED
@@ -699,7 +713,7 @@ Table of Contents
 
    *  G_X448.I = zero_bytes(G.field_size_bytes)
 
-   *  G_X448.DSI = "CPace448"
+   *  G_X448.DSI = b"CPace448"
 
    CPace cipher suites using G_X448 MUST use a hash function producing
    at least H.b_max_in_bytes >= 56 bytes of output.  It is RECOMMENDED
@@ -763,7 +777,7 @@ Table of Contents
 
    For Ristretto255 the following definitions apply:
 
-   *  G_Ristretto255.DSI = "CPaceRistretto255"
+   *  G_Ristretto255.DSI = b"CPaceRistretto255"
 
    *  G_Ristretto255.field_size_bytes = 32
 
@@ -778,7 +792,7 @@ Table of Contents
 
    For decaf448 the following definitions apply:
 
-   *  G_Decaf448.DSI = "CPaceDecaf448"
+   *  G_Decaf448.DSI = b"CPaceDecaf448"
 
    *  G_Decaf448.field_size_bytes = 56
 
@@ -918,18 +932,19 @@ Table of Contents
       variant of the SSWU mapping primitive within [RFC9380].
 
    *  G.DSI denotes a domain-separation identifier string.  G.DSI which
-      SHALL BE obtained by the concatenation of "CPace" and the
+      SHALL BE obtained by the concatenation of b"CPace" and the
       associated name of the cipher suite used for the encode_to_curve
       function as specified in [RFC9380].  E.g. when using the map with
-      the name "P384_XMD:SHA-384_SSWU_NU_" on curve NIST-P384 the
-      resulting value SHALL BE G.DSI = "CPaceP384_XMD:SHA-384_SSWU_NU_".
+      the name P384_XMD:SHA-384_SSWU_NU_ on curve NIST-P384 the
+      resulting value SHALL BE G.DSI = b"CPaceP384_XMD:SHA-
+      384_SSWU_NU_".
 
    Using the above definitions, the CPace functions required for the
    group object G are defined as follows.
 
    *  G.DST denotes the domain-separation tag value to use in
       conjunction with the encode_to_curve function from [RFC9380].
-      G.DST shall be obtained by concatenating G.DSI and "_DST".
+      G.DST shall be obtained by concatenating G.DSI and b"_DST".
 
    *  G.sample_scalar() SHALL return a value between 1 and
       (G.group_order - 1).  The value sampling MUST BE uniformly random.
@@ -1091,7 +1106,7 @@ Table of Contents
    One suitable option that works also in the parallel setting without
    message ordering is to proceed as follows.
 
-   *  First calculate mac_key as mac_key = H.hash("CPaceMac" || ISK).
+   *  First calculate mac_key as mac_key = H.hash(b"CPaceMac" || ISK).
 
    *  Then let each party send an authenticator tag Ta, Tb that is
       calculated over the protocol message that it has sent previously.
@@ -1107,13 +1122,12 @@ Table of Contents
    For curves over fields F_p where p is a prime close to a power of
    two, we recommend sampling scalars as a uniform bit string of length
    field_size_bits.  We do so in order to reduce both, complexity of the
-   implementation and reducing the attack surface with respect to side-
-   channels for embedded systems in hostile environments.  The effect of
-   non-uniform sampling on security was demonstrated to be begnin in
-   [AHH21] for the case of Curve25519 and Curve448.  This analysis
-   however does not transfer to most curves in Short-Weierstrass form.
-   As a result, we recommend rejection sampling if G is as in
-   Section 7.4.
+   implementation and the attack surface with respect to side-channels
+   for embedded systems in hostile environments.  The effect of non-
+   uniform sampling on security was demonstrated to be begnin in [AHH21]
+   for the case of Curve25519 and Curve448.  This analysis however does
+   not transfer to most curves in Short-Weierstrass form.  As a result,
+   we recommend rejection sampling if G is as in Section 7.4.
 
 9.6.  Single-coordinate CPace on Montgomery curves
 

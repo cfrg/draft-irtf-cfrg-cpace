@@ -1844,48 +1844,58 @@ representation of the group element g^y. Additionally, scalar_pow_vfy specifies 
             <p id="section-5.3-1.1.1">bytes1 || bytes2 and denotes concatenation of octet strings.<a href="#section-5.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.2">
-            <p id="section-5.3-1.2.1">len(S) denotes the number of octets in a string S.<a href="#section-5.3-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.2.1">len(S) denotes the number of octets in an octet string S.<a href="#section-5.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.3">
             <p id="section-5.3-1.3.1">nil denotes an empty octet string, i.e., len(nil) = 0.<a href="#section-5.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.4">
-            <p id="section-5.3-1.4.1">prepend_len(octet_string) denotes the octet sequence that is obtained from prepending
-the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
-This will result in a single-byte encoding for values below 128. (Test vectors and reference implementations
-for prepend_len and the LEB128 encodings are given in the appendix.)<a href="#section-5.3-1.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.4.1">In this specification use a quotation marks both for general language use and as syntax for octet strings.<a href="#section-5.3-1.4.1" class="pilcrow">¶</a></p>
+<p id="section-5.3-1.4.2">
+If a character sequence in between quotation marks is considered to be a defined octet string sequence,
+we use a preceeding lower-case letter b in front of the quotation marks as, e.g., for the domain separation octet string b"CPace25519".
+I.e. we use the notation for byte string representation from the python programming language.
+We do so for clearly
+separating octet string representations from places where quotation marks are used for the normal language use and for making clear
+that a single-byte ASCII encoding of the characters shall be used if a leading b"" is prepended to the quotation marks.<a href="#section-5.3-1.4.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.5">
-            <p id="section-5.3-1.5.1">lv_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
-their respective length prepended. E.g. lv_cat(a0,a1) returns
-prepend_len(a0) || prepend_len(a1). The detailed specification of lv_cat and a reference implementations are given in the appendix.<a href="#section-5.3-1.5.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.5.1">prepend_len(octet_string) denotes the octet sequence that is obtained from prepending
+the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
+This will result in a single-byte encoding for values below 128. (Test vectors and reference implementations
+for prepend_len and the LEB128 encodings are given in the appendix.)<a href="#section-5.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.6">
-            <p id="section-5.3-1.6.1">network_encode(Y,AD) denotes the function specified by the application layer that outputs an octet string encoding
+            <p id="section-5.3-1.6.1">lv_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
+their respective length prepended. E.g. lv_cat(a0,a1) returns
+prepend_len(a0) || prepend_len(a1). The detailed specification of lv_cat and a reference implementations are given in the appendix.<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-1.7">
+            <p id="section-5.3-1.7.1">network_encode(Y,AD) denotes the function specified by the application layer that outputs an octet string encoding
 of the input octet strings Y and AD
 for transfer on the network. The implementation of MSG = network_encode(Y,AD) SHALL allow the receiver party to parse MSG for the
 individual subcomponents Y and AD.
-For CPace we RECOMMEND to implement network_encode(Y,AD) as network_encode(Y,AD) = lv_cat(Y,AD).<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
-<p id="section-5.3-1.6.2">
+For CPace we RECOMMEND to implement network_encode(Y,AD) as network_encode(Y,AD) = lv_cat(Y,AD).<a href="#section-5.3-1.7.1" class="pilcrow">¶</a></p>
+<p id="section-5.3-1.7.2">
 Other encodings, such as the network encoding used for the client-hello and server-hello messages in TLS MAY also be used when
-following the guidance given in the security consideration section.<a href="#section-5.3-1.6.2" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.3-1.7">
-            <p id="section-5.3-1.7.1">sample_random_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from an uniform distribution between 0 and 255.<a href="#section-5.3-1.7.1" class="pilcrow">¶</a></p>
+following the guidance given in the security consideration section.<a href="#section-5.3-1.7.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.8">
-            <p id="section-5.3-1.8.1">zero_bytes(n) denotes a function that returns n octets with value 0.<a href="#section-5.3-1.8.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.8.1">sample_random_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from an uniform distribution between 0 and 255.<a href="#section-5.3-1.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.9">
-            <p id="section-5.3-1.9.1">o_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexiographically larger octet
-string first and prepends the two bytes from the octet string "oc" to the result. (Explicit reference code for this function is given in the appendix.)<a href="#section-5.3-1.9.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.9.1">zero_bytes(n) denotes a function that returns n octets with value 0.<a href="#section-5.3-1.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.10">
-            <p id="section-5.3-1.10.1">transcript(MSGa,MSGb) denotes function outputing a string for the protocol transcript with messages MSGa and MSGb.
+            <p id="section-5.3-1.10.1">o_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexiographically larger octet
+string first and prepends the two bytes from the octet string b"oc" to the result. (Explicit reference code for this function is given in the appendix.)<a href="#section-5.3-1.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-1.11">
+            <p id="section-5.3-1.11.1">transcript(MSGa,MSGb) denotes function outputing a string for the protocol transcript with messages MSGa and MSGb.
 In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
 not enforced by the protocol flow, transcript(MSGa,MSGb) = o_cat(MSGa,MSGb) SHALL be used.
 In the initiator-responder setting transcript(MSGa,MSGb) SHALL BE implemented such that the later message is appended to the
-earlier message, i.e., transcript(MSGa,MSGb) = MSGa||MSGb if MSGa is sent first.<a href="#section-5.3-1.10.1" class="pilcrow">¶</a></p>
+earlier message, i.e., transcript(MSGa,MSGb) = MSGa||MSGb if MSGa is sent first.<a href="#section-5.3-1.11.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1948,11 +1958,11 @@ If this parsing fails, then B MUST abort. (Testvectors of examples for invalid m
 CPace are given in the appendix.)
 B then computes K = G.scalar_pow_vfy(yb,Ya). B MUST abort if K=G.I.
 Otherwise B returns
-ISK = H.hash(lv_cat(G.DSI || "_ISK", sid, K)||transcript(MSGa, MSGb)). B returns ISK and terminates.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid, K)||transcript(MSGa, MSGb)). B returns ISK and terminates.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 <p id="section-6.2-4">Likewise upon reception of MSGb, A parses MSGb for Yb and ADb and checks for a valid encoding.
 If this parsing fails, then A MUST abort. A then computes K = G.scalar_pow_vfy(ya,Yb). A MUST abort if K=G.I.
 Otherwise A returns
-ISK = H.hash(lv_cat(G.DSI || "_ISK", sid, K) || transcript(MSGa, MSGb)). A returns ISK and terminates.<a href="#section-6.2-4" class="pilcrow">¶</a></p>
+ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid, K) || transcript(MSGa, MSGb)). A returns ISK and terminates.<a href="#section-6.2-4" class="pilcrow">¶</a></p>
 <p id="section-6.2-5">The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view (containing of MSGa and MSGb) of both parties match.<a href="#section-6.2-5" class="pilcrow">¶</a></p>
 <p id="section-6.2-6">(Note that in case of a symmetric protocol execution without clear initiator/responder roles, transcript(MSGa, MSGb) needs to be implemented using ordered concatenation for generating a matching view by both parties.)<a href="#section-6.2-6" class="pilcrow">¶</a></p>
 </section>
@@ -2014,7 +2024,7 @@ with the specifications for X25519 and X448 and review the guidance given in <a 
             <p id="section-7.2-3.5.1">G_X25519.I = zero_bytes(G.field_size_bytes)<a href="#section-7.2-3.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-3.6">
-            <p id="section-7.2-3.6.1">G_X25519.DSI = "CPace255"<a href="#section-7.2-3.6.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-3.6.1">G_X25519.DSI = b"CPace255"<a href="#section-7.2-3.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.2-4">CPace cipher suites using G_X25519 MUST use a hash function producing at least H.b_max_in_bytes &gt;= 32 bytes of output. It is RECOMMENDED
@@ -2037,7 +2047,7 @@ to use G_X25519 in combination with SHA-512.<a href="#section-7.2-4" class="pilc
             <p id="section-7.2-6.5.1">G_X448.I = zero_bytes(G.field_size_bytes)<a href="#section-7.2-6.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-6.6">
-            <p id="section-7.2-6.6.1">G_X448.DSI = "CPace448"<a href="#section-7.2-6.6.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-6.6.1">G_X448.DSI = b"CPace448"<a href="#section-7.2-6.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.2-7">CPace cipher suites using G_X448 MUST use a hash function producing at least H.b_max_in_bytes &gt;= 56 bytes of output. It is RECOMMENDED
@@ -2096,7 +2106,7 @@ section.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 <p id="section-7.3-2">For Ristretto255 the following definitions apply:<a href="#section-7.3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-3.1">
-            <p id="section-7.3-3.1.1">G_Ristretto255.DSI = "CPaceRistretto255"<a href="#section-7.3-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-3.1.1">G_Ristretto255.DSI = b"CPaceRistretto255"<a href="#section-7.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-3.2">
             <p id="section-7.3-3.2.1">G_Ristretto255.field_size_bytes = 32<a href="#section-7.3-3.2.1" class="pilcrow">¶</a></p>
@@ -2113,7 +2123,7 @@ It is RECOMMENDED to use G_Ristretto255 in combination with SHA-512.<a href="#se
 <p id="section-7.3-5">For decaf448 the following definitions apply:<a href="#section-7.3-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-6.1">
-            <p id="section-7.3-6.1.1">G_Decaf448.DSI = "CPaceDecaf448"<a href="#section-7.3-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-6.1.1">G_Decaf448.DSI = b"CPaceDecaf448"<a href="#section-7.3-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-6.2">
             <p id="section-7.3-6.2.1">G_Decaf448.field_size_bytes = 56<a href="#section-7.3-6.2.1" class="pilcrow">¶</a></p>
@@ -2246,14 +2256,14 @@ the flexibility to opt for x-coordinate-only scalar multiplication algorithms.)<
 octet string str to a point on the group using the domain separation tag DST. <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> considers both, uniform and non-uniform mappings based on several different strategies. It is RECOMMENDED to use the nonuniform variant of the SSWU mapping primitive within <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span>.<a href="#section-7.4.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.4.3-2.4">
-              <p id="section-7.4.3-2.4.1">G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of "CPace" and the associated name of the cipher suite used for the encode_to_curve function as specified in <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span>. E.g. when using the map with the name "P384_XMD:SHA-384_SSWU_NU_"
-on curve NIST-P384 the resulting value SHALL BE G.DSI = "CPaceP384_XMD:SHA-384_SSWU_NU_".<a href="#section-7.4.3-2.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.4.3-2.4.1">G.DSI denotes a domain-separation identifier string. G.DSI which SHALL BE obtained by the concatenation of b"CPace" and the associated name of the cipher suite used for the encode_to_curve function as specified in <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span>. E.g. when using the map with the name P384_XMD:SHA-384_SSWU_NU_
+on curve NIST-P384 the resulting value SHALL BE G.DSI = b"CPaceP384_XMD:SHA-384_SSWU_NU_".<a href="#section-7.4.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-7.4.3-3">Using the above definitions, the CPace functions required for the group object G are defined as follows.<a href="#section-7.4.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.4.3-4.1">
-              <p id="section-7.4.3-4.1.1">G.DST denotes the domain-separation tag value to use in conjunction with the encode_to_curve function from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span>. G.DST shall be obtained by concatenating G.DSI and "_DST".<a href="#section-7.4.3-4.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.4.3-4.1.1">G.DST denotes the domain-separation tag value to use in conjunction with the encode_to_curve function from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span>. G.DST shall be obtained by concatenating G.DSI and b"_DST".<a href="#section-7.4.3-4.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.4.3-4.2">
               <p id="section-7.4.3-4.2.1">G.sample_scalar() SHALL return a value between 1 and (G.group_order - 1). The value sampling MUST BE uniformly random. It is RECOMMENDED to use rejection sampling for converting a uniform bitstring to a uniform value between 1 and (G.group_order - 1).<a href="#section-7.4.3-4.2.1" class="pilcrow">¶</a></p>
@@ -2390,7 +2400,7 @@ CMAC <span>[<a href="#RFC4493" class="cite xref">RFC4493</a>]</span> using a key
 <p id="section-9.4-5">One suitable option that works also in the parallel setting without message ordering is to proceed as follows.<a href="#section-9.4-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.4-6.1">
-            <p id="section-9.4-6.1.1">First calculate mac_key as mac_key = H.hash("CPaceMac" || ISK).<a href="#section-9.4-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-9.4-6.1.1">First calculate mac_key as mac_key = H.hash(b"CPaceMac" || ISK).<a href="#section-9.4-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.4-6.2">
             <p id="section-9.4-6.2.1">Then let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously. I.e.
@@ -2408,7 +2418,7 @@ authentication code Tb as Tb = MAC(mac_key, MSGb).<a href="#section-9.4-6.2.1" c
         <h3 id="name-sampling-of-scalars">
 <a href="#section-9.5" class="section-number selfRef">9.5. </a><a href="#name-sampling-of-scalars" class="section-name selfRef">Sampling of scalars</a>
         </h3>
-<p id="section-9.5-1">For curves over fields F_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field_size_bits. We do so in order to reduce both, complexity of the implementation and reducing the attack surface
+<p id="section-9.5-1">For curves over fields F_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field_size_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
 with respect to side-channels for embedded systems in hostile environments.
 The effect of non-uniform sampling on security was demonstrated to be begnin in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in <a href="#CPaceWeierstrass" class="auto internal xref">Section 7.4</a>.<a href="#section-9.5-1" class="pilcrow">¶</a></p>
