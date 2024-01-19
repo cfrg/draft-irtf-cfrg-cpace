@@ -377,9 +377,9 @@ Both A and B use the received messages for deriving a shared intermediate sessio
 Optional parameters and messages are denoted with [].
 
 ~~~
-            public: G, H, [CI], [sid]
+                        public: G, H
 
-  A: PRS,[ADa]                    B: PRS,[ADb]
+  A: PRS,[ADa],[CI],[sid]         B: PRS,[ADb],[CI],[sid]
     ---------------------------------------
  compute Ya    |     Ya,[ADa]     |  compute Yb
                |----------------->|

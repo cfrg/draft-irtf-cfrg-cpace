@@ -61,10 +61,12 @@ appendix.
 #
 # Fixed.
 
-6.1: The diagram shows "[CI]" as being "public", but section 3.1 said
-that CI "may also include confidential information", which means that it
-is not, in fact, public. Maybe what is meant here is that it is a common
-value known to both parties.
+# 6.1: The diagram shows "[CI]" as being "public", but section 3.1 said
+# that CI "may also include confidential information", which means that it
+# is not, in fact, public. Maybe what is meant here is that it is a common
+# value known to both parties.
+#
+# Fixed.
 
 # 6.2: "was properly generated conform with" -> "was properly generated,
 # in conformity with" ("conform" is a verb, it cannot be used that way).
