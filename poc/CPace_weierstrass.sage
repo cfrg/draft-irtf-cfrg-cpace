@@ -79,17 +79,17 @@ class G_ShortWeierstrass():
         ystr = octets[(self.field_size_bytes+1):]
         return self.curve(OS2IP(xstr),OS2IP(ystr))
         
-    def scalar_pow(self,scalar_octets,point_octets):
+    def scalar_mult(self,scalar_octets,point_octets):
         point = self.octets_to_point(point_octets)        
         scalar = OS2IP(scalar_octets)
         return self.point_to_octets(point * scalar)
 
-    def scalar_pow_negated_result(self,scalar_octets,point_octets):
+    def scalar_mult_negated_result(self,scalar_octets,point_octets):
         point = self.octets_to_point(point_octets)        
         scalar = OS2IP(scalar_octets)
         return self.point_to_octets(-point * scalar)
 
-    def scalar_pow_vfy(self,scalar_octets,point_octets):
+    def scalar_mult_vfy(self,scalar_octets,point_octets):
         scalar = OS2IP(scalar_octets)
         try:
             point = self.octets_to_point(point_octets)
@@ -130,25 +130,25 @@ class G_ShortWeierstrass():
 def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
     X = G.calculate_generator( H_SHA256(), b"Password", b"CI", b"sid")
     y = G.sample_scalar(deterministic_scalar_for_test_vectors= b"yes we want it")
-    K = G.scalar_pow_vfy(y,X)
-    Z = G.scalar_pow(y,X)
+    K = G.scalar_mult_vfy(y,X)
+    Z = G.scalar_mult(y,X)
     print ("\n### Test case for scalar\\_mult\\_vfy with correct inputs\n", file = file)
     print ("\n~~~", file = file)
     tv_output_byte_array(y, test_vector_name = "s", 
                          line_prefix = "    ", max_len = 60, file = file)
     tv_output_byte_array(X, test_vector_name = "X", 
                          line_prefix = "    ", max_len = 60, file = file)
-    tv_output_byte_array(Z, test_vector_name = "G.scalar_pow(s,X) (full coordinates)", 
+    tv_output_byte_array(Z, test_vector_name = "G.scalar_mult(s,X) (full coordinates)", 
                          line_prefix = "    ", max_len = 60, file = file)
-    tv_output_byte_array(K, test_vector_name = "G.scalar_pow_vfy(s,X) (only X-coordinate)", 
+    tv_output_byte_array(K, test_vector_name = "G.scalar_mult_vfy(s,X) (only X-coordinate)", 
                          line_prefix = "    ", max_len = 60, file = file)
     print ("~~~\n", file = file)
     
     Y_inv1 = bytearray(X)
     Y_inv1[-1] = (Y_inv1[-2] - 1) % 256 # choose an incorrect y-coordinate
-    K_inv1 = G.scalar_pow_vfy(y,Y_inv1)
+    K_inv1 = G.scalar_mult_vfy(y,Y_inv1)
     Y_inv2 = b"\0"
-    K_inv2 = G.scalar_pow_vfy(y,Y_inv2)
+    K_inv2 = G.scalar_mult_vfy(y,Y_inv2)
        
     print ("\n### Invalid inputs for scalar\\_mult\\_vfy\n", file = file)
     print ("For these test cases scalar\\_mult\\_vfy(y,.) MUST return the representation"+
@@ -160,7 +160,7 @@ def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
                          line_prefix = "    ", max_len = 60, file = file)   
     tv_output_byte_array(Y_inv2, test_vector_name = "Y_i2", 
                          line_prefix = "    ", max_len = 60, file = file)
-    print ("    G.scalar_pow_vfy(s,Y_i1) = G.scalar_pow_vfy(s,Y_i2) = G.I", file = file)
+    print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I", file = file)
     print ("~~~\n", file = file)    
     
     	    	

@@ -301,15 +301,15 @@ which is derived from input octet strings PRS, CI, and sid and with the help of 
 - G.sample\_scalar() is a function returning a representation of an integer (referred to as "scalar" from now on) appropriate as a
 private Diffie-Hellman key for the group.
 
-- G.scalar\_pow(y,g) is a function operating on a scalar
-y and a group element g.
-It returns an octet string representation of the group element Y = g^y.
+- G.scalar\_mult(y,g) is a function operating on a scalar
+y and a group element g. It returns an octet string representation of the group element Y = g^y. (We use the function name scalar\_mult and not scalar\_pow for
+maintaining consistency with the additive group notation used in {{AHH21}} for the CPace function names.)
 
 - G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.
 
-- G.scalar\_pow\_vfy(y,g) is a function operating on
+- G.scalar\_mult\_vfy(y,g) is a function operating on
 a scalar y and a group element g. It returns an octet string
-representation of the group element g^y. Additionally, scalar\_pow\_vfy specifies validity conditions for y,g and g^y and outputs G.I in case they are not met.
+representation of the group element g^y. Additionally, scalar\_mult\_vfy specifies validity conditions for y,g and g^y and outputs G.I in case they are not met.
 
 - G.DSI denotes a domain-separation identifier string which SHALL be uniquely identifying the group environment G.
 
@@ -321,9 +321,9 @@ representation of the group element g^y. Additionally, scalar\_pow\_vfy specifie
 
 - nil denotes an empty octet string, i.e., len(nil) = 0.
 
-- In this specification use a quotation marks "" both for general language use (e.g. citations of definitions from other documents) and 
+- In this specification use a quotation marks "" both for general language use (e.g. citations of definitions from other documents) and
   as syntax for specifying octet strings as in b"CPace25519".
-  
+
   We use a preceeding lower-case letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
   I.e. we use the notation for byte string representations as specified by the python programming language.
   This convention also makes it explicit that a single-byte ASCII encoding of the characters is to be used if a leading b"" is prepended to the quotation marks (just as in
@@ -394,20 +394,20 @@ Optional parameters and messages are denoted with [].
 
 ## CPace protocol instructions
 
-A computes a generator g = G.calculate\_generator(H,PRS,CI,sid), scalar ya = G.sample\_scalar() and group element Ya = G.scalar\_pow (ya,g). A then transmits MSGa = network\_encode(Ya, ADa) with
+A computes a generator g = G.calculate\_generator(H,PRS,CI,sid), scalar ya = G.sample\_scalar() and group element Ya = G.scalar\_mult (ya,g). A then transmits MSGa = network\_encode(Ya, ADa) with
 optional associated data ADa to B.
 
-B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_pow(yb,g). B sends MSGb = network\_encode(Yb, ADb) with optional associated data ADb to A.
+B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_mult(yb,g). B sends MSGb = network\_encode(Yb, ADb) with optional associated data ADb to A.
 
 Upon reception of MSGa, B checks that MSGa was properly generated in conformity with the chosen encoding of network messages (notably correct length fields).
 If this parsing fails, then B MUST abort. (Testvectors of examples for invalid messages when using lv\_cat() as network\_encode function for
 CPace are given in the appendix.)
-B then computes K = G.scalar\_pow\_vfy(yb,Ya). B MUST abort if K=G.I.
+B then computes K = G.scalar\_mult\_vfy(yb,Ya). B MUST abort if K=G.I.
 Otherwise B returns
 ISK = H.hash(lv\_cat(G.DSI \|\| b"\_ISK", sid, K)\|\|transcript(MSGa, MSGb)). B returns ISK and terminates.
 
 Likewise upon reception of MSGb, A parses MSGb for Yb and ADb and checks for a valid encoding.
-If this parsing fails, then A MUST abort. A then computes K = G.scalar\_pow\_vfy(ya,Yb). A MUST abort if K=G.I.
+If this parsing fails, then A MUST abort. A then computes K = G.scalar\_mult\_vfy(ya,Yb). A MUST abort if K=G.I.
 Otherwise A returns
 ISK = H.hash(lv\_cat(G.DSI \|\| b"\_ISK", sid, K) \|\| transcript(MSGa, MSGb)). A returns ISK and terminates.
 
@@ -449,7 +449,7 @@ For the group environment G\_X25519 the following definitions apply:
 
 - G\_X25519.sample\_scalar() = sample\_random\_bytes(G.field\_size\_bytes)
 
-- G\_X25519.scalar\_pow(y,g) = G.scalar\_pow\_vfy(y,g) = X25519(y,g)
+- G\_X25519.scalar\_mult(y,g) = G.scalar\_mult\_vfy(y,g) = X25519(y,g)
 
 - G\_X25519.I = zero\_bytes(G.field\_size\_bytes)
 
@@ -466,7 +466,7 @@ For X448 the following definitions apply:
 
 - G\_X448.sample\_scalar() = sample\_random\_bytes(G.field\_size\_bytes)
 
-- G\_X448.scalar\_pow(y,g) = G.scalar\_pow\_vfy(y,g) = X448(y,g)
+- G\_X448.scalar\_mult(y,g) = G.scalar\_mult\_vfy(y,g) = X448(y,g)
 
 - G\_X448.I = zero\_bytes(G.field\_size\_bytes)
 
@@ -501,7 +501,7 @@ For single-coordinate Montgomery ladders on Montgomery curves verification tests
 check for proper handling of the abort conditions, when a party is receiving u coordinate values that encode a low-order
 point on either, the curve or the quadratic twist.
 
-In addition to that in case of G_X25519 the tests SHALL also verify that the implementation of G.scalar\_pow\_vfy(y,g) produces the
+In addition to that in case of G_X25519 the tests SHALL also verify that the implementation of G.scalar\_mult\_vfy(y,g) produces the
 expected results for non-canonical u coordinate values with bit #255 set, which may also encode low-order points.
 
 Corresponding test vectors are provided in the appendix.
@@ -557,11 +557,11 @@ For both abstractions the following definitions apply:
 -  Alternatively, if G.sample\_scalar() is not implemented according to the above recommendation, it SHALL be implemented using uniform sampling between 1 and (G.group\_order - 1). Note that the more complex
 uniform sampling process can provide a larger side-channel attack surface for embedded systems in hostile environments.
 
-- G.scalar\_pow(y,\_g) SHALL operate on a scalar y and a group element \_g in the internal representation of the group abstraction environment. It returns the value Y = encode((\_g)^y), i.e. it returns a value using the public encoding.
+- G.scalar\_mult(y,\_g) SHALL operate on a scalar y and a group element \_g in the internal representation of the group abstraction environment. It returns the value Y = encode((\_g)^y), i.e. it returns a value using the public encoding.
 
 - G.I = is the public encoding representation of the identity element.
 
-- G.scalar\_pow\_vfy(y,X) operates on a value using the public encoding and a scalar and is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X)^y ).
+- G.scalar\_mult\_vfy(y,X) operates on a value using the public encoding and a scalar and is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X)^y ).
 
 - The G.calculate\_generator(H, PRS,sid,CI) function SHALL return a decoded point and SHALL BE implemented as follows.
 
@@ -575,8 +575,8 @@ uniform sampling process can provide a larger side-channel attack surface for em
    - Finally the internal representation of the generator \_g is calculated as \_g = element\_derivation(gen\_str\_hash)
      using the element derivation function from the abstraction.
 
-Note that with these definitions the scalar\_pow function operates on a decoded point \_g and returns an encoded point,
-while the scalar\_pow\_vfy(y,X) function operates on an encoded point X (and also returns an encoded point).
+Note that with these definitions the scalar\_mult function operates on a decoded point \_g and returns an encoded point,
+while the scalar\_mult\_vfy(y,X) function operates on an encoded point X (and also returns an encoded point).
 
 ### Verification tests
 
@@ -640,21 +640,21 @@ Using the above definitions, the CPace functions required for the group object G
 
    - Then the output of a call to encode\_to\_curve(gen\_str, G.DST) is returned, using the selected suite from {{?RFC9380}}.
 
-- G.scalar\_pow(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
-G.scalar\_pow(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to {{SEC1}}. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar\_pow(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and
+- G.scalar\_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate\_generator method above.
+G.scalar\_mult(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to {{SEC1}}. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar\_mult(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and
 result in the same Diffie-Hellman shared secrets K.
 (This allows implementations to opt for x-coordinate-only scalar multiplication algorithms.)
 
-- G.scalar\_pow\_vfy(s,X) merges verification of point X according to {{IEEE1363}} A.16.10. and the the ECSVDP-DH procedure from {{IEEE1363}}.
+- G.scalar\_mult\_vfy(s,X) merges verification of point X according to {{IEEE1363}} A.16.10. and the the ECSVDP-DH procedure from {{IEEE1363}}.
 It SHALL BE implemented as follows:
 
-   - If is\_valid(X) = False then G.scalar\_pow\_vfy(s,X) SHALL return "error" as specified in {{IEEE1363}} A.16.10 and 7.2.1.
+   - If is\_valid(X) = False then G.scalar\_mult\_vfy(s,X) SHALL return "error" as specified in {{IEEE1363}} A.16.10 and 7.2.1.
 
-   - Otherwise G.scalar\_pow\_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from {{IEEE1363}} (section 7.2.1). I.e. it shall
+   - Otherwise G.scalar\_mult\_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from {{IEEE1363}} (section 7.2.1). I.e. it shall
      either return "error" (in case that X^s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
      the big-endian encoding of the x-coordinate of the result point X^s according to {{SEC1}}.
 
-- We represent the neutral element G.I by using the representation of the "error" result case from {{IEEE1363}} as used in the G.scalar\_pow\_vfy method above.
+- We represent the neutral element G.I by using the representation of the "error" result case from {{IEEE1363}} as used in the G.scalar\_mult\_vfy method above.
 
 ### Verification tests
 
@@ -665,7 +665,7 @@ encoding of the point at infinity and an encoding of a point not on the group.
 # Implementation verification {#verification}
 
 Any CPace implementation MUST be tested against invalid or weak point attacks.
-Implementation MUST be verified to abort upon conditions where G.scalar\_pow\_vfy functions outputs G.I.
+Implementation MUST be verified to abort upon conditions where G.scalar\_mult\_vfy functions outputs G.I.
 For testing an implementation it is RECOMMENDED to include weak or invalid point encodings within MSGa and MSGb and introduce this
 in a protocol run. It SHALL be verified that the abort condition is properly handled.
 
@@ -758,7 +758,7 @@ The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 
 
 - The representation of the neutral element G.I MUST BE the same for both, the curve and its twist.
 
-- The implementation of G.scalar\_pow\_vfy(y,X) MUST map all c low-order points on the curve and all c' low-order points on the twist to G.I.
+- The implementation of G.scalar\_mult\_vfy(y,X) MUST map all c low-order points on the curve and all c' low-order points on the twist to G.I.
 
 Montgomery curves other than the ones recommended here can use the specifications given in {{CPaceMontgomery}}, given that the above properties hold.
 
@@ -1096,10 +1096,10 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
 ###  Test vector for secret points K
 
 ~~~
-    scalar_pow_vfy(ya,Yb): (length: 32 bytes)
+    scalar_mult_vfy(ya,Yb): (length: 32 bytes)
       42ba4c6dc4c184a1cf405d4503f64bf7f015e2a0107450e38b9efff3
       bee52412
-    scalar_pow_vfy(yb,Ya): (length: 32 bytes)
+    scalar_mult_vfy(yb,Ya): (length: 32 bytes)
       42ba4c6dc4c184a1cf405d4503f64bf7f015e2a0107450e38b9efff3
       bee52412
 ~~~
@@ -1216,9 +1216,9 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Test vectors for G\_X25519.scalar\_pow\_vfy: low order points
+### Test vectors for G\_X25519.scalar\_mult\_vfy: low order points
 
-Test vectors for which G\_X25519.scalar\_pow\_vfy(s\_in,ux) must return the neutral
+Test vectors for which G\_X25519.scalar\_mult\_vfy(s\_in,ux) must return the neutral
 element or would return the neutral element if bit #255 of field element
 representation was not correctly cleared. (The decodeUCoordinate function from RFC7748 mandates clearing bit #255 for field element representations for use in the X25519 function.).
 
@@ -1242,7 +1242,7 @@ Additionally, u0,u1,u2,u3,u4,u5 and u7 MUST trigger the abort case
 when included in MSGa or MSGb.
 
 s = af46e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449aff
-qN = G_X25519.scalar_pow_vfy(s, uX)
+qN = G_X25519.scalar_mult_vfy(s, uX)
 q0: 0000000000000000000000000000000000000000000000000000000000000000
 q1: 0000000000000000000000000000000000000000000000000000000000000000
 q2: 0000000000000000000000000000000000000000000000000000000000000000
@@ -1329,10 +1329,10 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
 ###  Test vector for secret points K
 
 ~~~
-    scalar_pow_vfy(ya,Yb): (length: 56 bytes)
+    scalar_mult_vfy(ya,Yb): (length: 56 bytes)
       e00af217556a40ccbc9822cc27a43542e45166a653aa4df746d5f8e1
       e8df483e9baff71c9eb03ee20a688ad4e4d359f70ac9ec3f6a659997
-    scalar_pow_vfy(yb,Ya): (length: 56 bytes)
+    scalar_mult_vfy(yb,Ya): (length: 56 bytes)
       e00af217556a40ccbc9822cc27a43542e45166a653aa4df746d5f8e1
       e8df483e9baff71c9eb03ee20a688ad4e4d359f70ac9ec3f6a659997
 ~~~
@@ -1471,9 +1471,9 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Test vectors for G\_X448.scalar\_pow\_vfy: low order points
+### Test vectors for G\_X448.scalar\_mult\_vfy: low order points
 
-Test vectors for which G\_X448.scalar\_pow\_vfy(s\_in,ux) must return the neutral
+Test vectors for which G\_X448.scalar\_mult\_vfy(s\_in,ux) must return the neutral
 element.
 This includes points that are non-canonicaly encoded, i.e. have coordinate values
 larger
@@ -1507,31 +1507,31 @@ All of the above points u0 ... u4 MUST trigger the abort case
 when included in the protocol messages MSGa or MSGb.
 ~~~
 
-Expected results for X448 resp. G\_X448.scalar\_pow\_vfy
+Expected results for X448 resp. G\_X448.scalar\_mult\_vfy
 
 ~~~
   scalar s: (length: 56 bytes)
     af8a14218bf2a2062926d2ea9b8fe4e8b6817349b6ed2feb1e5d64d7a4
     523f15fceec70fb111e870dc58d191e66a14d3e9d482d04432cadd
-  G_X448.scalar_pow_vfy(s,u0): (length: 56 bytes)
+  G_X448.scalar_mult_vfy(s,u0): (length: 56 bytes)
     0000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000
-  G_X448.scalar_pow_vfy(s,u1): (length: 56 bytes)
+  G_X448.scalar_mult_vfy(s,u1): (length: 56 bytes)
     0000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000
-  G_X448.scalar_pow_vfy(s,u2): (length: 56 bytes)
+  G_X448.scalar_mult_vfy(s,u2): (length: 56 bytes)
     0000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000
-  G_X448.scalar_pow_vfy(s,u3): (length: 56 bytes)
+  G_X448.scalar_mult_vfy(s,u3): (length: 56 bytes)
     0000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000
-  G_X448.scalar_pow_vfy(s,u4): (length: 56 bytes)
+  G_X448.scalar_mult_vfy(s,u4): (length: 56 bytes)
     0000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000
 ~~~
 
 
-Test vectors for scalar_pow with nonzero outputs
+Test vectors for scalar_mult with nonzero outputs
 
 ~~~
   scalar s: (length: 56 bytes)
@@ -1540,14 +1540,14 @@ Test vectors for scalar_pow with nonzero outputs
   point coordinate u_curve on the curve: (length: 56 bytes)
     ab0c68d772ec2eb9de25c49700e46d6325e66d6aa39d7b65eb84a68c55
     69d47bd71b41f3e0d210f44e146dec8926b174acb3f940a0b82cab
-  G_X448.scalar_pow_vfy(s,u_curve): (length: 56 bytes)
+  G_X448.scalar_mult_vfy(s,u_curve): (length: 56 bytes)
     3b0fa9bc40a6fdc78c9e06ff7a54c143c5d52f365607053bf0656f5142
     0496295f910a101b38edc1acd3bd240fd55dcb7a360553b8a7627e
 
   point coordinate u_twist on the twist: (length: 56 bytes)
     c981cd1e1f72d9c35c7d7cf6be426757c0dc8206a2fcfa564a8e7618c0
     3c0e61f9a2eb1c3e0dd97d6e9b1010f5edd03397a83f5a914cb3ff
-  G_X448.scalar_pow_vfy(s,u_twist): (length: 56 bytes)
+  G_X448.scalar_mult_vfy(s,u_twist): (length: 56 bytes)
     d0a2bb7e9c5c2c627793d8342f23b759fe7d9e3320a85ca4fd61376331
     50ffd9a9148a9b75c349fac43d64bec49a6e126cc92cbfbf353961
 ~~~
@@ -1621,10 +1621,10 @@ Test vectors for scalar_pow with nonzero outputs
 ###  Test vector for secret points K
 
 ~~~
-    scalar_pow_vfy(ya,Yb): (length: 32 bytes)
+    scalar_mult_vfy(ya,Yb): (length: 32 bytes)
       fa1d0318864e2cacb26875f1b791c9ae83204fe8359addb53e95a2e9
       8893853f
-    scalar_pow_vfy(yb,Ya): (length: 32 bytes)
+    scalar_mult_vfy(yb,Ya): (length: 32 bytes)
       fa1d0318864e2cacb26875f1b791c9ae83204fe8359addb53e95a2e9
       8893853f
 ~~~
@@ -1745,7 +1745,7 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Test case for scalar\_pow with valid inputs
+### Test case for scalar\_mult with valid inputs
 
 
 ~~~
@@ -1755,18 +1755,18 @@ const uint8_t tc_ISK_SY[] = {
     X: (length: 32 bytes)
       2c3c6b8c4f3800e7aef6864025b4ed79bd599117e427c41bd47d93d6
       54b4a51c
-    G.scalar_pow(s,decode(X)): (length: 32 bytes)
+    G.scalar_mult(s,decode(X)): (length: 32 bytes)
       7c13645fe790a468f62c39beb7388e541d8405d1ade69d1778c5fe3e
       7f6b600e
-    G.scalar_pow_vfy(s,X): (length: 32 bytes)
+    G.scalar_mult_vfy(s,X): (length: 32 bytes)
       7c13645fe790a468f62c39beb7388e541d8405d1ade69d1778c5fe3e
       7f6b600e
 ~~~
 
 
-### Invalid inputs for scalar\_pow\_vfy
+### Invalid inputs for scalar\_mult\_vfy
 
-For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the neutral element G.I. When points Y\_i1 or Y\_i2 are included in MSGa or MSGb the protocol MUST abort.
+For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. When points Y\_i1 or Y\_i2 are included in MSGa or MSGb the protocol MUST abort.
 
 ~~~
     s: (length: 32 bytes)
@@ -1778,7 +1778,7 @@ For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the
     Y_i2 == G.I: (length: 32 bytes)
       00000000000000000000000000000000000000000000000000000000
       00000000
-    G.scalar_pow_vfy(s,Y_i1) = G.scalar_pow_vfy(s,Y_i2) = G.I
+    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
 
 ##  Test vector for CPace using group decaf448 and hash SHAKE-256
@@ -1854,10 +1854,10 @@ For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the
 ###  Test vector for secret points K
 
 ~~~
-    scalar_pow_vfy(ya,Yb): (length: 56 bytes)
+    scalar_mult_vfy(ya,Yb): (length: 56 bytes)
       dc9edef7c127e79d32f2584f9fcd3269174fe32226c2082963879a6d
       eafefb9c14efcee9fc1245917ad3658037d2d62aff2d3f76fa4fca99
-    scalar_pow_vfy(yb,Ya): (length: 56 bytes)
+    scalar_mult_vfy(yb,Ya): (length: 56 bytes)
       dc9edef7c127e79d32f2584f9fcd3269174fe32226c2082963879a6d
       eafefb9c14efcee9fc1245917ad3658037d2d62aff2d3f76fa4fca99
 ~~~
@@ -1996,7 +1996,7 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Test case for scalar\_pow with valid inputs
+### Test case for scalar\_mult with valid inputs
 
 
 ~~~
@@ -2006,18 +2006,18 @@ const uint8_t tc_ISK_SY[] = {
     X: (length: 56 bytes)
       601431d5e51f43d422a92d3fb2373bde28217aab42524c341aa404ea
       ba5aa5541f7042dbb3253ce4c90f772b038a413dcb3a0f6bf3ae9e21
-    G.scalar_pow(s,decode(X)): (length: 56 bytes)
+    G.scalar_mult(s,decode(X)): (length: 56 bytes)
       388b35c60eb41b66085a2118316218681d78979d667702de105fdc1f
       21ffe884a577d795f45691781390a229a3bd7b527e831380f2f585a4
-    G.scalar_pow_vfy(s,X): (length: 56 bytes)
+    G.scalar_mult_vfy(s,X): (length: 56 bytes)
       388b35c60eb41b66085a2118316218681d78979d667702de105fdc1f
       21ffe884a577d795f45691781390a229a3bd7b527e831380f2f585a4
 ~~~
 
 
-### Invalid inputs for scalar\_pow\_vfy
+### Invalid inputs for scalar\_mult\_vfy
 
-For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the neutral element G.I. When points Y\_i1 or Y\_i2 are included in MSGa or MSGb the protocol MUST abort.
+For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. When points Y\_i1 or Y\_i2 are included in MSGa or MSGb the protocol MUST abort.
 
 ~~~
     s: (length: 56 bytes)
@@ -2029,7 +2029,7 @@ For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the
     Y_i2 == G.I: (length: 56 bytes)
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
-    G.scalar_pow_vfy(s,Y_i1) = G.scalar_pow_vfy(s,Y_i2) = G.I
+    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
 
 ##  Test vector for CPace using group NIST P-256 and hash SHA-256
@@ -2110,10 +2110,10 @@ For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the
 ###  Test vector for secret points K
 
 ~~~
-    scalar_pow_vfy(ya,Yb): (length: 32 bytes)
+    scalar_mult_vfy(ya,Yb): (length: 32 bytes)
       8fd12b283805750aeee6151bcd4211a6b71019e8fc416293ade24ed2
       bce12c39
-    scalar_pow_vfy(yb,Ya): (length: 32 bytes)
+    scalar_mult_vfy(yb,Ya): (length: 32 bytes)
       8fd12b283805750aeee6151bcd4211a6b71019e8fc416293ade24ed2
       bce12c39
 ~~~
@@ -2248,7 +2248,7 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Test case for scalar\_pow\_vfy with correct inputs
+### Test case for scalar\_mult\_vfy with correct inputs
 
 
 ~~~
@@ -2259,20 +2259,20 @@ const uint8_t tc_ISK_SY[] = {
       0424648eb986c2be0af636455cef0550671d6bcd8aa26e0d72ffa1b1
       fd12ba4e0f78da2b6d2184f31af39e566aef127014b6936c9a37346d
       10a4ab2514faef5831
-    G.scalar_pow(s,X) (full coordinates): (length: 65 bytes)
+    G.scalar_mult(s,X) (full coordinates): (length: 65 bytes)
       04f5a191f078c87c36633b78c701751159d56c59f3fe9105b5720673
       470f303ab925b6a7fd1cdd8f649a21cf36b68d9e9c4a11919a951892
       519786104b27033757
-    G.scalar_pow_vfy(s,X) (only X-coordinate):
+    G.scalar_mult_vfy(s,X) (only X-coordinate):
     (length: 32 bytes)
       f5a191f078c87c36633b78c701751159d56c59f3fe9105b572067347
       0f303ab9
 ~~~
 
 
-### Invalid inputs for scalar\_pow\_vfy
+### Invalid inputs for scalar\_mult\_vfy
 
-For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the neutral element G.I. When including Y\_i1 or Y\_i2 in MSGa or MSGb the protocol MUST abort.
+For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. When including Y\_i1 or Y\_i2 in MSGa or MSGb the protocol MUST abort.
 
 
 ~~~
@@ -2285,7 +2285,7 @@ For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the
       10a4ab2514faef5857
     Y_i2: (length: 1 bytes)
       00
-    G.scalar_pow_vfy(s,Y_i1) = G.scalar_pow_vfy(s,Y_i2) = G.I
+    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
 
 ##  Test vector for CPace using group NIST P-384 and hash SHA-384
@@ -2375,10 +2375,10 @@ For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the
 ###  Test vector for secret points K
 
 ~~~
-    scalar_pow_vfy(ya,Yb): (length: 48 bytes)
+    scalar_mult_vfy(ya,Yb): (length: 48 bytes)
       374290a54e07015baad085b311b18fbae1a20652e137c7c4bd13d565
       7d8b1ace028eb5acfba8c68d6211a79fff0965c9
-    scalar_pow_vfy(yb,Ya): (length: 48 bytes)
+    scalar_mult_vfy(yb,Ya): (length: 48 bytes)
       374290a54e07015baad085b311b18fbae1a20652e137c7c4bd13d565
       7d8b1ace028eb5acfba8c68d6211a79fff0965c9
 ~~~
@@ -2536,7 +2536,7 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Test case for scalar\_pow\_vfy with correct inputs
+### Test case for scalar\_mult\_vfy with correct inputs
 
 
 ~~~
@@ -2548,21 +2548,21 @@ const uint8_t tc_ISK_SY[] = {
       7ad9576efea8259f0684de065a470585b4be876748c7797054f3defe
       f21b77f83d53bac57c89d52aa4d6dd5872bd281989b138359698009f
       8ac1f301538badcce9d9f4036e
-    G.scalar_pow(s,X) (full coordinates): (length: 97 bytes)
+    G.scalar_mult(s,X) (full coordinates): (length: 97 bytes)
       0465c28db05fd9f9a93651c5cc31eae49c4e5246b46489b8f6105873
       3173a033cda76c3e3ea5352b804e67fdbe2e334be8245dad5c8c993e
       63bacf0456478f29b71b6c859f13676f84ff150d2741f028f560584a
       0bdba19a63df62c08949c2fd6d
-    G.scalar_pow_vfy(s,X) (only X-coordinate):
+    G.scalar_mult_vfy(s,X) (only X-coordinate):
     (length: 48 bytes)
       65c28db05fd9f9a93651c5cc31eae49c4e5246b46489b8f610587331
       73a033cda76c3e3ea5352b804e67fdbe2e334be8
 ~~~
 
 
-### Invalid inputs for scalar\_pow\_vfy
+### Invalid inputs for scalar\_mult\_vfy
 
-For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the neutral element G.I. When including Y\_i1 or Y\_i2 in MSGa or MSGb the protocol MUST abort.
+For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. When including Y\_i1 or Y\_i2 in MSGa or MSGb the protocol MUST abort.
 
 
 ~~~
@@ -2576,7 +2576,7 @@ For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the
       8ac1f301538badcce9d9f40302
     Y_i2: (length: 1 bytes)
       00
-    G.scalar_pow_vfy(s,Y_i1) = G.scalar_pow_vfy(s,Y_i2) = G.I
+    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
 
 ##  Test vector for CPace using group NIST P-521 and hash SHA-512
@@ -2675,11 +2675,11 @@ For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the
 ###  Test vector for secret points K
 
 ~~~
-    scalar_pow_vfy(ya,Yb): (length: 66 bytes)
+    scalar_mult_vfy(ya,Yb): (length: 66 bytes)
       00503e75e38e012a6dc6f3561980e4cf540dbcff3de3a4a6f09d79c3
       2cc45764d3a6605eb45df1dc63fb7937b7879f2820da1b3266b69fa0
       99bf8720dd8f6a07e8ed
-    scalar_pow_vfy(yb,Ya): (length: 66 bytes)
+    scalar_mult_vfy(yb,Ya): (length: 66 bytes)
       00503e75e38e012a6dc6f3561980e4cf540dbcff3de3a4a6f09d79c3
       2cc45764d3a6605eb45df1dc63fb7937b7879f2820da1b3266b69fa0
       99bf8720dd8f6a07e8ed
@@ -2871,7 +2871,7 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Test case for scalar\_pow\_vfy with correct inputs
+### Test case for scalar\_mult\_vfy with correct inputs
 
 
 ~~~
@@ -2885,13 +2885,13 @@ const uint8_t tc_ISK_SY[] = {
       c95940a3b4120573b26a80005e697833b0ba285fce7b3f1f25243008
       860b8f1de710a0dcc05b0d20341efe90eb2bcca26797c2d85ae6ca74
       c00696cb1b13e40bda15b27964d7670576647bfab9
-    G.scalar_pow(s,X) (full coordinates): (length: 133 bytes)
+    G.scalar_mult(s,X) (full coordinates): (length: 133 bytes)
       040122f88ce73ec5aa2d1c8c5d04148760c3d97ba87daa10d8cb8bb7
       c73cf6e951fc922721bf1437995cfb13e132a78beb86389e60d3517c
       df6d99a8a2d6db19ef27bd0055af9e8ddcf337ce0a7c22a9c8099bc4
       a44faeded1eb72effd26e4f322217b67d60b944b267b3df5046078fd
       577f1785728f49b241fd5e8c83223a994a2d219281
-    G.scalar_pow_vfy(s,X) (only X-coordinate):
+    G.scalar_mult_vfy(s,X) (only X-coordinate):
     (length: 66 bytes)
       0122f88ce73ec5aa2d1c8c5d04148760c3d97ba87daa10d8cb8bb7c7
       3cf6e951fc922721bf1437995cfb13e132a78beb86389e60d3517cdf
@@ -2899,9 +2899,9 @@ const uint8_t tc_ISK_SY[] = {
 ~~~
 
 
-### Invalid inputs for scalar\_pow\_vfy
+### Invalid inputs for scalar\_mult\_vfy
 
-For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the neutral element G.I. When including Y\_i1 or Y\_i2 in MSGa or MSGb the protocol MUST abort.
+For these test cases scalar\_mult\_vfy(y,.) MUST return the representation of the neutral element G.I. When including Y\_i1 or Y\_i2 in MSGa or MSGb the protocol MUST abort.
 
 
 ~~~
@@ -2917,6 +2917,6 @@ For these test cases scalar\_pow\_vfy(y,.) MUST return the representation of the
       c00696cb1b13e40bda15b27964d7670576647bfaf9
     Y_i2: (length: 1 bytes)
       00
-    G.scalar_pow_vfy(s,Y_i1) = G.scalar_pow_vfy(s,Y_i2) = G.I
+    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I
 ~~~
 

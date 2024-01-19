@@ -170,10 +170,10 @@ class G_X25519(G_Montgomery):
         self.q = 2^255 - 19
         self.A = 486662
         
-    def scalar_pow(self,scalar,point):
+    def scalar_mult(self,scalar,point):
         return X25519(scalar,point)
 
-    def scalar_pow_vfy(self,scalar,point):
+    def scalar_mult_vfy(self,scalar,point):
         return X25519(scalar,point)
 
 
@@ -191,10 +191,10 @@ class G_X448(G_Montgomery):
         self.q = 2^448 - 2^224 - 1
         self.A = 156326
         
-    def scalar_pow(self,scalar,point):
+    def scalar_mult(self,scalar,point):
         return X448(scalar,point) # yet no definition for X448 in this script file
 
-    def scalar_pow_vfy(self,scalar,point):
+    def scalar_mult_vfy(self,scalar,point):
         return X448(scalar,point) # yet no definition for X448 in this script file
 
 if __name__ == "__main__":

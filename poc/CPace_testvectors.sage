@@ -61,9 +61,9 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     seed = b""
     while True:
         ya = G.sample_scalar(b"A"+seed)
-        Ya = G.scalar_pow(ya, g)
+        Ya = G.scalar_mult(ya, g)
         yb = G.sample_scalar(b"B"+seed)
-        Yb = G.scalar_pow(yb, g)
+        Yb = G.scalar_mult(yb, g)
         if not (o_cat(Ya,Yb) == Ya + Yb):
             break;
         seed += b" "
@@ -83,7 +83,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
                          line_prefix = "    ", max_len = 60, file=file)
                          
     if (print_negated_Y):
-        tv_output_byte_array(G.scalar_pow_negated_result(ya, g), test_vector_name = "Alternative correct value for Ya: g^(-ya)", 
+        tv_output_byte_array(G.scalar_mult_negated_result(ya, g), test_vector_name = "Alternative correct value for Ya: g^(-ya)", 
                              line_prefix = "    ", max_len = 60, file=file)
     
     tv_output_byte_array(MSGa, test_vector_name = "MSGa = lv_cat(Ya,ADa)", 
@@ -99,7 +99,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     tv_output_byte_array(Yb, test_vector_name = "Yb", 
                          line_prefix = "    ", max_len = 60, file=file)
     if (print_negated_Y):
-        tv_output_byte_array(G.scalar_pow_negated_result(yb, g), test_vector_name = "Alternative correct value for Yb: g^(-yb)", 
+        tv_output_byte_array(G.scalar_mult_negated_result(yb, g), test_vector_name = "Alternative correct value for Yb: g^(-yb)", 
                              line_prefix = "    ", max_len = 60, file=file)
     tv_output_byte_array(MSGb, test_vector_name = "MSGb = lv_cat(Yb,ADb)", 
                          line_prefix = "    ", max_len = 60, file=file)
@@ -107,11 +107,11 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     print ("~~~", file=file)
     print ("\n###  Test vector for secret points K\n", file=file)
     print ("~~~", file=file)
-    K1 = G.scalar_pow_vfy(ya,Yb)
-    K2 = G.scalar_pow_vfy(yb,Ya)
-    tv_output_byte_array(K1, test_vector_name = "scalar_pow_vfy(ya,Yb)", 
+    K1 = G.scalar_mult_vfy(ya,Yb)
+    K2 = G.scalar_mult_vfy(yb,Ya)
+    tv_output_byte_array(K1, test_vector_name = "scalar_mult_vfy(ya,Yb)", 
                          line_prefix = "    ", max_len = 60, file=file)
-    tv_output_byte_array(K2, test_vector_name = "scalar_pow_vfy(yb,Ya)", 
+    tv_output_byte_array(K2, test_vector_name = "scalar_mult_vfy(yb,Ya)", 
                          line_prefix = "    ", max_len = 60, file=file)
     print ("~~~\n", file=file)
     if (K1 != K2):
