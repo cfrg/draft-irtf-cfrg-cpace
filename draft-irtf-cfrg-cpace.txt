@@ -622,14 +622,15 @@ Table of Contents
    (Testvectors of examples for invalid messages when using lv_cat() as
    network_encode function for CPace are given in the appendix.)  B then
    computes K = G.scalar_mult_vfy(yb,Ya).  B MUST abort if K=G.I.
-   Otherwise B returns ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid,
+   Otherwise B calculates ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid,
    K)||transcript(MSGa, MSGb)).  B returns ISK and terminates.
 
    Likewise upon reception of MSGb, A parses MSGb for Yb and ADb and
    checks for a valid encoding.  If this parsing fails, then A MUST
    abort.  A then computes K = G.scalar_mult_vfy(ya,Yb).  A MUST abort
-   if K=G.I.  Otherwise A returns ISK = H.hash(lv_cat(G.DSI || b"_ISK",
-   sid, K) || transcript(MSGa, MSGb)).  A returns ISK and terminates.
+   if K=G.I.  Otherwise A calculates ISK = H.hash(lv_cat(G.DSI ||
+   b"_ISK", sid, K) || transcript(MSGa, MSGb)).  A returns ISK and
+   terminates.
 
    The session key ISK returned by A and B is identical if and only if
    the supplied input parameters PRS, CI and sid match on both sides and
@@ -658,18 +659,19 @@ Table of Contents
 
    The zero padding of length len_zpad is designed such that the
    encoding of DSI and PRS together with the zero padding field
-   completely fills the first input block (of length s_in_bytes) of the
-   hash.  As a result for the common case of short PRS the number of
-   bytes to hash becomes independent of the actual length of the
-   password (PRS).  (A reference implementation and test vectors are
-   provided in the appendix.)
+   completely fills at least the first input block (of length
+   s_in_bytes) of the hash.  As a result for the common case of short
+   PRS the number of bytes to hash becomes independent of the actual
+   length of the password (PRS).  (A reference implementation and test
+   vectors are provided in the appendix.)
 
    The introduction of a zero-padding within the generator string also
    helps mitigating attacks of a side-channel adversary that analyzes
-   correlations between publicly known variable information with the
+   correlations between publicly known variable information with a short
    low-entropy PRS string.  Note that the hash of the first block is
    intentionally made independent of session-specific inputs, such as
-   sid or CI.
+   sid or CI and that there is no limitation regarding the maximum
+   length of the PRS string.
 
 7.2.  CPace group objects G_X25519 and G_X448 for single-coordinate
       Ladders on Montgomery curves

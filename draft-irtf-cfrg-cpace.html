@@ -1955,11 +1955,11 @@ optional associated data ADa to B.<a href="#section-6.2-1" class="pilcrow">¶</a
 If this parsing fails, then B MUST abort. (Testvectors of examples for invalid messages when using lv_cat() as network_encode function for
 CPace are given in the appendix.)
 B then computes K = G.scalar_mult_vfy(yb,Ya). B MUST abort if K=G.I.
-Otherwise B returns
+Otherwise B calculates
 ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid, K)||transcript(MSGa, MSGb)). B returns ISK and terminates.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 <p id="section-6.2-4">Likewise upon reception of MSGb, A parses MSGb for Yb and ADb and checks for a valid encoding.
 If this parsing fails, then A MUST abort. A then computes K = G.scalar_mult_vfy(ya,Yb). A MUST abort if K=G.I.
-Otherwise A returns
+Otherwise A calculates
 ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid, K) || transcript(MSGa, MSGb)). A returns ISK and terminates.<a href="#section-6.2-4" class="pilcrow">¶</a></p>
 <p id="section-6.2-5">The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view (containing of MSGa and MSGb) of both parties match.<a href="#section-6.2-5" class="pilcrow">¶</a></p>
 <p id="section-6.2-6">(Note that in case of a symmetric protocol execution without clear initiator/responder roles, transcript(MSGa, MSGb) needs to be implemented using ordered concatenation for generating a matching view by both parties.)<a href="#section-6.2-6" class="pilcrow">¶</a></p>
@@ -1988,11 +1988,12 @@ lv_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid).<a href="#section-7.1-2.1.1" cla
 </li>
         </ul>
 <p id="section-7.1-3">The zero padding of length len_zpad is designed such that the encoding of DSI and PRS together with the zero padding field completely
-fills the first input block (of length s_in_bytes) of the hash.
+fills at least the first input block (of length s_in_bytes) of the hash.
 As a result for the common case of short PRS the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation and test vectors are provided in the appendix.)<a href="#section-7.1-3" class="pilcrow">¶</a></p>
 <p id="section-7.1-4">The introduction of a zero-padding within the generator string also helps mitigating attacks of a side-channel adversary that
-analyzes correlations between publicly known variable information with the low-entropy PRS string.
-Note that the hash of the first block is intentionally made independent of session-specific inputs, such as sid or CI.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+analyzes correlations between publicly known variable information with a short low-entropy PRS string.
+Note that the hash of the first block is intentionally made independent of session-specific inputs, such as sid or CI and that there is no limitation
+regarding the maximum length of the PRS string.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="CPaceMontgomery">
