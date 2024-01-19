@@ -746,7 +746,10 @@ One suitable option that works also in the parallel setting without message orde
 For curves over fields F\_q where q is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
 with respect to side-channels for embedded systems in hostile environments.
 The effect of non-uniform sampling on security was demonstrated to be begnin in {{AHH21}} for the case of Curve25519 and Curve448.
-This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}.
+This analysis however does not transfer to most curves in Short-Weierstrass form. 
+
+As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}. Alternatively an algorithm designed allong the lines of the hash\_to\_field() function from {{?RFC9380}} can also be
+used. There oversampling to an integer significantly larger than the curve order is followed by a modular reduction to the group order.
 
 ## Preconditions for using the simplified CPace specification from {{CPaceMontgomery}}
 

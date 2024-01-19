@@ -194,25 +194,27 @@ used transport medium".)
 #
 # Fixed.
 
-9.5: Rejection sampling can be a bit tricky to implement in practice; I
-encountered many implementations that did it in a non-constant-time way,
-thus leaking information on the scalars. Also, it means that the amount
-of randomness and generation time are only probalistically bounded; this
-can be a problem for embedded systems operating under strong latency
-constraints. In RFC 9380, the hash_to_field() process uses instead some
-oversampling (say, 16 extra bytes, beyond the field length) and a
-modular reduction. RFC 9380 is already referenced and used (for the
-computation of the generator); it cannot be used exactly "as is" because
-hash_to_field() targets the base field for the curve, not the scalar
-field, but the method is still applicable here and may be preferable to
-rejection sampling, at least in some usage contexts. Since the output of
-the oversampling+reduction method is not entirely uniform in the
-mathematical sense (it has a bias which is negligible, but it is still
-conceptually there), it is formally forbidden by this specification
-document (section 7.4.3 says "MUST BE uniformly random"; it does not say
-"MUST BE computationally indistinguishable from uniform random
-selection"). It might be worth adding a note in section 9.5 that the
-oversampling+reduction method is actually OK?
+#9.5: Rejection sampling can be a bit tricky to implement in practice; I
+#encountered many implementations that did it in a non-constant-time way,
+#thus leaking information on the scalars. Also, it means that the amount
+#of randomness and generation time are only probalistically bounded; this
+#can be a problem for embedded systems operating under strong latency
+#constraints. In RFC 9380, the hash_to_field() process uses instead some
+#oversampling (say, 16 extra bytes, beyond the field length) and a
+#modular reduction. RFC 9380 is already referenced and used (for the
+#computation of the generator); it cannot be used exactly "as is" because
+#hash_to_field() targets the base field for the curve, not the scalar
+#field, but the method is still applicable here and may be preferable to
+#rejection sampling, at least in some usage contexts. Since the output of
+#the oversampling+reduction method is not entirely uniform in the
+#mathematical sense (it has a bias which is negligible, but it is still
+#conceptually there), it is formally forbidden by this specification
+#document (section 7.4.3 says "MUST BE uniformly random"; it does not say
+#"MUST BE computationally indistinguishable from uniform random
+#selection"). It might be worth adding a note in section 9.5 that the
+#oversampling+reduction method is actually OK?
+#
+# Yes. Done. Thank you.
 
 # 9.5: "begning" -> "benign"
 #
