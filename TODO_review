@@ -143,6 +143,7 @@ otherwise some text that says "MSGa is the pair of values (Ya, ADa),
 sent to the peer with an unambiguous encoding format appropriate for the
 used transport medium".)
 
+
 # 7.1: maybe add a sentence to assert that the zero padding should not be
 # considered as a requirement that the length of PRS be limited so that
 # DSI||PRS||padding always fits on exactly one block? There are already
@@ -274,9 +275,12 @@ oversampling+reduction method is actually OK?
 #
 # Yes. Changed the wording. Thank you!
 
-A.5: pseudocode for Elligator2 uses the field order as parameter 'q'
-which is a bit confusing because it was called 'p' previously in the
-document, while 'q' designated the curve (sub)group order.
+# A.5: pseudocode for Elligator2 uses the field order as parameter 'q'
+# which is a bit confusing because it was called 'p' previously in the
+# document, while 'q' designated the curve (sub)group order.
+#
+# Fixed that. Thank you. Naming in the main body was actually inconsistent
+# Now p is the curve subgroup order and q is the field order.
 
 B.1.7 (and others): Some nitpicking: "ANSI-C" (or "ANSI C") was the C
 language as standardized by ANSI in 1989, but in 1990 the language was

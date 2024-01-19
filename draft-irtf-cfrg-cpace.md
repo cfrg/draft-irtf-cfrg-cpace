@@ -741,7 +741,7 @@ One suitable option that works also in the parallel setting without message orde
 
 ## Sampling of scalars
 
-For curves over fields F\_p where p is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
+For curves over fields F\_q where q is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
 with respect to side-channels for embedded systems in hostile environments.
 The effect of non-uniform sampling on security was demonstrated to be begnin in {{AHH21}} for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form. As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}.
