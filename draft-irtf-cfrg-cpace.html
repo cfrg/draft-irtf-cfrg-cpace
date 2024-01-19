@@ -1805,7 +1805,7 @@ while for SHAKE-256 the input block size amounts to 136 bytes before the permuta
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-group-environment-g" class="section-name selfRef">Group environment G</a>
         </h3>
 <p id="section-5.2-1">The group environment G specifies an elliptic curve group (also denoted G for convenience)  and associated constants
-and functions as detailed below. In this document we use multiplicative notation for the group operation.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+and functions as detailed below. In this document we use additive notation for the group operation.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2-2.1">
             <p id="section-5.2-2.1.1">G.calculate_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group
@@ -1817,8 +1817,7 @@ private Diffie-Hellman key for the group.<a href="#section-5.2-2.2.1" class="pil
 </li>
           <li class="normal" id="section-5.2-2.3">
             <p id="section-5.2-2.3.1">G.scalar_mult(y,g) is a function operating on a scalar
-y and a group element g. It returns an octet string representation of the group element Y = g^y. (We use the function name scalar_mult and not scalar_pow for
-maintaining consistency with the additive group notation used in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> for the CPace function names.)<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
+y and a group element g. It returns an octet string representation of the group element Y = g * y.<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.4">
             <p id="section-5.2-2.4.1">G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
@@ -1826,7 +1825,7 @@ maintaining consistency with the additive group notation used in <span>[<a href=
           <li class="normal" id="section-5.2-2.5">
             <p id="section-5.2-2.5.1">G.scalar_mult_vfy(y,g) is a function operating on
 a scalar y and a group element g. It returns an octet string
-representation of the group element g^y. Additionally, scalar_mult_vfy specifies validity conditions for y,g and g^y and outputs G.I in case they are not met.<a href="#section-5.2-2.5.1" class="pilcrow">¶</a></p>
+representation of the group element g * y. Additionally, scalar_mult_vfy specifies validity conditions for y,g and (g * y) and outputs G.I in case they are not met.<a href="#section-5.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.6">
             <p id="section-5.2-2.6.1">G.DSI denotes a domain-separation identifier octet string which SHALL be uniquely identifying the group environment G.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
@@ -1904,7 +1903,7 @@ earlier message, i.e., transcript(MSGa,MSGb) = MSGa||MSGb if MSGa is sent first.
         <h3 id="name-notation-for-group-operatio">
 <a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-notation-for-group-operatio" class="section-name selfRef">Notation for group operations</a>
         </h3>
-<p id="section-5.4-1">We use multiplicative notation for the group, i.e., X^2  denotes the element that is obtained by computing X*X, for group element X and group operation *.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.4-1">We use additive notation for the group, i.e., X * 2  denotes the element that is obtained by computing X+X, for group element X and group operation +.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2159,13 +2158,13 @@ It is RECOMMENDED to use G_Decaf448 in combination with SHAKE-256.<a href="#sect
 uniform sampling process can provide a larger side-channel attack surface for embedded systems in hostile environments.<a href="#section-7.3-9.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-9.3">
-            <p id="section-7.3-9.3.1">G.scalar_mult(y,_g) SHALL operate on a scalar y and a group element _g in the internal representation of the group abstraction environment. It returns the value Y = encode((_g)^y), i.e. it returns a value using the public encoding.<a href="#section-7.3-9.3.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-9.3.1">G.scalar_mult(y,_g) SHALL operate on a scalar y and a group element _g in the internal representation of the group abstraction environment. It returns the value Y = encode((_g) * y), i.e. it returns a value using the public encoding.<a href="#section-7.3-9.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-9.4">
             <p id="section-7.3-9.4.1">G.I = is the public encoding representation of the identity element.<a href="#section-7.3-9.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-9.5">
-            <p id="section-7.3-9.5.1">G.scalar_mult_vfy(y,X) operates on a value using the public encoding and a scalar and is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X)^y ).<a href="#section-7.3-9.5.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-9.5.1">G.scalar_mult_vfy(y,X) operates on a value using the public encoding and a scalar and is implemented as follows. If the decode(X) function fails, it returns G.I. Otherwise it returns encode( decode(X) * y ).<a href="#section-7.3-9.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-9.6">
             <p id="section-7.3-9.6.1">The G.calculate_generator(H, PRS,sid,CI) function SHALL return a decoded point and SHALL BE implemented as follows.<a href="#section-7.3-9.6.1" class="pilcrow">¶</a></p>
@@ -2280,7 +2279,7 @@ on curve NIST-P384 the resulting value SHALL BE G.DSI = b"CPaceP384_XMD:SHA-384_
 </li>
             <li class="normal" id="section-7.4.3-4.4">
               <p id="section-7.4.3-4.4.1">G.scalar_mult(s,X) is a function that operates on a scalar s and an input point X. The input X shall use the same encoding as produced by the G.calculate_generator method above.
-G.scalar_mult(s,X) SHALL return an encoding of either the point X^s or the point X^(-s) according to <span>[<a href="#SEC1" class="cite xref">SEC1</a>]</span>. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar_mult(s,X) MAY output either X^s or X^(-s) as both points X^s and X^(-s) have the same x-coordinate and
+G.scalar_mult(s,X) SHALL return an encoding of either the point X<em>s or the point X</em>(-s) according to <span>[<a href="#SEC1" class="cite xref">SEC1</a>]</span>. Implementations SHOULD use the full-coordinate format without compression, as important protocols such as TLS 1.3 removed support for compression. Implementations of scalar_mult(s,X) MAY output either X<em>s or X</em>(-s) as both points X<em>s and X</em>(-s) have the same x-coordinate and
 result in the same Diffie-Hellman shared secrets K.
 (This allows implementations to opt for x-coordinate-only scalar multiplication algorithms.)<a href="#section-7.4.3-4.4.1" class="pilcrow">¶</a></p>
 </li>
@@ -2293,8 +2292,8 @@ It SHALL BE implemented as follows:<a href="#section-7.4.3-4.5.1" class="pilcrow
 </li>
                 <li class="normal" id="section-7.4.3-4.5.2.2">
                   <p id="section-7.4.3-4.5.2.2.1">Otherwise G.scalar_mult_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from <span>[<a href="#IEEE1363" class="cite xref">IEEE1363</a>]</span> (section 7.2.1). I.e. it shall
-either return "error" (in case that X^s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
-the big-endian encoding of the x-coordinate of the result point X^s according to <span>[<a href="#SEC1" class="cite xref">SEC1</a>]</span>.<a href="#section-7.4.3-4.5.2.2.1" class="pilcrow">¶</a></p>
+either return "error" (in case that X<em>s is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
+the big-endian encoding of the x-coordinate of the result point X</em>s according to <span>[<a href="#SEC1" class="cite xref">SEC1</a>]</span>.<a href="#section-7.4.3-4.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
@@ -4149,7 +4148,7 @@ const uint8_t tc_ISK_SY[] = {
       04b75c1bcda84a0f324aabb7f25cf853ed7fb327c33f23db6aeb320d
       81df014649c2ac691925fce0eceac7dbc75eca25e6a1558066a610b4
       021488279e3b989d52
-    Alternative correct value for Ya: g^(-ya):
+    Alternative correct value for Ya: g*(-ya):
     (length: 65 bytes)
       04b75c1bcda84a0f324aabb7f25cf853ed7fb327c33f23db6aeb320d
       81df0146493d5396e5da031f1415382438a135da195eaa7f9a59ef4b
@@ -4179,7 +4178,7 @@ const uint8_t tc_ISK_SY[] = {
       04bb2783a57337e74671f76452876b27839c0ea9e044e3aadaad2e64
       777ed27a90e80a99438e2f1c072462f2895c6dadf1b43867b92ffb65
       562b78c793947dcada
-    Alternative correct value for Yb: g^(-yb):
+    Alternative correct value for Yb: g*(-yb):
     (length: 65 bytes)
       04bb2783a57337e74671f76452876b27839c0ea9e044e3aadaad2e64
       777ed27a9017f566bb71d0e3f9db9d0d76a392520e4bc79847d0049a
@@ -4461,7 +4460,7 @@ const uint8_t tc_ISK_SY[] = {
       971718cab474fa74c6a44b80a46468699280dd5d271252f3b9c05acc
       93dbd8b939152987cd5a8d1fb7b70c45512c993ec5456cc10f1797c9
       2fac2f1b7e363478a9ecd79e74
-    Alternative correct value for Ya: g^(-ya):
+    Alternative correct value for Ya: g*(-ya):
     (length: 97 bytes)
       04fd864c1a81f0e657a8a3f8e4ebafa421da712b6fb98f0abfa139ff
       971718cab474fa74c6a44b80a46468699280dd5d27edad0c463fa533
@@ -4494,7 +4493,7 @@ const uint8_t tc_ISK_SY[] = {
       f6954ddb57837752a4effa4a5b44627a64b62a2db9d3c9c031c4ad37
       dbe7bf180d6bcba54feb4e84eeb876ebfa64a85d4c5ac2063dc05ba7
       26810824c41e1893faa9373a84
-    Alternative correct value for Yb: g^(-yb):
+    Alternative correct value for Yb: g*(-yb):
     (length: 97 bytes)
       04822b9874755c51adfdf624101eb4dc12a8ae433750be4fd6f4f7eb
       f6954ddb57837752a4effa4a5b44627a64b62a2db92c363fce3b52c8
@@ -4807,7 +4806,7 @@ const uint8_t tc_ISK_SY[] = {
       286c068792ab7ca60ff6ea00919c41c00e789dabc2f42fd94178d7bf
       d8fbe1aff1c1854b3dafb3a0ea13f5a5fc1703860f022bd271740469
       bb322b07c179c7c225499b31727c0ea3ee65578634
-    Alternative correct value for Ya: g^(-ya):
+    Alternative correct value for Ya: g*(-ya):
     (length: 133 bytes)
       04003701ec35caafa3dd416cad29ba1774551f9d2ed89f7e1065706d
       ca230b86a11d02e4cee8b3fde64380d4a05983167d8a2414bc594ad5
@@ -4844,7 +4843,7 @@ const uint8_t tc_ISK_SY[] = {
       82cc1a78de91f3a4e30b5d01a085b453f22bf3dc947386b042e5fc4e
       c691fee47fe3c3ec6408c22a17c26bc0ab73940910614d6fcee32daf
       bfd2d340d6e382d71b1fc763d7cec502fbcbcf93b4
-    Alternative correct value for Yb: g^(-yb):
+    Alternative correct value for Yb: g*(-yb):
     (length: 133 bytes)
       0400f5cb68bf0117bd1a65412a2bc800af92013f9969cf546e1ea6d3
       bcf08643fdc482130aec1eecc33a2b5f33600be51295047fa3399fa2
