@@ -427,7 +427,7 @@ lv\_cat(DSI, PRS, zero\_bytes(len\_zpad), CI, sid).
 
 The zero padding of length len\_zpad is designed such that the encoding of DSI and PRS together with the zero padding field completely
 fills at least the first input block (of length s\_in\_bytes) of the hash.
-As a result for the common case of short PRS the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation and test vectors are provided in the appendix.) 
+As a result for the common case of short PRS the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation and test vectors are provided in the appendix.)
 
 The introduction of a zero-padding within the generator string also helps mitigating attacks of a side-channel adversary that
 analyzes correlations between publicly known variable information with a short low-entropy PRS string.
