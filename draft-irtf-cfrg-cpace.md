@@ -752,7 +752,7 @@ The recommended cipher suites for the Montgomery curves Curve25519 and Curve448 
 
 - The curve has order (p \* c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' \* c') with p' prime and c' a cofactor.
 
-- The cofactor c' of the twist MUST BE EQUAL to or an integer multiple of the cofactor c of the curve.
+- The cofactor c of the curve MUST BE EQUAL to or an integer multiple of the cofactor c' of the curve's quadratic twist.
 
 - Both field order q and group order p MUST BE close to a power of two along the lines of {{AHH21}}, Appendix E.
 

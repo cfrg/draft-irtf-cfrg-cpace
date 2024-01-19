@@ -218,12 +218,14 @@ oversampling+reduction method is actually OK?
 # Fixed.
 
 
-9.6: "The cofactor c' of the twist MUST BE EQUAL to or an integer
-multiple of the cofactor c of the curve." -> it's the opposite! The
-cofactor c must be a multiple of c'. The reason is that the x-only
-multiplication routine ensures that the scalar is a multiple of c
-(through the so-called "clamping") and we want in fact the scalar to be
-a multiple of both c and c'.
+# 9.6: "The cofactor c' of the twist MUST BE EQUAL to or an integer
+# multiple of the cofactor c of the curve." -> it's the opposite! The
+# cofactor c must be a multiple of c'. The reason is that the x-only
+# multiplication routine ensures that the scalar is a multiple of c
+# (through the so-called "clamping") and we want in fact the scalar to be
+# a multiple of both c and c'.
+#
+# Yes! Thank you. Of course it's just as you wrote and fixed now.
 
 Speaking of which, this point is missing from section 9.6: the scalar
 must be a multiple of c and c'. The general method is: generate the
