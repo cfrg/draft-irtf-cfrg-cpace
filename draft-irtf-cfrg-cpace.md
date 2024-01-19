@@ -324,9 +324,7 @@ representation of the group element g\*y. Additionally, scalar\_mult\_vfy specif
   as syntax for specifying octet strings as in b"CPace25519".
 
   We use a preceeding lower-case letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
-  I.e. we use the notation for byte string representations as specified by the python programming language.
-  This convention also makes it explicit that a single-byte ASCII encoding of the characters is to be used if a leading b"" is prepended to the quotation marks (just as in
-  python code).
+  I.e. we use the notation for byte string representations with single-byte ASCII character encodings from the python programming language.
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
   the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
