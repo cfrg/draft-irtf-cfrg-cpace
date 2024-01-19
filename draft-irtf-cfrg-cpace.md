@@ -285,8 +285,8 @@ output the default length if no explicit length parameter is given.
 - H.bmax\_in\_bytes denotes the _maximum_ output size in octets supported by the hash function. In case of fixed-size
 hashes such as SHA-256, this is the same as H.b\_in\_bytes, while there is no such limit for hash functions such as SHAKE-256.
 
-- H.s\_in\_bytes denotes the _input block size_ used by H. This number denotes the maximum number of bytes that can be processed 
-in a single block before applying the compression function or permutation becomes necessary. (See also {{?RFC2104}} for the corresponding block size concepts). 
+- H.s\_in\_bytes denotes the _input block size_ used by H. This number denotes the maximum number of bytes that can be processed
+in a single block before applying the compression function or permutation becomes necessary. (See also {{?RFC2104}} for the corresponding block size concepts).
 For instance, for SHA-512 the input block size s\_in\_bytes is 128 as the compression function can process up to 128 bytes,
 while for SHAKE-256 the input block size amounts to 136 bytes before the permutation of the sponge state needs to be applied.
 
