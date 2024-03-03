@@ -6,7 +6,7 @@ Detailed comments below:
 
 # 1.1: "Section 4 gives an overview over" -> "... an overview of"
 #
-# Fixed
+> Fixed
 
 # 5.1: "the default output size in bytes corresponding to the symmetric
 # security level of the hash function": this sentence is a bit confusing
@@ -18,12 +18,12 @@ Detailed comments below:
 # expected security level" (i.e. you need at least 32 bytes to get 128-bit
 # security against collisions).
 #
-# Fixed.
+> Fixed.
 
 # 5.1: "input block size": maybe add a remark that this "block size" is
 # the same concept as the one used in HMAC (with a reference to RFC 2104).
 #
-# Fixed
+> Fixed
 
 #5.2: "returning a representation of a scalar (referred to as 'scalar'
 #from now on)": this feels weirdly circular. The word "scalar" was not
@@ -32,12 +32,12 @@ Detailed comments below:
 #"... returning a representation of an integer (referred to as 'scalar'
 #from now on)"
 #
-# Fixed.
+> Fixed.
 
 #5.2: the document uses multiplicative notation for the group operation,
 #but the function scalar_mult is called scalar_mult and not pow or exp.
 #
-# Switched consistently to additive notation.
+> Switched consistently to additive notation.
 
 
 5.3: LEB128 and lv_cat are specified in an appendix. Shouldn't that be
@@ -59,25 +59,25 @@ appendix.
 # detection through functional testing (there are known precedents, e.g.
 # when Sony was generating ECDSA signatures with a fixed secret scalar k).
 #
-# Fixed.
+> Fixed.
 
 # 6.1: The diagram shows "[CI]" as being "public", but section 3.1 said
 # that CI "may also include confidential information", which means that it
 # is not, in fact, public. Maybe what is meant here is that it is a common
 # value known to both parties.
 #
-# Fixed.
+> Fixed.
 
 # 6.2: "was properly generated conform with" -> "was properly generated,
 # in conformity with" ("conform" is a verb, it cannot be used that way).
 #
-# Fixed.
+> Fixed.
 
 # 6.2: "Otherwise B returns ISK = H.hash(...). B returns ISK and terminates."
 # -> the first "returns ISK" should be "computes ISK"
 # -> idem for "Otherwise A returns ISK" in the next paragraph
 #
-# Fixed.
+> Fixed.
 
 6.2: the specification uses lv_cat on the concatenation of two character
 strings (G.DSI and "_ISK") but lv_cat expects octet strings, so that
@@ -100,8 +100,8 @@ document (e.g. in section 5.3).
 #same key out of luck if they do not have the same notion of how the
 #protocol should go.
 #
-# Fixed by a change of the definition of the o_cat function.
-# Accidental success can now be ruled out as o_cat prepends b"oc".
+> Fixed by a change of the definition of the o_cat function.
+> Accidental success can now be ruled out as o_cat prepends b"oc".
 
 
 6.2: The derived key depends on the used encoding, represented by
@@ -154,13 +154,13 @@ used transport medium".)
 # password managers tend to generate large high-entropy random passwords,
 # and limitations on password length are a usual annoyance for them.
 #
-# Fixed. Note was added.
+> Fixed. Note was added.
 
 # 7.2.1: "on either, the curve or the quadratic twist" -> the comma looks
 # misplaced. With the Oxford comma, it should be "on either the curve, or
 # the quadratic twist". Or the comma could be simply removed.
 #
-# Fixed. Comma removed.
+> Fixed. Comma removed.
 
 
 # 8: "with respect invalid encodings" -> "with respect to invalid encodings"
@@ -168,15 +168,15 @@ used transport medium".)
 # 
 # 8: "recieved" -> "received"
 #
-# Fixed
+> Fixed
 
 # 9.2: "the length of of all" -> "the length of all"
 #
-# Fixed
+> Fixed
 
 # 9.4: "calculate mac_key as as" -> "calculate mac_key as"
 #
-# Fixed
+> Fixed
 
 #9.4: Starting at the point, we begin to see notations like b"CPaceMac",
 # i.e. the Python-like syntax for character strings which really are octet
@@ -184,15 +184,15 @@ used transport medium".)
 # strings (G.DSI, "_ISK",...) since these strings also implicitly assumed
 # some sort of characters-to-octets conversion.
 #
-# Yes Consistently used the b"" syntax in the text body where octet strings
-# are meant.
+> Yes Consistently used the b"" syntax in the text body where octet strings
+> are meant.
 
 # 9.5: "We do so in order to reduce both, complexity of the implementation
 # and reducing the attack surface" -> "We do so in order to reduce both the
 # complexity of the implementation and the attack surface" (you don't
 # reduce the reduction)
 #
-# Fixed.
+> Fixed.
 
 #9.5: Rejection sampling can be a bit tricky to implement in practice; I
 #encountered many implementations that did it in a non-constant-time way,
@@ -214,11 +214,11 @@ used transport medium".)
 #selection"). It might be worth adding a note in section 9.5 that the
 #oversampling+reduction method is actually OK?
 #
-# Yes. Done. Thank you.
+> Yes. Done. Thank you.
 
 # 9.5: "begning" -> "benign"
 #
-# Fixed.
+> Fixed.
 
 
 # 9.6: "The cofactor c' of the twist MUST BE EQUAL to or an integer
@@ -240,7 +240,7 @@ used transport medium".)
 # clearly that being a multiple of lcm(c,c') is important and must be
 # ensured in some way.
 #
-# Yes! Thank you. Of course it's just as you wrote and fixed now.
+> Yes! Thank you. Of course it's just as you wrote and fixed now.
 
 
 #9.6: The text lists as a requirement that the base field order p and the
@@ -255,7 +255,7 @@ used transport medium".)
 #about using a Montgomery curve, but about using a simple scalar sampling
 #method.
 #
-# Yes agreed. We have added a clearifying note here.
+> Yes agreed. We have added a clearifying note here.
 
 
 # 9.6: The section talks about Montgomery curves, but it really applies to
@@ -265,7 +265,7 @@ used transport medium".)
 # is a multiple of 4), thereby requiring some specific extra care related
 # to that cofactor.
 #
-# Yes. Changed the name of the subsection and added a corresponding sentence.
+> Yes. Changed the name of the subsection and added a corresponding sentence.
 
 #9.8: About side-channel attacks: while the paragraph points out that
 #calculate_generator is the primary target for such attacks, the scalar
@@ -275,7 +275,7 @@ used transport medium".)
 #side-channels and in particular describes curve operations with
 #non-constant-time algorithms.
 #
-# Yes. Changed the wording. Thank you!
+> Yes. Changed the wording. Thank you!
 
 # A.5: pseudocode for Elligator2 uses the field order as parameter 'q'
 # which is a bit confusing because it was called 'p' previously in the
@@ -299,7 +299,7 @@ used transport medium".)
 # (There is supposed to be a new variant soon, dubbed "C23", but it will
 # probably show up only in 2024.)
 #
-# Fixed. Now we refer to C programming language initializers.
+> Fixed. Now we refer to C programming language initializers.
 
 (I do not have time to check the test vectors right now.)
 
