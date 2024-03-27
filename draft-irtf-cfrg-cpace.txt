@@ -5,10 +5,10 @@
 Network Working Group                                         M. Abdalla
 Internet-Draft                                          DFINITY - Zurich
 Intended status: Informational                                  B. Haase
-Expires: 22 July 2024       Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 28 September 2024  Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                         19 January 2024
+                                                           27 March 2024
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 July 2024.
+   This Internet-Draft will expire on 28 September 2024.
 
 Copyright Notice
 
@@ -1241,10 +1241,10 @@ Table of Contents
 
    [I-D.irtf-cfrg-opaque]
               Bourdrez, D., Krawczyk, H., Lewi, K., and C. A. Wood, "The
-              OPAQUE Asymmetric PAKE Protocol", Work in Progress,
-              Internet-Draft, draft-irtf-cfrg-opaque-13, 18 December
-              2023, <https://datatracker.ietf.org/doc/html/draft-irtf-
-              cfrg-opaque-13>.
+              OPAQUE Augmented PAKE Protocol", Work in Progress,
+              Internet-Draft, draft-irtf-cfrg-opaque-14, 24 March 2024,
+              <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
+              opaque-14>.
 
    [IEEE1363] "Standard Specifications for Public Key Cryptography, IEEE
               1363", 2000.
