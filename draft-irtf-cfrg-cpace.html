@@ -15,23 +15,22 @@ disclosing the secret to offline dictionary attacks.
 The CPace protocol was tailored for constrained devices and
 can be used on groups of prime- and non-prime order. 
     " name="description">
-<meta content="xml2rfc 3.20.1" name="generator">
+<meta content="xml2rfc 3.23.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-irtf-cfrg-cpace-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.20.1
-    Python 3.11.8
+  xml2rfc 3.23.0
+    Python 3.12.3
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
-    Jinja2 3.1.2
-    lxml 4.9.3
-    platformdirs 4.2.0
+    Jinja2 3.1.4
+    lxml 4.9.4
+    platformdirs 4.2.2
     pycountry 22.3.5
     PyYAML 6.0.1
-    requests 2.31.0
-    setuptools 68.2.2
-    six 1.16.0
+    requests 2.32.3
+    setuptools 70.3.0
     wcwidth 0.2.13
 -->
 <link href="draft-irtf-cfrg-cpace.xml" rel="alternate" type="application/rfc+xml">
@@ -1031,11 +1030,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CPace</td>
-<td class="right">March 2024</td>
+<td class="right">September 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Abdalla, et al.</td>
-<td class="center">Expires 28 September 2024</td>
+<td class="center">Expires 20 March 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1048,12 +1047,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-irtf-cfrg-cpace-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-03-27" class="published">27 March 2024</time>
+<time datetime="2024-09-16" class="published">16 September 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-09-28">28 September 2024</time></dd>
+<dd class="expires"><time datetime="2025-03-20">20 March 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1110,7 +1109,7 @@ can be used on groups of prime- and non-prime order.<a href="#section-abstract-1
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 28 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 March 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1157,7 +1156,10 @@ can be used on groups of prime- and non-prime order.<a href="#section-abstract-1
                 <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-optional-cpace-inputs" class="internal xref">Optional CPace inputs</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-responsibilities-of-the-app" class="internal xref">Responsibilities of the application layer</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-optional-cpace-output" class="internal xref">Optional CPace output</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-responsibilities-of-the-app" class="internal xref">Responsibilities of the application layer</a></p>
 </li>
             </ul>
 </li>
@@ -1252,19 +1254,22 @@ can be used on groups of prime- and non-prime order.<a href="#section-abstract-1
                 <p id="section-toc.1-1.9.2.4.1"><a href="#section-9.4" class="auto internal xref">9.4</a>.  <a href="#name-key-confirmation" class="internal xref">Key confirmation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.5">
-                <p id="section-toc.1-1.9.2.5.1"><a href="#section-9.5" class="auto internal xref">9.5</a>.  <a href="#name-sampling-of-scalars" class="internal xref">Sampling of scalars</a></p>
+                <p id="section-toc.1-1.9.2.5.1"><a href="#section-9.5" class="auto internal xref">9.5</a>.  <a href="#name-calculating-a-session-ident" class="internal xref">Calculating a session identifier alongside with the CPace run</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.6">
-                <p id="section-toc.1-1.9.2.6.1"><a href="#section-9.6" class="auto internal xref">9.6</a>.  <a href="#name-preconditions-for-using-the" class="internal xref">Preconditions for using the simplified CPace specification from Section 7.2</a></p>
+                <p id="section-toc.1-1.9.2.6.1"><a href="#section-9.6" class="auto internal xref">9.6</a>.  <a href="#name-sampling-of-scalars" class="internal xref">Sampling of scalars</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.7">
-                <p id="section-toc.1-1.9.2.7.1"><a href="#section-9.7" class="auto internal xref">9.7</a>.  <a href="#name-nonce-values" class="internal xref">Nonce values</a></p>
+                <p id="section-toc.1-1.9.2.7.1"><a href="#section-9.7" class="auto internal xref">9.7</a>.  <a href="#name-preconditions-for-using-the" class="internal xref">Preconditions for using the simplified CPace specification from Section 7.2</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.8">
-                <p id="section-toc.1-1.9.2.8.1"><a href="#section-9.8" class="auto internal xref">9.8</a>.  <a href="#name-side-channel-attacks" class="internal xref">Side channel attacks</a></p>
+                <p id="section-toc.1-1.9.2.8.1"><a href="#section-9.8" class="auto internal xref">9.8</a>.  <a href="#name-nonce-values" class="internal xref">Nonce values</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.9">
-                <p id="section-toc.1-1.9.2.9.1"><a href="#section-9.9" class="auto internal xref">9.9</a>.  <a href="#name-quantum-computers" class="internal xref">Quantum computers</a></p>
+                <p id="section-toc.1-1.9.2.9.1"><a href="#section-9.9" class="auto internal xref">9.9</a>.  <a href="#name-side-channel-attacks" class="internal xref">Side channel attacks</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.10">
+                <p id="section-toc.1-1.9.2.10.1"><a href="#section-9.10" class="auto internal xref">9.10</a>. <a href="#name-quantum-computers" class="internal xref">Quantum computers</a></p>
 </li>
             </ul>
 </li>
@@ -1649,51 +1654,62 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-3.1-1">For accomodating different application settings, CPace offers the following OPTIONAL inputs, i.e. inputs which MAY also be the empty string:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.1-2.1">
-            <p id="section-3.1-2.1.1">Channel identifier (CI). CI can be used to bind a session key exchanged with CPace to a specific networking channel which interconnects the protocol parties. Both parties are required to have the same view of CI. CI will not be publicly sent on the wire and may also include confidential information.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.1.1">Party identities (A,B).
+In CPace each party can be given a party identity string, which might be a device name a user name or an URL and can become authenticated in the course of the protocol run.
+If party identity strings are available, an application can include identity strings either as part of the channel identifier CI or the associated data fields.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.2">
-            <p id="section-3.1-2.2.1">Associated data fields (ADa and ADb).
-These fields can be used to authenticate public associated data alongside the CPace protocol. The values ADa (and ADb, respectively) are guaranteed to be authenticated in case both parties agree on a key.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
-<p id="section-3.1-2.2.2">
-ADa and ADb can for instance include party identities or protocol
-version information of an application protocol (e.g. to avoid downgrade attacks).<a href="#section-3.1-2.2.2" class="pilcrow">¶</a></p>
-<p id="section-3.1-2.2.3">
-If party identities are not encoded as part of CI, party identities SHOULD be included in ADa and ADb
- (see <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>).
-In a setting with clear initiator and responder roles, identity information in ADa
-sent by the initiator can be used by the responder for choosing the right PRS string (respectively password) for this identity.<a href="#section-3.1-2.2.3" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.2.1">Channel identifier (CI).
+CI can be used to bind a session key exchanged with CPace to a specific networking channel which interconnects the protocol parties.
+Both parties are required to have the same view of CI. CI will not be publicly sent on the wire and may also include confidential
+information. If both parties have an expected party identity field of the
+communication partner available before starting the protocol, it is RECOMMENDED to include the party identifiers as part of the CI string.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.3">
-            <p id="section-3.1-2.3.1">Session identifier (sid).
-CPace comes with a security analysis <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> in the framework of universal composability.
-This framework allows for modular analysis of a larger application protocol which uses CPace as a building block. For such analysis
-the CPace protocol is bound to a specific session of the larger protocol by use of a sid string that is globally unique. As a result, when used with a unique sid, CPace instances remain secure when running concurrently with other CPace instances, and even arbitrary other protocols.<a href="#section-3.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.3.1">Associated data fields (ADa and ADb).
+These fields can be used to authenticate public associated data alongside the CPace protocol.
+The values ADa (and ADb, respectively) are guaranteed to be authenticated
+in case both parties agree on a common key. ADa and ADb will be send publicly on the wire.<a href="#section-3.1-2.3.1" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.2">
-For this reason, it is RECOMMENDED that applications establish a unique session identifier sid
-prior to running the CPace protocol. This can be implemented by concatenating random bytes produced by A
-with random bytes produced by B. If such preceding round is not an option but
-parties are assigned clear initiator-responder roles, it is RECOMMENDED to let the initiator A choose a fresh
-random sid and send it to B together with the first message.
-If a sid string is used it SHOULD HAVE a length of at least 8 bytes.<a href="#section-3.1-2.3.2" class="pilcrow">¶</a></p>
+If party identities are not encoded as part of CI, party identities (A,B) SHOULD be included in ADa and ADb instead
+(see <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>).
+In a setting with clear initiator and responder roles, identity information in ADa
+sent by the initiator can be used by the responder for choosing the right PRS string (respectively password) for this identity.
+ADa and ADb could also include protocol version information of an application protocol (e.g. to avoid downgrade attacks).<a href="#section-3.1-2.3.2" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.1-2.4">
+            <p id="section-3.1-2.4.1">Session identifier (sid).
+If both parties have access to the same unique string sid being specific for a communication session before starting the protocol,
+it is RECOMMENDED to use this sid value as an input for the protocol.
+See <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a> on how presence or absence of sid affects the "quantum annoying" property of CPace.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
-<div id="responsibilities-of-the-application-layer">
+<div id="optional-cpace-output">
 <section id="section-3.2">
-        <h3 id="name-responsibilities-of-the-app">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-responsibilities-of-the-app" class="section-name selfRef">Responsibilities of the application layer</a>
+        <h3 id="name-optional-cpace-output">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-optional-cpace-output" class="section-name selfRef">Optional CPace output</a>
         </h3>
-<p id="section-3.2-1">The following tasks are out of the scope of this document and left to the application layer<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">If a session identifier is not available as input at protocol start CPace can optionally produce a session identifier sid_output
+that might be helpful for actions subsequent to the CPace protocol step (see <a href="#sec-sid-output" class="auto internal xref">Section 9.5</a>).<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="responsibilities-of-the-application-layer">
+<section id="section-3.3">
+        <h3 id="name-responsibilities-of-the-app">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-responsibilities-of-the-app" class="section-name selfRef">Responsibilities of the application layer</a>
+        </h3>
+<p id="section-3.3-1">The following tasks are out of the scope of this document and left to the application layer<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.2-2.1">
-            <p id="section-3.2-2.1.1">Setup phase:<a href="#section-3.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3-2.1">
+            <p id="section-3.3-2.1.1">Setup phase:<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.2-2.1.2.1">
-                <p id="section-3.2-2.1.2.1.1">The application layer is responsible for the handshake that makes parties agree on a common CPace cipher suite.<a href="#section-3.2-2.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3-2.1.2.1">
+                <p id="section-3.3-2.1.2.1.1">The application layer is responsible for the handshake that makes parties agree on a common CPace cipher suite.<a href="#section-3.3-2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.2-2.1.2.2">
-                <p id="section-3.2-2.1.2.2.1">The application layer needs to specify how to encode the CPace byte strings Ya / Yb and ADa / ADb defined in section
+              <li class="normal" id="section-3.3-2.1.2.2">
+                <p id="section-3.3-2.1.2.2.1">The application layer needs to specify how to encode the CPace byte strings Ya / Yb and ADa / ADb defined in section
  <a href="#protocol-section" class="auto internal xref">Section 6</a>
 for transfer over the network.
 For CPace it is RECOMMENDED to encode network messages by using MSGa = lv_cat(Ya,ADa) and MSGb = lv_cat(Yb,ADb)
@@ -1702,19 +1718,19 @@ speficied in <a href="#notation-section" class="auto internal xref">Section 5.3<
 This document provides test vectors for lv_cat-encoded messages.
 Alternative network encodings, e.g., the encoding method
 used for the client hello and server hello messages of the TLS protocol, MAY be used
-when considering the guidance given in <a href="#sec-considerations" class="auto internal xref">Section 9</a>.<a href="#section-3.2-2.1.2.2.1" class="pilcrow">¶</a></p>
+when considering the guidance given in <a href="#sec-considerations" class="auto internal xref">Section 9</a>.<a href="#section-3.3-2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-3.2-2.2">
-            <p id="section-3.2-2.2.1">This document does not specify which encodings applications use for the mandatory PRS input and the optional inputs
+          <li class="normal" id="section-3.3-2.2">
+            <p id="section-3.3-2.2.1">This document does not specify which encodings applications use for the mandatory PRS input and the optional inputs
 CI, sid, ADa and ADb. If PRS is a clear-text password or an octet string derived from a clear-text password,
-e.g. by use of a key-derivation function, the clear-text password SHOULD BE encoded according to <span>[<a href="#RFC8265" class="cite xref">RFC8265</a>]</span>.<a href="#section-3.2-2.2.1" class="pilcrow">¶</a></p>
+e.g. by use of a key-derivation function, the clear-text password SHOULD BE encoded according to <span>[<a href="#RFC8265" class="cite xref">RFC8265</a>]</span>.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.2-2.3">
-            <p id="section-3.2-2.3.1">The application needs to settle whether CPace is used in the initiator-responder or the symmetric setting, as in the symmetric
+          <li class="normal" id="section-3.3-2.3">
+            <p id="section-3.3-2.3.1">The application needs to settle whether CPace is used in the initiator-responder or the symmetric setting, as in the symmetric
 setting transcripts must be generated using ordered string concatenation. In this document we will provide test vectors
-for both, initiator-responder and symmetric settings.<a href="#section-3.2-2.3.1" class="pilcrow">¶</a></p>
+for both, initiator-responder and symmetric settings.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2341,15 +2357,19 @@ Tests SHALL verify that a party aborts in case that incorrectly encoded messages
       </h2>
 <p id="section-9-1">A security proof of CPace is found in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>. This proof covers all recommended cipher suites included in this document.
 In the following sections we describe how to protect CPace against several attack families, such as relay-, length extension- or side channel attacks. We also describe aspects to consider when deviating from recommended cipher suites.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">The security analysis in <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span> extends the analysis from <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> and covers also the case that
+no pre-agreed sid is available and shows how a session id sid_output can be generated along with the protocol.<a href="#section-9-2" class="pilcrow">¶</a></p>
 <div id="sec-considerations-ids">
 <section id="section-9.1">
         <h3 id="name-party-identifiers-and-relay">
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-party-identifiers-and-relay" class="section-name selfRef">Party identifiers and relay attacks</a>
         </h3>
-<p id="section-9.1-1">If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities. Incorporating party identifier strings
-is important for fending off relay attacks.
-Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C use the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
-Including and checking party identifiers can fend off such relay attacks.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-1">If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-2">Incorporating party identifier strings is important for fending off relay attacks.
+Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C share the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
+Including and checking party identifiers can fend off such relay attacks.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
+<p id="section-9.1-3">If both parties have both party identifiers (A,B) available already before starting the protocol, then (A,B) SHOULD be included in CI. Otherwise A SHOULD be included in ADa and
+B should be included in ADb.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="network-message-encoding-and-hashing-protocol-transcripts">
@@ -2412,90 +2432,101 @@ authentication code Tb as Tb = MAC(mac_key, MSGb).<a href="#section-9.4-6.2.1" c
         </ul>
 </section>
 </div>
-<div id="sampling-of-scalars">
+<div id="sec-sid-output">
 <section id="section-9.5">
-        <h3 id="name-sampling-of-scalars">
-<a href="#section-9.5" class="section-number selfRef">9.5. </a><a href="#name-sampling-of-scalars" class="section-name selfRef">Sampling of scalars</a>
+        <h3 id="name-calculating-a-session-ident">
+<a href="#section-9.5" class="section-number selfRef">9.5. </a><a href="#name-calculating-a-session-ident" class="section-name selfRef">Calculating a session identifier alongside with the CPace run</a>
         </h3>
-<p id="section-9.5-1">For curves over fields F_q where q is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field_size_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
+<p id="section-9.5-1">If CPace was run with an empty string sid available as input, both parties can produce a session identifier string
+sid_output = H.hash(b"CPaceSidOutput" ||transcript(MSGa, MSGb)) which will be unique for honest parties <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span>.<a href="#section-9.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sampling-of-scalars">
+<section id="section-9.6">
+        <h3 id="name-sampling-of-scalars">
+<a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-sampling-of-scalars" class="section-name selfRef">Sampling of scalars</a>
+        </h3>
+<p id="section-9.6-1">For curves over fields F_q where q is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field_size_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
 with respect to side-channels for embedded systems in hostile environments.
 The effect of non-uniform sampling on security was demonstrated to be begnin in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> for the case of Curve25519 and Curve448.
-This analysis however does not transfer to most curves in Short-Weierstrass form.<a href="#section-9.5-1" class="pilcrow">¶</a></p>
-<p id="section-9.5-2">As a result, we recommend rejection sampling if G is as in <a href="#CPaceWeierstrass" class="auto internal xref">Section 7.4</a>. Alternatively an algorithm designed allong the lines of the hash_to_field() function from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> can also be
-used. There oversampling to an integer significantly larger than the curve order is followed by a modular reduction to the group order.<a href="#section-9.5-2" class="pilcrow">¶</a></p>
+This analysis however does not transfer to most curves in Short-Weierstrass form.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.6-2">As a result, we recommend rejection sampling if G is as in <a href="#CPaceWeierstrass" class="auto internal xref">Section 7.4</a>. Alternatively an algorithm designed allong the lines of the hash_to_field() function from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> can also be
+used. There oversampling to an integer significantly larger than the curve order is followed by a modular reduction to the group order.<a href="#section-9.6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="preconditions-for-using-the-simplified-cpace-specification-from-cpacemontgomery">
-<section id="section-9.6">
+<section id="section-9.7">
         <h3 id="name-preconditions-for-using-the">
-<a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-preconditions-for-using-the" class="section-name selfRef">Preconditions for using the simplified CPace specification from <span class="cite xref">Section 7.2</span></a>
+<a href="#section-9.7" class="section-number selfRef">9.7. </a><a href="#name-preconditions-for-using-the" class="section-name selfRef">Preconditions for using the simplified CPace specification from <span class="cite xref">Section 7.2</span></a>
         </h3>
-<p id="section-9.6-1">The security of the algorithms used for the recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in <a href="#CPaceMontgomery" class="auto internal xref">Section 7.2</a> rely on the following properties <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>:<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.7-1">The security of the algorithms used for the recommended cipher suites for the Montgomery curves Curve25519 and Curve448 in <a href="#CPaceMontgomery" class="auto internal xref">Section 7.2</a> rely on the following properties <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>:<a href="#section-9.7-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-9.6-2.1">
-            <p id="section-9.6-2.1.1">The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' * c') with p' prime and c' a cofactor.<a href="#section-9.6-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-9.7-2.1">
+            <p id="section-9.7-2.1.1">The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' * c') with p' prime and c' a cofactor.<a href="#section-9.7-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.6-2.2">
-            <p id="section-9.6-2.2.1">The cofactor c of the curve MUST BE EQUAL to or an integer multiple of the cofactor c' of the curve's quadratic twist. Also, importantly, the
+          <li class="normal" id="section-9.7-2.2">
+            <p id="section-9.7-2.2.1">The cofactor c of the curve MUST BE EQUAL to or an integer multiple of the cofactor c' of the curve's quadratic twist. Also, importantly, the
 implementation of the scalar_mult and scalar_mult_vfy
 functions must ensure that all scalars actually used for the group operation are integer multiples of
-c (e.g. such as asserted by the specification of the decodeScalar functions in <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>).<a href="#section-9.6-2.2.1" class="pilcrow">¶</a></p>
+c (e.g. such as asserted by the specification of the decodeScalar functions in <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>).<a href="#section-9.7-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.6-2.3">
-            <p id="section-9.6-2.3.1">Both field order q and group order p MUST BE close to a power of two along the lines of <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>, Appendix E. Otherwise the simplified scalar sampling specified in <a href="#CPaceMontgomery" class="auto internal xref">Section 7.2</a>
-needs to be changed.<a href="#section-9.6-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.7-2.3">
+            <p id="section-9.7-2.3.1">Both field order q and group order p MUST BE close to a power of two along the lines of <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>, Appendix E. Otherwise the simplified scalar sampling specified in <a href="#CPaceMontgomery" class="auto internal xref">Section 7.2</a>
+needs to be changed.<a href="#section-9.7-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.6-2.4">
-            <p id="section-9.6-2.4.1">The representation of the neutral element G.I MUST BE the same for both, the curve and its twist.<a href="#section-9.6-2.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.7-2.4">
+            <p id="section-9.7-2.4.1">The representation of the neutral element G.I MUST BE the same for both, the curve and its twist.<a href="#section-9.7-2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.6-2.5">
-            <p id="section-9.6-2.5.1">The implementation of G.scalar_mult_vfy(y,X) MUST map all c low-order points on the curve and all c' low-order points on the twist to G.I.<a href="#section-9.6-2.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.7-2.5">
+            <p id="section-9.7-2.5.1">The implementation of G.scalar_mult_vfy(y,X) MUST map all c low-order points on the curve and all c' low-order points on the twist to G.I.<a href="#section-9.7-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.6-3">Algorithms for curves other than the ones recommended here can be based on the principles from <a href="#CPaceMontgomery" class="auto internal xref">Section 7.2</a> given that the above properties hold.<a href="#section-9.6-3" class="pilcrow">¶</a></p>
+<p id="section-9.7-3">Algorithms for curves other than the ones recommended here can be based on the principles from <a href="#CPaceMontgomery" class="auto internal xref">Section 7.2</a> given that the above properties hold.<a href="#section-9.7-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="nonce-values">
-<section id="section-9.7">
+<section id="section-9.8">
         <h3 id="name-nonce-values">
-<a href="#section-9.7" class="section-number selfRef">9.7. </a><a href="#name-nonce-values" class="section-name selfRef">Nonce values</a>
+<a href="#section-9.8" class="section-number selfRef">9.8. </a><a href="#name-nonce-values" class="section-name selfRef">Nonce values</a>
         </h3>
-<p id="section-9.7-1">Secret scalars ya and yb MUST NOT be reused. Values for sid SHOULD NOT be reused since the composability
-guarantees established by the simulation-based proof rely on the uniqueness of session ids <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
-<p id="section-9.7-2">If CPace is used in a concurrent system, it is RECOMMENDED that a unique sid is generated by the higher-level protocol and passed to CPace. One suitable option is that sid is generated by concatenating ephemeral random strings contributed by both parties.<a href="#section-9.7-2" class="pilcrow">¶</a></p>
+<p id="section-9.8-1">Secret scalars ya and yb MUST NOT be reused. Values for sid SHOULD NOT be reused since the composability
+guarantees established by the simulation-based proof rely on the uniqueness of session ids <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
+<p id="section-9.8-2">If CPace is used in a concurrent system, it is RECOMMENDED that a unique sid is generated by the higher-level protocol and passed to CPace. One suitable option is that sid is generated by concatenating ephemeral random strings contributed by both parties.<a href="#section-9.8-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="side-channel-attacks">
-<section id="section-9.8">
+<section id="section-9.9">
         <h3 id="name-side-channel-attacks">
-<a href="#section-9.8" class="section-number selfRef">9.8. </a><a href="#name-side-channel-attacks" class="section-name selfRef">Side channel attacks</a>
+<a href="#section-9.9" class="section-number selfRef">9.9. </a><a href="#name-side-channel-attacks" class="section-name selfRef">Side channel attacks</a>
         </h3>
-<p id="section-9.8-1">All state-of-the art methods for realizing constant-time execution SHOULD be used.
+<p id="section-9.9-1">All state-of-the art methods for realizing constant-time execution SHOULD be used.
 Special care is RECOMMENDED specifically for elliptic curves in Short-Weierstrass form
 as important standard documents including <span>[<a href="#IEEE1363" class="cite xref">IEEE1363</a>]</span> describe curve operations with
-non-constant-time algorithms.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
-<p id="section-9.8-2">In case that side channel attacks are to be considered practical for a given application, it is RECOMMENDED to pay special
+non-constant-time algorithms.<a href="#section-9.9-1" class="pilcrow">¶</a></p>
+<p id="section-9.9-2">In case that side channel attacks are to be considered practical for a given application, it is RECOMMENDED to pay special
 attention on computing the secret generator G.calculate_generator(PRS,CI,sid).
 The most critical substep to consider might be the processing of the first block of the hash that includes
 the PRS string.
 The zero-padding introduced when hashing the sensitive PRS string can be expected to make
-the task for a side-channel attack somewhat more complex. Still this feature alone is not sufficient for ruling out power analysis attacks.<a href="#section-9.8-2" class="pilcrow">¶</a></p>
-<p id="section-9.8-3">Even though the calculate_generator operation might be considered to form the primary target for side-channel attacks as information on long-term secrets might be exposed,
+the task for a side-channel attack somewhat more complex. Still this feature alone is not sufficient for ruling out power analysis attacks.<a href="#section-9.9-2" class="pilcrow">¶</a></p>
+<p id="section-9.9-3">Even though the calculate_generator operation might be considered to form the primary target for side-channel attacks as information on long-term secrets might be exposed,
 also the subsequent operations on ephemeral values, such as scalar
-sampling and scalar multiplication should be protected from side-channels.<a href="#section-9.8-3" class="pilcrow">¶</a></p>
+sampling and scalar multiplication should be protected from side-channels.<a href="#section-9.9-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="quantum-computers">
-<section id="section-9.9">
+<section id="section-9.10">
         <h3 id="name-quantum-computers">
-<a href="#section-9.9" class="section-number selfRef">9.9. </a><a href="#name-quantum-computers" class="section-name selfRef">Quantum computers</a>
+<a href="#section-9.10" class="section-number selfRef">9.10. </a><a href="#name-quantum-computers" class="section-name selfRef">Quantum computers</a>
         </h3>
-<p id="section-9.9-1">CPace is proven secure under the hardness of the strong computational Simultaneous Diffie-Hellmann (sSDH) and strong computational Diffie-Hellmann (sCDH)
+<p id="section-9.10-1">CPace is proven secure under the hardness of the strong computational Simultaneous Diffie-Hellmann (sSDH) and strong computational Diffie-Hellmann (sCDH)
 assumptions in the group G (as defined in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>).
 These assumptions are not expected to hold any longer when large-scale quantum computers (LSQC) are available.
-Still, even in case that LSQC emerge, it is reasonable to assume that discrete-logarithm computations will remain costly. CPace with ephemeral session id values
+Still, even in case that LSQC emerge, it is reasonable to assume that discrete-logarithm computations will remain costly. CPace with ephemeral pre-established session id values
 sid forces the adversary to solve one computational Diffie-Hellman problem per password guess <span>[<a href="#ES21" class="cite xref">ES21</a>]</span>.
-In this sense, using the wording suggested by Steve Thomas on the CFRG mailing list, CPace is "quantum-annoying".<a href="#section-9.9-1" class="pilcrow">¶</a></p>
+If party identifiers are included as part of CI then the adversary is forced to solve one computational Diffie-Hellman problem per password
+guess and party identifier pair.<a href="#section-9.10-1" class="pilcrow">¶</a></p>
+<p id="section-9.10-2">In this sense, using the wording suggested by Steve Thomas on the CFRG mailing list, CPace is "quantum-annoying".<a href="#section-9.10-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2516,6 +2547,7 @@ In this sense, using the wording suggested by Steve Thomas on the CFRG mailing l
 <p id="section-11-1">We would like to thank the participants on the CFRG list for comments and advice. Any comment and advice is appreciated.<a href="#section-11-1" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="sec-combined-references">
 <section id="section-12">
       <h2 id="name-references">
 <a href="#section-12" class="section-number selfRef">12. </a><a href="#name-references" class="section-name selfRef">References</a>
@@ -2532,7 +2564,7 @@ In this sense, using the wording suggested by Steve Thomas on the CFRG mailing l
 <dd class="break"></dd>
 <dt id="I-D.irtf-cfrg-opaque">[I-D.irtf-cfrg-opaque]</dt>
         <dd>
-<span class="refAuthor">Bourdrez, D.</span>, <span class="refAuthor">Krawczyk, H.</span>, <span class="refAuthor">Lewi, K.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"The OPAQUE Augmented PAKE Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-opaque-14</span>, <time datetime="2024-03-24" class="refDate">24 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-opaque-14">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-opaque-14</a>&gt;</span>. </dd>
+<span class="refAuthor">Bourdrez, D.</span>, <span class="refAuthor">Krawczyk, H.</span>, <span class="refAuthor">Lewi, K.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"The OPAQUE Augmented PAKE Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-opaque-16</span>, <time datetime="2024-06-12" class="refDate">12 June 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-opaque-16">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-opaque-16</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IEEE1363">[IEEE1363]</dt>
         <dd>
@@ -2570,6 +2602,10 @@ In this sense, using the wording suggested by Steve Thomas on the CFRG mailing l
 <dt id="AHH21">[AHH21]</dt>
         <dd>
 <span class="refAuthor">Abdalla, M.</span>, <span class="refAuthor">Haase, B.</span>, and <span class="refAuthor">J. Hesse</span>, <span class="refTitle">"Security analysis of CPace"</span>, <span>n.d.</span>, <span>&lt;<a href="https://eprint.iacr.org/2021/114">https://eprint.iacr.org/2021/114</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="BGHJ24">[BGHJ24]</dt>
+        <dd>
+<span class="refAuthor">Barbosa, M.</span>, <span class="refAuthor">Gellert, K.</span>, <span class="refAuthor">Hesse, J.</span>, and <span class="refAuthor">S. Jarecki</span>, <span class="refTitle">"Bare PAKE: Universally Composable Key Exchange from Just Passwords"</span>, <span>n.d.</span>, <span>&lt;<a href="link.springer.com/chapter/10.1007/978-3-031-68379-4_6">link.springer.com/chapter/10.1007/978-3-031-68379-4_6</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="CDMP05">[CDMP05]</dt>
         <dd>
@@ -2627,6 +2663,7 @@ In this sense, using the wording suggested by Steve Thomas on the CFRG mailing l
 </section>
 </div>
 </section>
+</div>
 <div id="cpace-function-definitions">
 <section id="appendix-A">
       <h2 id="name-cpace-function-definitions">
