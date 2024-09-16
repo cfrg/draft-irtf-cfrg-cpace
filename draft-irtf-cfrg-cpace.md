@@ -225,9 +225,7 @@ If party identity strings are available, an application can include identity str
 ## Optional CPace output
 
 If a session identifier is not available as input at protocol start CPace can optionally produce a session identifier sid_output
-that could be used by the application for operations run after the CPace protocol step.
-
-
+that might be helpful for actions subsequent to the CPace protocol step (see {{sec-sid-output}}).
 
 ## Responsibilities of the application layer
 
@@ -767,7 +765,7 @@ One suitable option that works also in the parallel setting without message orde
 
 - Let the receiving party check the remote authentication tag for the correct value and abort in case that it's incorrect.
 
-## Calculating a session identifier alongside with the CPace run
+## Calculating a session identifier alongside with the CPace run {#sec-sid-output}
 
 If CPace was run with an empty string sid available as input, both parties can produce a session identifier string
 sid_output = H.hash(b"CPaceSidOutput" \|\|transcript(MSGa, MSGb)) which will be unique for honest parties {{BGHJ24}}.
