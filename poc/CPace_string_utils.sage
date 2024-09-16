@@ -31,7 +31,7 @@ def IntegerToLEPrintString(u,numBytes=32):
 
 def ByteArrayToCInitializer(k, name, values_per_line = 12):
     values = [b for b in k]
-    result = "const uint8_t " + name +"[] = {"
+    result = "const unsigned char " + name +"[] = {"
     n = 0
     for x in values:
         if n == 0:

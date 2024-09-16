@@ -122,7 +122,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     ISK_SY = CPace_ISK(H,G.DSI_ISK,sid,K,MSGa,MSGb,doPrint = 1, symmetric_execution = True, file=file)
     
     if with_ANSI_C_initializers:
-        print ("\n###  Corresponding ANSI-C initializers\n", file=file)
+        print ("\n###  Corresponding C programming language initializers\n", file=file)
         print ("~~~", file=file)
         print (ByteArrayToCInitializer(PRS, "tc_PRS"), file=file)
         print (ByteArrayToCInitializer(CI, "tc_CI"), file=file)

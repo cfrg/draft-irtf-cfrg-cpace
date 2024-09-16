@@ -64,7 +64,7 @@ informative:
         ins: J. Xu
 
   AHH21:
-    title: "Security analysis of CPace"
+    title: Security analysis of CPace
     target: https://eprint.iacr.org/2021/114
     author:
       -
@@ -73,6 +73,20 @@ informative:
         ins: B. Haase
       -
         ins: J. Hesse
+
+  BGHJ24:
+    title: "Bare PAKE: Universally Composable Key Exchange from Just Passwords"
+    target: link.springer.com/chapter/10.1007/978-3-031-68379-4_6
+    author:
+      -
+        ins: M Barbosa
+      -
+        ins: K. Gellert
+      -
+        ins: J. Hesse
+      -
+        ins: S. Jarecki
+
   CDMP05:
     title: "Merkle-Damgaard Revisited: How to Construct a Hash Function"
     seriesinfo:
@@ -182,30 +196,38 @@ The naming of ISK key as "intermediate" session key highlights the fact that it 
 
 For accomodating different application settings, CPace offers the following OPTIONAL inputs, i.e. inputs which MAY also be the empty string:
 
-- Channel identifier (CI). CI can be used to bind a session key exchanged with CPace to a specific networking channel which interconnects the protocol parties. Both parties are required to have the same view of CI. CI will not be publicly sent on the wire and may also include confidential information.
+- Party identities (A,B).
+In CPace each party can be given a party identity string, which might be a device name a user name or an URL and can become authenticated in the course of the protocol run.
+If party identity strings are available, an application can include identity strings either as part of the channel identifier CI or the associated data fields.
+
+- Channel identifier (CI).
+  CI can be used to bind a session key exchanged with CPace to a specific networking channel which interconnects the protocol parties.
+  Both parties are required to have the same view of CI. CI will not be publicly sent on the wire and may also include confidential
+  information. If both parties have an expected party identity field of the
+  communication partner available before starting the protocol, it is RECOMMENDED to include the party identifiers as part of the CI string.
 
 - Associated data fields (ADa and ADb).
-  These fields can be used to authenticate public associated data alongside the CPace protocol. The values ADa (and ADb, respectively) are guaranteed to be authenticated in case both parties agree on a key.
+  These fields can be used to authenticate public associated data alongside the CPace protocol.
+  The values ADa (and ADb, respectively) are guaranteed to be authenticated
+  in case both parties agree on a common key. ADa and ADb will be send publicly on the wire.
 
-  ADa and ADb can for instance include party identities or protocol
-  version information of an application protocol (e.g. to avoid downgrade attacks).
-
-  If party identities are not encoded as part of CI, party identities SHOULD be included in ADa and ADb
-   (see {{sec-considerations-ids}}).
+  If party identities are not encoded as part of CI, party identities (A,B) SHOULD be included in ADa and ADb instead
+  (see {{sec-considerations-ids}}).
   In a setting with clear initiator and responder roles, identity information in ADa
   sent by the initiator can be used by the responder for choosing the right PRS string (respectively password) for this identity.
+  ADa and ADb could also include protocol version information of an application protocol (e.g. to avoid downgrade attacks).
 
 - Session identifier (sid).
-  CPace comes with a security analysis {{AHH21}} in the framework of universal composability.
-  This framework allows for modular analysis of a larger application protocol which uses CPace as a building block. For such analysis
-  the CPace protocol is bound to a specific session of the larger protocol by use of a sid string that is globally unique. As a result, when used with a unique sid, CPace instances remain secure when running concurrently with other CPace instances, and even arbitrary other protocols.
+  If both parties have access to the same unique string sid being specific for a communication session before starting the protocol,
+  it is RECOMMENDED to use this sid value as an input for the protocol.
+  See {{sec-considerations-ids}} on how presence or absence of sid affects the "quantum annoying" property of CPace.
 
-  For this reason, it is RECOMMENDED that applications establish a unique session identifier sid
-  prior to running the CPace protocol. This can be implemented by concatenating random bytes produced by A
-  with random bytes produced by B. If such preceding round is not an option but
-  parties are assigned clear initiator-responder roles, it is RECOMMENDED to let the initiator A choose a fresh
-  random sid and send it to B together with the first message.
-  If a sid string is used it SHOULD HAVE a length of at least 8 bytes.
+## Optional CPace output
+
+If a session identifier is not available as input at protocol start CPace can optionally produce a session identifier sid_output
+that could be used by the application for operations run after the CPace protocol step.
+
+
 
 ## Responsibilities of the application layer
 
@@ -681,12 +703,19 @@ Corresponding test vectors are given in the appendix for all recommended cipher 
 A security proof of CPace is found in {{AHH21}}. This proof covers all recommended cipher suites included in this document.
 In the following sections we describe how to protect CPace against several attack families, such as relay-, length extension- or side channel attacks. We also describe aspects to consider when deviating from recommended cipher suites.
 
+The security analysis in {{BGHJ24}} extends the analysis from {{AHH21}} and covers also the case that
+no pre-agreed sid is available and shows how a session id sid_output can be generated along with the protocol.
+
 ## Party identifiers and relay attacks {#sec-considerations-ids}
 
-If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities. Incorporating party identifier strings
-is important for fending off relay attacks.
-Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C use the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
+If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities.
+
+Incorporating party identifier strings is important for fending off relay attacks.
+Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C share the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
 Including and checking party identifiers can fend off such relay attacks.
+
+If both parties have both party identifiers (A,B) available already before starting the protocol, then (A,B) SHOULD be included in CI. Otherwise A SHOULD be included in ADa and
+B should be included in ADb.
 
 ## Network message encoding and hashing protocol transcripts
 
@@ -738,6 +767,10 @@ One suitable option that works also in the parallel setting without message orde
 
 - Let the receiving party check the remote authentication tag for the correct value and abort in case that it's incorrect.
 
+## Calculating a session identifier alongside with the CPace run
+
+If CPace was run with an empty string sid available as input, both parties can produce a session identifier string
+sid_output = H.hash(b"CPaceSidOutput" \|\|transcript(MSGa, MSGb)) which will be unique for honest parties {{BGHJ24}}.
 
 ## Sampling of scalars
 
@@ -800,8 +833,11 @@ sampling and scalar multiplication should be protected from side-channels.
 CPace is proven secure under the hardness of the strong computational Simultaneous Diffie-Hellmann (sSDH) and strong computational Diffie-Hellmann (sCDH)
 assumptions in the group G (as defined in {{AHH21}}).
 These assumptions are not expected to hold any longer when large-scale quantum computers (LSQC) are available.
-Still, even in case that LSQC emerge, it is reasonable to assume that discrete-logarithm computations will remain costly. CPace with ephemeral session id values
+Still, even in case that LSQC emerge, it is reasonable to assume that discrete-logarithm computations will remain costly. CPace with ephemeral pre-established session id values
 sid forces the adversary to solve one computational Diffie-Hellman problem per password guess {{ES21}}.
+If party identifiers are included as part of CI then the adversary is forced to solve one computational Diffie-Hellman problem per password
+guess and party identifier pair.
+
 In this sense, using the wording suggested by Steve Thomas on the CFRG mailing list, CPace is "quantum-annoying".
 
 # IANA Considerations
