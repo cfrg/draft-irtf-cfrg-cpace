@@ -81,18 +81,20 @@ Detailed comments below:
 #
 > Fixed.
 
-6.2: the specification uses lv_cat on the concatenation of two character
-strings (G.DSI and "_ISK") but lv_cat expects octet strings, so that
-leaves the question of how character strings are converted to octet
-strings. There are several conventions in wide usage; even for strings
-with only ASCII characters, they could be encoded in UTF-8 (one byte per
-character), or some UTF-16 variant (two bytes per character, and in that
-case there is the question of endianness); there could (or could not) be
-a leading BOM; and there may or may not be a terminating NUL character,
-which could be included in the resulting sequence of octets. How
-characters become octets should really be specified somewhere in the
-document (e.g. in section 5.3).
-(See also point below on section 9.4 and strings with a 'b' prefix.)
+#6.2: the specification uses lv_cat on the concatenation of two character
+#strings (G.DSI and "_ISK") but lv_cat expects octet strings, so that
+#leaves the question of how character strings are converted to octet
+#strings. There are several conventions in wide usage; even for strings
+#with only ASCII characters, they could be encoded in UTF-8 (one byte per
+#character), or some UTF-16 variant (two bytes per character, and in that
+#case there is the question of endianness); there could (or could not) be
+#a leading BOM; and there may or may not be a terminating NUL character,
+#which could be included in the resulting sequence of octets. How
+#characters become octets should really be specified somewhere in the
+#document (e.g. in section 5.3).
+#(See also point below on section 9.4 and strings with a 'b' prefix.)
+> We added a clearifying specification and distinguished between character strings
+> and byte strings by using the python-style notation with prepended b"some string"
 
 #6.2: if A and B don't agree with each other about whether the protocol
 #is in initiator/responder mode or in symmetric mode, then they will
