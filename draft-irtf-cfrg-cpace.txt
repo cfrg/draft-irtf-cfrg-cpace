@@ -5,10 +5,10 @@
 Network Working Group                                         M. Abdalla
 Internet-Draft                                          DFINITY - Zurich
 Intended status: Informational                                  B. Haase
-Expires: 20 March 2025      Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 22 March 2025      Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                       16 September 2024
+                                                       18 September 2024
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 March 2025.
+   This Internet-Draft will expire on 22 March 2025.
 
 Copyright Notice
 
@@ -389,9 +389,10 @@ Table of Contents
 
    *  The application needs to settle whether CPace is used in the
       initiator-responder or the symmetric setting, as in the symmetric
-      setting transcripts must be generated using ordered string
-      concatenation.  In this document we will provide test vectors for
-      both, initiator-responder and symmetric settings.
+      setting transcripts and concatenation of party identity strings as
+      part of the channel identifier CI must be generated using ordered
+      string concatenation.  In this document we will provide test
+      vectors for both, initiator-responder and symmetric settings.
 
 4.  CPace cipher suites
 
@@ -529,10 +530,16 @@ Table of Contents
    *  prepend_len(octet_string) denotes the octet sequence that is
       obtained from prepending the length of the octet string to the
       string itself.  The length shall be prepended by using an LEB128
-      encoding of the length.  This will result in a single-byte
-      encoding for values below 128.  (Test vectors and reference
-      implementations for prepend_len and the LEB128 encodings are given
-      in the appendix.)
+      encoding of the length.  Test vectors and reference
+      implementations for prepend_len are given in the appendix.
+
+   *  LEB128 denotes an algorithm that converts an integer to a variable
+      size string.  The algorithm encodes 7 bits per byte starting with
+      the least significant bits in bits #0 to #6.  As long as
+      significant bits remain, bit #7 will be set.  This will result in
+      a single-byte encoding for values below 128.  Test vectors and
+      reference implementations for LEB128 encodings are given in the
+      appendix.
 
    *  lv_cat(a0,a1, ...) is the "length-value" encoding function which
       returns the concatenation of the input strings with an encoding of
