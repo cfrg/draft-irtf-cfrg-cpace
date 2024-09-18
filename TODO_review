@@ -40,9 +40,11 @@ Detailed comments below:
 > Switched consistently to additive notation.
 
 
-5.3: LEB128 and lv_cat are specified in an appendix. Shouldn't that be
-moved to the main document? It feels weird to have these parts in an
-appendix.
+#5.3: LEB128 and lv_cat are specified in an appendix. Shouldn't that be
+#moved to the main document? It feels weird to have these parts in an
+#appendix.
+> Fixed. Yes we added a textual description in addition to the reference code
+> in the appendix.
 
 # 5.3: sample_random_bytes(n) is defined as "a function that returns n
 # octets uniformly distributed between 0 and 255", which can be understood

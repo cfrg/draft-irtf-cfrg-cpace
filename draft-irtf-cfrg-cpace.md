@@ -250,8 +250,9 @@ The following tasks are out of the scope of this document and left to the applic
   e.g. by use of a key-derivation function, the clear-text password SHOULD BE encoded according to {{?RFC8265}}.
 
 - The application needs to settle whether CPace is used in the initiator-responder or the symmetric setting, as in the symmetric
-  setting transcripts must be generated using ordered string concatenation. In this document we will provide test vectors
-  for both, initiator-responder and symmetric settings.
+  setting transcripts and concatenation of party identity strings as part of the channel identifier CI
+  must be generated using ordered string concatenation.
+  In this document we will provide test vectors for both, initiator-responder and symmetric settings.
 
 # CPace cipher suites {#CipherSuites}
 
@@ -348,8 +349,11 @@ representation of the group element g\*y. Additionally, scalar\_mult\_vfy specif
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
   the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
-  This will result in a single-byte encoding for values below 128. (Test vectors and reference implementations
-  for prepend\_len and the LEB128 encodings are given in the appendix.)
+  Test vectors and reference implementations for prepend\_len are given in the appendix.
+
+- LEB128 denotes an algorithm that converts an integer to a variable size string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
+  As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
+  Test vectors and reference implementations for LEB128 encodings are given in the appendix.
 
 - lv\_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
   their respective length prepended. E.g. lv\_cat(a0,a1) returns
