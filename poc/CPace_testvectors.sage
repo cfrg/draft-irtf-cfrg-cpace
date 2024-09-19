@@ -1,4 +1,6 @@
 import sys
+import json
+import base64
 
 ########## Definitions from RFC 7748 ##################
 from sagelib.RFC7748_X448_X25519 import *
@@ -9,23 +11,23 @@ from sagelib.CPace_weierstrass import *
 from sagelib.CPace_montgomery import *
 from sagelib.test_vectors_X448_X25519 import *
 
-def CPace_ISK(H, DSI,sid,K,MSGa,MSGb,doPrint = 1, symmetric_execution = False, file = sys.stdout):
+def CPace_ISK(H, DSI,sid,K,Ya,ADa,Yb,ADb,doPrint = 1, symmetric_execution = False, file = sys.stdout):
     if symmetric_execution:
-        concatenated_msg_transcript = o_cat(MSGa,MSGb)
+        concatenated_msg_transcript = transcript_oc(Ya,ADa,Yb,ADb)
         if doPrint:
             print ("\n###  Test vector for ISK calculation parallel execution\n", file=file)
             print ("~~~", file=file)
-            tv_output_byte_array(concatenated_msg_transcript, test_vector_name = "ordered cat of transcript ", 
+            tv_output_byte_array(concatenated_msg_transcript, test_vector_name = "transcript_oc(Ya,ADa,Yb,ADb)", 
                          line_prefix = "    ", max_len = 60, file=file)
-            cat_string = "o_cat(MSGa,MSGb)"
+            cat_string = "transcript_oc(Ya,ADa,Yb,ADb)"
     else:
-        concatenated_msg_transcript = MSGa + MSGb
+        concatenated_msg_transcript = transcript_ir(Ya,ADa,Yb,ADb)
         if doPrint:
             print ("\n###  Test vector for ISK calculation initiator/responder\n", file=file)
             print ("~~~", file=file)
-            tv_output_byte_array(concatenated_msg_transcript, test_vector_name = "unordered cat of transcript ", 
+            tv_output_byte_array(concatenated_msg_transcript, test_vector_name = "transcript_ir(Ya,ADa,Yb,ADb)", 
                          line_prefix = "    ", max_len = 60, file=file)
-            cat_string = "MSGa||MSGb"
+            cat_string = "transcript_ir(Ya,ADa,Yb,ADb)"
 
     string = lv_cat(DSI,sid,K) + concatenated_msg_transcript
     ISK = H.hash(string)
@@ -50,8 +52,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     sid = sid [:16]
 
     PRS = b"Password"
-    CI = (prepend_len(b"Ainitiator") 
-          + prepend_len(b"Bresponder"))
+    CI = o_cat(prepend_len(b"A_initiator"), prepend_len(b"B_responder"))
 
     ADa = b"ADa"
     ADb = b"ADb"
@@ -67,11 +68,8 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
         if not (o_cat(Ya,Yb) == Ya + Yb):
             break;
         seed += b" "
-               
-    MSGa = lv_cat(Ya,ADa)
-    MSGb = lv_cat(Yb,ADb)
-   
-    print ("\n###  Test vector for MSGa\n", file=file)
+                  
+    print ("\n###  Test vector for message from A\n", file=file)
     print ("~~~", file=file)
     print ("  Inputs", file=file)
     print ("    ADa =",ADa, file=file)
@@ -86,10 +84,8 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
         tv_output_byte_array(G.scalar_mult_negated_result(ya, g), test_vector_name = "Alternative correct value for Ya: g*(-ya)", 
                              line_prefix = "    ", max_len = 60, file=file)
     
-    tv_output_byte_array(MSGa, test_vector_name = "MSGa = lv_cat(Ya,ADa)", 
-                         line_prefix = "    ", max_len = 60, file=file)
     print ("~~~", file=file)
-    print ("\n###  Test vector for MSGb\n", file=file)
+    print ("\n###  Test vector for message from B\n", file=file)
     print ("~~~", file=file)
     print ("  Inputs", file=file)
     print ("    ADb =", ADb, file=file)
@@ -101,8 +97,6 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     if (print_negated_Y):
         tv_output_byte_array(G.scalar_mult_negated_result(yb, g), test_vector_name = "Alternative correct value for Yb: g*(-yb)", 
                              line_prefix = "    ", max_len = 60, file=file)
-    tv_output_byte_array(MSGb, test_vector_name = "MSGb = lv_cat(Yb,ADb)", 
-                         line_prefix = "    ", max_len = 60, file=file)
     
     print ("~~~", file=file)
     print ("\n###  Test vector for secret points K\n", file=file)
@@ -118,8 +112,23 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
         print ("Diffie-Hellman did fail!")
     K = K1
     
-    ISK_IR = CPace_ISK(H,G.DSI_ISK,sid,K,MSGa,MSGb,doPrint = 1, symmetric_execution = False, file=file)
-    ISK_SY = CPace_ISK(H,G.DSI_ISK,sid,K,MSGa,MSGb,doPrint = 1, symmetric_execution = True, file=file)
+    ISK_IR = CPace_ISK(H,G.DSI_ISK,sid,K,Ya,ADa,Yb,ADb,doPrint = 1, symmetric_execution = False, file=file)
+    ISK_SY = CPace_ISK(H,G.DSI_ISK,sid,K,Ya,ADa,Yb,ADb,doPrint = 1, symmetric_execution = True, file=file)
+
+    print ("\n###  Test vector for optional output of session id\n", file=file)
+    print ("~~~", file=file)
+    
+    sid_output_ir = H.hash(b"CPaceSidOutput" + transcript_ir(Ya,ADa, Yb,ADb))
+    
+    tv_output_byte_array(sid_output_ir, test_vector_name = 'H.hash(b"CPaceSidOut" + transcript_ir(Ya,ADa, Yb,ADb))', 
+                         line_prefix = "    ", max_len = 60, file=file)
+
+    sid_output_oc = H.hash(b"CPaceSidOutput" + transcript_oc(Ya,ADa, Yb,ADb))
+    
+    tv_output_byte_array(sid_output_oc, test_vector_name = 'H.hash(b"CPaceSidOut" + transcript_oc(Ya,ADa, Yb,ADb))', 
+                         line_prefix = "    ", max_len = 60, file=file)
+    
+    print ("~~~", file=file)
     
     if with_ANSI_C_initializers:
         print ("\n###  Corresponding C programming language initializers\n", file=file)
@@ -137,13 +146,38 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
         print (ByteArrayToCInitializer(K1, "tc_K"), file=file)
         print (ByteArrayToCInitializer(ISK_IR, "tc_ISK_IR"), file=file)
         print (ByteArrayToCInitializer(ISK_SY, "tc_ISK_SY"), file=file)
+        print (ByteArrayToCInitializer(ISK_SY, "tc_ISK_SY"), file=file)
+        print (ByteArrayToCInitializer(sid_output_ir, "tc_sid_out_ir"), file=file)
+        print (ByteArrayToCInitializer(sid_output_oc, "tc_sid_out_oc"), file=file)
         print ("~~~\n", file=file)
+    
+    
+    dictionary = {}
+    dictionary["PRS"] = base64.b64encode(PRS).decode('ascii'); 
+    dictionary["CI"] = base64.b64encode(CI).decode('ascii'); 
+    dictionary["sid"] = base64.b64encode(sid).decode('ascii'); 
+    dictionary["g"] = base64.b64encode(g).decode('ascii'); 
+    dictionary["ya"] = base64.b64encode(ya).decode('ascii'); 
+    dictionary["ADa"] = base64.b64encode(ADa).decode('ascii'); 
+    dictionary["Ya"] = base64.b64encode(Ya).decode('ascii'); 
+    dictionary["yb"] = base64.b64encode(yb).decode('ascii');  
+    dictionary["ADb"] = base64.b64encode(ADb).decode('ascii');
+    dictionary["Yb"] = base64.b64encode(Yb).decode('ascii');
+    dictionary["K"] = base64.b64encode(K).decode('ascii');
+    dictionary["ISK_IR"] = base64.b64encode(ISK_IR).decode('ascii'); 
+    dictionary["ISK_SY"] = base64.b64encode(ISK_SY).decode('ascii');
+    dictionary["sid_output_ir"] = base64.b64encode(sid_output_ir).decode('ascii');
+    dictionary["sid_output_oc"] = base64.b64encode(sid_output_oc).decode('ascii');
+    
+    return dictionary    
+     
 
 if __name__ == "__main__":
     print ("Markdown for test vectors is generated.");
     print ("Be patient. This may take some time, as in the course of the process");
     print ("the group orders of the curves will be verified and checked for primality.");
     
+    test_vector_dict = {}
     with open('../testvectors.md', 'w') as f:
 
         print("\n# CPace function definitions\n", file = f)
@@ -160,39 +194,41 @@ if __name__ == "__main__":
     
         H = H_SHA512()
         G = G_X25519()
-        generate_test_vector(H,G, file=f)
-        output_test_vectors_for_weak_points_255(file = f)
+        test_vector_dict["G_25519"] = generate_test_vector(H,G, file=f)
+        test_vector_dict["X25519_points"] = output_test_vectors_for_weak_points_255(file = f)
  
         H = H_SHAKE256()
         G = G_X448()
         
         print ("Z for Ed448 : -", -G.find_z_ell2(GF(G.q)))
 
-        generate_test_vector(H,G, file=f)
-        output_test_vectors_for_weak_points_448(file = f)
+        test_vector_dict["G_448"] = generate_test_vector(H,G, file=f)
+        test_vector_dict["X448_points"] = output_test_vectors_for_weak_points_448(file = f)
    
         H = H_SHA512()
         G = G_CoffeeEcosystem(Ed25519Point)
-        generate_test_vector(H,G, file=f)
-        output_coffee_invalid_point_test_cases(G, file=f)
+        test_vector_dict["G_Coffee25519"] = generate_test_vector(H,G, file=f)
+        test_vector_dict["G_Coffee25519_points"] = output_coffee_invalid_point_test_cases(G, file=f)
 
         H = H_SHAKE256()
         G = G_CoffeeEcosystem(Ed448GoldilocksPoint)
-        generate_test_vector(H,G, file=f)
-        output_coffee_invalid_point_test_cases(G, file=f)
+        test_vector_dict["G_Coffee448"] = generate_test_vector(H,G, file=f)
+        test_vector_dict["G_Coffee448_points"] = output_coffee_invalid_point_test_cases(G, file=f)
     
         H = H_SHA256()
         G = G_ShortWeierstrass(cpace_map_for_nist_p256)
-        generate_test_vector(H,G, file=f,print_negated_Y = True)
-        output_weierstrass_invalid_point_test_cases(G, file=f)
+        test_vector_dict["G_NistP256"] = generate_test_vector(H,G, file=f,print_negated_Y = True)
+        test_vector_dict["G_NistP256_points"] = output_weierstrass_invalid_point_test_cases(G, file=f)
 
         H = H_SHA384()
         G = G_ShortWeierstrass(cpace_map_for_nist_p384)
-        generate_test_vector(H,G, file=f,print_negated_Y = True)
-        output_weierstrass_invalid_point_test_cases(G, file=f)
+        test_vector_dict["G_NistP384"] = generate_test_vector(H,G, file=f,print_negated_Y = True)
+        test_vector_dict["G_NistP384_points"] = output_weierstrass_invalid_point_test_cases(G, file=f)
 
         H = H_SHA512()
         G = G_ShortWeierstrass(cpace_map_for_nist_p521)
-        generate_test_vector(H,G, file=f,print_negated_Y = True)
-        output_weierstrass_invalid_point_test_cases(G, file=f)
+        test_vector_dict["G_NistP521"] = generate_test_vector(H,G, file=f,print_negated_Y = True)
+        test_vector_dict["G_NistP521_points"] = output_weierstrass_invalid_point_test_cases(G, file=f)
 
+    with open('../testvectors.json', 'w') as f:
+        print(json.dumps(test_vector_dict, indent = 2), file = f)

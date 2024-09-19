@@ -108,44 +108,52 @@ Detailed comments below:
 > Accidental success can now be ruled out as o_cat prepends b"oc".
 
 
-6.2: The derived key depends on the used encoding, represented by
-network_encode() and nominally open to whatever the outer layer chooses.
-This is a somewhat leaky abstraction; the outer layer might use a
-representation that is not amenable to easy canonicalization; e.g.
-somebody will certainly try to put that in JSON, or even XML. Should the
-parties somehow order and hash XML data? Some network encodings could
-even be non-binary (e.g. QR codes mostly convey _characters_ in a
-specific subset of ASCII). That looks like a recipe for disaster, or at
-least implementation annoyance. An illustration of the problem is the
-test vectors from appendix B, which (necessarily) must assume a specific
-network_encode() (namely, lv_cat()) in order to provide the ISK value
-that should be obtained.
-
-Also, concatenation of network_encode() values could be ambiguous. As
-5.3 specifies it, network_encode() shall be such that an _individual_
-output of network_encode() can be unambiguously split into its two
-parameters, but that does not necessarily implies that concatenating
-both values is unambiguous. For instance, one could make
-network_encode(Y,AD) as the concatenation of, in that order: the length
-of Y (with LEB128), then Y, then AD. Given network_encode(Y,AD), you can
-recover Y and AD (by decoding the length of Y, which starts the string,
-so you know where the split occurs between Y and AD). But then, if you
-receive network_encode(Ya,ADa)||network_encode(Yb,ADb), you cannot
-always unambiguously recover Ya, ADa, Yb and ADb. This can imply
-unwanted collisions in ISK and that might make security proofs derail a
-bit.
-
-To avoid such issues, I would strongly recommend that the specification
-mandates that key derivation (computations of ISK) always uses
-lv_cat(Y,AD) regardless of how the messages were actually encoded over
-the wire (with network_encode()). This implies that in symmetric mode,
-the lexicographic order would be evaluated over lv_cat(), not
-necessarily what was sent.
-(In fact I think network_encode() should be removed from the document
-altogether; there should be lv_cat(), for key computation purposes, and
-otherwise some text that says "MSGa is the pair of values (Ya, ADa),
-sent to the peer with an unambiguous encoding format appropriate for the
-used transport medium".)
+#6.2: The derived key depends on the used encoding, represented by
+#network_encode() and nominally open to whatever the outer layer chooses.
+#This is a somewhat leaky abstraction; the outer layer might use a
+#representation that is not amenable to easy canonicalization; e.g.
+#somebody will certainly try to put that in JSON, or even XML. Should the
+#parties somehow order and hash XML data? Some network encodings could
+#even be non-binary (e.g. QR codes mostly convey _characters_ in a
+#specific subset of ASCII). That looks like a recipe for disaster, or at
+#least implementation annoyance. An illustration of the problem is the
+#test vectors from appendix B, which (necessarily) must assume a specific
+#network_encode() (namely, lv_cat()) in order to provide the ISK value
+#that should be obtained.
+>
+> Yes we agree.
+# Also, concatenation of network_encode() values could be ambiguous. As
+# 5.3 specifies it, network_encode() shall be such that an _individual_
+# output of network_encode() can be unambiguously split into its two
+# parameters, but that does not necessarily implies that concatenating
+# both values is unambiguous. For instance, one could make
+# network_encode(Y,AD) as the concatenation of, in that order: the length
+# of Y (with LEB128), then Y, then AD. Given network_encode(Y,AD), you can
+# recover Y and AD (by decoding the length of Y, which starts the string,
+# so you know where the split occurs between Y and AD). But then, if you
+# receive network_encode(Ya,ADa)||network_encode(Yb,ADb), you cannot
+# always unambiguously recover Ya, ADa, Yb and ADb. This can imply
+# unwanted collisions in ISK and that might make security proofs derail a
+# bit.
+#
+#
+# To avoid such issues, I would strongly recommend that the specification
+# mandates that key derivation (computations of ISK) always uses
+# lv_cat(Y,AD) regardless of how the messages were actually encoded over
+# the wire (with network_encode()). This implies that in symmetric mode,
+# the lexicographic order would be evaluated over lv_cat(), not
+# necessarily what was sent.
+# (In fact I think network_encode() should be removed from the document
+# altogether; there should be lv_cat(), for key computation purposes, and
+# otherwise some text that says "MSGa is the pair of values (Ya, ADa),
+# sent to the peer with an unambiguous encoding format appropriate for the
+# used transport medium".)
+>
+> Yes probably, you are right. The idea was to be able to re-use the
+> current procedures used for the TLS encodings such that session key derivation
+> for TLS does not require the additional lv_cat operation.
+> However the hypothetical advantage here probably will not justify the
+> possible inter-operability issue when allowing arbitrary network_encode functions.
 
 
 # 7.1: maybe add a sentence to assert that the zero padding should not be

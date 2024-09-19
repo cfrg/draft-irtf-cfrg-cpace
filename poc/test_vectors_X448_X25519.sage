@@ -1,4 +1,5 @@
 import sys
+import base64
 
 ########## Definitions from RFC 7748 ##################
 from sagelib.RFC7748_X448_X25519 import *
@@ -13,6 +14,8 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
     print ("representation was not correctly cleared. (The decodeUCoordinate function from RFC7748 mandates clearing bit #255 for field element representations for use in the X25519 function.).", file = file)
     print ("\n~~~", file = file)
 
+    result_dict = {}
+    
     s_in = 0xff9a44ba44226a50185afcc10a4c1462dd5e46824b15163b9d7c52f06be346af;
 
     weak_pts255 = [(b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'), 
@@ -28,11 +31,17 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
                       (b'\xcd\xebz|;A\xb8\xae\x16V\xe3\xfa\xf1\x9f\xc4j\xda\t\x8d\xeb\x9c2\xb1\xfd\x86b\x05\x16_I\xb8\x80'), 
                       (b'L\x9c\x95\xbc\xa3P\x8c$\xb1\xd0\xb1U\x9c\x83\xef[\x04D\\\xc4X\x1c\x8e\x86\xd8"N\xdd\xd0\x9f\x11\xd7')]
 
+    ctr = 0
     weakp = []
     for wp in weak_pts255:
         weakp.append(decodeUCoordinate(wp,255))
+        result_dict["Invalid Y" + str(ctr)] = base64.b64encode(wp).decode('ascii')
+        ctr += 1
+
     for wp in nc_weak_pts255:
         weakp.append(decodeUCoordinate(wp,256))
+        result_dict["Invalid Y" + str(ctr)] = base64.b64encode(wp).decode('ascii')
+        ctr += 1
 
     ctr=0;
     for x in weakp:
@@ -54,7 +63,7 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
 #    print ("(i.e. implemented according to RFC7748!):", file = file)
     print ("\nu0 ... ub MUST be verified to produce the correct results q0 ... qb:\n" +
            "\nAdditionally, u0,u1,u2,u3,u4,u5 and u7 MUST trigger the abort case"+
-           "\nwhen included in MSGa or MSGb.\n" +
+           "\nwhen included in message from A or B.\n" +
            "\ns =", IntegerToLEPrintString(s_in), file = file);
     print ("qN = G_X25519.scalar_mult_vfy(s, uX)", file = file)
     ctr=0;
@@ -65,6 +74,8 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
         ctr += 1;
         
     print ("~~~\n", file = file)
+    return result_dict
+    
 
 
 def output_test_vectors_for_weak_points_448(file = sys.stdout):
@@ -75,6 +86,8 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
     print ("larger", file = file)
     print ("than the field prime.", file = file)
 
+    result_dict = {}
+    
     s = b""
     while True:
         s = H_SHAKE256().hash(s,56)
@@ -98,6 +111,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          test_vector_name = 'u%i' % ctr, 
                          line_prefix = "  ", max_len = 60, file = file);
         ctr += 1;
+        result_dict["Invalid Y" + str(ctr)] = base64.b64encode(x).decode('ascii')
     print ("~~~", file = file)
     print ("\nWeak points for X448 larger or equal to the field prime (non-canonical)\n",file = file)
     print ("~~~", file = file)
@@ -106,8 +120,10 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          test_vector_name = 'u%i' % ctr, 
                          line_prefix = "  ", max_len = 60, file = file);
         ctr += 1;
+        result_dict["Invalid Y" + str(ctr)] = base64.b64encode(x).decode('ascii')
+        
     print ("\nAll of the above points u0 ... u4 MUST trigger the abort case", file = file)
-    print ("when included in the protocol messages MSGa or MSGb.", file = file)
+    print ("when included in the protocol messages from A or B.", file = file)
     print ("~~~", file = file)
 
     
@@ -154,6 +170,12 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          test_vector_name = 'G_X448.scalar_mult_vfy(s,u_curve)', 
                          line_prefix = "  ", max_len = 60, file = file);
                          
+    dict_example = {}
+    dict_example["s"] = base64.b64encode(s).decode('ascii')
+    dict_example["u_curve"] = base64.b64encode(u_curve).decode('ascii')
+    dict_example["res_curve"] = base64.b64encode(res_curve).decode('ascii')
+    result_dict["Valid (on curve)"] = dict_example
+    
     print ("", file = file)
     u_twist = H_SHAKE256().hash(b" point on twist ",56)
     res_twist = X448(s,u_twist,warnForPointOnTwist = False)
@@ -167,9 +189,14 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          test_vector_name = 'G_X448.scalar_mult_vfy(s,u_twist)', 
                          line_prefix = "  ", max_len = 60, file = file);
                          
+    dict_example_tw = {}
+    dict_example_tw["s"] = base64.b64encode(s).decode('ascii')
+    dict_example_tw["u_twist"] = base64.b64encode(u_twist).decode('ascii')
+    dict_example_tw["res_twist"] = base64.b64encode(res_twist).decode('ascii')
+    result_dict["Valid (on twist)"] = dict_example_tw
                      
     print ("~~~\n", file = file)
-
+    return result_dict
 
 
 if __name__ == "__main__":

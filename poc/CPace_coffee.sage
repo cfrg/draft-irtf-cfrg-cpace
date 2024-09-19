@@ -1,4 +1,6 @@
 import sys
+import base64
+
 sys.path.append("sagelib")
 
 from sagelib.CPace_string_utils import *
@@ -81,6 +83,7 @@ class G_CoffeeEcosystem():
         return result.encode()
 
 def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
+    result_dict = {}
     X = G.calculate_generator( H_SHAKE256(), b"Password", b"CI", b"sid")
     y = G.sample_scalar(deterministic_scalar_for_test_vectors= b"yes we want it")
     K = G.scalar_mult_vfy(y,X)
@@ -97,6 +100,14 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
                          line_prefix = "    ", max_len = 60, file = file)
     print ("~~~\n", file = file)
     
+    dict_valid = {}
+    dict_valid["s"] = base64.b64encode(y).decode('ascii')
+    dict_valid["X"] = base64.b64encode(X).decode('ascii')
+    dict_valid["G.scalar_mult(s,decode(X))"] = base64.b64encode(Z).decode('ascii')
+    dict_valid["G.scalar_mult_vfy(s,X)"] = base64.b64encode(K).decode('ascii')
+    
+    result_dict["Valid"] = dict_valid
+    
     Y_inv1 = bytearray(X)
     for m in range(16*256):
         Y_inv1[m%16] = (Y_inv1[m%16] - 1) % 256 # choose an incorrect value    
@@ -106,7 +117,7 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
                    
     print ("\n### Invalid inputs for scalar\\_mult\\_vfy\n", file = file)
     print ("For these test cases scalar\\_mult\\_vfy(y,.) MUST return the representation"+
-           " of the neutral element G.I. When points Y\\_i1 or Y\\_i2 are included in MSGa or MSGb the protocol MUST abort.", file = file)
+           " of the neutral element G.I. When points Y\\_i1 or Y\\_i2 are included in message of A or B the protocol MUST abort.", file = file)
     print ("\n~~~", file = file)
     tv_output_byte_array(y, test_vector_name = "s", 
                          line_prefix = "    ", max_len = 60, file = file)
@@ -117,6 +128,9 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
     print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I", file = file)
     print ("~~~\n", file = file)    
 
+    result_dict["Invalid Y"] = base64.b64encode(Y_inv1).decode('ascii') 
+
+    return result_dict
        
 if __name__ == "__main__":
 

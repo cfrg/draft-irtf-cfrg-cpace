@@ -86,6 +86,7 @@ def lv_cat(*args):
         result += prepend_len(arg)
     return result
 
+
 def lexiographically_larger(bytes1,bytes2):
     "Returns True if bytes1 > bytes2 for lexiographical ordering."
     min_len = min (len(bytes1), len(bytes2))
@@ -101,6 +102,15 @@ def o_cat(bytes1,bytes2):
         return b"oc" + bytes1 + bytes2
     else:
         return b"oc" + bytes2 + bytes1
+
+
+def transcript_oc(Ya,ADa,Yb,ADb):
+    result = o_cat(lv_cat(Ya,ADa),lv_cat(Yb,ADb))
+    return result
+
+def transcript_ir(Ya,ADa,Yb,ADb):
+    result = lv_cat(Ya,ADa) + lv_cat(Yb,ADb)
+    return result
 
 def zero_bytes(length):
     result = b"\0" * length
@@ -180,32 +190,6 @@ def prepend_len(data):
     
     print ("~~~", file = file)
 
-    print ("\n### Examples for messages not obtained from a lv\\_cat-based encoding\n", file = file)
-   
-    print ("""
-The following messages are examples which have invalid encoded length fields. I.e. they are examples
-where parsing for the sum of the length of subfields as expected for a message generated using lv\\_cat(Y,AD)
-does not give the correct length of the message. Parties MUST abort upon reception of such invalid messages as MSGa or MSGb.
-""", file = file)
-    
-    print ("\n\n~~~", file = file)
-    
-    tv_output_byte_array(bytes([255,255,255]), 
-                         test_vector_name = 'Inv_MSG1 not encoded by lv_cat', 
-                         line_prefix = "  ", max_len = 60, file = file);
-    tv_output_byte_array(bytes([255,255,3]), 
-                         test_vector_name = 'Inv_MSG2 not encoded by lv_cat', 
-                         line_prefix = "  ", max_len = 60, file = file);
-    tv_output_byte_array(bytes([0,255,255,3]), 
-                         test_vector_name = 'Inv_MSG3 not encoded by lv_cat', 
-                         line_prefix = "  ", max_len = 60, file = file);
-    tv_output_byte_array(bytes([0,255,255,255]), 
-                         test_vector_name = 'Inv_MSG4 not encoded by lv_cat', 
-                         line_prefix = "  ", max_len = 60, file = file);
-    
-    print ("~~~", file = file)
-
-
     print ("\n## Definition of generator\\_string function.\n\n" +
 """
 ~~~
@@ -272,6 +256,51 @@ With the above definition of lexiographical ordering ordered concatenation is sp
                          line_prefix = "  ", max_len = 60, file = file);
     print ("~~~", file = file)
 
+
+    print (""" 
+
+### Definitions for transcript\_ir function
+
+~~~
+def transcript_ir(Ya,ADa,Yb,ADb):
+    result = lv_cat(Ya,ADa) + lv_cat(Yb,ADb)
+    return result
+~~~""", file = file)
+
+    print ("\n### Test vectors transcript\_ir function\n", file = file)
+
+    print ("~~~", file = file)
+    tv_output_byte_array(transcript_ir(b"123",b"PartyA",b"234",b"PartyB"), 
+                         test_vector_name = 'transcript_ir(b"123", b"PartyA", b"234",b"PartyB")', 
+                         line_prefix = "  ", max_len = 60, file = file);
+    
+    tv_output_byte_array(transcript_ir(b"3456",b"PartyA",b"2345",b"PartyB"), 
+                         test_vector_name = 'transcript_ir(b"3456",b"PartyA",b"2345",b"PartyB")', 
+                         line_prefix = "  ", max_len = 60, file = file);
+
+    print ("~~~", file = file)
+
+    print (""" 
+
+### Definitions for transcript\_oc function
+
+~~~
+def transcript_oc(Ya,ADa,Yb,ADb):
+    result = o_cat(lv_cat(Ya,ADa),lv_cat(Yb,ADb))
+    return result
+~~~""", file = file)
+
+    print ("\n### Test vectors for transcript\_oc function\n", file = file)
+
+    print ("~~~", file = file)
+    tv_output_byte_array(transcript_oc(b"123",b"PartyA",b"234",b"PartyB"), 
+                         test_vector_name = 'transcript_oc(b"123", b"PartyA", b"234",b"PartyB")', 
+                         line_prefix = "  ", max_len = 60, file = file);
+    
+    tv_output_byte_array(transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB"), 
+                         test_vector_name = 'transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB")', 
+                         line_prefix = "  ", max_len = 60, file = file);
+    print ("~~~", file = file)
 
 
 def zero_bytes(length):
