@@ -360,7 +360,7 @@ representation of the group element g\*y. Additionally, scalar\_mult\_vfy specif
 - o\_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexiographically larger octet
   string first and prepends the two bytes from the octet string b"oc" to the result. (Explicit reference code for this function is given in the appendix.)
 
-- transcript(Ya,ADa,Yb,ADb) denotes function outputing a string for the protocol transcript.
+- transcript(Ya,ADa,Yb,ADb) denotes a function outputing an octet string for the protocol transcript.
   In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
   not enforced by the protocol flow, transcript\_oc(Ya,Yb,ADa,ADb) = o\_cat(lv\_cat(Ya,ADa),lv\_cat(Yb, ADb)) SHALL be used.
   In the initiator-responder setting the implementation transcript\_ir(Ya,Yb,ADa,ADb) = lv\_cat(Ya,ADa) \|\| lv\_cat(Yb, ADb) SHALL be used.
