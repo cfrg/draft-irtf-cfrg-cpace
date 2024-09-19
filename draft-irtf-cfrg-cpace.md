@@ -670,7 +670,7 @@ Implementation MUST be verified to abort upon conditions where G.scalar\_mult\_v
 For testing an implementation it is RECOMMENDED to include weak or invalid point encodings within the messages of party A and B and introduce this
 in a protocol run. It SHALL be verified that the abort condition is properly handled.
 
-Corresponding test vectors are givenn in the appendix for all recommended cipher suites.
+Corresponding test vectors are given in the appendix for all recommended cipher suites.
 
 # Security Considerations {#sec-considerations}
 
