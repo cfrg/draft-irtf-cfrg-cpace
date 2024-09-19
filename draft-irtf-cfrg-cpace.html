@@ -1917,7 +1917,7 @@ prepend_len(a0) || prepend_len(a1). The detailed specification of lv_cat and a r
 string first and prepends the two bytes from the octet string b"oc" to the result. (Explicit reference code for this function is given in the appendix.)<a href="#section-5.3-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.11">
-            <p id="section-5.3-1.11.1">transcript(Ya,ADa,Yb,ADb) denotes function outputing a string for the protocol transcript.
+            <p id="section-5.3-1.11.1">transcript(Ya,ADa,Yb,ADb) denotes a function outputing an octet string for the protocol transcript.
 In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
 not enforced by the protocol flow, transcript_oc(Ya,Yb,ADa,ADb) = o_cat(lv_cat(Ya,ADa),lv_cat(Yb, ADb)) SHALL be used.
 In the initiator-responder setting the implementation transcript_ir(Ya,Yb,ADa,ADb) = lv_cat(Ya,ADa) || lv_cat(Yb, ADb) SHALL be used.<a href="#section-5.3-1.11.1" class="pilcrow">¶</a></p>
