@@ -237,8 +237,7 @@ as output that might be helpful for actions subsequent to the CPace protocol ste
 The following tasks are out of the scope of this document and left to the application layer
 
 - Setup phase:
-
-- The application layer is responsible for the handshake that makes parties agree on a common CPace cipher suite.
+  The application layer is responsible for the handshake that makes parties agree on a common CPace cipher suite.
 
 - This document does not specify which encodings applications use for the mandatory PRS input and the optional inputs
   CI, sid, ADa and ADb. If PRS is a clear-text password or an octet string derived from a clear-text password,
@@ -342,13 +341,13 @@ representation of the group element g\*y. Additionally, scalar\_mult\_vfy specif
   We use a preceeding lower-case letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
   I.e. we use the notation convention for byte string representations with single-byte ASCII character encodings from the python programming language.
 
-- prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
-  the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
-  Test vectors and reference implementations for prepend\_len are given in the appendix.
-
 - LEB128 denotes an algorithm that converts an integer to a variable size string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
   As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
   Test vectors and reference implementations for LEB128 encodings are given in the appendix.
+
+- prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
+  the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
+  Test vectors and reference implementations for prepend\_len are given in the appendix.
 
 - lv\_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
   their respective length prepended. E.g. lv\_cat(a0,a1) returns
