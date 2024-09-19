@@ -684,9 +684,9 @@ for applications that do not have a session identifier input available.
 If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities.
 
 Incorporating party identifier strings is important for fending off relay attacks.
-Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. 
-An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. 
-If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for 
+Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
+An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead.
+If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
 establishing a common ISK key with C while assuming to interact with party B.
 Including and checking party identifiers can fend off such relay attacks.
 
