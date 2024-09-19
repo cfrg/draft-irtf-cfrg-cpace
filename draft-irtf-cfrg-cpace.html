@@ -1738,21 +1738,19 @@ as output that might be helpful for actions subsequent to the CPace protocol ste
 <p id="section-3.3-1">The following tasks are out of the scope of this document and left to the application layer<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3-2.1">
-            <p id="section-3.3-2.1.1">Setup phase:<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.1.1">Setup phase:
+The application layer is responsible for the handshake that makes parties agree on a common CPace cipher suite.<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-2.2">
-            <p id="section-3.3-2.2.1">The application layer is responsible for the handshake that makes parties agree on a common CPace cipher suite.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.2.1">This document does not specify which encodings applications use for the mandatory PRS input and the optional inputs
+CI, sid, ADa and ADb. If PRS is a clear-text password or an octet string derived from a clear-text password,
+e.g. by use of a key-derivation function, the clear-text password SHOULD BE encoded according to <span>[<a href="#RFC8265" class="cite xref">RFC8265</a>]</span>.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-2.3">
-            <p id="section-3.3-2.3.1">This document does not specify which encodings applications use for the mandatory PRS input and the optional inputs
-CI, sid, ADa and ADb. If PRS is a clear-text password or an octet string derived from a clear-text password,
-e.g. by use of a key-derivation function, the clear-text password SHOULD BE encoded according to <span>[<a href="#RFC8265" class="cite xref">RFC8265</a>]</span>.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.3-2.4">
-            <p id="section-3.3-2.4.1">The application needs to settle whether CPace is used in the initiator-responder or the symmetric setting, as in the symmetric
+            <p id="section-3.3-2.3.1">The application needs to settle whether CPace is used in the initiator-responder or the symmetric setting, as in the symmetric
 setting transcripts and concatenation of party identity strings as part of the channel identifier CI
 must be generated using ordered string concatenation.
-In this document we will provide test vectors for both, initiator-responder and symmetric settings.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
+In this document we will provide test vectors for both, initiator-responder and symmetric settings.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1894,14 +1892,14 @@ We use a preceeding lower-case letter b"" in front of the quotation marks if a c
 I.e. we use the notation convention for byte string representations with single-byte ASCII character encodings from the python programming language.<a href="#section-5.3-1.4.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.5">
-            <p id="section-5.3-1.5.1">prepend_len(octet_string) denotes the octet sequence that is obtained from prepending
-the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
-Test vectors and reference implementations for prepend_len are given in the appendix.<a href="#section-5.3-1.5.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.5.1">LEB128 denotes an algorithm that converts an integer to a variable size string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
+As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
+Test vectors and reference implementations for LEB128 encodings are given in the appendix.<a href="#section-5.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.6">
-            <p id="section-5.3-1.6.1">LEB128 denotes an algorithm that converts an integer to a variable size string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
-As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
-Test vectors and reference implementations for LEB128 encodings are given in the appendix.<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.6.1">prepend_len(octet_string) denotes the octet sequence that is obtained from prepending
+the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
+Test vectors and reference implementations for prepend_len are given in the appendix.<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.7">
             <p id="section-5.3-1.7.1">lv_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
