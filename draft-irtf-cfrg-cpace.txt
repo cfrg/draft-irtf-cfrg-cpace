@@ -995,7 +995,7 @@ Table of Contents
    a protocol run.  It SHALL be verified that the abort condition is
    properly handled.
 
-   Corresponding test vectors are givenn in the appendix for all
+   Corresponding test vectors are given in the appendix for all
    recommended cipher suites.
 
 9.  Security Considerations
