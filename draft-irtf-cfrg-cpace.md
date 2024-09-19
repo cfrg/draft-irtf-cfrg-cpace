@@ -675,23 +675,28 @@ Corresponding test vectors are given in the appendix for all recommended cipher 
 # Security Considerations {#sec-considerations}
 
 A security proof of CPace is found in {{AHH21}}. This proof covers all recommended cipher suites included in this document.
-In the following sections we describe how to protect CPace against several attack families, such as relay-, length extension- or side channel attacks. We also describe aspects to consider when deviating from recommended cipher suites.
-
 The security analysis in {{BGHJ24}} extends the analysis from {{AHH21}} and covers also the case that
-no pre-agreed sid is available and shows how a session id sid\_output can be generated along with the protocol.
+no pre-agreed session identifier is available. {{AHH21}} also shows how a session id sid\_output can be generated along with the protocol
+for applications that do not have a session identifier input available.
 
 ## Party identifiers and relay attacks {#sec-considerations-ids}
 
 If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities.
 
 Incorporating party identifier strings is important for fending off relay attacks.
-Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C share the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
+Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. 
+An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. 
+If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for 
+establishing a common ISK key with C while assuming to interact with party B.
 Including and checking party identifiers can fend off such relay attacks.
 
 The following guidance SHOULD be followed regarding party identifiers.
+
 - If an application layer has party identifiers available, it SHOULD integrate party identifiers in the CPace protocol run, either within CI or ADa/ADb.
+
 - The application SHOULD give preference to integrate party identifiers in CI.This is possible if A and B have the identifiers (A,B) available
   already before starting the protocol.
+
 - Otherwise A SHOULD integrate its party identifiers in ADa and ADb, such that A integrates its identifier in ADa and B integrates its party identifier as part of ADb.
 
 ## Hashing protocol transcripts
