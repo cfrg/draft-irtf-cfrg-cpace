@@ -2358,9 +2358,9 @@ in a protocol run. It SHALL be verified that the abort condition is properly han
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-9-1">A security proof of CPace is found in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>. This proof covers all recommended cipher suites included in this document.
-In the following sections we describe how to protect CPace against several attack families, such as relay-, length extension- or side channel attacks. We also describe aspects to consider when deviating from recommended cipher suites.<a href="#section-9-1" class="pilcrow">¶</a></p>
-<p id="section-9-2">The security analysis in <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span> extends the analysis from <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> and covers also the case that
-no pre-agreed sid is available and shows how a session id sid_output can be generated along with the protocol.<a href="#section-9-2" class="pilcrow">¶</a></p>
+The security analysis in <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span> extends the analysis from <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> and covers also the case that
+no pre-agreed session identifier is available. <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> also shows how a session id sid_output can be generated along with the protocol
+for applications that do not have a session identifier input available.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <div id="sec-considerations-ids">
 <section id="section-9.1">
         <h3 id="name-party-identifiers-and-relay">
@@ -2368,13 +2368,24 @@ no pre-agreed sid is available and shows how a session id sid_output can be gene
         </h3>
 <p id="section-9.1-1">If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">Incorporating party identifier strings is important for fending off relay attacks.
-Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS. An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead. If no party identifier strings are used, and B and C share the same PRS value, A might be establishing a common ISK key with C while assuming to interact with party B.
+Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
+An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead.
+If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
+establishing a common ISK key with C while assuming to interact with party B.
 Including and checking party identifiers can fend off such relay attacks.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
-<p id="section-9.1-3">The following guidance SHOULD be followed regarding party identifiers.
-- If an application layer has party identifiers available, it SHOULD integrate party identifiers in the CPace protocol run, either within CI or ADa/ADb.
-- The application SHOULD give preference to integrate party identifiers in CI.This is possible if A and B have the identifiers (A,B) available
-  already before starting the protocol.
-- Otherwise A SHOULD integrate its party identifiers in ADa and ADb, such that A integrates its identifier in ADa and B integrates its party identifier as part of ADb.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
+<p id="section-9.1-3">The following guidance SHOULD be followed regarding party identifiers.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-9.1-4.1">
+            <p id="section-9.1-4.1.1">If an application layer has party identifiers available, it SHOULD integrate party identifiers in the CPace protocol run, either within CI or ADa/ADb.<a href="#section-9.1-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.1-4.2">
+            <p id="section-9.1-4.2.1">The application SHOULD give preference to integrate party identifiers in CI.This is possible if A and B have the identifiers (A,B) available
+already before starting the protocol.<a href="#section-9.1-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.1-4.3">
+            <p id="section-9.1-4.3.1">Otherwise A SHOULD integrate its party identifiers in ADa and ADb, such that A integrates its identifier in ADa and B integrates its party identifier as part of ADb.<a href="#section-9.1-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 <div id="hashing-protocol-transcripts">

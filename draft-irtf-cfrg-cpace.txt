@@ -1001,16 +1001,12 @@ Table of Contents
 9.  Security Considerations
 
    A security proof of CPace is found in [AHH21].  This proof covers all
-   recommended cipher suites included in this document.  In the
-   following sections we describe how to protect CPace against several
-   attack families, such as relay-, length extension- or side channel
-   attacks.  We also describe aspects to consider when deviating from
-   recommended cipher suites.
-
-   The security analysis in [BGHJ24] extends the analysis from [AHH21]
-   and covers also the case that no pre-agreed sid is available and
-   shows how a session id sid_output can be generated along with the
-   protocol.
+   recommended cipher suites included in this document.  The security
+   analysis in [BGHJ24] extends the analysis from [AHH21] and covers
+   also the case that no pre-agreed session identifier is available.
+   [AHH21] also shows how a session id sid_output can be generated along
+   with the protocol for applications that do not have a session
+   identifier input available.
 
 9.1.  Party identifiers and relay attacks
 
@@ -1024,20 +1020,25 @@ Table of Contents
    several parties, say, A, B and C, share the same password PRS.  An
    adversary might relay messages from a honest user A, who aims at
    interacting with user B, to a party C instead.  If no party
-   identifier strings are used, and B and C share the same PRS value, A
-   might be establishing a common ISK key with C while assuming to
-   interact with party B.  Including and checking party identifiers can
-   fend off such relay attacks.
+   identifier strings are used and B and C share the same PRS value then
+   A might be using CPace for establishing a common ISK key with C while
+   assuming to interact with party B.  Including and checking party
+   identifiers can fend off such relay attacks.
 
    The following guidance SHOULD be followed regarding party
-   identifiers. - If an application layer has party identifiers
-   available, it SHOULD integrate party identifiers in the CPace
-   protocol run, either within CI or ADa/ADb. - The application SHOULD
-   give preference to integrate party identifiers in CI.This is possible
-   if A and B have the identifiers (A,B) available already before
-   starting the protocol. - Otherwise A SHOULD integrate its party
-   identifiers in ADa and ADb, such that A integrates its identifier in
-   ADa and B integrates its party identifier as part of ADb.
+   identifiers.
+
+   *  If an application layer has party identifiers available, it SHOULD
+      integrate party identifiers in the CPace protocol run, either
+      within CI or ADa/ADb.
+
+   *  The application SHOULD give preference to integrate party
+      identifiers in CI.This is possible if A and B have the identifiers
+      (A,B) available already before starting the protocol.
+
+   *  Otherwise A SHOULD integrate its party identifiers in ADa and ADb,
+      such that A integrates its identifier in ADa and B integrates its
+      party identifier as part of ADb.
 
 9.2.  Hashing protocol transcripts
 
