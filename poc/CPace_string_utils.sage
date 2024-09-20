@@ -186,6 +186,18 @@ def prepend_len(data):
 
     print ("~~~", file = file)
 
+    result_dict = {}
+    result_dict["prepend_len(b"")"] = list(prepend_len(b""))
+    result_dict['b"1234"'] = list(b"1234")
+    result_dict['prepend_len(b"1234")'] = list(prepend_len(b"1234"))
+    result_dict["prepend_len(bytes(range(127)))"] = list(prepend_len(bytes(range(127))))
+    result_dict["prepend_len(bytes(range(128)))"] = list(prepend_len(bytes(range(128))))
+            
+    print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
+    print ("~~~", file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    print ("~~~\n", file=file)    
+
 
     print ("\n\n### lv\\_cat function\n", file = file)
     
@@ -208,6 +220,18 @@ def prepend_len(data):
                          line_prefix = "  ", max_len = 60, file = file);
     
     print ("~~~", file = file)
+        
+    result_dict = {}
+    result_dict["ba1"] = list(b"1234")
+    result_dict["ba2"] = list(b"5")
+    result_dict["ba3"] = list(b"6789")
+    result_dict["lv_cat(ba1,ba2,ba3)"] = list(lv_cat(b"1234",b"5",b"",b"6789"))    
+            
+    print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
+    print ("~~~", file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    print ("~~~\n", file=file)    
+    
 
     print ("\n## Definition of generator\\_string function.\n\n" +
 """
@@ -275,6 +299,18 @@ With the above definition of lexiographical ordering ordered concatenation is sp
                          line_prefix = "  ", max_len = 60, file = file);
     print ("~~~", file = file)
 
+    result_dict = {}
+    result_dict['b"ABCD"'] = list(b"ABCD")
+    result_dict['b"BCD"'] = list(b"BCD")
+    result_dict['b"ABCDE"'] = list(b"ABCDE")
+    result_dict['o_cat(b"ABCD",b"BCD")'] = list(o_cat(b"ABCD",b"BCD"))
+    result_dict['o_cat(b"BCD",b"ABCDE")'] = list(o_cat(b"BCD",b"ABCDE"))
+            
+    print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
+    print ("~~~", file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    print ("~~~\n", file=file)    
+
 
     print ("""
 
@@ -299,6 +335,22 @@ def transcript_ir(Ya,ADa,Yb,ADb):
 
     print ("~~~", file = file)
 
+    result_dict = {}
+    result_dict['b"123"'] = list(b"123")
+    result_dict['b"234"'] = list(b"234")
+    result_dict['b"PartyA"'] = list(b"PartyA")
+    result_dict['b"PartyB"'] = list(b"PartyB")
+    result_dict['b"3456"'] = list(b"3456")    
+    result_dict['b"2345"'] = list(b"2345")    
+    result_dict['transcript_ir(b"123",b"PartyA",b"234",b"PartyB")'] = list(transcript_ir(b"123",b"PartyA",b"234",b"PartyB"))
+    result_dict['transcript_ir(b"3456",b"PartyA",b"2345",b"PartyB")'] = list(transcript_ir(b"3456",b"PartyA",b"2345",b"PartyB"))
+    
+    print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
+    print ("~~~", file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    print ("~~~\n", file=file)
+    
+
     print ("""
 
 ### Definitions for transcript\\_oc function
@@ -320,6 +372,21 @@ def transcript_oc(Ya,ADa,Yb,ADb):
                          test_vector_name = 'transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB")', 
                          line_prefix = "  ", max_len = 60, file = file);
     print ("~~~", file = file)
+
+    result_dict = {}
+    result_dict['b"123"'] = list(b"123")
+    result_dict['b"234"'] = list(b"234")
+    result_dict['b"PartyA"'] = list(b"PartyA")
+    result_dict['b"PartyB"'] = list(b"PartyB")
+    result_dict['b"3456"'] = list(b"3456")    
+    result_dict['b"2345"'] = list(b"2345")    
+    result_dict['transcript_oc(b"123",b"PartyA",b"234",b"PartyB")'] = list(transcript_oc(b"123",b"PartyA",b"234",b"PartyB"))
+    result_dict['transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB")'] = list(transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB"))
+    
+    print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
+    print ("~~~", file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    print ("~~~\n", file=file)
 
 
 

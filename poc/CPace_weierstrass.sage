@@ -125,6 +125,23 @@ class G_ShortWeierstrass():
             tv_output_byte_array(self.point_to_octets(result), test_vector_name = "generator g", 
                                  line_prefix = "    ", max_len = 60,file = file)
             print ("~~~", file = file)
+            
+            result_dict = {}
+            result_dict["H"] = list(H.name)
+            result_dict["H.s_in_bytes"] = int(H.s_in_bytes)
+            result_dict["PRS"] = list (PRS)
+            result_dict["ZPAD length"] = int(len_zpad)
+            result_dict["DSI"] = list(self.DSI)
+            result_dict["CI"] = list(CI)
+            result_dict["sid"] = list(sid)
+            result_dict["generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes)"] = list(gen_string)
+            result_dict["generator g"] = list(self.point_to_octets(result))
+            
+            print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
+            print ("~~~", file=file)
+            tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+            print ("~~~\n", file=file)    
+
         return self.point_to_octets(result)
 
 def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
