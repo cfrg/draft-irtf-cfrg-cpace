@@ -1,3 +1,5 @@
+import base64
+import json
 import sys
 
 def ByteArrayToInteger(k,numBytes=32):
@@ -65,6 +67,23 @@ def tv_output_byte_array(data, test_vector_name = "", line_prefix = "  ", max_le
         if len(string) == 0:
             print("\n",end="",file=file)
             return
+
+def tv_output_python_dictionary_as_json_base64(dictionary, line_prefix = "  ", max_len = 60, file = sys.stdout):
+    json_text = json.dumps(dictionary).encode("ASCII")
+    json_string = base64.standard_b64encode(json_text).decode("ASCII")
+    
+    result = "\n"
+    base64_header = line_prefix + "###"
+    base64_trailer = "\n"
+
+    offset = 0;
+    while offset < len(json_string):
+    	next_chunk_len = min(len(json_string), max_len)
+    	result += base64_header + json_string[offset:(offset+next_chunk_len)] + base64_trailer
+    	offset += next_chunk_len
+    result += "\n"
+    
+    print(result,end="",file=file)
             
 def prepend_len(data):
     "prepend LEB128 encoding of length"
@@ -257,9 +276,9 @@ With the above definition of lexiographical ordering ordered concatenation is sp
     print ("~~~", file = file)
 
 
-    print (""" 
+    print ("""
 
-### Definitions for transcript\_ir function
+### Definitions for transcript\\_ir function
 
 ~~~
 def transcript_ir(Ya,ADa,Yb,ADb):
@@ -267,7 +286,7 @@ def transcript_ir(Ya,ADa,Yb,ADb):
     return result
 ~~~""", file = file)
 
-    print ("\n### Test vectors transcript\_ir function\n", file = file)
+    print ("\n### Test vectors transcript\\_ir function\n", file = file)
 
     print ("~~~", file = file)
     tv_output_byte_array(transcript_ir(b"123",b"PartyA",b"234",b"PartyB"), 
@@ -280,9 +299,9 @@ def transcript_ir(Ya,ADa,Yb,ADb):
 
     print ("~~~", file = file)
 
-    print (""" 
+    print ("""
 
-### Definitions for transcript\_oc function
+### Definitions for transcript\\_oc function
 
 ~~~
 def transcript_oc(Ya,ADa,Yb,ADb):
@@ -290,7 +309,7 @@ def transcript_oc(Ya,ADa,Yb,ADb):
     return result
 ~~~""", file = file)
 
-    print ("\n### Test vectors for transcript\_oc function\n", file = file)
+    print ("\n### Test vectors for transcript\\_oc function\n", file = file)
 
     print ("~~~", file = file)
     tv_output_byte_array(transcript_oc(b"123",b"PartyA",b"234",b"PartyB"), 
@@ -301,6 +320,7 @@ def transcript_oc(Ya,ADa,Yb,ADb):
                          test_vector_name = 'transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB")', 
                          line_prefix = "  ", max_len = 60, file = file);
     print ("~~~", file = file)
+
 
 
 def zero_bytes(length):
@@ -316,3 +336,5 @@ def random_bytes(length):
 
 if __name__ == "__main__":
 	generate_testvectors_string_functions()
+		
+	tv_output_python_dictionary_as_json_base64(test_dictionary)

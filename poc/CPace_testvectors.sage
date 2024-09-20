@@ -153,22 +153,28 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     
     
     dictionary = {}
-    dictionary["PRS"] = base64.b64encode(PRS).decode('ascii'); 
-    dictionary["CI"] = base64.b64encode(CI).decode('ascii'); 
-    dictionary["sid"] = base64.b64encode(sid).decode('ascii'); 
-    dictionary["g"] = base64.b64encode(g).decode('ascii'); 
-    dictionary["ya"] = base64.b64encode(ya).decode('ascii'); 
-    dictionary["ADa"] = base64.b64encode(ADa).decode('ascii'); 
-    dictionary["Ya"] = base64.b64encode(Ya).decode('ascii'); 
-    dictionary["yb"] = base64.b64encode(yb).decode('ascii');  
-    dictionary["ADb"] = base64.b64encode(ADb).decode('ascii');
-    dictionary["Yb"] = base64.b64encode(Yb).decode('ascii');
-    dictionary["K"] = base64.b64encode(K).decode('ascii');
-    dictionary["ISK_IR"] = base64.b64encode(ISK_IR).decode('ascii'); 
-    dictionary["ISK_SY"] = base64.b64encode(ISK_SY).decode('ascii');
-    dictionary["sid_output_ir"] = base64.b64encode(sid_output_ir).decode('ascii');
-    dictionary["sid_output_oc"] = base64.b64encode(sid_output_oc).decode('ascii');
+    dictionary["PRS"] = list(PRS)
+    dictionary["CI"] = list(CI)
+    dictionary["sid"] = list(sid)
+    dictionary["g"] = list(g)
+    dictionary["ya"] = list(ya)
+    dictionary["ADa"] = list(ADa)
+    dictionary["Ya"] = list(Ya)
+    dictionary["yb"] = list(yb)
+    dictionary["ADb"] = list(ADb)
+    dictionary["Yb"] = list(Yb)
+    dictionary["K"] = list(K)
+    dictionary["ISK_IR"] = list(ISK_IR)
+    dictionary["ISK_SY"] = list(ISK_SY)
+    dictionary["sid_output_ir"] = list(sid_output_ir)
+    dictionary["sid_output_oc"] = list(sid_output_oc)
     
+    
+    print ("\n###  Testvectors as JSON file encoded as BASE64\n", file=file)
+    print ("~~~", file=file)
+    tv_output_python_dictionary_as_json_base64(dictionary,file=file)
+    print ("~~~\n", file=file)
+        
     return dictionary    
      
 

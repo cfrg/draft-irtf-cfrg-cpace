@@ -1,5 +1,4 @@
 import sys
-import base64
 
 sys.path.append("sagelib")
 
@@ -101,10 +100,10 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
     print ("~~~\n", file = file)
     
     dict_valid = {}
-    dict_valid["s"] = base64.b64encode(y).decode('ascii')
-    dict_valid["X"] = base64.b64encode(X).decode('ascii')
-    dict_valid["G.scalar_mult(s,decode(X))"] = base64.b64encode(Z).decode('ascii')
-    dict_valid["G.scalar_mult_vfy(s,X)"] = base64.b64encode(K).decode('ascii')
+    dict_valid["s"] = list(y)
+    dict_valid["X"] = list(X)
+    dict_valid["G.scalar_mult(s,decode(X))"] = list(Z)
+    dict_valid["G.scalar_mult_vfy(s,X)"] = list(K)
     
     result_dict["Valid"] = dict_valid
     
@@ -128,7 +127,14 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
     print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I", file = file)
     print ("~~~\n", file = file)    
 
-    result_dict["Invalid Y"] = base64.b64encode(Y_inv1).decode('ascii') 
+    result_dict["Invalid Y1"] = list(Y_inv1)
+    result_dict["Invalid Y2"] = list(G.I)
+    
+    print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
+    print ("~~~", file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    print ("~~~\n", file=file)
+
 
     return result_dict
        
