@@ -127,7 +127,7 @@ class G_ShortWeierstrass():
             print ("~~~", file = file)
             
             result_dict = {}
-            result_dict["H"] = list(H.name)
+            result_dict["H"] = H.name
             result_dict["H.s_in_bytes"] = int(H.s_in_bytes)
             result_dict["PRS"] = list (PRS)
             result_dict["ZPAD length"] = int(len_zpad)
