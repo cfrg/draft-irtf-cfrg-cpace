@@ -1,5 +1,4 @@
 import sys
-import base64
 
 ########## Definitions from RFC 7748 ##################
 from sagelib.RFC7748_X448_X25519 import *
@@ -35,12 +34,12 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
     weakp = []
     for wp in weak_pts255:
         weakp.append(decodeUCoordinate(wp,255))
-        result_dict["Invalid Y" + str(ctr)] = base64.b64encode(wp).decode('ascii')
+        result_dict["Invalid Y" + str(ctr)] = list(wp)
         ctr += 1
 
     for wp in nc_weak_pts255:
         weakp.append(decodeUCoordinate(wp,256))
-        result_dict["Invalid Y" + str(ctr)] = base64.b64encode(wp).decode('ascii')
+        result_dict["Invalid Y" + str(ctr)] = list(wp)
         ctr += 1
 
     ctr=0;
@@ -117,7 +116,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          test_vector_name = 'u%i' % ctr, 
                          line_prefix = "  ", max_len = 60, file = file);
         ctr += 1;
-        result_dict["Invalid Y" + str(ctr)] = base64.b64encode(x).decode('ascii')
+        result_dict["Invalid Y" + str(ctr)] = list(x)
     print ("~~~", file = file)
     print ("\nWeak points for X448 larger or equal to the field prime (non-canonical)\n",file = file)
     print ("~~~", file = file)
@@ -126,7 +125,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          test_vector_name = 'u%i' % ctr, 
                          line_prefix = "  ", max_len = 60, file = file);
         ctr += 1;
-        result_dict["Invalid Y" + str(ctr)] = base64.b64encode(x).decode('ascii')
+        result_dict["Invalid Y" + str(ctr)] = list(x)
         
     print ("\nAll of the above points u0 ... u4 MUST trigger the abort case", file = file)
     print ("when included in the protocol messages from A or B.", file = file)
@@ -177,9 +176,9 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          line_prefix = "  ", max_len = 60, file = file);
                          
     dict_example = {}
-    dict_example["s"] = base64.b64encode(s).decode('ascii')
-    dict_example["u_curve"] = base64.b64encode(u_curve).decode('ascii')
-    dict_example["res_curve"] = base64.b64encode(res_curve).decode('ascii')
+    dict_example["s"] = list(s)
+    dict_example["u_curve"] = list(u_curve)
+    dict_example["res_curve"] = list(res_curve)
     result_dict["Valid (on curve)"] = dict_example
     
     print ("", file = file)
@@ -196,12 +195,18 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
                          line_prefix = "  ", max_len = 60, file = file);
                          
     dict_example_tw = {}
-    dict_example_tw["s"] = base64.b64encode(s).decode('ascii')
-    dict_example_tw["u_twist"] = base64.b64encode(u_twist).decode('ascii')
-    dict_example_tw["res_twist"] = base64.b64encode(res_twist).decode('ascii')
+    dict_example_tw["s"] = list(s)
+    dict_example_tw["u_twist"] = list(u_twist)
+    dict_example_tw["res_twist"] = list(res_twist)
     result_dict["Valid (on twist)"] = dict_example_tw
                      
     print ("~~~\n", file = file)
+    
+    print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
+    print ("~~~", file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    print ("~~~\n", file=file)
+    
     return result_dict
 
 
