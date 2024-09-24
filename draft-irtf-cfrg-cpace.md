@@ -129,6 +129,11 @@ informative:
       -
         org: Standards for Efficient Cryptography Group (SECG)
 
+
+  REFIMP:
+     title: "CPace reference implementation (sage)"
+     target: https://github.com/cfrg/draft-irtf-cfrg-cpace/tree/master/poc
+
 --- abstract
 
 This document describes CPace which is a protocol that allows two
@@ -846,6 +851,10 @@ In this sense, using the wording suggested by Steve Thomas on the CFRG mailing l
 # IANA Considerations
 
 No IANA action is required.
+
+# Reference implementaiton
+
+The reference implementation that was used for deriving test vectors is available at {{REFIMP}}.
 
 # Acknowledgements
 
