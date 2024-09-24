@@ -2759,7 +2759,7 @@ guess and party identifier pair.<a href="#section-9.11-1" class="pilcrow">¶</a>
           <h4 id="name-prepend_len-function">
 <a href="#appendix-A.1.1" class="section-number selfRef">A.1.1. </a><a href="#name-prepend_len-function" class="section-name selfRef">prepend_len function</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-A.1.1-1">
+<div class="lang-python sourcecode" id="appendix-A.1.1-1">
 <pre>
 def prepend_len(data):
     "prepend LEB128 encoding of length"
@@ -2808,37 +2808,23 @@ def prepend_len(data):
             <h5 id="name-testvectors-as-json-file-en">
 <a href="#appendix-A.1.2.1" class="section-number selfRef">A.1.2.1. </a><a href="#name-testvectors-as-json-file-en" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-A.1.2.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-A.1.2.1-1">
 <pre>
-    ###eyJwcmVwZW5kX2xlbihiKSI6IFswXSwgImJcIjEyMzRcIiI6IFs0OSwgNTAs
-    ###IDUxLCA1Ml0sICJwcmVwZW5kX2xlbihiXCIxMjM0XCIpIjogWzQsIDQ5LCA1
-    ###MCwgNTEsIDUyXSwgInByZXBlbmRfbGVuKGJ5dGVzKHJhbmdlKDEyNykpKSI6
-    ###IFsxMjcsIDAsIDEsIDIsIDMsIDQsIDUsIDYsIDcsIDgsIDksIDEwLCAxMSwg
-    ###MTIsIDEzLCAxNCwgMTUsIDE2LCAxNywgMTgsIDE5LCAyMCwgMjEsIDIyLCAy
-    ###MywgMjQsIDI1LCAyNiwgMjcsIDI4LCAyOSwgMzAsIDMxLCAzMiwgMzMsIDM0
-    ###LCAzNSwgMzYsIDM3LCAzOCwgMzksIDQwLCA0MSwgNDIsIDQzLCA0NCwgNDUs
-    ###IDQ2LCA0NywgNDgsIDQ5LCA1MCwgNTEsIDUyLCA1MywgNTQsIDU1LCA1Niwg
-    ###NTcsIDU4LCA1OSwgNjAsIDYxLCA2MiwgNjMsIDY0LCA2NSwgNjYsIDY3LCA2
-    ###OCwgNjksIDcwLCA3MSwgNzIsIDczLCA3NCwgNzUsIDc2LCA3NywgNzgsIDc5
-    ###LCA4MCwgODEsIDgyLCA4MywgODQsIDg1LCA4NiwgODcsIDg4LCA4OSwgOTAs
-    ###IDkxLCA5MiwgOTMsIDk0LCA5NSwgOTYsIDk3LCA5OCwgOTksIDEwMCwgMTAx
-    ###LCAxMDIsIDEwMywgMTA0LCAxMDUsIDEwNiwgMTA3LCAxMDgsIDEwOSwgMTEw
-    ###LCAxMTEsIDExMiwgMTEzLCAxMTQsIDExNSwgMTE2LCAxMTcsIDExOCwgMTE5
-    ###LCAxMjAsIDEyMSwgMTIyLCAxMjMsIDEyNCwgMTI1LCAxMjZdLCAicHJlcGVu
-    ###ZF9sZW4oYnl0ZXMocmFuZ2UoMTI4KSkpIjogWzEyOCwgMSwgMCwgMSwgMiwg
-    ###MywgNCwgNSwgNiwgNywgOCwgOSwgMTAsIDExLCAxMiwgMTMsIDE0LCAxNSwg
-    ###MTYsIDE3LCAxOCwgMTksIDIwLCAyMSwgMjIsIDIzLCAyNCwgMjUsIDI2LCAy
-    ###NywgMjgsIDI5LCAzMCwgMzEsIDMyLCAzMywgMzQsIDM1LCAzNiwgMzcsIDM4
-    ###LCAzOSwgNDAsIDQxLCA0MiwgNDMsIDQ0LCA0NSwgNDYsIDQ3LCA0OCwgNDks
-    ###IDUwLCA1MSwgNTIsIDUzLCA1NCwgNTUsIDU2LCA1NywgNTgsIDU5LCA2MCwg
-    ###NjEsIDYyLCA2MywgNjQsIDY1LCA2NiwgNjcsIDY4LCA2OSwgNzAsIDcxLCA3
-    ###MiwgNzMsIDc0LCA3NSwgNzYsIDc3LCA3OCwgNzksIDgwLCA4MSwgODIsIDgz
-    ###LCA4NCwgODUsIDg2LCA4NywgODgsIDg5LCA5MCwgOTEsIDkyLCA5MywgOTQs
-    ###IDk1LCA5NiwgOTcsIDk4LCA5OSwgMTAwLCAxMDEsIDEwMiwgMTAzLCAxMDQs
-    ###IDEwNSwgMTA2LCAxMDcsIDEwOCwgMTA5LCAxMTAsIDExMSwgMTEyLCAxMTMs
-    ###IDExNCwgMTE1LCAxMTYsIDExNywgMTE4LCAxMTksIDEyMCwgMTIxLCAxMjIs
-    ###IDEyMywgMTI0LCAxMjUsIDEyNiwgMTI3XX0=
-
+    ##eyJwcmVwZW5kX2xlbihiKSI6ICIwMCIsICJiXCIxMjM0XCIiOiAiMzEzMjMzMzQ
+    ##iLCAicHJlcGVuZF9sZW4oYlwiMTIzNFwiKSI6ICIwNDMxMzIzMzM0IiwgInByZX
+    ##BlbmRfbGVuKGJ5dGVzKHJhbmdlKDEyNykpKSI6ICI3RjAwMDEwMjAzMDQwNTA2M
+    ##DcwODA5MEEwQjBDMEQwRTBGMTAxMTEyMTMxNDE1MTYxNzE4MTkxQTFCMUMxRDFF
+    ##MUYyMDIxMjIyMzI0MjUyNjI3MjgyOTJBMkIyQzJEMkUyRjMwMzEzMjMzMzQzNTM
+    ##2MzczODM5M0EzQjNDM0QzRTNGNDA0MTQyNDM0NDQ1NDY0NzQ4NDk0QTRCNEM0RD
+    ##RFNEY1MDUxNTI1MzU0NTU1NjU3NTg1OTVBNUI1QzVENUU1RjYwNjE2MjYzNjQ2N
+    ##TY2Njc2ODY5NkE2QjZDNkQ2RTZGNzA3MTcyNzM3NDc1NzY3Nzc4Nzk3QTdCN0M3
+    ##RDdFIiwgInByZXBlbmRfbGVuKGJ5dGVzKHJhbmdlKDEyOCkpKSI6ICI4MDAxMDA
+    ##wMTAyMDMwNDA1MDYwNzA4MDkwQTBCMEMwRDBFMEYxMDExMTIxMzE0MTUxNjE3MT
+    ##gxOTFBMUIxQzFEMUUxRjIwMjEyMjIzMjQyNTI2MjcyODI5MkEyQjJDMkQyRTJGM
+    ##zAzMTMyMzMzNDM1MzYzNzM4MzkzQTNCM0MzRDNFM0Y0MDQxNDI0MzQ0NDU0NjQ3
+    ##NDg0OTRBNEI0QzRENEU0RjUwNTE1MjUzNTQ1NTU2NTc1ODU5NUE1QjVDNUQ1RTV
+    ##GNjA2MTYyNjM2NDY1NjY2NzY4Njk2QTZCNkM2RDZFNkY3MDcxNzI3Mzc0NzU3Nj
+    ##c3Nzg3OTdBN0I3QzdEN0U3RiJ9
 </pre><a href="#appendix-A.1.2.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2850,7 +2836,7 @@ def prepend_len(data):
           <h4 id="name-lv_cat-function">
 <a href="#appendix-A.1.3" class="section-number selfRef">A.1.3. </a><a href="#name-lv_cat-function" class="section-name selfRef">lv_cat function</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-A.1.3-1">
+<div class="lang-python sourcecode" id="appendix-A.1.3-1">
 <pre>
   def lv_cat(*args):
       result = b""
@@ -2877,13 +2863,11 @@ def prepend_len(data):
             <h5 id="name-testvectors-as-json-file-enc">
 <a href="#appendix-A.1.4.1" class="section-number selfRef">A.1.4.1. </a><a href="#name-testvectors-as-json-file-enc" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-A.1.4.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-A.1.4.1-1">
 <pre>
-    ###eyJiYTEiOiBbNDksIDUwLCA1MSwgNTJdLCAiYmEyIjogWzUzXSwgImJhMyI6
-    ###IFs1NCwgNTUsIDU2LCA1N10sICJsdl9jYXQoYmExLGJhMixiYTMpIjogWzQs
-    ###IDQ5LCA1MCwgNTEsIDUyLCAxLCA1MywgMCwgNCwgNTQsIDU1LCA1NiwgNTdd
-    ###fQ==
-
+    ##eyJiYTEiOiAiMzEzMjMzMzQiLCAiYmEyIjogIjM1IiwgImJhMyI6ICIzNjM3Mzg
+    ##zOSIsICJsdl9jYXQoYmExLGJhMixiYTMpIjogIjA0MzEzMjMzMzQwMTM1MDAwND
+    ##M2MzczODM5In0=
 </pre><a href="#appendix-A.1.4.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2897,7 +2881,7 @@ def prepend_len(data):
         <h3 id="name-definition-of-generator_str">
 <a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-definition-of-generator_str" class="section-name selfRef">Definition of generator_string function.</a>
         </h3>
-<div class="alignLeft art-text artwork" id="appendix-A.2-1">
+<div class="lang-python sourcecode" id="appendix-A.2-1">
 <pre>
 def generator_string(DSI,PRS,CI,sid,s_in_bytes):
     # Concat all input fields with prepended length information.
@@ -2921,7 +2905,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
 <a href="#appendix-A.3.1" class="section-number selfRef">A.3.1. </a><a href="#name-definitions-for-lexiographi" class="section-name selfRef">Definitions for lexiographical ordering</a>
           </h4>
 <p id="appendix-A.3.1-1">For ordered concatenation lexiographical ordering of byte sequences is used:<a href="#appendix-A.3.1-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-A.3.1-2">
+<div class="lang-python sourcecode" id="appendix-A.3.1-2">
 <pre>
    def lexiographically_larger(bytes1,bytes2):
       "Returns True if bytes1 &gt; bytes2 using lexiographical ordering."
@@ -2942,7 +2926,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
 <a href="#appendix-A.3.2" class="section-number selfRef">A.3.2. </a><a href="#name-definitions-for-ordered-con" class="section-name selfRef">Definitions for ordered concatenation</a>
           </h4>
 <p id="appendix-A.3.2-1">With the above definition of lexiographical ordering ordered concatenation is specified as follows.<a href="#appendix-A.3.2-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-A.3.2-2">
+<div class="lang-python sourcecode" id="appendix-A.3.2-2">
 <pre>
   def o_cat(bytes1,bytes2):
       if lexiographically_larger(bytes1,bytes2):
@@ -2979,15 +2963,12 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
             <h5 id="name-testvectors-as-json-file-enco">
 <a href="#appendix-A.3.3.1" class="section-number selfRef">A.3.3.1. </a><a href="#name-testvectors-as-json-file-enco" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-A.3.3.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-A.3.3.1-1">
 <pre>
-    ###eyJiXCJBQkNEXCIiOiBbNjUsIDY2LCA2NywgNjhdLCAiYlwiQkNEXCIiOiBb
-    ###NjYsIDY3LCA2OF0sICJiXCJBQkNERVwiIjogWzY1LCA2NiwgNjcsIDY4LCA2
-    ###OV0sICJvX2NhdChiXCJBQkNEXCIsYlwiQkNEXCIpIjogWzExMSwgOTksIDY2
-    ###LCA2NywgNjgsIDY1LCA2NiwgNjcsIDY4XSwgIm9fY2F0KGJcIkJDRFwiLGJc
-    ###IkFCQ0RFXCIpIjogWzExMSwgOTksIDY2LCA2NywgNjgsIDY1LCA2NiwgNjcs
-    ###IDY4LCA2OV19
-
+    ##eyJiXCJBQkNEXCIiOiAiNDE0MjQzNDQiLCAiYlwiQkNEXCIiOiAiNDI0MzQ0Iiw
+    ##gImJcIkFCQ0RFXCIiOiAiNDE0MjQzNDQ0NSIsICJvX2NhdChiXCJBQkNEXCIsYl
+    ##wiQkNEXCIpIjogIjZGNjM0MjQzNDQ0MTQyNDM0NCIsICJvX2NhdChiXCJCQ0RcI
+    ##ixiXCJBQkNERVwiKSI6ICI2RjYzNDI0MzQ0NDE0MjQzNDQ0NSJ9
 </pre><a href="#appendix-A.3.3.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2999,7 +2980,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
           <h4 id="name-definitions-for-transcript_">
 <a href="#appendix-A.3.4" class="section-number selfRef">A.3.4. </a><a href="#name-definitions-for-transcript_" class="section-name selfRef">Definitions for transcript_ir function</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-A.3.4-1">
+<div class="lang-python sourcecode" id="appendix-A.3.4-1">
 <pre>
 def transcript_ir(Ya,ADa,Yb,ADb):
     result = lv_cat(Ya,ADa) + lv_cat(Yb,ADb)
@@ -3028,21 +3009,16 @@ def transcript_ir(Ya,ADa,Yb,ADb):
             <h5 id="name-testvectors-as-json-file-encod">
 <a href="#appendix-A.3.5.1" class="section-number selfRef">A.3.5.1. </a><a href="#name-testvectors-as-json-file-encod" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-A.3.5.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-A.3.5.1-1">
 <pre>
-    ###eyJiXCIxMjNcIiI6IFs0OSwgNTAsIDUxXSwgImJcIjIzNFwiIjogWzUwLCA1
-    ###MSwgNTJdLCAiYlwiUGFydHlBXCIiOiBbODAsIDk3LCAxMTQsIDExNiwgMTIx
-    ###LCA2NV0sICJiXCJQYXJ0eUJcIiI6IFs4MCwgOTcsIDExNCwgMTE2LCAxMjEs
-    ###IDY2XSwgImJcIjM0NTZcIiI6IFs1MSwgNTIsIDUzLCA1NF0sICJiXCIyMzQ1
-    ###XCIiOiBbNTAsIDUxLCA1MiwgNTNdLCAidHJhbnNjcmlwdF9pcihiXCIxMjNc
-    ###IixiXCJQYXJ0eUFcIixiXCIyMzRcIixiXCJQYXJ0eUJcIikiOiBbMywgNDks
-    ###IDUwLCA1MSwgNiwgODAsIDk3LCAxMTQsIDExNiwgMTIxLCA2NSwgMywgNTAs
-    ###IDUxLCA1MiwgNiwgODAsIDk3LCAxMTQsIDExNiwgMTIxLCA2Nl0sICJ0cmFu
-    ###c2NyaXB0X2lyKGJcIjM0NTZcIixiXCJQYXJ0eUFcIixiXCIyMzQ1XCIsYlwi
-    ###UGFydHlCXCIpIjogWzQsIDUxLCA1MiwgNTMsIDU0LCA2LCA4MCwgOTcsIDEx
-    ###NCwgMTE2LCAxMjEsIDY1LCA0LCA1MCwgNTEsIDUyLCA1MywgNiwgODAsIDk3
-    ###LCAxMTQsIDExNiwgMTIxLCA2Nl19
-
+    ##eyJiXCIxMjNcIiI6ICIzMTMyMzMiLCAiYlwiMjM0XCIiOiAiMzIzMzM0IiwgImJ
+    ##cIlBhcnR5QVwiIjogIjUwNjE3Mjc0Nzk0MSIsICJiXCJQYXJ0eUJcIiI6ICI1MD
+    ##YxNzI3NDc5NDIiLCAiYlwiMzQ1NlwiIjogIjMzMzQzNTM2IiwgImJcIjIzNDVcI
+    ##iI6ICIzMjMzMzQzNSIsICJ0cmFuc2NyaXB0X2lyKGJcIjEyM1wiLGJcIlBhcnR5
+    ##QVwiLGJcIjIzNFwiLGJcIlBhcnR5QlwiKSI6ICIwMzMxMzIzMzA2NTA2MTcyNzQ
+    ##3OTQxMDMzMjMzMzQwNjUwNjE3Mjc0Nzk0MiIsICJ0cmFuc2NyaXB0X2lyKGJcIj
+    ##M0NTZcIixiXCJQYXJ0eUFcIixiXCIyMzQ1XCIsYlwiUGFydHlCXCIpIjogIjA0M
+    ##zMzNDM1MzYwNjUwNjE3Mjc0Nzk0MTA0MzIzMzM0MzUwNjUwNjE3Mjc0Nzk0MiJ9
 </pre><a href="#appendix-A.3.5.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3054,7 +3030,7 @@ def transcript_ir(Ya,ADa,Yb,ADb):
           <h4 id="name-definitions-for-transcript_o">
 <a href="#appendix-A.3.6" class="section-number selfRef">A.3.6. </a><a href="#name-definitions-for-transcript_o" class="section-name selfRef">Definitions for transcript_oc function</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-A.3.6-1">
+<div class="lang-python sourcecode" id="appendix-A.3.6-1">
 <pre>
 def transcript_oc(Ya,ADa,Yb,ADb):
     result = o_cat(lv_cat(Ya,ADa),lv_cat(Yb,ADb))
@@ -3083,21 +3059,17 @@ def transcript_oc(Ya,ADa,Yb,ADb):
             <h5 id="name-testvectors-as-json-file-encode">
 <a href="#appendix-A.3.7.1" class="section-number selfRef">A.3.7.1. </a><a href="#name-testvectors-as-json-file-encode" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-A.3.7.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-A.3.7.1-1">
 <pre>
-    ###eyJiXCIxMjNcIiI6IFs0OSwgNTAsIDUxXSwgImJcIjIzNFwiIjogWzUwLCA1
-    ###MSwgNTJdLCAiYlwiUGFydHlBXCIiOiBbODAsIDk3LCAxMTQsIDExNiwgMTIx
-    ###LCA2NV0sICJiXCJQYXJ0eUJcIiI6IFs4MCwgOTcsIDExNCwgMTE2LCAxMjEs
-    ###IDY2XSwgImJcIjM0NTZcIiI6IFs1MSwgNTIsIDUzLCA1NF0sICJiXCIyMzQ1
-    ###XCIiOiBbNTAsIDUxLCA1MiwgNTNdLCAidHJhbnNjcmlwdF9vYyhiXCIxMjNc
-    ###IixiXCJQYXJ0eUFcIixiXCIyMzRcIixiXCJQYXJ0eUJcIikiOiBbMTExLCA5
-    ###OSwgMywgNTAsIDUxLCA1MiwgNiwgODAsIDk3LCAxMTQsIDExNiwgMTIxLCA2
-    ###NiwgMywgNDksIDUwLCA1MSwgNiwgODAsIDk3LCAxMTQsIDExNiwgMTIxLCA2
-    ###NV0sICJ0cmFuc2NyaXB0X29jKGJcIjM0NTZcIixiXCJQYXJ0eUFcIixiXCIy
-    ###MzQ1XCIsYlwiUGFydHlCXCIpIjogWzExMSwgOTksIDQsIDUxLCA1MiwgNTMs
-    ###IDU0LCA2LCA4MCwgOTcsIDExNCwgMTE2LCAxMjEsIDY1LCA0LCA1MCwgNTEs
-    ###IDUyLCA1MywgNiwgODAsIDk3LCAxMTQsIDExNiwgMTIxLCA2Nl19
-
+    ##eyJiXCIxMjNcIiI6ICIzMTMyMzMiLCAiYlwiMjM0XCIiOiAiMzIzMzM0IiwgImJ
+    ##cIlBhcnR5QVwiIjogIjUwNjE3Mjc0Nzk0MSIsICJiXCJQYXJ0eUJcIiI6ICI1MD
+    ##YxNzI3NDc5NDIiLCAiYlwiMzQ1NlwiIjogIjMzMzQzNTM2IiwgImJcIjIzNDVcI
+    ##iI6ICIzMjMzMzQzNSIsICJ0cmFuc2NyaXB0X29jKGJcIjEyM1wiLGJcIlBhcnR5
+    ##QVwiLGJcIjIzNFwiLGJcIlBhcnR5QlwiKSI6ICI2RjYzMDMzMjMzMzQwNjUwNjE
+    ##3Mjc0Nzk0MjAzMzEzMjMzMDY1MDYxNzI3NDc5NDEiLCAidHJhbnNjcmlwdF9vYy
+    ##hiXCIzNDU2XCIsYlwiUGFydHlBXCIsYlwiMjM0NVwiLGJcIlBhcnR5QlwiKSI6I
+    ##CI2RjYzMDQzMzM0MzUzNjA2NTA2MTcyNzQ3OTQxMDQzMjMzMzQzNTA2NTA2MTcy
+    ##NzQ3OTQyIn0=
 </pre><a href="#appendix-A.3.7.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3111,7 +3083,7 @@ def transcript_oc(Ya,ADa,Yb,ADb):
         <h3 id="name-decoding-and-encoding-funct">
 <a href="#appendix-A.4" class="section-number selfRef">A.4. </a><a href="#name-decoding-and-encoding-funct" class="section-name selfRef">Decoding and Encoding functions according to RFC7748</a>
         </h3>
-<div class="alignLeft art-text artwork" id="appendix-A.4-1">
+<div class="lang-python sourcecode" id="appendix-A.4-1">
 <pre>
    def decodeLittleEndian(b, bits):
        return sum([b[i] &lt;&lt; 8*i for i in range((bits+7)/8)])
@@ -3137,7 +3109,7 @@ def transcript_oc(Ya,ADa,Yb,ADb):
         </h3>
 <p id="appendix-A.5-1">The Elligator 2 map requires a non-square field element Z which shall be calculated
 as follows.<a href="#appendix-A.5-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-A.5-2">
+<div class="lang-python sourcecode" id="appendix-A.5-2">
 <pre>
     def find_z_ell2(F):
         # Find nonsquare for Elligator2
@@ -3156,7 +3128,7 @@ as follows.<a href="#appendix-A.5-1" class="pilcrow">¶</a></p>
 results in a value of Z = 2 for Curve25519 and Z=-1 for Ed448.<a href="#appendix-A.5-3" class="pilcrow">¶</a></p>
 <p id="appendix-A.5-4">The following code maps a field element r to an encoded field element which
 is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#appendix-A.5-4" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-A.5-5">
+<div class="lang-python sourcecode" id="appendix-A.5-5">
 <pre>
     def elligator2(r, q, A, field_size_bits):
         # Inputs: field element r, field order q,
@@ -3226,44 +3198,27 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#a
             <h5 id="name-testvectors-as-json-file-encoded">
 <a href="#appendix-B.1.1.1" class="section-number selfRef">B.1.1.1. </a><a href="#name-testvectors-as-json-file-encoded" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.1.1.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.1.1.1-1">
 <pre>
-    ###eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjog
-    ###WzgwLCA5NywgMTE1LCAxMTUsIDExOSwgMTExLCAxMTQsIDEwMF0sICJaUEFE
-    ###IGxlbmd0aCI6IDEwOSwgIkRTSSI6IFs2NywgODAsIDk3LCA5OSwgMTAxLCA1
-    ###MCwgNTMsIDUzXSwgIkNJIjogWzExMSwgOTksIDExLCA2NiwgOTUsIDExNCwg
-    ###MTAxLCAxMTUsIDExMiwgMTExLCAxMTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2
-    ###NSwgOTUsIDEwNSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5NywgMTE2LCAxMTEs
-    ###IDExNF0sICJzaWQiOiBbMTI2LCA3NSwgNzEsIDE0NSwgMjE0LCAxNjgsIDIz
-    ###OSwgMSwgMTU1LCAxNDcsIDEwOCwgMTIxLCAyNTEsIDEyNywgNDQsIDg3XSwg
-    ###ImdlbmVyYXRvcl9zdHJpbmcoRy5EU0ksUFJTLENJLHNpZCxILnNfaW5fYnl0
-    ###ZXMpIjogWzgsIDY3LCA4MCwgOTcsIDk5LCAxMDEsIDUwLCA1MywgNTMsIDgs
-    ###IDgwLCA5NywgMTE1LCAxMTUsIDExOSwgMTExLCAxMTQsIDEwMCwgMTA5LCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAyNiwgMTExLCA5OSwgMTEsIDY2LCA5NSwgMTE0LCAxMDEs
-    ###IDExNSwgMTEyLCAxMTEsIDExMCwgMTAwLCAxMDEsIDExNCwgMTEsIDY1LCA5
-    ###NSwgMTA1LCAxMTAsIDEwNSwgMTE2LCAxMDUsIDk3LCAxMTYsIDExMSwgMTE0
-    ###LCAxNiwgMTI2LCA3NSwgNzEsIDE0NSwgMjE0LCAxNjgsIDIzOSwgMSwgMTU1
-    ###LCAxNDcsIDEwOCwgMTIxLCAyNTEsIDEyNywgNDQsIDg3XSwgImhhc2ggZ2Vu
-    ###ZXJhdG9yIHN0cmluZyI6IFsxNDYsIDEyOCwgMTA5LCAxOTgsIDgsIDE1Miwg
-    ###NzcsIDE5MSwgNzgsIDc0LCAxNzQsIDcxLCAxNDAsIDExMCwgMTk2LCA4Mywg
-    ###MTc0LCAxNTEsIDE1NiwgMTkyLCAzMCwgMjA0LCAyNiwgNDIsIDEyNCwgMjQ0
-    ###LCAxNTksIDkyLCAyMzgsIDg2LCA4NSwgMjddLCAiZGVjb2RlZCBmaWVsZCBl
-    ###bGVtZW50IG9mIDI1NSBiaXRzIjogWzE0NiwgMTI4LCAxMDksIDE5OCwgOCwg
-    ###MTUyLCA3NywgMTkxLCA3OCwgNzQsIDE3NCwgNzEsIDE0MCwgMTEwLCAxOTYs
-    ###IDgzLCAxNzQsIDE1MSwgMTU2LCAxOTIsIDMwLCAyMDQsIDI2LCA0MiwgMTI0
-    ###LCAyNDQsIDE1OSwgOTIsIDIzOCwgODYsIDg1LCAyN10sICJnZW5lcmF0b3Ig
-    ###ZyI6IFsxMDAsIDIzMiwgOSwgMTU4LCA2MiwgMTY2LCAxMzAsIDIwNywgMjIw
-    ###LCA5MiwgMTgyLCAxMDEsIDE5MiwgODcsIDIzNSwgMTgxLCAyMCwgMjA4LCAx
-    ###MDcsIDI0MiwgNjIsIDE4OCwgMTU5LCAxMTYsIDU5LCA4MSwgMTg0LCAzNCwg
-    ###NjYsIDUwLCAxMTIsIDExNl19
-
+    ##eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjU
+    ##wNjE3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiAxMDksICJEU0kiOiAiND
+    ##M1MDYxNjM2NTMyMzUzNSIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NTczNzA2RjZFN
+    ##jQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI3RTRCNDc5
+    ##MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnZW5lcmF0b3Jfc3RyaW5nKEc
+    ##uRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6ICIwODQzNTA2MTYzNjUzMj
+    ##M1MzUwODUwNjE3MzczNzc2RjcyNjQ2RDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
+    ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+    ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
+    ##DAwMDAwMUE2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5
+    ##NzQ2OTYxNzQ2RjcyMTA3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyI
+    ##sICJoYXNoIGdlbmVyYXRvciBzdHJpbmciOiAiOTI4MDZEQzYwODk4NERCRjRFNE
+    ##FBRTQ3OEM2RUM0NTNBRTk3OUNDMDFFQ0MxQTJBN0NGNDlGNUNFRTU2NTUxQiIsI
+    ##CJkZWNvZGVkIGZpZWxkIGVsZW1lbnQgb2YgMjU1IGJpdHMiOiAiOTI4MDZEQzYw
+    ##ODk4NERCRjRFNEFBRTQ3OEM2RUM0NTNBRTk3OUNDMDFFQ0MxQTJBN0NGNDlGNUN
+    ##FRTU2NTUxQiIsICJnZW5lcmF0b3IgZyI6ICI2NEU4MDk5RTNFQTY4MkNGREM1Q0
+    ##I2NjVDMDU3RUJCNTE0RDA2QkYyM0VCQzlGNzQzQjUxQjgyMjQyMzI3MDc0In0=
 </pre><a href="#appendix-B.1.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3409,7 +3364,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#a
           <h4 id="name-corresponding-c-programming">
 <a href="#appendix-B.1.8" class="section-number selfRef">B.1.8. </a><a href="#name-corresponding-c-programming" class="section-name selfRef">Corresponding C programming language initializers</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.1.8-1">
+<div class="breakable lang-c sourcecode" id="appendix-B.1.8-1">
 <pre>
 const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -3508,64 +3463,34 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-testvectors-as-json-file-encoded-">
 <a href="#appendix-B.1.9" class="section-number selfRef">B.1.9. </a><a href="#name-testvectors-as-json-file-encoded-" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.1.9-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.1.9-1">
 <pre>
-  ###eyJQUlMiOiBbODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAw
-  ###XSwgIkNJIjogWzExMSwgOTksIDExLCA2NiwgOTUsIDExNCwgMTAxLCAxMTUs
-  ###IDExMiwgMTExLCAxMTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2NSwgOTUsIDEw
-  ###NSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5NywgMTE2LCAxMTEsIDExNF0sICJz
-  ###aWQiOiBbMTI2LCA3NSwgNzEsIDE0NSwgMjE0LCAxNjgsIDIzOSwgMSwgMTU1
-  ###LCAxNDcsIDEwOCwgMTIxLCAyNTEsIDEyNywgNDQsIDg3XSwgImciOiBbMTAw
-  ###LCAyMzIsIDksIDE1OCwgNjIsIDE2NiwgMTMwLCAyMDcsIDIyMCwgOTIsIDE4
-  ###MiwgMTAxLCAxOTIsIDg3LCAyMzUsIDE4MSwgMjAsIDIwOCwgMTA3LCAyNDIs
-  ###IDYyLCAxODgsIDE1OSwgMTE2LCA1OSwgODEsIDE4NCwgMzQsIDY2LCA1MCwg
-  ###MTEyLCAxMTZdLCAieWEiOiBbMzMsIDE4MCwgMjQ0LCAxODksIDE1OCwgMTAw
-  ###LCAyMzcsIDUzLCA5MiwgNjIsIDE4MiwgMTE4LCAxNjIsIDE0MiwgMTkwLCAy
-  ###MTgsIDI0NiwgMjE2LCAyNDEsIDEyMywgMjIwLCA1NCwgODksIDE0OSwgMTc5
-  ###LCAyNSwgOSwgMTEzLCA4MywgNCwgNjQsIDEyOF0sICJBRGEiOiBbNjUsIDY4
-  ###LCA5N10sICJZYSI6IFsyNywgMiwgMjE4LCAyMTQsIDIxOSwgMjEwLCAxNTQs
-  ###IDcsIDE4MiwgMjEwLCAxNDAsIDE1OCwgNCwgMjAzLCA0NywgMjQsIDc5LCA3
-  ###LCA1MiwgNTMsIDE0LCA1MCwgMTg3LCAxMjYsIDk4LCAyNTUsIDE1NywgMTg4
-  ###LCAyNTMsIDE4MiwgNjEsIDIxXSwgInliIjogWzEzMiwgMTM5LCA3LCAxMjEs
-  ###IDI1NSwgNjUsIDk1LCAxMCwgMjQ0LCAyMzQsIDIwLCAyMjMsIDE1NywgMjA5
-  ###LCAyMTEsIDE5NCwgMTU0LCAxOTYsIDI5LCAxMzEsIDEwOCwgMTIwLCA4LCAx
-  ###MzcsIDEwOCwgNzgsIDE4NiwgMjUsIDE5NywgMjYsIDE5NiwgMTBdLCAiQURi
-  ###IjogWzY1LCA2OCwgOThdLCAiWWIiOiBbMzIsIDIwNSwgMTY1LCAxNDksIDk1
-  ###LCAxMzAsIDE5NiwgMTQ3LCAyMSwgNjksIDE4OCwgMTkxLCA2NCwgMTE3LCAx
-  ###NDAsIDIyNSwgMSwgMTMsIDEyNSwgMTgwLCAyMTksIDQyLCAxNDQsIDExMiwg
-  ###MTksIDIxNSwgMTU2LCAxMjIsIDE0MywgMjA3LCAxNDksIDEyN10sICJLIjog
-  ###WzI0OSwgMTI3LCAyMjMsIDIwNywgMjU1LCAyOCwgMTUyLCA2MiwgMjE0LCA0
-  ###MCwgNTYsIDg2LCAxNjQsIDEsIDIyMiwgNDksIDE0NSwgMjAyLCAxNDUsIDE1
-  ###MywgMiwgMTc5LCAzNSwgMTk3LCAyNDksIDgwLCAyMDEsIDExMiwgNjEsIDI0
-  ###NywgNDEsIDEyMl0sICJJU0tfSVIiOiBbMTYwLCA4MSwgMjM4LCA5NCwgMjI2
-  ###LCA3MywgMTU3LCAyMiwgMjE4LCA2MywgMTA1LCAyNDQsIDQ4LCAzMywgMTM5
-  ###LCAxNDIsIDE2OSwgNzQsIDI0LCAxNjQsIDkxLCAxMDMsIDI0OSwgMjMyLCAx
-  ###MDAsIDE0OSwgMTc5LCAxMzAsIDE5NSwgNjEsIDIwLCAxNjUsIDE5NSwgMTQw
-  ###LCAyMzYsIDE5MiwgMjA0LCAxMzEsIDc5LCAxNTAsIDE0LCA1NywgMjI0LCAy
-  ###MDksIDE5MSwgMTI1LCAxMTgsIDE4NSwgMjM5LCA5MywgODQsIDIzOCwgMjA0
-  ###LCA5NCwgMTUsIDU2LCAxMDgsIDE1MSwgMTczLCAxOCwgMjE4LCAxNDAsIDYx
-  ###LCA5NV0sICJJU0tfU1kiOiBbOTIsIDE5NCwgMTI2LCA3MywgMTAzLCAxNDgs
-  ###IDM1LCAyNDgsIDI2LCA1NSwgMjE1LCA4MiwgMjksIDE1OSwgMTc3LCA1MCwg
-  ###MTI0LCAxMzIsIDEzLCA0NiwgMTY0LCAxNjEsIDg0LCA1NCwgODIsIDIzMSwg
-  ###MjIyLCA5MiwgMTcxLCAxODQsIDE1OCwgMTg2LCAyMTAsIDEyNSwgMzYsIDEx
-  ###OCwgMjcsIDUwLCAxMzYsIDE2MywgMjUzLCA4NywgMTAwLCAxODAsIDY1LCAy
-  ###MzYsIDE4MywgMTQxLCA0OCwgMTcxLCAxOTQsIDk3LCA5NywgMjU1LCA2OSwg
-  ###MjM0LCA0MSwgMTIzLCAxNzksIDE3LCAyMjEsIDIyNCwgNzEsIDM5XSwgInNp
-  ###ZF9vdXRwdXRfaXIiOiBbMjQ3LCAxNzQsIDE3LCAxNzIsIDYyLCAyMzIsIDky
-  ###LCA2MCwgNjYsIDIxNiwgMTg5LCA4MSwgMTg2LCAxMzAsIDYzLCAxOTAsIDIz
-  ###LCAyMSwgMTQzLCA2NywgMjExLCA3NCwgMTgsIDE1MCwgMjQxLCAyMDMsIDM3
-  ###LCAxMDMsIDE4OCwgMTk5LCAyOSwgMjAwLCAxNzgsIDEsIDE2MSwgNTIsIDE4
-  ###MSwgMTAyLCAxODAsIDEwNCwgMTcwLCAyMTYsIDI1MywgNCwgMjQwLCA0Nywg
-  ###MTUwLCAyMjcsIDIwMiwgMjQ5LCAyMTMsIDk2LCAzMSwgMTI2LCAyMTUsIDk2
-  ###LCAxNjAsIDE2OSwgODEsIDE2NSwgMTY4LCA5NywgMTgxLCAyMzFdLCAic2lk
-  ###X291dHB1dF9vYyI6IFsxNjMsIDEzMSwgMTM3LCAyMjcsIDc5LCAxNjQsIDE0
-  ###NiwgMTIwLCAxNDAsIDI5LCAyNDQsIDU5LCA2LCAxODAsIDM5LCAxMTMsIDQs
-  ###IDE0NSwgMjMsIDc4LCA4MywgMTk1LCA1OSwgMSwgNTQsIDQyLCA3MywgMTMs
-  ###IDE3LCAxMTEsIDIyNSwgMTgzLCAyMzIsIDExMiwgMTcwLCAxMTAsIDQyLCAx
-  ###MjcsIDE5MiwgMjQsIDExNCwgOTQsIDU5LCAxMjcsIDE1MCwgMTU5LCAxMTcs
-  ###IDgsIDQsIDQ2LCA2OCwgMjA1LCA1NiwgOTksIDI0MywgMTU0LCAxNjcsIDgw
-  ###LCAzOCwgMTYxLCAxNDQsIDIwOSwgMTQ0LCA0M119
-
+  ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
+  ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
+  ##I6ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIjY0R
+  ##TgwOTlFM0VBNjgyQ0ZEQzVDQjY2NUMwNTdFQkI1MTREMDZCRjIzRUJDOUY3NDNC
+  ##NTFCODIyNDIzMjcwNzQiLCAieWEiOiAiMjFCNEY0QkQ5RTY0RUQzNTVDM0VCNjc
+  ##2QTI4RUJFREFGNkQ4RjE3QkRDMzY1OTk1QjMxOTA5NzE1MzA0NDA4MCIsICJBRG
+  ##EiOiAiNDE0NDYxIiwgIllhIjogIjFCMDJEQUQ2REJEMjlBMDdCNkQyOEM5RTA0Q
+  ##0IyRjE4NEYwNzM0MzUwRTMyQkI3RTYyRkY5REJDRkRCNjNEMTUiLCAieWIiOiAi
+  ##ODQ4QjA3NzlGRjQxNUYwQUY0RUExNERGOUREMUQzQzI5QUM0MUQ4MzZDNzgwODg
+  ##5NkM0RUJBMTlDNTFBQzQwQSIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIjIwQ0
+  ##RBNTk1NUY4MkM0OTMxNTQ1QkNCRjQwNzU4Q0UxMDEwRDdEQjREQjJBOTA3MDEzR
+  ##Dc5QzdBOEZDRjk1N0YiLCAiSyI6ICJGOTdGREZDRkZGMUM5ODNFRDYyODM4NTZB
+  ##NDAxREUzMTkxQ0E5MTk5MDJCMzIzQzVGOTUwQzk3MDNERjcyOTdBIiwgIklTS19
+  ##JUiI6ICJBMDUxRUU1RUUyNDk5RDE2REEzRjY5RjQzMDIxOEI4RUE5NEExOEE0NU
+  ##I2N0Y5RTg2NDk1QjM4MkMzM0QxNEE1QzM4Q0VDQzBDQzgzNEY5NjBFMzlFMEQxQ
+  ##kY3RDc2QjlFRjVENTRFRUNDNUUwRjM4NkM5N0FEMTJEQThDM0Q1RiIsICJJU0tf
+  ##U1kiOiAiNUNDMjdFNDk2Nzk0MjNGODFBMzdENzUyMUQ5RkIxMzI3Qzg0MEQyRUE
+  ##0QTE1NDM2NTJFN0RFNUNBQkI4OUVCQUQyN0QyNDc2MUIzMjg4QTNGRDU3NjRCND
+  ##QxRUNCNzhEMzBBQkMyNjE2MUZGNDVFQTI5N0JCMzExRERFMDQ3MjciLCAic2lkX
+  ##291dHB1dF9pciI6ICJGN0FFMTFBQzNFRTg1QzNDNDJEOEJENTFCQTgyM0ZCRTE3
+  ##MTU4RjQzRDM0QTEyOTZGMUNCMjU2N0JDQzcxREM4QjIwMUExMzRCNTY2QjQ2OEF
+  ##BRDhGRDA0RjAyRjk2RTNDQUY5RDU2MDFGN0VENzYwQTBBOTUxQTVBODYxQjVFNy
+  ##IsICJzaWRfb3V0cHV0X29jIjogIkEzODM4OUUzNEZBNDkyNzg4QzFERjQzQjA2Q
+  ##jQyNzcxMDQ5MTE3NEU1M0MzM0IwMTM2MkE0OTBEMTE2RkUxQjdFODcwQUE2RTJB
+  ##N0ZDMDE4NzI1RTNCN0Y5NjlGNzUwODA0MkU0NENEMzg2M0YzOUFBNzUwMjZBMTk
+  ##wRDE5MDJCIn0=
 </pre><a href="#appendix-B.1.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3619,52 +3544,29 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
             <h5 id="name-testvectors-as-json-file-encoded-a">
 <a href="#appendix-B.1.10.1" class="section-number selfRef">B.1.10.1. </a><a href="#name-testvectors-as-json-file-encoded-a" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.1.10.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.1.10.1-1">
 <pre>
-    ###eyJJbnZhbGlkIFkwIjogWzAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDBdLCAiSW52YWxpZCBZMSI6IFsxLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwXSwg
-    ###IkludmFsaWQgWTIiOiBbMjM2LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAxMjddLCAiSW52
-    ###YWxpZCBZMyI6IFsyMjQsIDIzNSwgMTIyLCAxMjQsIDU5LCA2NSwgMTg0LCAx
-    ###NzQsIDIyLCA4NiwgMjI3LCAyNTAsIDI0MSwgMTU5LCAxOTYsIDEwNiwgMjE4
-    ###LCA5LCAxNDEsIDIzNSwgMTU2LCA1MCwgMTc3LCAyNTMsIDEzNCwgOTgsIDUs
-    ###IDIyLCA5NSwgNzMsIDE4NCwgMF0sICJJbnZhbGlkIFk0IjogWzk1LCAxNTYs
-    ###IDE0OSwgMTg4LCAxNjMsIDgwLCAxNDAsIDM2LCAxNzcsIDIwOCwgMTc3LCA4
-    ###NSwgMTU2LCAxMzEsIDIzOSwgOTEsIDQsIDY4LCA5MiwgMTk2LCA4OCwgMjgs
-    ###IDE0MiwgMTM0LCAyMTYsIDM0LCA3OCwgMjIxLCAyMDgsIDE1OSwgMTcsIDg3
-    ###XSwgIkludmFsaWQgWTUiOiBbMjM3LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1
-    ###NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1
-    ###NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1
-    ###NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAxMjddLCAi
-    ###SW52YWxpZCBZNiI6IFsyMTgsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAy
-    ###NTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAy
-    ###NTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAy
-    ###NTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NV0sICJJbnZh
-    ###bGlkIFk3IjogWzIzOCwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMTI3XSwgIkludmFsaWQg
-    ###WTgiOiBbMjE5LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUs
-    ###IDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUs
-    ###IDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUs
-    ###IDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTVdLCAiSW52YWxpZCBZOSI6
-    ###IFsyMTcsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1
-    ###LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1
-    ###LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1
-    ###LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NV0sICJJbnZhbGlkIFkxMCI6IFsy
-    ###MDUsIDIzNSwgMTIyLCAxMjQsIDU5LCA2NSwgMTg0LCAxNzQsIDIyLCA4Niwg
-    ###MjI3LCAyNTAsIDI0MSwgMTU5LCAxOTYsIDEwNiwgMjE4LCA5LCAxNDEsIDIz
-    ###NSwgMTU2LCA1MCwgMTc3LCAyNTMsIDEzNCwgOTgsIDUsIDIyLCA5NSwgNzMs
-    ###IDE4NCwgMTI4XSwgIkludmFsaWQgWTExIjogWzc2LCAxNTYsIDE0OSwgMTg4
-    ###LCAxNjMsIDgwLCAxNDAsIDM2LCAxNzcsIDIwOCwgMTc3LCA4NSwgMTU2LCAx
-    ###MzEsIDIzOSwgOTEsIDQsIDY4LCA5MiwgMTk2LCA4OCwgMjgsIDE0MiwgMTM0
-    ###LCAyMTYsIDM0LCA3OCwgMjIxLCAyMDgsIDE1OSwgMTcsIDIxNV19
-
+    ##eyJJbnZhbGlkIFkwIjogIjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+    ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAiLCAiSW52YWxpZCBZMS
+    ##I6ICIwMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
+    ##DAwMDAwMDAwMDAwMDAwMDAwMDAwIiwgIkludmFsaWQgWTIiOiAiRUNGRkZGRkZG
+    ##RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZ
+    ##GRkZGRkY3RiIsICJJbnZhbGlkIFkzIjogIkUwRUI3QTdDM0I0MUI4QUUxNjU2RT
+    ##NGQUYxOUZDNDZBREEwOThERUI5QzMyQjFGRDg2NjIwNTE2NUY0OUI4MDAiLCAiS
+    ##W52YWxpZCBZNCI6ICI1RjlDOTVCQ0EzNTA4QzI0QjFEMEIxNTU5QzgzRUY1QjA0
+    ##NDQ1Q0M0NTgxQzhFODZEODIyNEVEREQwOUYxMTU3IiwgIkludmFsaWQgWTUiOiA
+    ##iRURGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRk
+    ##ZGRkZGRkZGRkZGRkZGRkY3RiIsICJJbnZhbGlkIFk2IjogIkRBRkZGRkZGRkZGR
+    ##kZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZG
+    ##RkZGRkYiLCAiSW52YWxpZCBZNyI6ICJFRUZGRkZGRkZGRkZGRkZGRkZGRkZGRkZ
+    ##GRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRjdGIiwgIkludm
+    ##FsaWQgWTgiOiAiREJGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGR
+    ##kZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRiIsICJJbnZhbGlkIFk5IjogIkQ5
+    ##RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZ
+    ##GRkZGRkZGRkZGRkZGRkYiLCAiSW52YWxpZCBZMTAiOiAiQ0RFQjdBN0MzQjQxQj
+    ##hBRTE2NTZFM0ZBRjE5RkM0NkFEQTA5OERFQjlDMzJCMUZEODY2MjA1MTY1RjQ5Q
+    ##jg4MCIsICJJbnZhbGlkIFkxMSI6ICI0QzlDOTVCQ0EzNTA4QzI0QjFEMEIxNTU5
+    ##QzgzRUY1QjA0NDQ1Q0M0NTgxQzhFODZEODIyNEVEREQwOUYxMUQ3In0=
 </pre><a href="#appendix-B.1.10.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3717,52 +3619,31 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
             <h5 id="name-testvectors-as-json-file-encoded-as">
 <a href="#appendix-B.2.1.1" class="section-number selfRef">B.2.1.1. </a><a href="#name-testvectors-as-json-file-encoded-as" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.2.1.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.2.1.1-1">
 <pre>
-    ###eyJIIjogIlNIQUtFLTI1NiIsICJILnNfaW5fYnl0ZXMiOiAxMzYsICJQUlMi
-    ###OiBbODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAwXSwgIlpQ
-    ###QUQgbGVuZ3RoIjogMTE3LCAiRFNJIjogWzY3LCA4MCwgOTcsIDk5LCAxMDEs
-    ###IDUyLCA1MiwgNTZdLCAiQ0kiOiBbMTExLCA5OSwgMTEsIDY2LCA5NSwgMTE0
-    ###LCAxMDEsIDExNSwgMTEyLCAxMTEsIDExMCwgMTAwLCAxMDEsIDExNCwgMTEs
-    ###IDY1LCA5NSwgMTA1LCAxMTAsIDEwNSwgMTE2LCAxMDUsIDk3LCAxMTYsIDEx
-    ###MSwgMTE0XSwgInNpZCI6IFs4MiwgMzUsIDIyNCwgMjA1LCAxOTYsIDkzLCAx
-    ###MDEsIDExNywgMTAyLCAxNDEsIDEwMCwgMTk3LCA4MiwgMCwgNjUsIDM2XSwg
-    ###ImdlbmVyYXRvcl9zdHJpbmcoRy5EU0ksUFJTLENJLHNpZCxILnNfaW5fYnl0
-    ###ZXMpIjogWzgsIDY3LCA4MCwgOTcsIDk5LCAxMDEsIDUyLCA1MiwgNTYsIDgs
-    ###IDgwLCA5NywgMTE1LCAxMTUsIDExOSwgMTExLCAxMTQsIDEwMCwgMTE3LCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAyNiwgMTExLCA5
-    ###OSwgMTEsIDY2LCA5NSwgMTE0LCAxMDEsIDExNSwgMTEyLCAxMTEsIDExMCwg
-    ###MTAwLCAxMDEsIDExNCwgMTEsIDY1LCA5NSwgMTA1LCAxMTAsIDEwNSwgMTE2
-    ###LCAxMDUsIDk3LCAxMTYsIDExMSwgMTE0LCAxNiwgODIsIDM1LCAyMjQsIDIw
-    ###NSwgMTk2LCA5MywgMTAxLCAxMTcsIDEwMiwgMTQxLCAxMDAsIDE5NywgODIs
-    ###IDAsIDY1LCAzNl0sICJoYXNoIGdlbmVyYXRvciBzdHJpbmciOiBbMTUyLCAx
-    ###ODMsIDE5LCAyNDgsIDY5LCA0MSwgMjUsIDc3LCAxMTMsIDE1NCwgMTI1LCAx
-    ###MzQsIDIwMywgMTUsIDgwLCA3NSwgMTM4LCAyNTQsIDE3NiwgODMsIDg0LCAy
-    ###MTQsIDEzNSwgNzEsIDIyNSwgMTM5LCA0NiwgMTI0LCAyMDAsIDE4MiwgMjE4
-    ###LCA4MiwgOTYsIDEzMywgMjI4LCAzOCwgNTksIDIxNiwgMTkwLCAxNjcsIDIx
-    ###NCwgMTU4LCA3MSwgMTU4LCAxODYsIDIwOCwgMTU4LCA0OCwgMTc0LCA2LCA0
-    ###NiwgOTMsIDgsIDE1NywgMTY3LCAyNDNdLCAiZGVjb2RlZCBmaWVsZCBlbGVt
-    ###ZW50IG9mIDQ0OCBiaXRzIjogWzE1MiwgMTgzLCAxOSwgMjQ4LCA2OSwgNDEs
-    ###IDI1LCA3NywgMTEzLCAxNTQsIDEyNSwgMTM0LCAyMDMsIDE1LCA4MCwgNzUs
-    ###IDEzOCwgMjU0LCAxNzYsIDgzLCA4NCwgMjE0LCAxMzUsIDcxLCAyMjUsIDEz
-    ###OSwgNDYsIDEyNCwgMjAwLCAxODIsIDIxOCwgODIsIDk2LCAxMzMsIDIyOCwg
-    ###MzgsIDU5LCAyMTYsIDE5MCwgMTY3LCAyMTQsIDE1OCwgNzEsIDE1OCwgMTg2
-    ###LCAyMDgsIDE1OCwgNDgsIDE3NCwgNiwgNDYsIDkzLCA4LCAxNTcsIDE2Nywg
-    ###MjQzXSwgImdlbmVyYXRvciBnIjogWzIyNiwgMTQ3LCAxODMsIDIwNCwgMjQ2
-    ###LCAyOCwgMTY3LCAyMzUsIDE0NiwgMTM4LCAzOCwgNTcsIDI4LCAyNDMsIDEz
-    ###OSwgMTAyLCAxNSwgMTM1LCA3NCwgMCwgMzEsIDIyMywgMTEsIDI0MywgMTY5
-    ###LCAzMSwgMjA5LCAxMzAsIDI0MiwgMTgyLCAyMTYsIDYyLCA5NywgMTY5LCA1
-    ###NSwgMTI2LCAyMjIsIDE4LCAxMjYsIDE4NiwgMTI2LCAxMywgNzYsIDgsIDg5
-    ###LCA0NiwgMTc1LCAyNDMsIDYxLCA3NCwgMTY3LCA1LCAyMTQsIDIwNiwgODQs
-    ###IDE4N119
-
+    ##eyJIIjogIlNIQUtFLTI1NiIsICJILnNfaW5fYnl0ZXMiOiAxMzYsICJQUlMiOiA
+    ##iNTA2MTczNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDExNywgIkRTSSI6IC
+    ##I0MzUwNjE2MzY1MzQzNDM4IiwgIkNJIjogIjZGNjMwQjQyNUY3MjY1NzM3MDZGN
+    ##kU2NDY1NzIwQjQxNUY2OTZFNjk3NDY5NjE3NDZGNzIiLCAic2lkIjogIjUyMjNF
+    ##MENEQzQ1RDY1NzU2NjhENjRDNTUyMDA0MTI0IiwgImdlbmVyYXRvcl9zdHJpbmc
+    ##oRy5EU0ksUFJTLENJLHNpZCxILnNfaW5fYnl0ZXMpIjogIjA4NDM1MDYxNjM2NT
+    ##M0MzQzODA4NTA2MTczNzM3NzZGNzI2NDc1MDAwMDAwMDAwMDAwMDAwMDAwMDAwM
+    ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+    ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
+    ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMUE2RjYzMEI0MjVGNzI2NTczNzA2RjZF
+    ##NjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyMTA1MjIzRTBDREM0NUQ2NTc
+    ##1NjY4RDY0QzU1MjAwNDEyNCIsICJoYXNoIGdlbmVyYXRvciBzdHJpbmciOiAiOT
+    ##hCNzEzRjg0NTI5MTk0RDcxOUE3RDg2Q0IwRjUwNEI4QUZFQjA1MzU0RDY4NzQ3R
+    ##TE4QjJFN0NDOEI2REE1MjYwODVFNDI2M0JEOEJFQTdENjlFNDc5RUJBRDA5RTMw
+    ##QUUwNjJFNUQwODlEQTdGMyIsICJkZWNvZGVkIGZpZWxkIGVsZW1lbnQgb2YgNDQ
+    ##4IGJpdHMiOiAiOThCNzEzRjg0NTI5MTk0RDcxOUE3RDg2Q0IwRjUwNEI4QUZFQj
+    ##A1MzU0RDY4NzQ3RTE4QjJFN0NDOEI2REE1MjYwODVFNDI2M0JEOEJFQTdENjlFN
+    ##Dc5RUJBRDA5RTMwQUUwNjJFNUQwODlEQTdGMyIsICJnZW5lcmF0b3IgZyI6ICJF
+    ##MjkzQjdDQ0Y2MUNBN0VCOTI4QTI2MzkxQ0YzOEI2NjBGODc0QTAwMUZERjBCRjN
+    ##BOTFGRDE4MkYyQjZEODNFNjFBOTM3N0VERTEyN0VCQTdFMEQ0QzA4NTkyRUFGRj
+    ##MzRDRBQTcwNUQ2Q0U1NEJCIn0=
 </pre><a href="#appendix-B.2.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3918,7 +3799,7 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
           <h4 id="name-corresponding-c-programming-">
 <a href="#appendix-B.2.8" class="section-number selfRef">B.2.8. </a><a href="#name-corresponding-c-programming-" class="section-name selfRef">Corresponding C programming language initializers</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.2.8-1">
+<div class="breakable lang-c sourcecode" id="appendix-B.2.8-1">
 <pre>
 const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -4029,79 +3910,40 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-testvectors-as-json-file-encoded-as-2">
 <a href="#appendix-B.2.9" class="section-number selfRef">B.2.9. </a><a href="#name-testvectors-as-json-file-encoded-as-2" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.2.9-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.2.9-1">
 <pre>
-  ###eyJQUlMiOiBbODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAw
-  ###XSwgIkNJIjogWzExMSwgOTksIDExLCA2NiwgOTUsIDExNCwgMTAxLCAxMTUs
-  ###IDExMiwgMTExLCAxMTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2NSwgOTUsIDEw
-  ###NSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5NywgMTE2LCAxMTEsIDExNF0sICJz
-  ###aWQiOiBbODIsIDM1LCAyMjQsIDIwNSwgMTk2LCA5MywgMTAxLCAxMTcsIDEw
-  ###MiwgMTQxLCAxMDAsIDE5NywgODIsIDAsIDY1LCAzNl0sICJnIjogWzIyNiwg
-  ###MTQ3LCAxODMsIDIwNCwgMjQ2LCAyOCwgMTY3LCAyMzUsIDE0NiwgMTM4LCAz
-  ###OCwgNTcsIDI4LCAyNDMsIDEzOSwgMTAyLCAxNSwgMTM1LCA3NCwgMCwgMzEs
-  ###IDIyMywgMTEsIDI0MywgMTY5LCAzMSwgMjA5LCAxMzAsIDI0MiwgMTgyLCAy
-  ###MTYsIDYyLCA5NywgMTY5LCA1NSwgMTI2LCAyMjIsIDE4LCAxMjYsIDE4Niwg
-  ###MTI2LCAxMywgNzYsIDgsIDg5LCA0NiwgMTc1LCAyNDMsIDYxLCA3NCwgMTY3
-  ###LCA1LCAyMTQsIDIwNiwgODQsIDE4N10sICJ5YSI6IFszMywgMTgwLCAyNDQs
-  ###IDE4OSwgMTU4LCAxMDAsIDIzNywgNTMsIDkyLCA2MiwgMTgyLCAxMTgsIDE2
-  ###MiwgMTQyLCAxOTAsIDIxOCwgMjQ2LCAyMTYsIDI0MSwgMTIzLCAyMjAsIDU0
-  ###LCA4OSwgMTQ5LCAxNzksIDI1LCA5LCAxMTMsIDgzLCA0LCA2NCwgMTI4LCA4
-  ###MSwgMTA3LCAyMDgsIDEzMSwgMTkxLCAyMDQsIDIzMCwgOTcsIDMzLCAxNjMs
-  ###IDcsIDM4LCA3MCwgMTUzLCA3NiwgMTMyLCA0OCwgMjA0LCA1NiwgNDMsIDE0
-  ###MSwgMTk3LCA2NywgMjMyXSwgIkFEYSI6IFs2NSwgNjgsIDk3XSwgIllhIjog
-  ###WzEyNywgMTAwLCA4NywgMTE0LCAyMDQsIDMyLCAxNTUsIDI0OSwgMjUzLCAx
-  ###NTcsIDExOCwgMjE5LCAxNzcsIDIsIDEzMSwgMTkwLCAxNjcsIDI3LCAxOCwg
-  ###MzUsIDk0LCA1OSwgMTc4LCAyNCwgMTIwLCAyMTMsIDIyOSwgMTA2LCAxMTIs
-  ###IDgwLCAxMTAsIDIyLCA4NywgNjcsIDE2NiwgNTAsIDIyMiwgMTUyLCAyMzYs
-  ###IDE2OSwgMTQ3LCA0NCwgOTMsIDQ2LCAyNTQsIDU0LCA4MCwgMTAsIDg5LCAx
-  ###NzgsIDI1MywgMTc0LCAyMDgsIDIxNiwgMTYxLCA3Ml0sICJ5YiI6IFsxMzIs
-  ###IDEzOSwgNywgMTIxLCAyNTUsIDY1LCA5NSwgMTAsIDI0NCwgMjM0LCAyMCwg
-  ###MjIzLCAxNTcsIDIwOSwgMjExLCAxOTQsIDE1NCwgMTk2LCAyOSwgMTMxLCAx
-  ###MDgsIDEyMCwgOCwgMTM3LCAxMDgsIDc4LCAxODYsIDI1LCAxOTcsIDI2LCAx
-  ###OTYsIDEwLCA2NywgMTU2LCAxNzUsIDk0LCA5NywgMjM2LCAxMzYsIDE5NSwg
-  ###NywgMTk5LCAyMTQsIDI1LCAyNSwgODIsIDQxLCA2NSwgNDYsIDE3MCwgMTE1
-  ###LCAyNTEsIDQyLCA5NCwgMTYyLCAxM10sICJBRGIiOiBbNjUsIDY4LCA5OF0s
-  ###ICJZYiI6IFsxNjQsIDEwNSwgMTAsIDcsIDgwLCAxOTYsIDQzLCA0MCwgMTQx
-  ###LCAyMjEsIDExLCAxNjAsIDE0MiwgNjMsIDczLCAyLCAyMjMsIDIzMSwgMTEs
-  ###IDE3NCwgOTIsIDE1OCwgNDQsIDExMCwgMjMzLCA4OCwgNjgsIDIyMiwgMjQy
-  ###LCAxMDUsIDQzLCAyMzEsIDExOCwgNzAsIDE3OCwgMTMsIDU5LCA2NiwgMTU5
-  ###LCAxNDEsIDE2MCwgMTMsIDMzLCA2NywgNjIsIDIyNCwgMTM3LCAyOCwgMTAy
-  ###LCAxMTgsIDg4LCAyMTYsIDIwOCwgMTk2LCAxNDIsIDU2XSwgIksiOiBbMjE5
-  ###LCA2MywgMjU1LCAxNTcsIDE2NSwgMTQ5LCAxMTgsIDExMywgOTEsIDQsIDIx
-  ###MiwgMjIzLCAxNDEsIDIwMCwgMjA5LCAxNDEsIDE3OCwgNjcsIDE0LCA4Nywg
-  ###MTg3LCAyMzcsIDUxLCAxMjUsIDE5MCwgMjM4LCA5MSwgMTc4LCAyMTQsIDE3
-  ###MSwgMTA4LCAyMzcsIDIyMCwgMTU2LCAxMTcsIDE5NywgMTkyLCAxNzcsIDEy
-  ###NywgMTczLCAxMjYsIDE4MywgMzYsIDIxOCwgMTYxLCA0NywgMTQzLCAyNSwg
-  ###MywgMjIxLCAxMDgsIDQ0LCAyMzcsIDIzMCwgMTksIDkwXSwgIklTS19JUiI6
-  ###IFs4OSwgMTUyLCAxNDYsIDE2MiwgNywgMTM4LCAxNDAsIDE1MiwgMTI5LCAx
-  ###MjksIDk4LCA5NCwgMzAsIDk0LCA5NSwgMTIyLCA5NywgOTksIDI0NywgMjE1
-  ###LCA0NywgMzMsIDE4NSwgNjIsIDE5MCwgMjUxLCAxNjAsIDI0MSwgMTI3LCAy
-  ###NDcsIDIzNCwgNTgsIDE2MCwgODksIDc1LCAyMTMsIDEwNSwgMjA3LCAxMTYs
-  ###IDM4LCA2NSwgODcsIDE3OSwgMTkyLCA4LCAxMjMsIDIyMCwgMjA3LCA0Nywg
-  ###ODksIDE5OSwgMTEzLCA4NiwgOTgsIDEzMiwgMTM1LCAyNDUsIDIwMiwgMjIs
-  ###IDY5LCAxODQsIDIzMywgMjA4LCA5MV0sICJJU0tfU1kiOiBbNTgsIDE5OSwg
-  ###NjMsIDMsIDMsIDIsIDE1MCwgMTcwLCA4OSwgMzEsIDEsIDUwLCAxMDcsIDI0
-  ###LCAxNzUsIDE2NCwgMTI2LCAxNywgMTM3LCAxOCwgMTU2LCAyMDgsIDEwNiwg
-  ###MjMyLCAyMjMsIDE3NiwgOTQsIDExMCwgMTc3LCA0OSwgMTIsIDIyMiwgMTQ4
-  ###LCAxMzksIDg5LCAyMzgsIDI0MCwgMTE3LCA4MywgMTAxLCAxOTIsIDEwNiwg
-  ###NTEsIDE0NiwgMTAyLCAxNzUsIDIyOSwgMTQ4LCAxNDgsIDE0MCwgODYsIDE2
-  ###NSwgNTYsIDIxNywgMTM4LCAxMDEsIDExOCwgMTEzLCAxOSwgMTQ3LCAxMzgs
-  ###IDE1NCwgMTIwLCAyMTZdLCAic2lkX291dHB1dF9pciI6IFswLCAxNjIsIDUx
-  ###LCA1OCwgMTIxLCA3MiwgMjYsIDE5MCwgMTEzLCAyMzksIDIxNCwgODksIDc3
-  ###LCAxMjMsIDE4NiwgMTcyLCA4NSwgMjAwLCA4LCA3MiwgNDYsIDEzNCwgMTU2
-  ###LCAxNTUsIDEwMSwgMTk2LCAxODEsIDYxLCAxMTMsIDAsIDIxMSwgMjE4LCAx
-  ###NDMsIDYwLCAxNzEsIDIxMywgMTU5LCAxNjAsIDE5MywgMjQyLCA0NSwgMTA5
-  ###LCA0NywgMTU0LCAxOTIsIDE5MiwgMTQ3LCAxNTAsIDM0LCAxNDYsIDEyMSwg
-  ###MTQzLCAyMDIsIDQ0LCAxMSwgMTQ3LCAzOCwgMTM3LCAxMTYsIDIwMiwgMjE1
-  ###LCA5MywgODcsIDkwXSwgInNpZF9vdXRwdXRfb2MiOiBbMTYxLCAyMDYsIDE0
-  ###NCwgODMsIDEyMiwgMTQxLCA4MywgMTc2LCAxMDksIDExOSwgMjMxLCAxNTks
-  ###IDIzMSwgMjUsIDcwLCAyOCwgMTk3LCAyMzcsIDEzMSwgMCwgMjEwLCAyOSwg
-  ###MjQsIDEwMiwgMTY1LCAxNTksIDE1MCwgNTYsIDk2LCAyNCwgNTEsIDI0NSwg
-  ###MTIyLCAxMzksIDk0LCAxMzYsIDIxOSwgMTU0LCA4MiwgMTcxLCAyNTAsIDI3
-  ###LCA3OCwgMTM4LCAxMDEsIDI2LCA2NCwgMTEsIDIwMSwgMzIsIDgwLCAxMzAs
-  ###IDE3MCwgMjE2LCAzMCwgMTc5LCAxNywgMTk2LCA2NywgMTE1LCAxODUsIDE2
-  ###MSwgMTU4LCAyNTVdfQ==
-
+  ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
+  ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
+  ##I6ICI1MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnIjogIkUyO
+  ##TNCN0NDRjYxQ0E3RUI5MjhBMjYzOTFDRjM4QjY2MEY4NzRBMDAxRkRGMEJGM0E5
+  ##MUZEMTgyRjJCNkQ4M0U2MUE5Mzc3RURFMTI3RUJBN0UwRDRDMDg1OTJFQUZGMzN
+  ##ENEFBNzA1RDZDRTU0QkIiLCAieWEiOiAiMjFCNEY0QkQ5RTY0RUQzNTVDM0VCNj
+  ##c2QTI4RUJFREFGNkQ4RjE3QkRDMzY1OTk1QjMxOTA5NzE1MzA0NDA4MDUxNkJEM
+  ##DgzQkZDQ0U2NjEyMUEzMDcyNjQ2OTk0Qzg0MzBDQzM4MkI4REM1NDNFOCIsICJB
+  ##RGEiOiAiNDE0NDYxIiwgIllhIjogIjdGNjQ1NzcyQ0MyMDlCRjlGRDlENzZEQkI
+  ##xMDI4M0JFQTcxQjEyMjM1RTNCQjIxODc4RDVFNTZBNzA1MDZFMTY1NzQzQTYzMk
+  ##RFOThFQ0E5OTMyQzVEMkVGRTM2NTAwQTU5QjJGREFFRDBEOEExNDgiLCAieWIiO
+  ##iAiODQ4QjA3NzlGRjQxNUYwQUY0RUExNERGOUREMUQzQzI5QUM0MUQ4MzZDNzgw
+  ##ODg5NkM0RUJBMTlDNTFBQzQwQTQzOUNBRjVFNjFFQzg4QzMwN0M3RDYxOTE5NTI
+  ##yOTQxMkVBQTczRkIyQTVFQTIwRCIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIk
+  ##E0NjkwQTA3NTBDNDJCMjg4REREMEJBMDhFM0Y0OTAyREZFNzBCQUU1QzlFMkM2R
+  ##UU5NTg0NERFRjI2OTJCRTc3NjQ2QjIwRDNCNDI5RjhEQTAwRDIxNDMzRUUwODkx
+  ##QzY2NzY1OEQ4RDBDNDhFMzgiLCAiSyI6ICJEQjNGRkY5REE1OTU3NjcxNUIwNEQ
+  ##0REY4REM4RDE4REIyNDMwRTU3QkJFRDMzN0RCRUVFNUJCMkQ2QUI2Q0VEREM5Qz
+  ##c1QzVDMEIxN0ZBRDdFQjcyNERBQTEyRjhGMTkwM0RENkMyQ0VERTYxMzVBIiwgI
+  ##klTS19JUiI6ICI1OTk4OTJBMjA3OEE4Qzk4ODE4MTYyNUUxRTVFNUY3QTYxNjNG
+  ##N0Q3MkYyMUI5M0VCRUZCQTBGMTdGRjdFQTNBQTA1OTRCRDU2OUNGNzQyNjQxNTd
+  ##CM0MwMDg3QkRDQ0YyRjU5Qzc3MTU2NjI4NDg3RjVDQTE2NDVCOEU5RDA1QiIsIC
+  ##JJU0tfU1kiOiAiM0FDNzNGMDMwMzAyOTZBQTU5MUYwMTMyNkIxOEFGQTQ3RTExO
+  ##DkxMjlDRDA2QUU4REZCMDVFNkVCMTMxMENERTk0OEI1OUVFRjA3NTUzNjVDMDZB
+  ##MzM5MjY2QUZFNTk0OTQ4QzU2QTUzOEQ5OEE2NTc2NzExMzkzOEE5QTc4RDgiLCA
+  ##ic2lkX291dHB1dF9pciI6ICIwMEEyMzMzQTc5NDgxQUJFNzFFRkQ2NTk0RDdCQk
+  ##FBQzU1QzgwODQ4MkU4NjlDOUI2NUM0QjUzRDcxMDBEM0RBOEYzQ0FCRDU5RkEwQ
+  ##zFGMjJENkQyRjlBQzBDMDkzOTYyMjkyNzk4RkNBMkMwQjkzMjY4OTc0Q0FENzVE
+  ##NTc1QSIsICJzaWRfb3V0cHV0X29jIjogIkExQ0U5MDUzN0E4RDUzQjA2RDc3RTc
+  ##5RkU3MTk0NjFDQzVFRDgzMDBEMjFEMTg2NkE1OUY5NjM4NjAxODMzRjU3QThCNU
+  ##U4OERCOUE1MkFCRkExQjRFOEE2NTFBNDAwQkM5MjA1MDgyQUFEODFFQjMxMUM0N
+  ##DM3M0I5QTE5RUZGIn0=
 </pre><a href="#appendix-B.2.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4193,73 +4035,39 @@ when included in the protocol messages from A or B.
             <h5 id="name-testvectors-as-json-file-encoded-as-3">
 <a href="#appendix-B.2.10.1" class="section-number selfRef">B.2.10.1. </a><a href="#name-testvectors-as-json-file-encoded-as-3" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.2.10.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.2.10.1-1">
 <pre>
-    ###eyJJbnZhbGlkIFkxIjogWzAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDBdLCAiSW52YWxpZCBZMiI6IFsxLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwXSwgIkludmFsaWQgWTMiOiBbMjU0LCAyNTUsIDI1NSwgMjU1LCAy
-    ###NTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAy
-    ###NTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAy
-    ###NTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTQsIDI1NSwgMjU1LCAy
-    ###NTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAy
-    ###NTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAy
-    ###NTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTVdLCAiSW52YWxpZCBZ
-    ###NCI6IFsyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NCwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NV0sICJJbnZhbGlkIFk1IjogWzAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NSwg
-    ###MjU1LCAyNTUsIDI1NSwgMjU1LCAyNTUsIDI1NV0sICJWYWxpZCAob24gY3Vy
-    ###dmUpIjogeyJzIjogWzE3NSwgMTM4LCAyMCwgMzMsIDEzOSwgMjQyLCAxNjIs
-    ###IDYsIDQxLCAzOCwgMjEwLCAyMzQsIDE1NSwgMTQzLCAyMjgsIDIzMiwgMTgy
-    ###LCAxMjksIDExNSwgNzMsIDE4MiwgMjM3LCA0NywgMjM1LCAzMCwgOTMsIDEw
-    ###MCwgMjE1LCAxNjQsIDgyLCA2MywgMjEsIDI1MiwgMjM4LCAxOTksIDE1LCAx
-    ###NzcsIDE3LCAyMzIsIDExMiwgMjIwLCA4OCwgMjA5LCAxNDUsIDIzMCwgMTA2
-    ###LCAyMCwgMjExLCAyMzMsIDIxMiwgMTMwLCAyMDgsIDY4LCA1MCwgMjAyLCAy
-    ###MjFdLCAidV9jdXJ2ZSI6IFsxNzEsIDEyLCAxMDQsIDIxNSwgMTE0LCAyMzYs
-    ###IDQ2LCAxODUsIDIyMiwgMzcsIDE5NiwgMTUxLCAwLCAyMjgsIDEwOSwgOTks
-    ###IDM3LCAyMzAsIDEwOSwgMTA2LCAxNjMsIDE1NywgMTIzLCAxMDEsIDIzNSwg
-    ###MTMyLCAxNjYsIDE0MCwgODUsIDEwNSwgMjEyLCAxMjMsIDIxNSwgMjcsIDY1
-    ###LCAyNDMsIDIyNCwgMjEwLCAxNiwgMjQ0LCA3OCwgMjAsIDEwOSwgMjM2LCAx
-    ###MzcsIDM4LCAxNzcsIDExNiwgMTcyLCAxNzksIDI0OSwgNjQsIDE2MCwgMTg0
-    ###LCA0NCwgMTcxXSwgInJlc19jdXJ2ZSI6IFs1OSwgMTUsIDE2OSwgMTg4LCA2
-    ###NCwgMTY2LCAyNTMsIDE5OSwgMTQwLCAxNTgsIDYsIDI1NSwgMTIyLCA4NCwg
-    ###MTkzLCA2NywgMTk3LCAyMTMsIDQ3LCA1NCwgODYsIDcsIDUsIDU5LCAyNDAs
-    ###IDEwMSwgMTExLCA4MSwgNjYsIDQsIDE1MCwgNDEsIDk1LCAxNDUsIDEwLCAx
-    ###NiwgMjcsIDU2LCAyMzcsIDE5MywgMTcyLCAyMTEsIDE4OSwgMzYsIDE1LCAy
-    ###MTMsIDkzLCAyMDMsIDEyMiwgNTQsIDUsIDgzLCAxODQsIDE2NywgOTgsIDEy
-    ###Nl19LCAiVmFsaWQgKG9uIHR3aXN0KSI6IHsicyI6IFsxNzUsIDEzOCwgMjAs
-    ###IDMzLCAxMzksIDI0MiwgMTYyLCA2LCA0MSwgMzgsIDIxMCwgMjM0LCAxNTUs
-    ###IDE0MywgMjI4LCAyMzIsIDE4MiwgMTI5LCAxMTUsIDczLCAxODIsIDIzNywg
-    ###NDcsIDIzNSwgMzAsIDkzLCAxMDAsIDIxNSwgMTY0LCA4MiwgNjMsIDIxLCAy
-    ###NTIsIDIzOCwgMTk5LCAxNSwgMTc3LCAxNywgMjMyLCAxMTIsIDIyMCwgODgs
-    ###IDIwOSwgMTQ1LCAyMzAsIDEwNiwgMjAsIDIxMSwgMjMzLCAyMTIsIDEzMCwg
-    ###MjA4LCA2OCwgNTAsIDIwMiwgMjIxXSwgInVfdHdpc3QiOiBbMjAxLCAxMjks
-    ###IDIwNSwgMzAsIDMxLCAxMTQsIDIxNywgMTk1LCA5MiwgMTI1LCAxMjQsIDI0
-    ###NiwgMTkwLCA2NiwgMTAzLCA4NywgMTkyLCAyMjAsIDEzMCwgNiwgMTYyLCAy
-    ###NTIsIDI1MCwgODYsIDc0LCAxNDIsIDExOCwgMjQsIDE5MiwgNjAsIDE0LCA5
-    ###NywgMjQ5LCAxNjIsIDIzNSwgMjgsIDYyLCAxMywgMjE3LCAxMjUsIDExMCwg
-    ###MTU1LCAxNiwgMTYsIDI0NSwgMjM3LCAyMDgsIDUxLCAxNTEsIDE2OCwgNjMs
-    ###IDkwLCAxNDUsIDc2LCAxNzksIDI1NV0sICJyZXNfdHdpc3QiOiBbMjA4LCAx
-    ###NjIsIDE4NywgMTI2LCAxNTYsIDkyLCA0NCwgOTgsIDExOSwgMTQ3LCAyMTYs
-    ###IDUyLCA0NywgMzUsIDE4MywgODksIDI1NCwgMTI1LCAxNTgsIDUxLCAzMiwg
-    ###MTY4LCA5MiwgMTY0LCAyNTMsIDk3LCA1NSwgOTksIDQ5LCA4MCwgMjU1LCAy
-    ###MTcsIDE2OSwgMjAsIDEzOCwgMTU1LCAxMTcsIDE5NSwgNzMsIDI1MCwgMTk2
-    ###LCA2MSwgMTAwLCAxOTAsIDE5NiwgMTU0LCAxMTAsIDE4LCAxMDgsIDIwMSwg
-    ###NDQsIDE5MSwgMTkxLCA1MywgNTcsIDk3XX19
-
+    ##eyJJbnZhbGlkIFkxIjogIjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+    ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAiLCAiSW52YWxpZCBZM
+    ##iI6ICIwMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+    ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwIiwgIkludmFsaWQgWTMiOiAiRkVGRkZGRk
+    ##ZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGR
+    ##kZGRUZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZG
+    ##RkZGRkZGRkZGRiIsICJJbnZhbGlkIFk0IjogIkZGRkZGRkZGRkZGRkZGRkZGRkZ
+    ##GRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkVGRkZGRkZGRk
+    ##ZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYiL
+    ##CAiSW52YWxpZCBZNSI6ICIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMEZGRkZGRkZGRkZGRkZGRkZGRkZGRkZ
+    ##GRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGIiwgIlZhbGlkIChvbi
+    ##BjdXJ2ZSkiOiB7InMiOiAiQUY4QTE0MjE4QkYyQTIwNjI5MjZEMkVBOUI4RkU0R
+    ##ThCNjgxNzM0OUI2RUQyRkVCMUU1RDY0RDdBNDUyM0YxNUZDRUVDNzBGQjExMUU4
+    ##NzBEQzU4RDE5MUU2NkExNEQzRTlENDgyRDA0NDMyQ0FERCIsICJ1X2N1cnZlIjo
+    ##gIkFCMEM2OEQ3NzJFQzJFQjlERTI1QzQ5NzAwRTQ2RDYzMjVFNjZENkFBMzlEN0
+    ##I2NUVCODRBNjhDNTU2OUQ0N0JENzFCNDFGM0UwRDIxMEY0NEUxNDZERUM4OTI2Q
+    ##jE3NEFDQjNGOTQwQTBCODJDQUIiLCAicmVzX2N1cnZlIjogIjNCMEZBOUJDNDBB
+    ##NkZEQzc4QzlFMDZGRjdBNTRDMTQzQzVENTJGMzY1NjA3MDUzQkYwNjU2RjUxNDI
+    ##wNDk2Mjk1RjkxMEExMDFCMzhFREMxQUNEM0JEMjQwRkQ1NURDQjdBMzYwNTUzQj
+    ##hBNzYyN0UifSwgIlZhbGlkIChvbiB0d2lzdCkiOiB7InMiOiAiQUY4QTE0MjE4Q
+    ##kYyQTIwNjI5MjZEMkVBOUI4RkU0RThCNjgxNzM0OUI2RUQyRkVCMUU1RDY0RDdB
+    ##NDUyM0YxNUZDRUVDNzBGQjExMUU4NzBEQzU4RDE5MUU2NkExNEQzRTlENDgyRDA
+    ##0NDMyQ0FERCIsICJ1X3R3aXN0IjogIkM5ODFDRDFFMUY3MkQ5QzM1QzdEN0NGNk
+    ##JFNDI2NzU3QzBEQzgyMDZBMkZDRkE1NjRBOEU3NjE4QzAzQzBFNjFGOUEyRUIxQ
+    ##zNFMEREOTdENkU5QjEwMTBGNUVERDAzMzk3QTgzRjVBOTE0Q0IzRkYiLCAicmVz
+    ##X3R3aXN0IjogIkQwQTJCQjdFOUM1QzJDNjI3NzkzRDgzNDJGMjNCNzU5RkU3RDl
+    ##FMzMyMEE4NUNBNEZENjEzNzYzMzE1MEZGRDlBOTE0OEE5Qjc1QzM0OUZBQzQzRD
+    ##Y0QkVDNDlBNkUxMjZDQzkyQ0JGQkYzNTM5NjEifX0=
 </pre><a href="#appendix-B.2.10.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4311,44 +4119,27 @@ when included in the protocol messages from A or B.
             <h5 id="name-testvectors-as-json-file-encoded-as-4">
 <a href="#appendix-B.3.1.1" class="section-number selfRef">B.3.1.1. </a><a href="#name-testvectors-as-json-file-encoded-as-4" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.3.1.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.3.1.1-1">
 <pre>
-    ###eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjog
-    ###WzgwLCA5NywgMTE1LCAxMTUsIDExOSwgMTExLCAxMTQsIDEwMF0sICJaUEFE
-    ###IGxlbmd0aCI6IDEwMCwgIkRTSSI6IFs2NywgODAsIDk3LCA5OSwgMTAxLCA4
-    ###MiwgMTA1LCAxMTUsIDExNiwgMTE0LCAxMDEsIDExNiwgMTE2LCAxMTEsIDUw
-    ###LCA1MywgNTNdLCAiQ0kiOiBbMTExLCA5OSwgMTEsIDY2LCA5NSwgMTE0LCAx
-    ###MDEsIDExNSwgMTEyLCAxMTEsIDExMCwgMTAwLCAxMDEsIDExNCwgMTEsIDY1
-    ###LCA5NSwgMTA1LCAxMTAsIDEwNSwgMTE2LCAxMDUsIDk3LCAxMTYsIDExMSwg
-    ###MTE0XSwgInNpZCI6IFsxMjYsIDc1LCA3MSwgMTQ1LCAyMTQsIDE2OCwgMjM5
-    ###LCAxLCAxNTUsIDE0NywgMTA4LCAxMjEsIDI1MSwgMTI3LCA0NCwgODddLCAi
-    ###Z2VuZXJhdG9yX3N0cmluZyhHLkRTSSxQUlMsQ0ksc2lkLEguc19pbl9ieXRl
-    ###cykiOiBbMTcsIDY3LCA4MCwgOTcsIDk5LCAxMDEsIDgyLCAxMDUsIDExNSwg
-    ###MTE2LCAxMTQsIDEwMSwgMTE2LCAxMTYsIDExMSwgNTAsIDUzLCA1MywgOCwg
-    ###ODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAwLCAxMDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDI2LCAxMTEsIDk5LCAxMSwg
-    ###NjYsIDk1LCAxMTQsIDEwMSwgMTE1LCAxMTIsIDExMSwgMTEwLCAxMDAsIDEw
-    ###MSwgMTE0LCAxMSwgNjUsIDk1LCAxMDUsIDExMCwgMTA1LCAxMTYsIDEwNSwg
-    ###OTcsIDExNiwgMTExLCAxMTQsIDE2LCAxMjYsIDc1LCA3MSwgMTQ1LCAyMTQs
-    ###IDE2OCwgMjM5LCAxLCAxNTUsIDE0NywgMTA4LCAxMjEsIDI1MSwgMTI3LCA0
-    ###NCwgODddLCAiaGFzaCByZXN1bHQiOiBbMTk4LCA1OCwgODcsIDgwLCAyMjYs
-    ###IDY3LCAxNTYsIDIzLCAyMDQsIDIxNiwgMzMsIDU5LCAyMjUsIDc5LCAyMjIs
-    ###IDQ3LCAxMzUsIDIyNSwgMTg4LCA5OSwgMTEyLCAxLCAxNjksIDEyNywgODks
-    ###IDQxLCAxOTksIDEyMywgNDgsIDIzNCwgMTQsIDgsIDE3NSwgMTg4LCAxMTcs
-    ###IDE3MiwgMjI5LCAyMTEsIDIxNSwgNTksIDQwLCA2NiwgMTY3LCAxNTcsIDEs
-    ###IDcyLCAxNDAsIDk1LCAyMTUsIDIzNCwgNDgsIDIxMiwgMTE3LCAyMzgsIDk2
-    ###LCAxNDksIDY5LCAxNzUsIDI3LCAyNTMsIDMxLCAyNDcsIDEyNCwgMTQyXSwg
-    ###ImVuY29kZWQgZ2VuZXJhdG9yIGciOiBbMTY2LCAyNTIsIDEzMCwgMTk1LCAx
-    ###ODQsIDE1MCwgMTQzLCAxODcsIDQ2LCA2LCAyNTQsIDIzMiwgMjgsIDE2OCwg
-    ###ODgsIDg4LCAxMDksIDIzNCwgODAsIDIxMCwgNzIsIDI0MCwgMTk5LCAyMDIs
-    ###IDEwNiwgMjQsIDE3NiwgMTQ0LCA0MiwgNDgsIDE3OSwgMTA3XX0=
-
+    ##eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjU
+    ##wNjE3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiAxMDAsICJEU0kiOiAiND
+    ##M1MDYxNjM2NTUyNjk3Mzc0NzI2NTc0NzQ2RjMyMzUzNSIsICJDSSI6ICI2RjYzM
+    ##EI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2Rjcy
+    ##IiwgInNpZCI6ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJ
+    ##nZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKS
+    ##I6ICIxMTQzNTA2MTYzNjU1MjY5NzM3NDcyNjU3NDc0NkYzMjM1MzUwODUwNjE3M
+    ##zczNzc2RjcyNjQ2NDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+    ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
+    ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMUE2RjYzMEI0MjVGNzI2NTczNzA2RjZF
+    ##NjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyMTA3RTRCNDc5MUQ2QThFRjA
+    ##xOUI5MzZDNzlGQjdGMkM1NyIsICJoYXNoIHJlc3VsdCI6ICJDNjNBNTc1MEUyND
+    ##M5QzE3Q0NEODIxM0JFMTRGREUyRjg3RTFCQzYzNzAwMUE5N0Y1OTI5Qzc3QjMwR
+    ##UEwRTA4QUZCQzc1QUNFNUQzRDczQjI4NDJBNzlEMDE0ODhDNUZEN0VBMzBENDc1
+    ##RUU2MDk1NDVBRjFCRkQxRkY3N0M4RSIsICJlbmNvZGVkIGdlbmVyYXRvciBnIjo
+    ##gIkE2RkM4MkMzQjg5NjhGQkIyRTA2RkVFODFDQTg1ODU4NkRFQTUwRDI0OEYwQz
+    ##dDQTZBMThCMDkwMkEzMEIzNkIifQ==
 </pre><a href="#appendix-B.3.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4498,7 +4289,7 @@ when included in the protocol messages from A or B.
           <h4 id="name-corresponding-c-programming-l">
 <a href="#appendix-B.3.8" class="section-number selfRef">B.3.8. </a><a href="#name-corresponding-c-programming-l" class="section-name selfRef">Corresponding C programming language initializers</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.3.8-1">
+<div class="breakable lang-c sourcecode" id="appendix-B.3.8-1">
 <pre>
 const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -4597,64 +4388,34 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-testvectors-as-json-file-encoded-as-5">
 <a href="#appendix-B.3.9" class="section-number selfRef">B.3.9. </a><a href="#name-testvectors-as-json-file-encoded-as-5" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.3.9-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.3.9-1">
 <pre>
-  ###eyJQUlMiOiBbODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAw
-  ###XSwgIkNJIjogWzExMSwgOTksIDExLCA2NiwgOTUsIDExNCwgMTAxLCAxMTUs
-  ###IDExMiwgMTExLCAxMTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2NSwgOTUsIDEw
-  ###NSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5NywgMTE2LCAxMTEsIDExNF0sICJz
-  ###aWQiOiBbMTI2LCA3NSwgNzEsIDE0NSwgMjE0LCAxNjgsIDIzOSwgMSwgMTU1
-  ###LCAxNDcsIDEwOCwgMTIxLCAyNTEsIDEyNywgNDQsIDg3XSwgImciOiBbMTY2
-  ###LCAyNTIsIDEzMCwgMTk1LCAxODQsIDE1MCwgMTQzLCAxODcsIDQ2LCA2LCAy
-  ###NTQsIDIzMiwgMjgsIDE2OCwgODgsIDg4LCAxMDksIDIzNCwgODAsIDIxMCwg
-  ###NzIsIDI0MCwgMTk5LCAyMDIsIDEwNiwgMjQsIDE3NiwgMTQ0LCA0MiwgNDgs
-  ###IDE3OSwgMTA3XSwgInlhIjogWzIxOCwgNjEsIDM1LCAxMTIsIDEwLCAxNTgs
-  ###IDg2LCAxNTMsIDM3LCAxMzgsIDIzOSwgMTQ4LCAyMjAsIDYsIDEzLCAyNTMs
-  ###IDE2NSwgMjM1LCAxODIsIDMxLCAyLCAxNjUsIDIzNCwgMTE5LCAyNTAsIDIx
-  ###MywgNjMsIDc5LCAyNDAsIDE1MSwgMTA5LCA4XSwgIkFEYSI6IFs2NSwgNjgs
-  ###IDk3XSwgIllhIjogWzIxMiwgMTUsIDE3OCwgMTAxLCAxNjcsIDE3MSwgMjM0
-  ###LCAyMzgsIDEyMSwgNTcsIDIxNywgMjYsIDg4LCA5NSwgMjI5LCAxNTksIDEx
-  ###MiwgODMsIDI0OSwgMTMwLCAxOTQsIDE1MCwgMjM2LCA2NSwgNjAsIDk4LCA3
-  ###NiwgMTAyLCAxNDcsIDgsIDI0OCwgMTIyXSwgInliIjogWzIxMCwgNDksIDEw
-  ###NywgNjksIDcxLCAyNCwgMTk1LCA4MywgOTgsIDIxNiwgNjEsIDEwNSwgMjIz
-  ###LCA5OSwgMzIsIDI0MywgMTMzLCAxMjAsIDIzNywgODksIDEzMiwgMTAxLCAy
-  ###MCwgNTMsIDIyNiwgMTQ4LCAxNTEsIDk4LCAyMTcsIDAsIDE4NCwgMTNdLCAi
-  ###QURiIjogWzY1LCA2OCwgOThdLCAiWWIiOiBbOCwgMTg4LCAyNDYsIDIzMywg
-  ###MTE5LCAxMjIsIDE1NiwgNDksIDU4LCA2MSwgMTgyLCAyMTgsIDE2NSwgMTYs
-  ###IDI0MiwgMjExLCAxNTIsIDY0LCA1MSwgMjUsIDE5NCwgNTIsIDI3LCAyMTMs
-  ###IDYsIDE2OSwgNDYsIDEwMywgNDYsIDE4MywgMjI3LCA3XSwgIksiOiBbMjI2
-  ###LCA0MywgMzAsIDI0NywgMTIwLCAxNDMsIDEwMiwgMjAsIDEyMCwgMjQzLCAy
-  ###MDUsIDIyMSwgNzYsIDk2LCA3LCAxMTYsIDI1MiwgMTUsIDY1LCAyMzAsIDE4
-  ###MywgMTcsIDg2LCAxNDUsIDE0NCwgMjU1LCAxMzYsIDI1MCwgMTQsIDk2LCAx
-  ###MjYsIDldLCAiSVNLX0lSIjogWzc2LCA4NCwgMTA1LCAxNjEsIDEwNywgMzUs
-  ###IDEwMCwgMTk2LCAxODUsIDY4LCAyMzUsIDE5MywgMTY3LCAxNTgsIDgxLCAy
-  ###MDksIDEwMywgNzQsIDIxMiwgMTI1LCAxNzgsIDExMCwgMTM1LCAyNCwgMjEs
-  ###IDc5LCA4OSwgMjUwLCAyMzUsIDI1MCwgMTY1LCA0NSwgMTMxLCA3MCwgMjQz
-  ###LCAxMCwgMTY1LCAxMzEsIDExOSwgMTcsIDEyNiwgMTc4LCAxMywgODIsIDEy
-  ###NywgNDQsIDE4OCwgOTIsIDExOCwgNTYsIDMxLCAxMjcsIDIxMSwgMTE0LCAy
-  ###MzIsIDE1NywgMjQ4LCAzNSwgMTU5LCAxMzUsIDI0MiwgMjI0LCA0NiwgMjA5
-  ###XSwgIklTS19TWSI6IFsxNTIsIDEzLCAyMDQsIDkwLCAyOCwgODIsIDIwNiwg
-  ###MjM0LCAzLCAzMCwgMTE3LCAyNDMsIDE0MiwgMjEwLCAxMDIsIDg4LCAxMDIs
-  ###IDIyLCA3MiwgMTQwLCA5MiwgODcsIDEyOCwgNDAsIDk1LCAyMDMsIDIwNywg
-  ###MTIxLCA4LCAxMjQsIDEyMywgMjA1LCAxODksIDE1MywgNTMsIDIsIDIzOCwg
-  ###MjMwLCA2LCAxODMsIDI0LCAxODYsIDQ5LCAyMzIsIDY0LCAxNjAsIDAsIDE2
-  ###NywgMTgzLCAxOTAsIDI1NCwgMjEsIDIzNCwgNjYsIDEyNCwgOTIsIDI1NCwg
-  ###MTM2LCA1MiwgNzksIDE2MSwgMzUsIDEyNywgNTNdLCAic2lkX291dHB1dF9p
-  ###ciI6IFs0MiwgMTE4LCAyMTEsIDE4NywgMTk2LCAxNTMsIDIyMywgMjIwLCA3
-  ###NywgMjAyLCAyMDQsIDE1OSwgMjQwLCA2NiwgMjQ0LCAyMjUsIDE2NSwgNzgs
-  ###IDU2LCA2NywgMzcsIDE0MiwgMTYsIDEyLCAyMDUsIDEyNCwgOTYsIDI0MCwg
-  ###MTY1LCA2NSwgMjQ5LCAyMTEsIDIzNSwgMjQwLCAzNywgMjMwLCAxMzgsIDcw
-  ###LCAxMywgMjIyLCAzMywgMTM5LCAyMTEsIDE1OSwgNywgMTcsIDE4OCwgMTEx
-  ###LCAxNjEsIDIwLCA5LCAyMDEsIDIxNSwgMTgyLCAxNTcsIDE0MCwgMjA3LCAx
-  ###MDcsIDUwLCAyNTIsIDgxLCAyMjEsIDE4MiwgMTUzXSwgInNpZF9vdXRwdXRf
-  ###b2MiOiBbMjAyLCA3NSwgODAsIDExMiwgMTIsIDcwLCAzMiwgNjAsIDIwNSwg
-  ###MTYsIDE4OCwgMTQsIDE1OSwgNDksIDksIDk0LCA4MCwgMTI5LCAxMzcsIDIw
-  ###MywgODksIDEzMywgMTE3LCA1NSwgMTkwLCA4NiwgMTYsIDcyLCAyMTEsIDc1
-  ###LCAxNTgsIDIxNywgMTY5LCAxMDUsIDEyMiwgMjQxLCAyOCwgMTUzLCAxNDMs
-  ###IDcyLCA3NiwgNjEsIDEyMCwgNTksIDExLCA4MywgMjAsIDUyLCAyMDIsIDE2
-  ###NiwgMTMxLCA5MywgNzYsIDUwLCA1MiwgNzksIDIwNSwgMjMsIDIyLCAxMiwg
-  ###MTU2LCA1MiwgMTQzLCAxOTldfQ==
-
+  ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
+  ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
+  ##I6ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIkE2R
+  ##kM4MkMzQjg5NjhGQkIyRTA2RkVFODFDQTg1ODU4NkRFQTUwRDI0OEYwQzdDQTZB
+  ##MThCMDkwMkEzMEIzNkIiLCAieWEiOiAiREEzRDIzNzAwQTlFNTY5OTI1OEFFRjk
+  ##0REMwNjBERkRBNUVCQjYxRjAyQTVFQTc3RkFENTNGNEZGMDk3NkQwOCIsICJBRG
+  ##EiOiAiNDE0NDYxIiwgIllhIjogIkQ0MEZCMjY1QTdBQkVBRUU3OTM5RDkxQTU4N
+  ##UZFNTlGNzA1M0Y5ODJDMjk2RUM0MTNDNjI0QzY2OTMwOEY4N0EiLCAieWIiOiAi
+  ##RDIzMTZCNDU0NzE4QzM1MzYyRDgzRDY5REY2MzIwRjM4NTc4RUQ1OTg0NjUxNDM
+  ##1RTI5NDk3NjJEOTAwQjgwRCIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIjA4Qk
+  ##NGNkU5Nzc3QTlDMzEzQTNEQjZEQUE1MTBGMkQzOTg0MDMzMTlDMjM0MUJENTA2Q
+  ##TkyRTY3MkVCN0UzMDciLCAiSyI6ICJFMjJCMUVGNzc4OEY2NjE0NzhGM0NEREQ0
+  ##QzYwMDc3NEZDMEY0MUU2QjcxMTU2OTE5MEZGODhGQTBFNjA3RTA5IiwgIklTS19
+  ##JUiI6ICI0QzU0NjlBMTZCMjM2NEM0Qjk0NEVCQzFBNzlFNTFEMTY3NEFENDdEQj
+  ##I2RTg3MTgxNTRGNTlGQUVCRkFBNTJEODM0NkYzMEFBNTgzNzcxMTdFQjIwRDUyN
+  ##0YyQ0JDNUM3NjM4MUY3RkQzNzJFODlERjgyMzlGODdGMkUwMkVEMSIsICJJU0tf
+  ##U1kiOiAiOTgwRENDNUExQzUyQ0VFQTAzMUU3NUYzOEVEMjY2NTg2NjE2NDg4QzV
+  ##DNTc4MDI4NUZDQkNGNzkwODdDN0JDREJEOTkzNTAyRUVFNjA2QjcxOEJBMzFFOD
+  ##QwQTAwMEE3QjdCRUZFMTVFQTQyN0M1Q0ZFODgzNDRGQTEyMzdGMzUiLCAic2lkX
+  ##291dHB1dF9pciI6ICIyQTc2RDNCQkM0OTlERkRDNERDQUNDOUZGMDQyRjRFMUE1
+  ##NEUzODQzMjU4RTEwMENDRDdDNjBGMEE1NDFGOUQzRUJGMDI1RTY4QTQ2MERERTI
+  ##xOEJEMzlGMDcxMUJDNkZBMTE0MDlDOUQ3QjY5RDhDQ0Y2QjMyRkM1MUREQjY5OS
+  ##IsICJzaWRfb3V0cHV0X29jIjogIkNBNEI1MDcwMEM0NjIwM0NDRDEwQkMwRTlGM
+  ##zEwOTVFNTA4MTg5Q0I1OTg1NzUzN0JFNTYxMDQ4RDM0QjlFRDlBOTY5N0FGMTFD
+  ##OTk4RjQ4NEMzRDc4M0IwQjUzMTQzNENBQTY4MzVENEMzMjM0NEZDRDE3MTYwQzl
+  ##DMzQ4RkM3In0=
 </pre><a href="#appendix-B.3.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4707,31 +4468,19 @@ const unsigned char tc_sid_out_oc[] = {
             <h5 id="name-testvectors-as-json-file-encoded-as-6">
 <a href="#appendix-B.3.11.1" class="section-number selfRef">B.3.11.1. </a><a href="#name-testvectors-as-json-file-encoded-as-6" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.3.11.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.3.11.1-1">
 <pre>
-    ###eyJWYWxpZCI6IHsicyI6IFsxMjQsIDIwOCwgMjI0LCAxMTcsIDI1MCwgMTIx
-    ###LCA4NSwgMTg2LCA4MiwgMTkyLCAzOSwgODksIDE2NiwgMjAxLCAxMywgMTg3
-    ###LCAyNTIsIDE2LCAyMzAsIDIxMiwgMTAsIDIzNCwgMTQxLCA0MCwgNjIsIDY0
-    ###LCAxMjUsIDEzNiwgMjA3LCA4MywgMTM4LCA1XSwgIlgiOiBbNDQsIDYwLCAx
-    ###MDcsIDE0MCwgNzksIDU2LCAwLCAyMzEsIDE3NCwgMjQ2LCAxMzQsIDY0LCAz
-    ###NywgMTgwLCAyMzcsIDEyMSwgMTg5LCA4OSwgMTQ1LCAyMywgMjI4LCAzOSwg
-    ###MTk2LCAyNywgMjEyLCAxMjUsIDE0NywgMjE0LCA4NCwgMTgwLCAxNjUsIDI4
-    ###XSwgIkcuc2NhbGFyX211bHQocyxkZWNvZGUoWCkpIjogWzEyNCwgMTksIDEw
-    ###MCwgOTUsIDIzMSwgMTQ0LCAxNjQsIDEwNCwgMjQ2LCA0NCwgNTcsIDE5MCwg
-    ###MTgzLCA1NiwgMTQyLCA4NCwgMjksIDEzMiwgNSwgMjA5LCAxNzMsIDIzMCwg
-    ###MTU3LCAyMywgMTIwLCAxOTcsIDI1NCwgNjIsIDEyNywgMTA3LCA5NiwgMTRd
-    ###LCAiRy5zY2FsYXJfbXVsdF92ZnkocyxYKSI6IFsxMjQsIDE5LCAxMDAsIDk1
-    ###LCAyMzEsIDE0NCwgMTY0LCAxMDQsIDI0NiwgNDQsIDU3LCAxOTAsIDE4Mywg
-    ###NTYsIDE0MiwgODQsIDI5LCAxMzIsIDUsIDIwOSwgMTczLCAyMzAsIDE1Nywg
-    ###MjMsIDEyMCwgMTk3LCAyNTQsIDYyLCAxMjcsIDEwNywgOTYsIDE0XX0sICJJ
-    ###bnZhbGlkIFkxIjogWzQzLCA2MCwgMTA3LCAxNDAsIDc5LCA1NiwgMCwgMjMx
-    ###LCAxNzQsIDI0NiwgMTM0LCA2NCwgMzcsIDE4MCwgMjM3LCAxMjEsIDE4OSwg
-    ###ODksIDE0NSwgMjMsIDIyOCwgMzksIDE5NiwgMjcsIDIxMiwgMTI1LCAxNDcs
-    ###IDIxNCwgODQsIDE4MCwgMTY1LCAyOF0sICJJbnZhbGlkIFkyIjogWzAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDBd
-    ###fQ==
-
+    ##eyJWYWxpZCI6IHsicyI6ICI3Q0QwRTA3NUZBNzk1NUJBNTJDMDI3NTlBNkM5MER
+    ##CQkZDMTBFNkQ0MEFFQThEMjgzRTQwN0Q4OENGNTM4QTA1IiwgIlgiOiAiMkMzQz
+    ##ZCOEM0RjM4MDBFN0FFRjY4NjQwMjVCNEVENzlCRDU5OTExN0U0MjdDNDFCRDQ3R
+    ##DkzRDY1NEI0QTUxQyIsICJHLnNjYWxhcl9tdWx0KHMsZGVjb2RlKFgpKSI6ICI3
+    ##QzEzNjQ1RkU3OTBBNDY4RjYyQzM5QkVCNzM4OEU1NDFEODQwNUQxQURFNjlEMTc
+    ##3OEM1RkUzRTdGNkI2MDBFIiwgIkcuc2NhbGFyX211bHRfdmZ5KHMsWCkiOiAiN0
+    ##MxMzY0NUZFNzkwQTQ2OEY2MkMzOUJFQjczODhFNTQxRDg0MDVEMUFERTY5RDE3N
+    ##zhDNUZFM0U3RjZCNjAwRSJ9LCAiSW52YWxpZCBZMSI6ICIyQjNDNkI4QzRGMzgw
+    ##MEU3QUVGNjg2NDAyNUI0RUQ3OUJENTk5MTE3RTQyN0M0MUJENDdEOTNENjU0QjR
+    ##BNTFDIiwgIkludmFsaWQgWTIiOiAiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9
 </pre><a href="#appendix-B.3.11.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4784,52 +4533,30 @@ const unsigned char tc_sid_out_oc[] = {
             <h5 id="name-testvectors-as-json-file-encoded-as-7">
 <a href="#appendix-B.4.1.1" class="section-number selfRef">B.4.1.1. </a><a href="#name-testvectors-as-json-file-encoded-as-7" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.4.1.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.4.1.1-1">
 <pre>
-    ###eyJIIjogIlNIQUtFLTI1NiIsICJILnNfaW5fYnl0ZXMiOiAxMzYsICJQUlMi
-    ###OiBbODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAwXSwgIlpQ
-    ###QUQgbGVuZ3RoIjogMTEyLCAiRFNJIjogWzY3LCA4MCwgOTcsIDk5LCAxMDEs
-    ###IDY4LCAxMDEsIDk5LCA5NywgMTAyLCA1MiwgNTIsIDU2XSwgIkNJIjogWzEx
-    ###MSwgOTksIDExLCA2NiwgOTUsIDExNCwgMTAxLCAxMTUsIDExMiwgMTExLCAx
-    ###MTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2NSwgOTUsIDEwNSwgMTEwLCAxMDUs
-    ###IDExNiwgMTA1LCA5NywgMTE2LCAxMTEsIDExNF0sICJzaWQiOiBbODIsIDM1
-    ###LCAyMjQsIDIwNSwgMTk2LCA5MywgMTAxLCAxMTcsIDEwMiwgMTQxLCAxMDAs
-    ###IDE5NywgODIsIDAsIDY1LCAzNl0sICJnZW5lcmF0b3Jfc3RyaW5nKEcuRFNJ
-    ###LFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6IFsxMywgNjcsIDgwLCA5Nywg
-    ###OTksIDEwMSwgNjgsIDEwMSwgOTksIDk3LCAxMDIsIDUyLCA1MiwgNTYsIDgs
-    ###IDgwLCA5NywgMTE1LCAxMTUsIDExOSwgMTExLCAxMTQsIDEwMCwgMTEyLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAwLCAw
-    ###LCAwLCAwLCAwLCAwLCAwLCAwLCAyNiwgMTExLCA5OSwgMTEsIDY2LCA5NSwg
-    ###MTE0LCAxMDEsIDExNSwgMTEyLCAxMTEsIDExMCwgMTAwLCAxMDEsIDExNCwg
-    ###MTEsIDY1LCA5NSwgMTA1LCAxMTAsIDEwNSwgMTE2LCAxMDUsIDk3LCAxMTYs
-    ###IDExMSwgMTE0LCAxNiwgODIsIDM1LCAyMjQsIDIwNSwgMTk2LCA5MywgMTAx
-    ###LCAxMTcsIDEwMiwgMTQxLCAxMDAsIDE5NywgODIsIDAsIDY1LCAzNl0sICJo
-    ###YXNoIHJlc3VsdCI6IFsxMTMsIDcyLCAyNDQsIDIxNCwgNSwgMTM1LCAxNzAs
-    ###IDE3NSwgMTY2LCA3NywgNDcsIDIxNCwgMTg4LCAyNTQsIDY5LCAyMzgsIDEx
-    ###MywgMjMyLCAxODUsIDExMywgMjA5LCAyMTMsIDI1NSwgNTksIDE5MSwgMTQw
-    ###LCAyMCwgODEsIDEyMSwgMTI0LCA5OCwgMTYxLCAxNzUsIDM0LCAxNzEsIDM3
-    ###LCA5OSwgMTM1LCA3MywgMjQ5LCAxMjcsIDE1NSwgMjEsIDI1NCwgMjIwLCAy
-    ###NDQsIDE3NCwgMjM4LCAxMzUsIDQwLCA0NCwgMjQ2LCAxMDMsIDg5LCA3NCwg
-    ###MTc2LCAxNDYsIDE4MiwgMiwgNjAsIDE0MywgMTQxLCA1OCwgOTcsIDE5NSwg
-    ###MTM5LCAxMCwgMjQ3LCAxNDUsIDIwMSwgMzksIDE3LCA1NSwgMjIzLCAxLCAx
-    ###ODEsIDEyNSwgOTksIDE4MywgMTUxLCA1MiwgMTg3LCAyMDYsIDEwNSwgMTQ1
-    ###LCAyMjcsIDIyNiwgMjI1LCAxNSwgMjIwLCAxMjgsIDkwLCAxODgsIDE1OCwg
-    ###MTEwLCAxMTEsIDYxLCAxNzQsIDI1NSwgMTExLCAyMTEsIDY0LCAxNDcsIDIx
-    ###MCwgMTA5LCAyMjYsIDY0LCAxNzksIDM4LCAxMTgsIDY2LCA4Ml0sICJlbmNv
-    ###ZGVkIGdlbmVyYXRvciBnIjogWzE1NCwgMTEyLCAxNCwgMjA0LCA1NSwgMTQy
-    ###LCAxODUsIDE0MiwgODcsIDU2LCAxMjUsIDI0NCwgODYsIDIxMywgMTgwLCAx
-    ###ODAsIDI0MSwgMjIwLCAyMzgsIDE4NywgMTc3LCA1NSwgMjEsIDM5LCAyMzgs
-    ###IDE4MywgMjI1LCAxOTEsIDE4NiwgMTgyLCA3OCwgMjA0LCAxNTYsIDE0Nywg
-    ###MywgNTcsIDk3LCA2OSwgMTg2LCA0LCAyNDUsIDE4MSwgMTc0LCAxNjUsIDE4
-    ###NiwgMjM3LCAyNTAsIDk3LCAyNDMsIDMxLCAwLCAyNTEsIDE5NywgMjUzLCA4
-    ###NiwgNl19
-
+    ##eyJIIjogIlNIQUtFLTI1NiIsICJILnNfaW5fYnl0ZXMiOiAxMzYsICJQUlMiOiA
+    ##iNTA2MTczNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDExMiwgIkRTSSI6IC
+    ##I0MzUwNjE2MzY1NDQ2NTYzNjE2NjM0MzQzOCIsICJDSSI6ICI2RjYzMEI0MjVGN
+    ##zI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNp
+    ##ZCI6ICI1MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnZW5lcmF
+    ##0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6ICIwRD
+    ##QzNTA2MTYzNjU0NDY1NjM2MTY2MzQzNDM4MDg1MDYxNzM3Mzc3NkY3MjY0NzAwM
+    ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+    ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
+    ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDFBNkY2MzBCNDI1Rjcy
+    ##NjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MjEwNTIyM0U
+    ##wQ0RDNDVENjU3NTY2OEQ2NEM1NTIwMDQxMjQiLCAiaGFzaCByZXN1bHQiOiAiNz
+    ##E0OEY0RDYwNTg3QUFBRkE2NEQyRkQ2QkNGRTQ1RUU3MUU4Qjk3MUQxRDVGRjNCQ
+    ##kY4QzE0NTE3OTdDNjJBMUFGMjJBQjI1NjM4NzQ5Rjk3RjlCMTVGRURDRjRBRUVF
+    ##ODcyODJDRjY2NzU5NEFCMDkyQjYwMjNDOEY4RDNBNjFDMzhCMEFGNzkxQzkyNzE
+    ##xMzdERjAxQjU3RDYzQjc5NzM0QkJDRTY5OTFFM0UyRTEwRkRDODA1QUJDOUU2RT
+    ##ZGM0RBRUZGNkZEMzQwOTNEMjZERTI0MEIzMjY3NjQyNTIiLCAiZW5jb2RlZCBnZ
+    ##W5lcmF0b3IgZyI6ICI5QTcwMEVDQzM3OEVCOThFNTczODdERjQ1NkQ1QjRCNEYx
+    ##RENFRUJCQjEzNzE1MjdFRUI3RTFCRkJBQjY0RUNDOUM5MzAzMzk2MTQ1QkEwNEY
+    ##1QjVBRUE1QkFFREZBNjFGMzFGMDBGQkM1RkQ1NjA2In0=
 </pre><a href="#appendix-B.4.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4985,7 +4712,7 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-corresponding-c-programming-la">
 <a href="#appendix-B.4.8" class="section-number selfRef">B.4.8. </a><a href="#name-corresponding-c-programming-la" class="section-name selfRef">Corresponding C programming language initializers</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.4.8-1">
+<div class="breakable lang-c sourcecode" id="appendix-B.4.8-1">
 <pre>
 const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -5096,79 +4823,40 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-testvectors-as-json-file-encoded-as-8">
 <a href="#appendix-B.4.9" class="section-number selfRef">B.4.9. </a><a href="#name-testvectors-as-json-file-encoded-as-8" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.4.9-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.4.9-1">
 <pre>
-  ###eyJQUlMiOiBbODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAw
-  ###XSwgIkNJIjogWzExMSwgOTksIDExLCA2NiwgOTUsIDExNCwgMTAxLCAxMTUs
-  ###IDExMiwgMTExLCAxMTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2NSwgOTUsIDEw
-  ###NSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5NywgMTE2LCAxMTEsIDExNF0sICJz
-  ###aWQiOiBbODIsIDM1LCAyMjQsIDIwNSwgMTk2LCA5MywgMTAxLCAxMTcsIDEw
-  ###MiwgMTQxLCAxMDAsIDE5NywgODIsIDAsIDY1LCAzNl0sICJnIjogWzE1NCwg
-  ###MTEyLCAxNCwgMjA0LCA1NSwgMTQyLCAxODUsIDE0MiwgODcsIDU2LCAxMjUs
-  ###IDI0NCwgODYsIDIxMywgMTgwLCAxODAsIDI0MSwgMjIwLCAyMzgsIDE4Nywg
-  ###MTc3LCA1NSwgMjEsIDM5LCAyMzgsIDE4MywgMjI1LCAxOTEsIDE4NiwgMTgy
-  ###LCA3OCwgMjA0LCAxNTYsIDE0NywgMywgNTcsIDk3LCA2OSwgMTg2LCA0LCAy
-  ###NDUsIDE4MSwgMTc0LCAxNjUsIDE4NiwgMjM3LCAyNTAsIDk3LCAyNDMsIDMx
-  ###LCAwLCAyNTEsIDE5NywgMjUzLCA4NiwgNl0sICJ5YSI6IFs1MSwgMjEzLCA5
-  ###NywgMjQxLCA2MCwgMjUyLCAxMywgMjAyLCAzOSwgMTU2LCA0OCwgMjMyLCAy
-  ###MDUsIDIzMiwgMTQ5LCAyMywgOTMsIDE5NCwgODQsIDEzMSwgMTM3LCA0MCwg
-  ###MjUsIDIzNSwgMTYxLCA1MCwgMjEzLCAxNDAsIDE5LCAxOTIsIDcwLCA0Miwg
-  ###MTQyLCAxNzYsIDIxNSwgNjMsIDIxOCwgMTQ4LCAyNSwgODAsIDg5LCA3NSwg
-  ###MjM5LCA4MSwgMTQ1LCAyMTYsIDU3LCA3MCwgMTQ1LCAyNDgsIDExMCwgMjIz
-  ###LCAyNTIsIDE3MywgMTA4LCAzMF0sICJBRGEiOiBbNjUsIDY4LCA5N10sICJZ
-  ###YSI6IFs5OCwgMTI3LCAxMzksIDE3OCwgMTc0LCAxNDgsIDk0LCA0MiwgODEs
-  ###IDEzNywgMTAzLCAyMjMsIDE1NSwgMCwgMTc1LCAyNDEsIDE0NiwgODMsIDIx
-  ###MSwgOCwgOTksIDE1MiwgMjQyLCAyMzYsIDI0LCAxOTAsIDEzMiwgMTA4LCAx
-  ###OTIsIDIwOSwgMjQyLCAxMzQsIDE5NCwgMjA2LCA2MCwgMTc1LCAyOSwgMTY2
-  ###LCA1NywgMTMzLCAxNTYsIDIwNSwgNDIsIDEwNiwgMSwgMTY5LCA1NSwgNDIs
-  ###IDIzLCAyMzAsIDEwNywgMTgzLCAwLCAxMTAsIDg3LCAyN10sICJ5YiI6IFsz
-  ###NywgMzUsIDIwMSwgMTA1LCAyNDYsIDE0MywgMTYyLCAxNzgsIDE3NCwgMTYy
-  ###LCAxNDgsIDE5NCwgODMsIDE1OCwgMjQzLCAxMTAsIDE3NywgMjI0LCA4NSwg
-  ###MTM4LCAxODksIDIwLCAxMTMsIDQyLCAxMjAsIDQwLCAyNDEsIDEwNiwgMTMz
-  ###LCAyMzcsIDQ0LCAxMjYsIDExOSwgMjI2LCAxODksIDIxMiwgMjQsIDE1Mywg
-  ###NjgsIDUsIDI1MSwgMjcsIDg3LCAxODIsIDE4NywgMTcwLCAyMjEsIDEwMiwg
-  ###MTMyLCAxNTIsIDE0NiwgMTcwLCAyMDEsIDIxNiwgMjAsIDJdLCAiQURiIjog
-  ###WzY1LCA2OCwgOThdLCAiWWIiOiBbMTQyLCAxNTIsIDE3LCAyMjgsIDY0LCA0
-  ###NywgMTcyLCA5LCAxMzUsIDY3LCAyMDIsIDEyMywgNDMsIDgwLCAxNTUsIDE0
-  ###NSwgMTc5LCAxNDAsIDE0MCwgMjQxLCA1NCwgMTIsIDE5OCwgMjAyLCAxNzks
-  ###IDEsIDI0LCAxMTMsIDExMiwgMjUsIDEyMCwgNDMsIDEyNywgODgsIDE2NSwg
-  ###MTQ1LCAxOTgsIDYxLCAxNTYsIDE0NiwgNzEsIDE4MywgMTE2LCAyMzAsIDE3
-  ###NiwgMjI0LCAxODQsIDM4LCAyNTUsIDc5LCAxMzEsIDE1MywgMjQ5LCA3MSwg
-  ###MTE0LCAyMTldLCAiSyI6IFsxNDgsIDI0NCwgMTc0LCA3MywgNzksIDc4LCAx
-  ###MzksIDcsIDE3MywgMjI3LCA1MywgNzEsIDM4LCAyMzgsIDIyOCwgMTU2LCA4
-  ###NSwgMjQsIDE3OSwgOTksIDIwNSwgMTY1LCA2OCwgMjQ1LCAxODAsIDg0LCAy
-  ###NywgMTUxLCA1MCwgMTMxLCAxMSwgMjI3LCAxMjYsIDE2MCwgMjMwLCA2Mywg
-  ###MjAwLCA2MywgODQsIDE5MCwgNDAsIDEzLCAyMzQsIDcsIDcxLCAxNjAsIDY3
-  ###LCAxOTksIDEwOSwgNzEsIDYyLCAxLCAxMDQsIDE1NCwgMjQ3LCAxMjddLCAi
-  ###SVNLX0lSIjogWzE1NiwgMzksIDM4LCAxNjYsIDIwNSwgMTYxLCAyMywgMTQ3
-  ###LCA3MywgMjAzLCAxOTUsIDE0MywgNDksIDExOCwgOTQsIDE3MSwgMTAwLCAx
-  ###MDYsIDQyLCA5NSwgMjMsIDExMSwgNDgsIDI1LCAyNTAsIDE4MCwgMTYwLCAx
-  ###NzAsIDE4OSwgMTU3LCAyMywgMTk0LCAxODYsIDEzNywgODksIDE1MiwgMjA3
-  ###LCAyNDYsIDE1MiwgMjE2LCAxLCAxMTgsIDI2LCAwLCA1MywgMTgsIDE5Mywg
-  ###MjA3LCAxMDMsIDIwOSwgNjgsIDE3OCwgMzAsIDI4LCAxODIsIDIxNCwgMTg0
-  ###LCA0NSwgMTY3LCAyOSwgMTMsIDE2NywgMTA4LCAxNzNdLCAiSVNLX1NZIjog
-  ###WzEwOSwgMzMsIDEyMCwgMjM3LCA0OCwgNzIsIDExMiwgNDgsIDM3LCAxODUs
-  ###IDAsIDEyNiwgMjAwLCA3NiwgNzcsIDE1MCwgMTU4LCAxNDEsIDEyOSwgNTMs
-  ###IDIyMywgNjksIDk0LCA5NiwgMTQwLCAyMiwgMTcwLCAyMSwgNDYsIDE4LCAy
-  ###NSwgMjAwLCAxMDgsIDIzNCwgODYsIDUwLCA4NCwgNjYsIDEzOCwgMTU3LCAx
-  ###NTAsIDE1MywgMywgMTc0LCA1NCwgNzMsIDIwOSwgNSwgMTMsIDE2MSwgMjMw
-  ###LCAyMjQsIDE5MywgMTkyLCA5NiwgMjI1LCAyMzUsIDI0NywgNDksIDEwNiwg
-  ###MTI2LCAxNTMsIDUxLCAxMzddLCAic2lkX291dHB1dF9pciI6IFsxMDEsIDE5
-  ###MSwgMjUzLCAyMjUsIDEyMywgMTIyLCAyMDcsIDcsIDIwNywgMjEyLCA1NSwg
-  ###MTg5LCAxODUsIDExNSwgMTY4LCAyNDcsIDUyLCAxMSwgMjQ5LCAxNywgMjEx
-  ###LCAxNDcsIDE2NiwgMjAsIDE1MiwgMTkyLCAxNjUsIDE0LCAyNDAsIDIxNCwg
-  ###MTM5LCAyMDIsIDE2LCA2MywgMTg5LCAxNzYsIDI0NSwgMTgzLCAxNTMsIDgw
-  ###LCA4NSwgOTgsIDIyOSwgMTUyLCAxNywgMjIzLCAyNywgMTk3LCAyMTcsIDE4
-  ###MCwgMjQ1LCAyNDAsIDI0NywgMTk3LCAxMjQsIDM0LCAyMDUsIDEyNiwgMjE0
-  ###LCAyMTksIDc3LCAyMSwgNjIsIDU4XSwgInNpZF9vdXRwdXRfb2MiOiBbMTI0
-  ###LCAyMjYsIDExMiwgNjcsIDIwOSwgMTc3LCAyMDgsIDIwOCwgMjI0LCA0Niwg
-  ###MjIsIDE1MSwgMTUwLCA1NSwgMjI2LCAxNjAsIDUsIDcxLCAyMzcsIDExMCwg
-  ###MjEsIDIzNCwgMTUyLCAxNDMsIDEyNSwgNjAsIDE1NSwgNjAsIDMzLCA4OSwg
-  ###MTc4LCAxMDYsIDE3OSwgMTMxLCA3NSwgMjU1LCAxMjcsIDI0OCwgOTgsIDY0
-  ###LCA1MCwgNjIsIDM3LCAzMywgMTA3LCAxNjIsIDIzOCwgMTEwLCAxNjYsIDIy
-  ###NSwgODgsIDM3LCAyLCAxLCAxMjcsIDE0MiwgMTA5LCAxMDEsIDI0OCwgMTk2
-  ###LCAxNjUsIDIzMCwgODUsIDY3XX0=
-
+  ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
+  ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
+  ##I6ICI1MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnIjogIjlBN
+  ##zAwRUNDMzc4RUI5OEU1NzM4N0RGNDU2RDVCNEI0RjFEQ0VFQkJCMTM3MTUyN0VF
+  ##QjdFMUJGQkFCNjRFQ0M5QzkzMDMzOTYxNDVCQTA0RjVCNUFFQTVCQUVERkE2MUY
+  ##zMUYwMEZCQzVGRDU2MDYiLCAieWEiOiAiMzNENTYxRjEzQ0ZDMERDQTI3OUMzME
+  ##U4Q0RFODk1MTc1REMyNTQ4Mzg5MjgxOUVCQTEzMkQ1OEMxM0MwNDYyQThFQjBEN
+  ##zNGREE5NDE5NTA1OTRCRUY1MTkxRDgzOTQ2OTFGODZFREZGQ0FENkMxRSIsICJB
+  ##RGEiOiAiNDE0NDYxIiwgIllhIjogIjYyN0Y4QkIyQUU5NDVFMkE1MTg5NjdERjl
+  ##CMDBBRkYxOTI1M0QzMDg2Mzk4RjJFQzE4QkU4NDZDQzBEMUYyODZDMkNFM0NBRj
+  ##FEQTYzOTg1OUNDRDJBNkEwMUE5MzcyQTE3RTY2QkI3MDA2RTU3MUIiLCAieWIiO
+  ##iAiMjUyM0M5NjlGNjhGQTJCMkFFQTI5NEMyNTM5RUYzNkVCMUUwNTU4QUJEMTQ3
+  ##MTJBNzgyOEYxNkE4NUVEMkM3RTc3RTJCREQ0MTg5OTQ0MDVGQjFCNTdCNkJCQUF
+  ##ERDY2ODQ5ODkyQUFDOUQ4MTQwMiIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIj
+  ##hFOTgxMUU0NDAyRkFDMDk4NzQzQ0E3QjJCNTA5QjkxQjM4QzhDRjEzNjBDQzZDQ
+  ##UIzMDExODcxNzAxOTc4MkI3RjU4QTU5MUM2M0Q5QzkyNDdCNzc0RTZCMEUwQjgy
+  ##NkZGNEY4Mzk5Rjk0NzcyREIiLCAiSyI6ICI5NEY0QUU0OTRGNEU4QjA3QURFMzM
+  ##1NDcyNkVFRTQ5QzU1MThCMzYzQ0RBNTQ0RjVCNDU0MUI5NzMyODMwQkUzN0VBME
+  ##U2M0ZDODNGNTRCRTI4MERFQTA3NDdBMDQzQzc2RDQ3M0UwMTY4OUFGNzdGIiwgI
+  ##klTS19JUiI6ICI5QzI3MjZBNkNEQTExNzkzNDlDQkMzOEYzMTc2NUVBQjY0NkEy
+  ##QTVGMTc2RjMwMTlGQUI0QTBBQUJEOUQxN0MyQkE4OTU5OThDRkY2OThEODAxNzY
+  ##xQTAwMzUxMkMxQ0Y2N0QxNDRCMjFFMUNCNkQ2QjgyREE3MUQwREE3NkNBRCIsIC
+  ##JJU0tfU1kiOiAiNkQyMTc4RUQzMDQ4NzAzMDI1QjkwMDdFQzg0QzREOTY5RThEO
+  ##DEzNURGNDU1RTYwOEMxNkFBMTUyRTEyMTlDODZDRUE1NjMyNTQ0MjhBOUQ5Njk5
+  ##MDNBRTM2NDlEMTA1MERBMUU2RTBDMUMwNjBFMUVCRjczMTZBN0U5OTMzODkiLCA
+  ##ic2lkX291dHB1dF9pciI6ICI2NUJGRkRFMTdCN0FDRjA3Q0ZENDM3QkRCOTczQT
+  ##hGNzM0MEJGOTExRDM5M0E2MTQ5OEMwQTUwRUYwRDY4QkNBMTAzRkJEQjBGNUI3O
+  ##Tk1MDU1NjJFNTk4MTFERjFCQzVEOUI0RjVGMEY3QzU3QzIyQ0Q3RUQ2REI0RDE1
+  ##M0UzQSIsICJzaWRfb3V0cHV0X29jIjogIjdDRTI3MDQzRDFCMUQwRDBFMDJFMTY
+  ##5Nzk2MzdFMkEwMDU0N0VENkUxNUVBOTg4RjdEM0M5QjNDMjE1OUIyNkFCMzgzNE
+  ##JGRjdGRjg2MjQwMzIzRTI1MjE2QkEyRUU2RUE2RTE1ODI1MDIwMTdGOEU2RDY1R
+  ##jhDNEE1RTY1NTQzIn0=
 </pre><a href="#appendix-B.4.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5221,44 +4909,25 @@ const unsigned char tc_sid_out_oc[] = {
             <h5 id="name-testvectors-as-json-file-encoded-as-9">
 <a href="#appendix-B.4.11.1" class="section-number selfRef">B.4.11.1. </a><a href="#name-testvectors-as-json-file-encoded-as-9" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.4.11.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.4.11.1-1">
 <pre>
-    ###eyJWYWxpZCI6IHsicyI6IFsyMjEsIDI3LCAxOTksIDEsIDkzLCAxNzAsIDE4
-    ###NywgMTE4LCAxMTQsIDE4LCAxNTYsIDE5NSwgOTAsIDU5LCAxNjgsIDIxLCA3
-    ###MiwgMTA3LCAxOSwgMTU3LCAyMzksIDI0OSwgMTg5LCAyMzYsIDE2NywgMTY0
-    ###LCAyNTIsIDk3LCA1MiwgNTAsIDYxLCA1MiwgMTAxLCAxMzUsIDk3LCAyMzMs
-    ###IDE1LCAyNDAsIDEyMSwgMTUxLCA0MiwgMTI0LCAxNjgsIDE3MCwgODYsIDYs
-    ###IDczLCAxNDMsIDc5LCA3OSwgMTQsIDE4OCwgOSwgNTEsIDE2OCwgMjVdLCAi
-    ###WCI6IFs5NiwgMjAsIDQ5LCAyMTMsIDIyOSwgMzEsIDY3LCAyMTIsIDM0LCAx
-    ###NjksIDQ1LCA2MywgMTc4LCA1NSwgNTksIDIyMiwgNDAsIDMzLCAxMjIsIDE3
-    ###MSwgNjYsIDgyLCA3NiwgNTIsIDI2LCAxNjQsIDQsIDIzNCwgMTg2LCA5MCwg
-    ###MTY1LCA4NCwgMzEsIDExMiwgNjYsIDIxOSwgMTc5LCAzNywgNjAsIDIyOCwg
-    ###MjAxLCAxNSwgMTE5LCA0MywgMywgMTM4LCA2NSwgNjEsIDIwMywgNTgsIDE1
-    ###LCAxMDcsIDI0MywgMTc0LCAxNTgsIDMzXSwgIkcuc2NhbGFyX211bHQocyxk
-    ###ZWNvZGUoWCkpIjogWzU2LCAxMzksIDUzLCAxOTgsIDE0LCAxODAsIDI3LCAx
-    ###MDIsIDgsIDkwLCAzMywgMjQsIDQ5LCA5OCwgMjQsIDEwNCwgMjksIDEyMCwg
-    ###MTUxLCAxNTcsIDEwMiwgMTE5LCAyLCAyMjIsIDE2LCA5NSwgMjIwLCAzMSwg
-    ###MzMsIDI1NSwgMjMyLCAxMzIsIDE2NSwgMTE5LCAyMTUsIDE0OSwgMjQ0LCA4
-    ###NiwgMTQ1LCAxMjAsIDE5LCAxNDQsIDE2MiwgNDEsIDE2MywgMTg5LCAxMjMs
-    ###IDgyLCAxMjYsIDEzMSwgMTksIDEyOCwgMjQyLCAyNDUsIDEzMywgMTY0XSwg
-    ###Ikcuc2NhbGFyX211bHRfdmZ5KHMsWCkiOiBbNTYsIDEzOSwgNTMsIDE5OCwg
-    ###MTQsIDE4MCwgMjcsIDEwMiwgOCwgOTAsIDMzLCAyNCwgNDksIDk4LCAyNCwg
-    ###MTA0LCAyOSwgMTIwLCAxNTEsIDE1NywgMTAyLCAxMTksIDIsIDIyMiwgMTYs
-    ###IDk1LCAyMjAsIDMxLCAzMywgMjU1LCAyMzIsIDEzMiwgMTY1LCAxMTksIDIx
-    ###NSwgMTQ5LCAyNDQsIDg2LCAxNDUsIDEyMCwgMTksIDE0NCwgMTYyLCA0MSwg
-    ###MTYzLCAxODksIDEyMywgODIsIDEyNiwgMTMxLCAxOSwgMTI4LCAyNDIsIDI0
-    ###NSwgMTMzLCAxNjRdfSwgIkludmFsaWQgWTEiOiBbOTUsIDIwLCA0OSwgMjEz
-    ###LCAyMjksIDMxLCA2NywgMjEyLCAzNCwgMTY5LCA0NSwgNjMsIDE3OCwgNTUs
-    ###IDU5LCAyMjIsIDQwLCAzMywgMTIyLCAxNzEsIDY2LCA4MiwgNzYsIDUyLCAy
-    ###NiwgMTY0LCA0LCAyMzQsIDE4NiwgOTAsIDE2NSwgODQsIDMxLCAxMTIsIDY2
-    ###LCAyMTksIDE3OSwgMzcsIDYwLCAyMjgsIDIwMSwgMTUsIDExOSwgNDMsIDMs
-    ###IDEzOCwgNjUsIDYxLCAyMDMsIDU4LCAxNSwgMTA3LCAyNDMsIDE3NCwgMTU4
-    ###LCAzM10sICJJbnZhbGlkIFkyIjogWzAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDBdfQ==
-
+    ##eyJWYWxpZCI6IHsicyI6ICJERDFCQzcwMTVEQUFCQjc2NzIxMjlDQzM1QTNCQTg
+    ##xNTQ4NkIxMzlERUZGOUJERUNBN0E0RkM2MTM0MzIzRDM0NjU4NzYxRTkwRkYwNz
+    ##k5NzJBN0NBOEFBNTYwNjQ5OEY0RjRGMEVCQzA5MzNBODE5IiwgIlgiOiAiNjAxN
+    ##DMxRDVFNTFGNDNENDIyQTkyRDNGQjIzNzNCREUyODIxN0FBQjQyNTI0QzM0MUFB
+    ##NDA0RUFCQTVBQTU1NDFGNzA0MkRCQjMyNTNDRTRDOTBGNzcyQjAzOEE0MTNEQ0I
+    ##zQTBGNkJGM0FFOUUyMSIsICJHLnNjYWxhcl9tdWx0KHMsZGVjb2RlKFgpKSI6IC
+    ##IzODhCMzVDNjBFQjQxQjY2MDg1QTIxMTgzMTYyMTg2ODFENzg5NzlENjY3NzAyR
+    ##EUxMDVGREMxRjIxRkZFODg0QTU3N0Q3OTVGNDU2OTE3ODEzOTBBMjI5QTNCRDdC
+    ##NTI3RTgzMTM4MEYyRjU4NUE0IiwgIkcuc2NhbGFyX211bHRfdmZ5KHMsWCkiOiA
+    ##iMzg4QjM1QzYwRUI0MUI2NjA4NUEyMTE4MzE2MjE4NjgxRDc4OTc5RDY2NzcwMk
+    ##RFMTA1RkRDMUYyMUZGRTg4NEE1NzdENzk1RjQ1NjkxNzgxMzkwQTIyOUEzQkQ3Q
+    ##jUyN0U4MzEzODBGMkY1ODVBNCJ9LCAiSW52YWxpZCBZMSI6ICI1RjE0MzFENUU1
+    ##MUY0M0Q0MjJBOTJEM0ZCMjM3M0JERTI4MjE3QUFCNDI1MjRDMzQxQUE0MDRFQUJ
+    ##BNUFBNTU0MUY3MDQyREJCMzI1M0NFNEM5MEY3NzJCMDM4QTQxM0RDQjNBMEY2Qk
+    ##YzQUU5RTIxIiwgIkludmFsaWQgWTIiOiAiMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
+    ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9
 </pre><a href="#appendix-B.4.11.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5305,38 +4974,23 @@ const unsigned char tc_sid_out_oc[] = {
             <h5 id="name-testvectors-as-json-file-encoded-as-10">
 <a href="#appendix-B.5.1.1" class="section-number selfRef">B.5.1.1. </a><a href="#name-testvectors-as-json-file-encoded-as-10" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.5.1.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.5.1.1-1">
 <pre>
-    ###eyJIIjogIlNIQS0yNTYiLCAiSC5zX2luX2J5dGVzIjogNjQsICJQUlMiOiBb
-    ###ODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAwXSwgIlpQQUQg
-    ###bGVuZ3RoIjogMjMsICJEU0kiOiBbNjcsIDgwLCA5NywgOTksIDEwMSwgODAs
-    ###IDUwLCA1MywgNTQsIDk1LCA4OCwgNzcsIDY4LCA1OCwgODMsIDcyLCA2NSwg
-    ###NDUsIDUwLCA1MywgNTQsIDk1LCA4MywgODMsIDg3LCA4NSwgOTUsIDc4LCA4
-    ###NSwgOTVdLCAiQ0kiOiBbMTExLCA5OSwgMTEsIDY2LCA5NSwgMTE0LCAxMDEs
-    ###IDExNSwgMTEyLCAxMTEsIDExMCwgMTAwLCAxMDEsIDExNCwgMTEsIDY1LCA5
-    ###NSwgMTA1LCAxMTAsIDEwNSwgMTE2LCAxMDUsIDk3LCAxMTYsIDExMSwgMTE0
-    ###XSwgInNpZCI6IFs1MiwgMTc5LCAxMDAsIDg0LCAyMDIsIDE3OCwgMjMxLCAx
-    ###MzIsIDQ0LCA1NiwgMTU5LCAxMjUsIDEzNiwgMjM2LCAxODMsIDIyM10sICJn
-    ###ZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVz
-    ###KSI6IFszMCwgNjcsIDgwLCA5NywgOTksIDEwMSwgODAsIDUwLCA1MywgNTQs
-    ###IDk1LCA4OCwgNzcsIDY4LCA1OCwgODMsIDcyLCA2NSwgNDUsIDUwLCA1Mywg
-    ###NTQsIDk1LCA4MywgODMsIDg3LCA4NSwgOTUsIDc4LCA4NSwgOTUsIDgsIDgw
-    ###LCA5NywgMTE1LCAxMTUsIDExOSwgMTExLCAxMTQsIDEwMCwgMjMsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAsIDAs
-    ###IDAsIDAsIDAsIDAsIDAsIDAsIDI2LCAxMTEsIDk5LCAxMSwgNjYsIDk1LCAx
-    ###MTQsIDEwMSwgMTE1LCAxMTIsIDExMSwgMTEwLCAxMDAsIDEwMSwgMTE0LCAx
-    ###MSwgNjUsIDk1LCAxMDUsIDExMCwgMTA1LCAxMTYsIDEwNSwgOTcsIDExNiwg
-    ###MTExLCAxMTQsIDE2LCA1MiwgMTc5LCAxMDAsIDg0LCAyMDIsIDE3OCwgMjMx
-    ###LCAxMzIsIDQ0LCA1NiwgMTU5LCAxMjUsIDEzNiwgMjM2LCAxODMsIDIyM10s
-    ###ICJnZW5lcmF0b3IgZyI6IFs0LCAyMzgsIDIyOSwgMTE5LCA1MCwgMTEsIDI4
-    ###LCAzNiwgMjYsIDEyMSwgNjUsIDE1OSwgMjA1LCAyMjksIDExMywgMTQwLCA0
-    ###MywgOTksIDI0OCwgMzAsIDI0OCwgMTEzLCAxMjUsIDg2LCAxNjUsIDEyNSwg
-    ###NDcsIDE3OCwgMTA3LCAxMDEsIDE2OCwgMTkwLCAxODIsIDUzLCAxMTUsIDE4
-    ###MSwgMzgsIDUsIDIzOSwgMTc5LCA0NywgMjQ0LCAyMDcsIDQ5LCAxNzAsIDIz
-    ###OSwgMTU0LCAxNDYsIDIyMywgMTMyLCAyMjgsIDIzMiwgNjQsIDE0MCwgMTk4
-    ###LCAxOTksIDIwNywgMzksIDE2NSwgNTMsIDE3MCwgMjEwLCAxNzksIDEzOCwg
-    ###ODZdfQ==
-
+    ##eyJIIjogIlNIQS0yNTYiLCAiSC5zX2luX2J5dGVzIjogNjQsICJQUlMiOiAiNTA
+    ##2MTczNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDIzLCAiRFNJIjogIjQzNT
+    ##A2MTYzNjU1MDMyMzUzNjVGNTg0RDQ0M0E1MzQ4NDEyRDMyMzUzNjVGNTM1MzU3N
+    ##TU1RjRFNTU1RiIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcy
+    ##MEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICIzNEIzNjQ1NENBQjJ
+    ##FNzg0MkMzODlGN0Q4OEVDQjdERiIsICJnZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLF
+    ##BSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6ICIxRTQzNTA2MTYzNjU1MDMyMzUzN
+    ##jVGNTg0RDQ0M0E1MzQ4NDEyRDMyMzUzNjVGNTM1MzU3NTU1RjRFNTU1RjA4NTA2
+    ##MTczNzM3NzZGNzI2NDE3MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+    ##wMDAwMDAwMDAwMDAwMDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCND
+    ##E1RjY5NkU2OTc0Njk2MTc0NkY3MjEwMzRCMzY0NTRDQUIyRTc4NDJDMzg5RjdEO
+    ##DhFQ0I3REYiLCAiZ2VuZXJhdG9yIGciOiAiMDRFRUU1NzczMjBCMUMyNDFBNzk0
+    ##MTlGQ0RFNTcxOEMyQjYzRjgxRUY4NzE3RDU2QTU3RDJGQjI2QjY1QThCRUI2MzU
+    ##3M0I1MjYwNUVGQjMyRkY0Q0YzMUFBRUY5QTkyREY4NEU0RTg0MDhDQzZDN0NGMj
+    ##dBNTM1QUFEMkIzOEE1NiJ9
 </pre><a href="#appendix-B.5.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5507,7 +5161,7 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-corresponding-c-programming-lan">
 <a href="#appendix-B.5.8" class="section-number selfRef">B.5.8. </a><a href="#name-corresponding-c-programming-lan" class="section-name selfRef">Corresponding C programming language initializers</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.5.8-1">
+<div class="breakable lang-c sourcecode" id="appendix-B.5.8-1">
 <pre>
 const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -5600,61 +5254,32 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-testvectors-as-json-file-encoded-as-11">
 <a href="#appendix-B.5.9" class="section-number selfRef">B.5.9. </a><a href="#name-testvectors-as-json-file-encoded-as-11" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.5.9-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.5.9-1">
 <pre>
-  ###eyJQUlMiOiBbODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAw
-  ###XSwgIkNJIjogWzExMSwgOTksIDExLCA2NiwgOTUsIDExNCwgMTAxLCAxMTUs
-  ###IDExMiwgMTExLCAxMTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2NSwgOTUsIDEw
-  ###NSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5NywgMTE2LCAxMTEsIDExNF0sICJz
-  ###aWQiOiBbNTIsIDE3OSwgMTAwLCA4NCwgMjAyLCAxNzgsIDIzMSwgMTMyLCA0
-  ###NCwgNTYsIDE1OSwgMTI1LCAxMzYsIDIzNiwgMTgzLCAyMjNdLCAiZyI6IFs0
-  ###LCAyMzgsIDIyOSwgMTE5LCA1MCwgMTEsIDI4LCAzNiwgMjYsIDEyMSwgNjUs
-  ###IDE1OSwgMjA1LCAyMjksIDExMywgMTQwLCA0MywgOTksIDI0OCwgMzAsIDI0
-  ###OCwgMTEzLCAxMjUsIDg2LCAxNjUsIDEyNSwgNDcsIDE3OCwgMTA3LCAxMDEs
-  ###IDE2OCwgMTkwLCAxODIsIDUzLCAxMTUsIDE4MSwgMzgsIDUsIDIzOSwgMTc5
-  ###LCA0NywgMjQ0LCAyMDcsIDQ5LCAxNzAsIDIzOSwgMTU0LCAxNDYsIDIyMywg
-  ###MTMyLCAyMjgsIDIzMiwgNjQsIDE0MCwgMTk4LCAxOTksIDIwNywgMzksIDE2
-  ###NSwgNTMsIDE3MCwgMjEwLCAxNzksIDEzOCwgODZdLCAieWEiOiBbNTUsIDg3
-  ###LCA3NiwgMjUxLCAyNDEsIDE4NSwgOTUsIDI0NiwgMTY4LCAyMjYsIDIxNSwg
-  ###MTkwLCA3MCwgNDUsIDc3LCAxLCAyMzAsIDIyMSwgMjI2LCA5NywgMTQzLCA1
-  ###MiwgMjQ0LCAyMjIsIDE1NywgMjQ4LCAxMDUsIDE3OCwgNzksIDgzLCA0NCwg
-  ###OTNdLCAiQURhIjogWzY1LCA2OCwgOTddLCAiWWEiOiBbNCwgMzEsIDE4LCAx
-  ###NzMsIDk1LCAxOTgsIDgwLCAxNiwgMTYyLCA3OSwgMTkyLCA3NiwgMTM0LCAy
-  ###NSwgMTEzLCA5LCAxNjMsIDEwOSwgMjQwLCAyMzMsIDIwNiwgMTMzLCAxNjcs
-  ###IDcxLCAxNTgsIDMwLCAxOSwgMTAwLCAxMDUsIDQ3LCAyMTgsIDIwNiwgMjMs
-  ###IDIzNCwgOTAsIDk5LCA3OCwgMjUsIDE5NCwgNywgMTY1LCAyMTMsIDQ2LCAx
-  ###NzMsIDEwOCwgMTA0LCAyMywgMTYxLCA5OSwgMjA3LCA0NywgNDcsIDIyNywg
-  ###NjQsIDEwOCwgOTMsIDI1MywgMjUyLCA0NiwgMjA1LCAyNDgsIDIyOCwgNDQs
-  ###IDk0LCAyMl0sICJ5YiI6IFsyMjksIDEwMywgNDcsIDIwMSwgMjM1LCA3OCwg
-  ###MTE0LCAzMSwgNjUsIDIxNiwgMSwgMTI5LCAyMzYsIDc2LCAxNTksIDIxNywg
-  ###MTM2LCAxMDIsIDEwNCwgMTcyLCAxOTYsIDEyOCwgMzYsIDIxMSwgNjAsIDEz
-  ###MCwgMTg3LCAxNiwgNDIsIDIzNiwgMTg2LCA4Ml0sICJBRGIiOiBbNjUsIDY4
-  ###LCA5OF0sICJZYiI6IFs0LCAxMDYsIDgxLCAyNCwgMTEsIDExMCwgMTg2LCAx
-  ###ODYsIDI0NSwgMjM3LCAxMCwgMjQ4LCAyMDUsIDEyMCwgMTA0LCAxMzQsIDIx
-  ###NywgNTEsIDY2LCAxODgsIDE3NCwgNzYsIDIxLCAxNDAsIDIyNSwgOTcsIDEy
-  ###MiwgMTAsIDIwNCwgMTQyLCAxOTUsIDg0LCA3MiwgMTExLCAxNTgsIDIxMCwg
-  ###MjMzLCAzMywgOSwgMTksIDMyLCAxMDksIDMwLCA2MywgOTQsIDcwLCA2MSwg
-  ###NDUsIDUwLCAxMiwgNzksIDMxLCA5MiwgMjMyLCAxODIsIDExOSwgMTY3LCAy
-  ###MjcsIDEzOCwgMzgsIDI0NywgODIsIDE5MSwgMTQzLCAxMzJdLCAiSyI6IFs2
-  ###MiwgMTQsIDQ3LCAxMzcsIDExOCwgMjUxLCAxNDEsIDEzLCAyMzgsIDIyNywg
-  ###MTAsIDIzOSwgNzUsIDkyLCAyMTEsIDk5LCAzMCwgMjM3LCAzNiwgMTU0LCAy
-  ###NDMsIDQ3LCA4MywgMjA4LCAyMjEsIDAsIDE1NSwgOTMsIDEyMywgMTQzLCAx
-  ###MDcsIDEwOF0sICJJU0tfSVIiOiBbMTQ5LCAxMDEsIDIzNywgNDAsIDEwNywg
-  ###MTEwLCA2MCwgMjQxLCAyNDksIDY3LCAyNTMsIDQ5LCAxMTYsIDExMSwgMTU0
-  ###LCAzNCwgMTQ3LCA4NSwgNTUsIDIsIDkwLCAxOSwgNDAsIDIxMiwgMTUyLCAw
-  ###LCA1LCAxODYsIDE1MiwgNzksIDEyLCA1N10sICJJU0tfU1kiOiBbOTgsIDE2
-  ###NCwgNjksIDE2NCwgMjE4LCAxNjMsIDg0LCAxMDksIDIwOCwgNDksIDE5OCwg
-  ###MTEwLCAxNzMsIDQ2LCA3OCwgMSwgOTAsIDE4NywgMjA0LCAxMzEsIDE4OSwg
-  ###MjI3LCAyOCwgMTQ0LCAyNDgsIDY1LCAyMCwgMTU5LCAyMTIsIDY1LCAxOTcs
-  ###IDEzOF0sICJzaWRfb3V0cHV0X2lyIjogWzE2NywgNTYsIDEwOSwgMjgsIDQ2
-  ###LCAxNzYsIDExMCwgMTI4LCA4NiwgMjE1LCAyNTQsIDIwMywgMjA3LCAxMDUs
-  ###IDMwLCA4LCAyMDksIDEzNywgMjE3LCA5OCwgNTQsIDIsIDE0LCAyNDMsIDI3
-  ###LCA2NSwgNjQsIDEwNSwgMTM4LCA3NSwgMTUzLCAyNDldLCAic2lkX291dHB1
-  ###dF9vYyI6IFsyMTEsIDU1LCAyMTksIDE5MiwgMjIxLCAxMjEsIDEyMywgNzgs
-  ###IDExMSwgNDcsIDIwLCAyMzQsIDczLCAzNywgMTk3LCAxNDIsIDkzLCA4NSwg
-  ###MzUsIDEzNSwgMzAsIDE0MCwgMTgwLCA1OCwgNjAsIDI3LCAxNSwgNDMsIDI2
-  ###LCAzMSwgMjUzLCAyMjddfQ==
-
+  ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
+  ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
+  ##I6ICIzNEIzNjQ1NENBQjJFNzg0MkMzODlGN0Q4OEVDQjdERiIsICJnIjogIjA0R
+  ##UVFNTc3MzIwQjFDMjQxQTc5NDE5RkNERTU3MThDMkI2M0Y4MUVGODcxN0Q1NkE1
+  ##N0QyRkIyNkI2NUE4QkVCNjM1NzNCNTI2MDVFRkIzMkZGNENGMzFBQUVGOUE5MkR
+  ##GODRFNEU4NDA4Q0M2QzdDRjI3QTUzNUFBRDJCMzhBNTYiLCAieWEiOiAiMzc1Nz
+  ##RDRkJGMUI5NUZGNkE4RTJEN0JFNDYyRDREMDFFNkRERTI2MThGMzRGNERFOURGO
+  ##DY5QjI0RjUzMkM1RCIsICJBRGEiOiAiNDE0NDYxIiwgIllhIjogIjA0MUYxMkFE
+  ##NUZDNjUwMTBBMjRGQzA0Qzg2MTk3MTA5QTM2REYwRTlDRTg1QTc0NzlFMUUxMzY
+  ##0NjkyRkRBQ0UxN0VBNUE2MzRFMTlDMjA3QTVENTJFQUQ2QzY4MTdBMTYzQ0YyRj
+  ##JGRTM0MDZDNURGREZDMkVDREY4RTQyQzVFMTYiLCAieWIiOiAiRTU2NzJGQzlFQ
+  ##jRFNzIxRjQxRDgwMTgxRUM0QzlGRDk4ODY2NjhBQ0M0ODAyNEQzM0M4MkJCMTAy
+  ##QUVDQkE1MiIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIjA0NkE1MTE4MEI2RUJ
+  ##BQkFGNUVEMEFGOENENzg2ODg2RDkzMzQyQkNBRTRDMTU4Q0UxNjE3QTBBQ0M4RU
+  ##MzNTQ0ODZGOUVEMkU5MjEwOTEzMjA2RDFFM0Y1RTQ2M0QyRDMyMEM0RjFGNUNFO
+  ##EI2NzdBN0UzOEEyNkY3NTJCRjhGODQiLCAiSyI6ICIzRTBFMkY4OTc2RkI4RDBE
+  ##RUVFMzBBRUY0QjVDRDM2MzFFRUQyNDlBRjMyRjUzRDBERDAwOUI1RDdCOEY2QjZ
+  ##DIiwgIklTS19JUiI6ICI5NTY1RUQyODZCNkUzQ0YxRjk0M0ZEMzE3NDZGOUEyMj
+  ##kzNTUzNzAyNUExMzI4RDQ5ODAwMDVCQTk4NEYwQzM5IiwgIklTS19TWSI6ICI2M
+  ##kE0NDVBNERBQTM1NDZERDAzMUM2NkVBRDJFNEUwMTVBQkJDQzgzQkRFMzFDOTBG
+  ##ODQxMTQ5RkQ0NDFDNThBIiwgInNpZF9vdXRwdXRfaXIiOiAiQTczODZEMUMyRUI
+  ##wNkU4MDU2RDdGRUNCQ0Y2OTFFMDhEMTg5RDk2MjM2MDIwRUYzMUI0MTQwNjk4QT
+  ##RCOTlGOSIsICJzaWRfb3V0cHV0X29jIjogIkQzMzdEQkMwREQ3OTdCNEU2RjJGM
+  ##TRFQTQ5MjVDNThFNUQ1NTIzODcxRThDQjQzQTNDMUIwRjJCMUExRkZERTMifQ==
 </pre><a href="#appendix-B.5.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5710,39 +5335,23 @@ const unsigned char tc_sid_out_oc[] = {
             <h5 id="name-testvectors-as-json-file-encoded-as-12">
 <a href="#appendix-B.5.11.1" class="section-number selfRef">B.5.11.1. </a><a href="#name-testvectors-as-json-file-encoded-as-12" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.5.11.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.5.11.1-1">
 <pre>
-    ###eyJWYWxpZCI6IHsicyI6IFsyNDAsIDE4LCA4MCwgMjgsIDksIDMxLCAyNDks
-    ###IDE4NSwgMTU0LCAxOCwgNjMsIDI1NSwgMjI5LCAxMTMsIDIxNiwgMTg4LCAx
-    ###LCAyMzIsIDcsIDEyNiwgMjI5LCAxMjksIDU0LCA0NiwgMjcsIDIxMCwgMTks
-    ###IDE1MywgOCwgNTMsIDEwMCwgNTldLCAiWCI6IFs0LCAzNiwgMTAwLCAxNDIs
-    ###IDE4NSwgMTM0LCAxOTQsIDE5MCwgMTAsIDI0NiwgNTQsIDY5LCA5MiwgMjM5
-    ###LCA1LCA4MCwgMTAzLCAyOSwgMTA3LCAyMDUsIDEzOCwgMTYyLCAxMTAsIDEz
-    ###LCAxMTQsIDI1NSwgMTYxLCAxNzcsIDI1MywgMTgsIDE4NiwgNzgsIDE1LCAx
-    ###MjAsIDIxOCwgNDMsIDEwOSwgMzMsIDEzMiwgMjQzLCAyNiwgMjQzLCAxNTgs
-    ###IDg2LCAxMDYsIDIzOSwgMTgsIDExMiwgMjAsIDE4MiwgMTQ3LCAxMDgsIDE1
-    ###NCwgNTUsIDUyLCAxMDksIDE2LCAxNjQsIDE3MSwgMzcsIDIwLCAyNTAsIDIz
-    ###OSwgODgsIDQ5XSwgIkcuc2NhbGFyX211bHQocyxYKSAoZnVsbCBjb29yZGlu
-    ###YXRlcykiOiBbNCwgMjQ1LCAxNjEsIDE0NSwgMjQwLCAxMjAsIDIwMCwgMTI0
-    ###LCA1NCwgOTksIDU5LCAxMjAsIDE5OSwgMSwgMTE3LCAxNywgODksIDIxMywg
-    ###MTA4LCA4OSwgMjQzLCAyNTQsIDE0NSwgNSwgMTgxLCAxMTQsIDYsIDExNSwg
-    ###NzEsIDE1LCA0OCwgNTgsIDE4NSwgMzcsIDE4MiwgMTY3LCAyNTMsIDI4LCAy
-    ###MjEsIDE0MywgMTAwLCAxNTQsIDMzLCAyMDcsIDU0LCAxODIsIDE0MSwgMTU4
-    ###LCAxNTYsIDc0LCAxNywgMTQ1LCAxNTQsIDE0OSwgMjQsIDE0NiwgODEsIDE1
-    ###MSwgMTM0LCAxNiwgNzUsIDM5LCAzLCA1NSwgODddLCAiRy5zY2FsYXJfbXVs
-    ###dF92ZnkocyxYKSAob25seSBYLWNvb3JkaW5hdGUpIjogWzI0NSwgMTYxLCAx
-    ###NDUsIDI0MCwgMTIwLCAyMDAsIDEyNCwgNTQsIDk5LCA1OSwgMTIwLCAxOTks
-    ###IDEsIDExNywgMTcsIDg5LCAyMTMsIDEwOCwgODksIDI0MywgMjU0LCAxNDUs
-    ###IDUsIDE4MSwgMTE0LCA2LCAxMTUsIDcxLCAxNSwgNDgsIDU4LCAxODVdfSwg
-    ###IkludmFsaWQgWTEiOiBbNCwgMzYsIDEwMCwgMTQyLCAxODUsIDEzNCwgMTk0
-    ###LCAxOTAsIDEwLCAyNDYsIDU0LCA2OSwgOTIsIDIzOSwgNSwgODAsIDEwMywg
-    ###MjksIDEwNywgMjA1LCAxMzgsIDE2MiwgMTEwLCAxMywgMTE0LCAyNTUsIDE2
-    ###MSwgMTc3LCAyNTMsIDE4LCAxODYsIDc4LCAxNSwgMTIwLCAyMTgsIDQzLCAx
-    ###MDksIDMzLCAxMzIsIDI0MywgMjYsIDI0MywgMTU4LCA4NiwgMTA2LCAyMzks
-    ###IDE4LCAxMTIsIDIwLCAxODIsIDE0NywgMTA4LCAxNTQsIDU1LCA1MiwgMTA5
-    ###LCAxNiwgMTY0LCAxNzEsIDM3LCAyMCwgMjUwLCAyMzksIDg4LCA4N10sICJJ
-    ###bnZhbGlkIFkyIjogWzBdfQ==
-
+    ##eyJWYWxpZCI6IHsicyI6ICJGMDEyNTAxQzA5MUZGOUI5OUExMjNGRkZFNTcxRDh
+    ##CQzAxRTgwNzdFRTU4MTM2MkUxQkQyMTM5OTA4MzU2NDNCIiwgIlgiOiAiMDQyND
+    ##Y0OEVCOTg2QzJCRTBBRjYzNjQ1NUNFRjA1NTA2NzFENkJDRDhBQTI2RTBENzJGR
+    ##kExQjFGRDEyQkE0RTBGNzhEQTJCNkQyMTg0RjMxQUYzOUU1NjZBRUYxMjcwMTRC
+    ##NjkzNkM5QTM3MzQ2RDEwQTRBQjI1MTRGQUVGNTgzMSIsICJHLnNjYWxhcl9tdWx
+    ##0KHMsWCkgKGZ1bGwgY29vcmRpbmF0ZXMpIjogIjA0RjVBMTkxRjA3OEM4N0MzNj
+    ##YzM0I3OEM3MDE3NTExNTlENTZDNTlGM0ZFOTEwNUI1NzIwNjczNDcwRjMwM0FCO
+    ##TI1QjZBN0ZEMUNERDhGNjQ5QTIxQ0YzNkI2OEQ5RTlDNEExMTkxOUE5NTE4OTI1
+    ##MTk3ODYxMDRCMjcwMzM3NTciLCAiRy5zY2FsYXJfbXVsdF92ZnkocyxYKSAob25
+    ##seSBYLWNvb3JkaW5hdGUpIjogIkY1QTE5MUYwNzhDODdDMzY2MzNCNzhDNzAxNz
+    ##UxMTU5RDU2QzU5RjNGRTkxMDVCNTcyMDY3MzQ3MEYzMDNBQjkifSwgIkludmFsa
+    ##WQgWTEiOiAiMDQyNDY0OEVCOTg2QzJCRTBBRjYzNjQ1NUNFRjA1NTA2NzFENkJD
+    ##RDhBQTI2RTBENzJGRkExQjFGRDEyQkE0RTBGNzhEQTJCNkQyMTg0RjMxQUYzOUU
+    ##1NjZBRUYxMjcwMTRCNjkzNkM5QTM3MzQ2RDEwQTRBQjI1MTRGQUVGNTg1NyIsIC
+    ##JJbnZhbGlkIFkyIjogIjAwIn0=
 </pre><a href="#appendix-B.5.11.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5793,45 +5402,27 @@ const unsigned char tc_sid_out_oc[] = {
             <h5 id="name-testvectors-as-json-file-encoded-as-13">
 <a href="#appendix-B.6.1.1" class="section-number selfRef">B.6.1.1. </a><a href="#name-testvectors-as-json-file-encoded-as-13" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.6.1.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.6.1.1-1">
 <pre>
-    ###eyJIIjogIlNIQS0zODQiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjog
-    ###WzgwLCA5NywgMTE1LCAxMTUsIDExOSwgMTExLCAxMTQsIDEwMF0sICJaUEFE
-    ###IGxlbmd0aCI6IDg3LCAiRFNJIjogWzY3LCA4MCwgOTcsIDk5LCAxMDEsIDgw
-    ###LCA1MSwgNTYsIDUyLCA5NSwgODgsIDc3LCA2OCwgNTgsIDgzLCA3MiwgNjUs
-    ###IDQ1LCA1MSwgNTYsIDUyLCA5NSwgODMsIDgzLCA4NywgODUsIDk1LCA3OCwg
-    ###ODUsIDk1XSwgIkNJIjogWzExMSwgOTksIDExLCA2NiwgOTUsIDExNCwgMTAx
-    ###LCAxMTUsIDExMiwgMTExLCAxMTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2NSwg
-    ###OTUsIDEwNSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5NywgMTE2LCAxMTEsIDEx
-    ###NF0sICJzaWQiOiBbOTEsIDU1LCAxMTUsIDE3MCwgMTQ0LCAyMzIsIDI0Miwg
-    ###NjAsIDk3LCA4NiwgNTgsIDc1LCAxMDAsIDkxLCAzOSwgMTA4XSwgImdlbmVy
-    ###YXRvcl9zdHJpbmcoRy5EU0ksUFJTLENJLHNpZCxILnNfaW5fYnl0ZXMpIjog
-    ###WzMwLCA2NywgODAsIDk3LCA5OSwgMTAxLCA4MCwgNTEsIDU2LCA1MiwgOTUs
-    ###IDg4LCA3NywgNjgsIDU4LCA4MywgNzIsIDY1LCA0NSwgNTEsIDU2LCA1Miwg
-    ###OTUsIDgzLCA4MywgODcsIDg1LCA5NSwgNzgsIDg1LCA5NSwgOCwgODAsIDk3
-    ###LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAwLCA4NywgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMjYsIDExMSwgOTksIDExLCA2
-    ###NiwgOTUsIDExNCwgMTAxLCAxMTUsIDExMiwgMTExLCAxMTAsIDEwMCwgMTAx
-    ###LCAxMTQsIDExLCA2NSwgOTUsIDEwNSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5
-    ###NywgMTE2LCAxMTEsIDExNCwgMTYsIDkxLCA1NSwgMTE1LCAxNzAsIDE0NCwg
-    ###MjMyLCAyNDIsIDYwLCA5NywgODYsIDU4LCA3NSwgMTAwLCA5MSwgMzksIDEw
-    ###OF0sICJnZW5lcmF0b3IgZyI6IFs0LCAyNTUsIDIyNSwgMTg5LCAxOTUsIDQx
-    ###LCA2MywgMjE5LCAyMjcsIDI3LCA0MSwgODksIDE0NSwgMTEwLCA4MiwgMTky
-    ###LCAyNCwgMjMzLCAzNSwgMjM0LCAyMDEsIDE1MiwgNTQsIDE4OSwgMTU0LCAy
-    ###OCwgMTkwLCAyMzYsIDEyMSwgNzQsIDE0MSwgNzcsIDEyMCwgMTg2LCAxNjMs
-    ###IDQ0LCAyMTgsIDI1MiwgMTUwLCAxMzMsIDE4OCwgMTYsIDEwMywgMTY3LCAx
-    ###MjgsIDI0NCwgMTczLCAxNTYsIDEzOCwgMTA4LCAxMTAsIDIyLCA3NCwgMTY0
-    ###LCA0MSwgNiwgMjA5LCAyMjYsIDEyNywgMTIwLCAzNywgMTI5LCAxNzMsIDIw
-    ###MCwgMjI0LCAxNiwgMTQ2LCAyNSwgOTgsIDEwNiwgNDMsIDE0MywgMTg5LCAx
-    ###OTUsIDcwLCAyLCAyMjgsIDgsIDY5LCA4NCwgMTg5LCAyMTQsIDE5MiwgMTk4
-    ###LCAxNTIsIDIyMSwgMTAxLCAxMjIsIDIwMCwgMjI3LCAyNywgNDMsIDIwNCwg
-    ###MjI1LCAxOTksIDE3NiwgMjE2XX0=
-
+    ##eyJIIjogIlNIQS0zODQiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjU
+    ##wNjE3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiA4NywgIkRTSSI6ICI0Mz
+    ##UwNjE2MzY1NTAzMzM4MzQ1RjU4NEQ0NDNBNTM0ODQxMkQzMzM4MzQ1RjUzNTM1N
+    ##zU1NUY0RTU1NUYiLCAiQ0kiOiAiNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3
+    ##MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MiIsICJzaWQiOiAiNUIzNzczQUE5MEU
+    ##4RjIzQzYxNTYzQTRCNjQ1QjI3NkMiLCAiZ2VuZXJhdG9yX3N0cmluZyhHLkRTSS
+    ##xQUlMsQ0ksc2lkLEguc19pbl9ieXRlcykiOiAiMUU0MzUwNjE2MzY1NTAzMzM4M
+    ##zQ1RjU4NEQ0NDNBNTM0ODQxMkQzMzM4MzQ1RjUzNTM1NzU1NUY0RTU1NUYwODUw
+    ##NjE3MzczNzc2RjcyNjQ1NzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+    ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
+    ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    ##MDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5NkU2OTc0Njk
+    ##2MTc0NkY3MjEwNUIzNzczQUE5MEU4RjIzQzYxNTYzQTRCNjQ1QjI3NkMiLCAiZ2
+    ##VuZXJhdG9yIGciOiAiMDRGRkUxQkRDMzI5M0ZEQkUzMUIyOTU5OTE2RTUyQzAxO
+    ##EU5MjNFQUM5OTgzNkJEOUExQ0JFRUM3OTRBOEQ0RDc4QkFBMzJDREFGQzk2ODVC
+    ##QzEwNjdBNzgwRjRBRDlDOEE2QzZFMTY0QUE0MjkwNkQxRTI3Rjc4MjU4MUFEQzh
+    ##FMDEwOTIxOTYyNkEyQjhGQkRDMzQ2MDJFNDA4NDU1NEJERDZDMEM2OThERDY1N0
+    ##FDOEUzMUIyQkNDRTFDN0IwRDgifQ==
 </pre><a href="#appendix-B.6.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6015,7 +5606,7 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-corresponding-c-programming-lang">
 <a href="#appendix-B.6.8" class="section-number selfRef">B.6.8. </a><a href="#name-corresponding-c-programming-lang" class="section-name selfRef">Corresponding C programming language initializers</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.6.8-1">
+<div class="breakable lang-c sourcecode" id="appendix-B.6.8-1">
 <pre>
 const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -6125,83 +5716,41 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-testvectors-as-json-file-encoded-as-14">
 <a href="#appendix-B.6.9" class="section-number selfRef">B.6.9. </a><a href="#name-testvectors-as-json-file-encoded-as-14" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.6.9-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.6.9-1">
 <pre>
-  ###eyJQUlMiOiBbODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAw
-  ###XSwgIkNJIjogWzExMSwgOTksIDExLCA2NiwgOTUsIDExNCwgMTAxLCAxMTUs
-  ###IDExMiwgMTExLCAxMTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2NSwgOTUsIDEw
-  ###NSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5NywgMTE2LCAxMTEsIDExNF0sICJz
-  ###aWQiOiBbOTEsIDU1LCAxMTUsIDE3MCwgMTQ0LCAyMzIsIDI0MiwgNjAsIDk3
-  ###LCA4NiwgNTgsIDc1LCAxMDAsIDkxLCAzOSwgMTA4XSwgImciOiBbNCwgMjU1
-  ###LCAyMjUsIDE4OSwgMTk1LCA0MSwgNjMsIDIxOSwgMjI3LCAyNywgNDEsIDg5
-  ###LCAxNDUsIDExMCwgODIsIDE5MiwgMjQsIDIzMywgMzUsIDIzNCwgMjAxLCAx
-  ###NTIsIDU0LCAxODksIDE1NCwgMjgsIDE5MCwgMjM2LCAxMjEsIDc0LCAxNDEs
-  ###IDc3LCAxMjAsIDE4NiwgMTYzLCA0NCwgMjE4LCAyNTIsIDE1MCwgMTMzLCAx
-  ###ODgsIDE2LCAxMDMsIDE2NywgMTI4LCAyNDQsIDE3MywgMTU2LCAxMzgsIDEw
-  ###OCwgMTEwLCAyMiwgNzQsIDE2NCwgNDEsIDYsIDIwOSwgMjI2LCAxMjcsIDEy
-  ###MCwgMzcsIDEyOSwgMTczLCAyMDAsIDIyNCwgMTYsIDE0NiwgMjUsIDk4LCAx
-  ###MDYsIDQzLCAxNDMsIDE4OSwgMTk1LCA3MCwgMiwgMjI4LCA4LCA2OSwgODQs
-  ###IDE4OSwgMjE0LCAxOTIsIDE5OCwgMTUyLCAyMjEsIDEwMSwgMTIyLCAyMDAs
-  ###IDIyNywgMjcsIDQzLCAyMDQsIDIyNSwgMTk5LCAxNzYsIDIxNl0sICJ5YSI6
-  ###IFsyMzksIDY3LCA2MSwgMjEzLCAxNzMsIDIwLCA0NCwgMTM0LCAxNCwgMTI0
-  ###LCAxODIsIDY0LCAxMywgMjExLCAyMSwgMjExLCAxMzYsIDIxMywgMjM2LCA4
-  ###NCwgMzIsIDE5NywgODAsIDIzMywgMjE0LCAyNDAsIDE0NCwgMTI3LCA1NSwg
-  ###OTMsIDE1MiwgMTM5LCAxOTYsIDIxNSwgNCwgMTMxLCAxMjYsIDY3LCA4Niwg
-  ###MjgsIDczLCAxMjYsIDEyNSwgMjE3LCA2MiwgMjIwLCAyMTksIDE1N10sICJB
-  ###RGEiOiBbNjUsIDY4LCA5N10sICJZYSI6IFs0LCA1MiwgMTYwLCA3NywgMTYx
-  ###LCAzMywgMTUzLCA5MywgMTI5LCAyMTUsIDE5NywgMjIyLCAyMDgsIDQ0LCAy
-  ###NDIsIDIzMSwgOSwgODQsIDIyMCwgMTY0LCAxNDQsIDg5LCA3MiwgOTQsIDE2
-  ###MywgMTMxLCAxNiwgMTgzLCA1OSwgMTUwLCAyNTAsIDMwLCAxOTksIDEzNCwg
-  ###MjUsIDE5NywgMTYxLCAyMjksIDM2LCA3MSwgMzksIDEyMCwgNTEsIDMxLCAx
-  ###OTAsIDAsIDE1OSwgMTYxLCA4NiwgNzQsIDUwLCAzLCAyMjgsIDQxLCAxNDcs
-  ###IDE2MywgOTgsIDEzMywgMjUwLCA4NCwgMjMwLCAxOTQsIDY1LCAxMzIsIDI1
-  ###MywgMzQsIDExNiwgODgsIDIwMCwgMTE5LCAxMjksIDE5MCwgMjIsIDI1NSwg
-  ###MjQ0LCAxMDksIDE4OCwgMTUxLCAxMiwgMTkzLCAxNzcsIDExOSwgMCwgODAs
-  ###IDE2OSwgNzcsIDEwNCwgMzgsIDIxMywgNDcsIDMzLCAyNywgMzUsIDcxLCAx
-  ###NDYsIDIzMCwgMTA5XSwgInliIjogWzgwLCAxNzYsIDIyNywgMTA3LCAxNDks
-  ###IDE2MiwgMjM3LCAyNTAsIDE2OCwgNTIsIDQzLCAxMzIsIDYxLCAyMjEsIDIw
-  ###MSwgMTEsIDIzLCA4MywgNDgsIDI0MiwgNTcsIDE1NiwgMjcsIDU0LCA4OCwg
-  ###MTA5LCAyMzcsIDIxOCwgNjAsIDM3LCA4OSwgMTE3LCAyNDMsIDExLCAyMzAs
-  ###IDE2NywgODAsIDI0OSwgNjQsIDc5LCAyMDQsIDE5OCwgNDIsIDk5LCAzNSwg
-  ###MTgxLCAyMjgsIDExM10sICJBRGIiOiBbNjUsIDY4LCA5OF0sICJZYiI6IFs0
-  ###LCAxMCwgMTAxLCA4OSwgMjAsIDEyNywgMjEyLCAxNDYsIDE3MywgMTE2LCAx
-  ###NzEsIDMxLCA3NywgMjM5LCA5NywgMTUwLCAyNTMsIDk5LCAxNTMsIDg0LCAx
-  ###NCwgMTMyLCAxMTIsIDk4LCAzOSwgMTYxLCAyNDksIDEzLCAxNiwgNzYsIDIx
-  ###OCwgMjM1LCA5OSwgMTEsIDEyNCwgOTIsIDI0LCAxMTYsIDE0MSwgMjM1LCAz
-  ###NywgMTAxLCA1OCwgMjEwLCAxNjQsIDIwMywgOTQsIDk4LCAxMTYsIDEzMiwg
-  ###MjgsIDE3MywgNTAsIDEzOSwgMTc2LCA0OSwgMzgsIDQwLCAxODUsIDE3Nywg
-  ###MjQ1LCAyNywgMjM0LCAxMTQsIDE4NCwgMTk4LCAxNiwgMTUzLCAxNTQsIDEw
-  ###MywgNDgsIDI0NywgODIsIDEwMCwgMTQ2LCA1LCAxNzQsIDEzMywgMTk2LCA4
-  ###MiwgMjM5LCAxMzEsIDI0OSwgMTM5LCAyMzEsIDIxLCAyMDUsIDEsIDMsIDI0
-  ###LCAxMDQsIDExNiwgMTc2LCAxMjQsIDI0MCwgMzIsIDExNl0sICJLIjogWzE2
-  ###OSwgMTcyLCAxNzQsIDE2OSwgODYsIDE0NiwgMTY2LCA2OCwgOTgsIDYsIDEy
-  ###NywgMjMyLCAyMjgsIDUwLCAzMSwgNDcsIDIwMiwgMTUxLCAxNDcsIDE2OCwg
-  ###MTYwLCA2NiwgMTUsIDE0LCAzNywgNjIsIDIwOCwgMjE0LCAyMTksIDEzMywg
-  ###MTQzLCAyMjUsIDk3LCAyMjIsIDExNywgMTE4LCAzMiwgMTA2LCAxMzgsIDUz
-  ###LCAxODksIDc0LCA5NiwgMjI0LCA3LCAzNiwgMjUzLCA2Ml0sICJJU0tfSVIi
-  ###OiBbMjA5LCAxODMsIDY3LCAxMTcsIDE5OSwgMjE0LCA2MSwgMTI1LCAyMjYs
-  ###IDcwLCAyMDMsIDI0MywgMjUyLCA0MywgNDgsIDE0NiwgMTAwLCA5MiwgMTE1
-  ###LCAxNjAsIDE3MCwgMTI5LCAxMDUsIDEzNywgMTkyLCAyMjIsIDk2LCA3Miwg
-  ###MjM3LCA3OCwgMjA2LCAxMDYsIDg0LCAyMjMsIDEzMCwgMjA4LCA5MywgNDMs
-  ###IDIyNywgNzMsIDE0MCwgMTg1LCA0MCwgMTM5LCAyMzEsIDE4OSwgMTg5LCAx
-  ###ODVdLCAiSVNLX1NZIjogWzE2MCwgODEsIDIxMiwgODMsIDQ0LCAxNjksIDI1
-  ###MSwgMTAzLCAxMTYsIDIyNCwgMTUxLCAyMzUsIDE3MiwgMTA1LCAxOTMsIDIx
-  ###NCwgMTYxLCAxMjksIDY4LCAxNjEsIDg0LCAzMywgMjIwLCAyMSwgOTMsIDEx
-  ###LCAzMCwgMTM4LCAyMzksIDE1OSwgMTU3LCAxNDAsIDE1LCAyMzIsIDExMCwg
-  ###MTMzLCAyMTEsIDIwMywgMjM4LCAxMTksIDE1MCwgMjU1LCA4MCwgMjMsIDMx
-  ###LCA2NiwgMTI4LCAyN10sICJzaWRfb3V0cHV0X2lyIjogWzE0MSwgOTAsIDMs
-  ###IDE0OCwgMTA2LCAxMDUsIDI1NSwgMTYxLCA0NCwgMjE0LCAyMzksIDIxMiwg
-  ###MTA1LCAyNTQsIDEzNCwgMTEzLCAxODcsIDE5NCwgOTUsIDE3MywgMTA5LCAx
-  ###NzgsIDEwMSwgMTExLCA1NywgOTksIDIwMSwgNzgsIDE1NiwgMTQ4LCAxMSwg
-  ###MjIyLCAyMDQsIDQzLCAyMTMsIDg1LCA3MSwgNzYsIDMzLCAyNCwgMjMsIDEy
-  ###MCwgMTI1LCA5MiwgMjQ3LCAxMzUsIDE0LCAyMDldLCAic2lkX291dHB1dF9v
-  ###YyI6IFsxOTIsIDExNCwgMTU3LCAxNzgsIDkzLCAxODAsIDEyLCA3MiwgMTYz
-  ###LCA5NSwgMTIwLCAxMjUsIDg0LCAxNiwgMTc4LCAyMDMsIDE1NCwgNDUsIDE1
-  ###OSwgOTQsIDE1NiwgMjQxLCAyMDcsIDIxLCAxNTgsIDIxMCwgMjQ2LCA2MCwg
-  ###MTA3LCAzMywgMTMzLCAyMjksIDE1MSwgMjI1LCAxMTgsIDIwNCwgMzQsIDIw
-  ###LCAzNCwgMjMzLCA3MywgMTEwLCAyMzcsIDE2MiwgMTkxLCAxOCwgNjAsIDEz
-  ###OV19
-
+  ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
+  ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
+  ##I6ICI1QjM3NzNBQTkwRThGMjNDNjE1NjNBNEI2NDVCMjc2QyIsICJnIjogIjA0R
+  ##kZFMUJEQzMyOTNGREJFMzFCMjk1OTkxNkU1MkMwMThFOTIzRUFDOTk4MzZCRDlB
+  ##MUNCRUVDNzk0QThENEQ3OEJBQTMyQ0RBRkM5Njg1QkMxMDY3QTc4MEY0QUQ5Qzh
+  ##BNkM2RTE2NEFBNDI5MDZEMUUyN0Y3ODI1ODFBREM4RTAxMDkyMTk2MjZBMkI4Rk
+  ##JEQzM0NjAyRTQwODQ1NTRCREQ2QzBDNjk4REQ2NTdBQzhFMzFCMkJDQ0UxQzdCM
+  ##EQ4IiwgInlhIjogIkVGNDMzREQ1QUQxNDJDODYwRTdDQjY0MDBERDMxNUQzODhE
+  ##NUVDNTQyMEM1NTBFOUQ2RjA5MDdGMzc1RDk4OEJDNEQ3MDQ4MzdFNDM1NjFDNDk
+  ##3RTdERDkzRURDREI5RCIsICJBRGEiOiAiNDE0NDYxIiwgIllhIjogIjA0MzRBMD
+  ##REQTEyMTk5NUQ4MUQ3QzVERUQwMkNGMkU3MDk1NERDQTQ5MDU5NDg1RUEzODMxM
+  ##EI3M0I5NkZBMUVDNzg2MTlDNUExRTUyNDQ3Mjc3ODMzMUZCRTAwOUZBMTU2NEEz
+  ##MjAzRTQyOTkzQTM2Mjg1RkE1NEU2QzI0MTg0RkQyMjc0NThDODc3ODFCRTE2RkZ
+  ##GNDZEQkM5NzBDQzFCMTc3MDA1MEE5NEQ2ODI2RDUyRjIxMUIyMzQ3OTJFNjZEIi
+  ##wgInliIjogIjUwQjBFMzZCOTVBMkVERkFBODM0MkI4NDNERERDOTBCMTc1MzMwR
+  ##jIzOTlDMUIzNjU4NkRFRERBM0MyNTU5NzVGMzBCRTZBNzUwRjk0MDRGQ0NDNjJB
+  ##NjMyM0I1RTQ3MSIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIjA0MEE2NTU5MTQ
+  ##3RkQ0OTJBRDc0QUIxRjRERUY2MTk2RkQ2Mzk5NTQwRTg0NzA2MjI3QTFGOTBEMT
+  ##A0Q0RBRUI2MzBCN0M1QzE4NzQ4REVCMjU2NTNBRDJBNENCNUU2Mjc0ODQxQ0FEM
+  ##zI4QkIwMzEyNjI4QjlCMUY1MUJFQTcyQjhDNjEwOTk5QTY3MzBGNzUyNjQ5MjA1
+  ##QUU4NUM0NTJFRjgzRjk4QkU3MTVDRDAxMDMxODY4NzRCMDdDRjAyMDc0IiwgIks
+  ##iOiAiQTlBQ0FFQTk1NjkyQTY0NDYyMDY3RkU4RTQzMjFGMkZDQTk3OTNBOEEwND
+  ##IwRjBFMjUzRUQwRDZEQjg1OEZFMTYxREU3NTc2MjA2QThBMzVCRDRBNjBFMDA3M
+  ##jRGRDNFIiwgIklTS19JUiI6ICJEMUI3NDM3NUM3RDYzRDdERTI0NkNCRjNGQzJC
+  ##MzA5MjY0NUM3M0EwQUE4MTY5ODlDMERFNjA0OEVENEVDRTZBNTRERjgyRDA1RDJ
+  ##CRTM0OThDQjkyODhCRTdCREJEQjkiLCAiSVNLX1NZIjogIkEwNTFENDUzMkNBOU
+  ##ZCNjc3NEUwOTdFQkFDNjlDMUQ2QTE4MTQ0QTE1NDIxREMxNTVEMEIxRThBRUY5R
+  ##jlEOEMwRkU4NkU4NUQzQ0JFRTc3OTZGRjUwMTcxRjQyODAxQiIsICJzaWRfb3V0
+  ##cHV0X2lyIjogIjhENUEwMzk0NkE2OUZGQTEyQ0Q2RUZENDY5RkU4NjcxQkJDMjV
+  ##GQUQ2REIyNjU2RjM5NjNDOTRFOUM5NDBCREVDQzJCRDU1NTQ3NEMyMTE4MTc3OD
+  ##dENUNGNzg3MEVEMSIsICJzaWRfb3V0cHV0X29jIjogIkMwNzI5REIyNURCNDBDN
+  ##DhBMzVGNzg3RDU0MTBCMkNCOUEyRDlGNUU5Q0YxQ0YxNTlFRDJGNjNDNkIyMTg1
+  ##RTU5N0UxNzZDQzIyMTQyMkU5NDk2RUVEQTJCRjEyM0M4QiJ9
 </pre><a href="#appendix-B.6.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6260,52 +5809,28 @@ const unsigned char tc_sid_out_oc[] = {
             <h5 id="name-testvectors-as-json-file-encoded-as-15">
 <a href="#appendix-B.6.11.1" class="section-number selfRef">B.6.11.1. </a><a href="#name-testvectors-as-json-file-encoded-as-15" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.6.11.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.6.11.1-1">
 <pre>
-    ###eyJWYWxpZCI6IHsicyI6IFsxMTAsIDEzOCwgMTUzLCAxNjUsIDIwNSwgMjEy
-    ###LCA4LCAyMzQsIDIzMywgMTQyLCAyNywgMTM4LCAyMzcsIDQwLCAxMTAsIDEy
-    ###MywgMTgsIDE3MywgMTg3LCAyMTgsIDE5OSwgMjQyLCAxOTgsIDQwLCAyMTcs
-    ###IDYsIDEyLCAyMzMsIDQyLCAyMjQsIDIxNywgMTEsIDIxMywgMTIyLCA4Niwg
-    ###NzksIDIxMSwgODAsIDE1LCAxODgsIDIwNiwgNTIsIDM3LCAyMjAsIDE0OCwg
-    ###MTg2LCAxMCwgMjIyXSwgIlgiOiBbNCwgOTEsIDc2LCAyMTMsIDYwLCA2OSwg
-    ###NiwgMjA0LCA0LCAxODYsIDc2LCA2OCwgMjQyLCAxMTgsIDQ1LCA5MywgNTAs
-    ###IDE5NSwgMjI5LCA5MywgMjQyLCA5MSwgMTM5LCAxNzAsIDg1LCAxMTMsIDE3
-    ###NywgMTAxLCAxMjIsIDIxNywgODcsIDExMCwgMjU0LCAxNjgsIDM3LCAxNTks
-    ###IDYsIDEzMiwgMjIyLCA2LCA5MCwgNzEsIDUsIDEzMywgMTgwLCAxOTAsIDEz
-    ###NSwgMTAzLCA3MiwgMTk5LCAxMjEsIDExMiwgODQsIDI0MywgMjIyLCAyNTQs
-    ###IDI0MiwgMjcsIDExOSwgMjQ4LCA2MSwgODMsIDE4NiwgMTk3LCAxMjQsIDEz
-    ###NywgMjEzLCA0MiwgMTY0LCAyMTQsIDIyMSwgODgsIDExNCwgMTg5LCA0MCwg
-    ###MjUsIDEzNywgMTc3LCA1NiwgNTMsIDE1MCwgMTUyLCAwLCAxNTksIDEzOCwg
-    ###MTkzLCAyNDMsIDEsIDgzLCAxMzksIDE3MywgMjA0LCAyMzMsIDIxNywgMjQ0
-    ###LCAzLCAxMTBdLCAiRy5zY2FsYXJfbXVsdChzLFgpIChmdWxsIGNvb3JkaW5h
-    ###dGVzKSI6IFs0LCAxMDEsIDE5NCwgMTQxLCAxNzYsIDk1LCAyMTcsIDI0OSwg
-    ###MTY5LCA1NCwgODEsIDE5NywgMjA0LCA0OSwgMjM0LCAyMjgsIDE1NiwgNzgs
-    ###IDgyLCA3MCwgMTgwLCAxMDAsIDEzNywgMTg0LCAyNDYsIDE2LCA4OCwgMTE1
-    ###LCA0OSwgMTE1LCAxNjAsIDUxLCAyMDUsIDE2NywgMTA4LCA2MiwgNjIsIDE2
-    ###NSwgNTMsIDQzLCAxMjgsIDc4LCAxMDMsIDI1MywgMTkwLCA0NiwgNTEsIDc1
-    ###LCAyMzIsIDM2LCA5MywgMTczLCA5MiwgMTQwLCAxNTMsIDYyLCA5OSwgMTg2
-    ###LCAyMDcsIDQsIDg2LCA3MSwgMTQzLCA0MSwgMTgzLCAyNywgMTA4LCAxMzMs
-    ###IDE1OSwgMTksIDEwMywgMTExLCAxMzIsIDI1NSwgMjEsIDEzLCAzOSwgNjUs
-    ###IDI0MCwgNDAsIDI0NSwgOTYsIDg4LCA3NCwgMTEsIDIxOSwgMTYxLCAxNTQs
-    ###IDk5LCAyMjMsIDk4LCAxOTIsIDEzNywgNzMsIDE5NCwgMjUzLCAxMDldLCAi
-    ###Ry5zY2FsYXJfbXVsdF92ZnkocyxYKSAob25seSBYLWNvb3JkaW5hdGUpIjog
-    ###WzEwMSwgMTk0LCAxNDEsIDE3NiwgOTUsIDIxNywgMjQ5LCAxNjksIDU0LCA4
-    ###MSwgMTk3LCAyMDQsIDQ5LCAyMzQsIDIyOCwgMTU2LCA3OCwgODIsIDcwLCAx
-    ###ODAsIDEwMCwgMTM3LCAxODQsIDI0NiwgMTYsIDg4LCAxMTUsIDQ5LCAxMTUs
-    ###IDE2MCwgNTEsIDIwNSwgMTY3LCAxMDgsIDYyLCA2MiwgMTY1LCA1MywgNDMs
-    ###IDEyOCwgNzgsIDEwMywgMjUzLCAxOTAsIDQ2LCA1MSwgNzUsIDIzMl19LCAi
-    ###SW52YWxpZCBZMSI6IFs0LCA5MSwgNzYsIDIxMywgNjAsIDY5LCA2LCAyMDQs
-    ###IDQsIDE4NiwgNzYsIDY4LCAyNDIsIDExOCwgNDUsIDkzLCA1MCwgMTk1LCAy
-    ###MjksIDkzLCAyNDIsIDkxLCAxMzksIDE3MCwgODUsIDExMywgMTc3LCAxMDEs
-    ###IDEyMiwgMjE3LCA4NywgMTEwLCAyNTQsIDE2OCwgMzcsIDE1OSwgNiwgMTMy
-    ###LCAyMjIsIDYsIDkwLCA3MSwgNSwgMTMzLCAxODAsIDE5MCwgMTM1LCAxMDMs
-    ###IDcyLCAxOTksIDEyMSwgMTEyLCA4NCwgMjQzLCAyMjIsIDI1NCwgMjQyLCAy
-    ###NywgMTE5LCAyNDgsIDYxLCA4MywgMTg2LCAxOTcsIDEyNCwgMTM3LCAyMTMs
-    ###IDQyLCAxNjQsIDIxNCwgMjIxLCA4OCwgMTE0LCAxODksIDQwLCAyNSwgMTM3
-    ###LCAxNzcsIDU2LCA1MywgMTUwLCAxNTIsIDAsIDE1OSwgMTM4LCAxOTMsIDI0
-    ###MywgMSwgODMsIDEzOSwgMTczLCAyMDQsIDIzMywgMjE3LCAyNDQsIDMsIDJd
-    ###LCAiSW52YWxpZCBZMiI6IFswXX0=
-
+    ##eyJWYWxpZCI6IHsicyI6ICI2RThBOTlBNUNERDQwOEVBRTk4RTFCOEFFRDI4NkU
+    ##3QjEyQURCQkRBQzdGMkM2MjhEOTA2MENFOTJBRTBEOTBCRDU3QTU2NEZEMzUwME
+    ##ZCQ0NFMzQyNURDOTRCQTBBREUiLCAiWCI6ICIwNDVCNENENTNDNDUwNkNDMDRCQ
+    ##TRDNDRGMjc2MkQ1RDMyQzNFNTVERjI1QjhCQUE1NTcxQjE2NTdBRDk1NzZFRkVB
+    ##ODI1OUYwNjg0REUwNjVBNDcwNTg1QjRCRTg3Njc0OEM3Nzk3MDU0RjNERUZFRjI
+    ##xQjc3RjgzRDUzQkFDNTdDODlENTJBQTRENkRENTg3MkJEMjgxOTg5QjEzODM1OT
+    ##Y5ODAwOUY4QUMxRjMwMTUzOEJBRENDRTlEOUY0MDM2RSIsICJHLnNjYWxhcl9td
+    ##Wx0KHMsWCkgKGZ1bGwgY29vcmRpbmF0ZXMpIjogIjA0NjVDMjhEQjA1RkQ5RjlB
+    ##OTM2NTFDNUNDMzFFQUU0OUM0RTUyNDZCNDY0ODlCOEY2MTA1ODczMzE3M0EwMzN
+    ##DREE3NkMzRTNFQTUzNTJCODA0RTY3RkRCRTJFMzM0QkU4MjQ1REFENUM4Qzk5M0
+    ##U2M0JBQ0YwNDU2NDc4RjI5QjcxQjZDODU5RjEzNjc2Rjg0RkYxNTBEMjc0MUYwM
+    ##jhGNTYwNTg0QTBCREJBMTlBNjNERjYyQzA4OTQ5QzJGRDZEIiwgIkcuc2NhbGFy
+    ##X211bHRfdmZ5KHMsWCkgKG9ubHkgWC1jb29yZGluYXRlKSI6ICI2NUMyOERCMDV
+    ##GRDlGOUE5MzY1MUM1Q0MzMUVBRTQ5QzRFNTI0NkI0NjQ4OUI4RjYxMDU4NzMzMT
+    ##czQTAzM0NEQTc2QzNFM0VBNTM1MkI4MDRFNjdGREJFMkUzMzRCRTgifSwgIklud
+    ##mFsaWQgWTEiOiAiMDQ1QjRDRDUzQzQ1MDZDQzA0QkE0QzQ0RjI3NjJENUQzMkMz
+    ##RTU1REYyNUI4QkFBNTU3MUIxNjU3QUQ5NTc2RUZFQTgyNTlGMDY4NERFMDY1QTQ
+    ##3MDU4NUI0QkU4NzY3NDhDNzc5NzA1NEYzREVGRUYyMUI3N0Y4M0Q1M0JBQzU3Qz
+    ##g5RDUyQUE0RDZERDU4NzJCRDI4MTk4OUIxMzgzNTk2OTgwMDlGOEFDMUYzMDE1M
+    ##zhCQURDQ0U5RDlGNDAzMDIiLCAiSW52YWxpZCBZMiI6ICIwMCJ9
 </pre><a href="#appendix-B.6.11.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6357,49 +5882,28 @@ const unsigned char tc_sid_out_oc[] = {
             <h5 id="name-testvectors-as-json-file-encoded-as-16">
 <a href="#appendix-B.7.1.1" class="section-number selfRef">B.7.1.1. </a><a href="#name-testvectors-as-json-file-encoded-as-16" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.7.1.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.7.1.1-1">
 <pre>
-    ###eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjog
-    ###WzgwLCA5NywgMTE1LCAxMTUsIDExOSwgMTExLCAxMTQsIDEwMF0sICJaUEFE
-    ###IGxlbmd0aCI6IDg3LCAiRFNJIjogWzY3LCA4MCwgOTcsIDk5LCAxMDEsIDgw
-    ###LCA1MywgNTAsIDQ5LCA5NSwgODgsIDc3LCA2OCwgNTgsIDgzLCA3MiwgNjUs
-    ###IDQ1LCA1MywgNDksIDUwLCA5NSwgODMsIDgzLCA4NywgODUsIDk1LCA3OCwg
-    ###ODUsIDk1XSwgIkNJIjogWzExMSwgOTksIDExLCA2NiwgOTUsIDExNCwgMTAx
-    ###LCAxMTUsIDExMiwgMTExLCAxMTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2NSwg
-    ###OTUsIDEwNSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5NywgMTE2LCAxMTEsIDEx
-    ###NF0sICJzaWQiOiBbMTI2LCA3NSwgNzEsIDE0NSwgMjE0LCAxNjgsIDIzOSwg
-    ###MSwgMTU1LCAxNDcsIDEwOCwgMTIxLCAyNTEsIDEyNywgNDQsIDg3XSwgImdl
-    ###bmVyYXRvcl9zdHJpbmcoRy5EU0ksUFJTLENJLHNpZCxILnNfaW5fYnl0ZXMp
-    ###IjogWzMwLCA2NywgODAsIDk3LCA5OSwgMTAxLCA4MCwgNTMsIDUwLCA0OSwg
-    ###OTUsIDg4LCA3NywgNjgsIDU4LCA4MywgNzIsIDY1LCA0NSwgNTMsIDQ5LCA1
-    ###MCwgOTUsIDgzLCA4MywgODcsIDg1LCA5NSwgNzgsIDg1LCA5NSwgOCwgODAs
-    ###IDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAwLCA4NywgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwg
-    ###MCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMjYsIDExMSwgOTksIDEx
-    ###LCA2NiwgOTUsIDExNCwgMTAxLCAxMTUsIDExMiwgMTExLCAxMTAsIDEwMCwg
-    ###MTAxLCAxMTQsIDExLCA2NSwgOTUsIDEwNSwgMTEwLCAxMDUsIDExNiwgMTA1
-    ###LCA5NywgMTE2LCAxMTEsIDExNCwgMTYsIDEyNiwgNzUsIDcxLCAxNDUsIDIx
-    ###NCwgMTY4LCAyMzksIDEsIDE1NSwgMTQ3LCAxMDgsIDEyMSwgMjUxLCAxMjcs
-    ###IDQ0LCA4N10sICJnZW5lcmF0b3IgZyI6IFs0LCAwLCAyMjksIDEzOCwgMTQz
-    ###LCAxOTEsIDgsIDE3OSwgMTQyLCA1MiwgMTYzLCAxMDMsIDExMSwgMTA5LCAx
-    ###MDUsIDExLCAyMzcsIDg4LCAxNzAsIDY1LCAyMSwgMjU1LCA1MCwgMTY1LCAx
-    ###MjYsIDIwMCwgMTEzLCAxMTQsIDI1MiwgNDIsIDMxLCAxODQsIDE1NywgMywg
-    ###MzcsIDE0MCwgMTAwLCA0MSwgMTk2LCAxMDAsIDE1MiwgMjcsIDUwLCAxMzIs
-    ###IDE4MSwgMjU0LCAyMTksIDIwOSwgMzYsIDc1LCAyNDIsIDExNiwgNTAsIDAs
-    ###IDEzNiwgMTA0LCAxMTIsIDEwMSwgMTg1LCA3LCA5MywgMjEzLCA4OCwgMjI1
-    ###LCA3OCwgMjE0LCAxNTMsIDEsIDIxMCwgMjIsIDQ1LCAxNzcsIDE4NiwgNTgs
-    ###IDczLCAyMDEsIDEyNSwgMjAyLCAxMjQsIDE0NCwgNDQsIDE3NywgMTg1LCAx
-    ###MDcsIDE3MSwgMjI2LCAyNiwgNDksIDE0OCwgMzMsIDIwLCAyMDAsIDk2LCAx
-    ###MDIsIDkxLCA1MywgMTk2LCAxMDcsIDEzMCwgMTksIDI0NiwgMjIyLCAyMywg
-    ###MjUsIDc3LCAyMjksIDc2LCA2OCwgMTYsIDEzMSwgMjIxLCAxNywgOTksIDIx
-    ###MywgMTQ0LCAxMjIsIDIxOCwgMjE2LCAxMzAsIDc1LCAxNzcsIDQ4LCAxMjUs
-    ###IDIwNywgMTA2LCA4NSwgMTkzLCAyNiwgMTQzLCAxLCAyMTcsIDEyMCwgMTU1
-    ###XX0=
-
+    ##eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjU
+    ##wNjE3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiA4NywgIkRTSSI6ICI0Mz
+    ##UwNjE2MzY1NTAzNTMyMzE1RjU4NEQ0NDNBNTM0ODQxMkQzNTMxMzI1RjUzNTM1N
+    ##zU1NUY0RTU1NUYiLCAiQ0kiOiAiNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3
+    ##MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MiIsICJzaWQiOiAiN0U0QjQ3OTFENkE
+    ##4RUYwMTlCOTM2Qzc5RkI3RjJDNTciLCAiZ2VuZXJhdG9yX3N0cmluZyhHLkRTSS
+    ##xQUlMsQ0ksc2lkLEguc19pbl9ieXRlcykiOiAiMUU0MzUwNjE2MzY1NTAzNTMyM
+    ##zE1RjU4NEQ0NDNBNTM0ODQxMkQzNTMxMzI1RjUzNTM1NzU1NUY0RTU1NUYwODUw
+    ##NjE3MzczNzc2RjcyNjQ1NzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+    ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
+    ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    ##MDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5NkU2OTc0Njk
+    ##2MTc0NkY3MjEwN0U0QjQ3OTFENkE4RUYwMTlCOTM2Qzc5RkI3RjJDNTciLCAiZ2
+    ##VuZXJhdG9yIGciOiAiMDQwMEU1OEE4RkJGMDhCMzhFMzRBMzY3NkY2RDY5MEJFR
+    ##DU4QUE0MTE1RkYzMkE1N0VDODcxNzJGQzJBMUZCODlEMDMyNThDNjQyOUM0NjQ5
+    ##ODFCMzI4NEI1RkVEQkQxMjQ0QkYyNzQzMjAwODg2ODcwNjVCOTA3NURENTU4RTE
+    ##0RUQ2OTkwMUQyMTYyREIxQkEzQTQ5Qzk3RENBN0M5MDJDQjFCOTZCQUJFMjFBMz
+    ##E5NDIxMTRDODYwNjY1QjM1QzQ2QjgyMTNGNkRFMTcxOTRERTU0QzQ0MTA4M0REM
+    ##TE2M0Q1OTA3QURBRDg4MjRCQjEzMDdEQ0Y2QTU1QzExQThGMDFEOTc4OUIifQ==
 </pre><a href="#appendix-B.7.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6607,7 +6111,7 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-corresponding-c-programming-langu">
 <a href="#appendix-B.7.8" class="section-number selfRef">B.7.8. </a><a href="#name-corresponding-c-programming-langu" class="section-name selfRef">Corresponding C programming language initializers</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.7.8-1">
+<div class="breakable lang-c sourcecode" id="appendix-B.7.8-1">
 <pre>
 const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
@@ -6742,105 +6246,51 @@ const unsigned char tc_sid_out_oc[] = {
           <h4 id="name-testvectors-as-json-file-encoded-as-17">
 <a href="#appendix-B.7.9" class="section-number selfRef">B.7.9. </a><a href="#name-testvectors-as-json-file-encoded-as-17" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
           </h4>
-<div class="alignLeft art-text artwork" id="appendix-B.7.9-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.7.9-1">
 <pre>
-  ###eyJQUlMiOiBbODAsIDk3LCAxMTUsIDExNSwgMTE5LCAxMTEsIDExNCwgMTAw
-  ###XSwgIkNJIjogWzExMSwgOTksIDExLCA2NiwgOTUsIDExNCwgMTAxLCAxMTUs
-  ###IDExMiwgMTExLCAxMTAsIDEwMCwgMTAxLCAxMTQsIDExLCA2NSwgOTUsIDEw
-  ###NSwgMTEwLCAxMDUsIDExNiwgMTA1LCA5NywgMTE2LCAxMTEsIDExNF0sICJz
-  ###aWQiOiBbMTI2LCA3NSwgNzEsIDE0NSwgMjE0LCAxNjgsIDIzOSwgMSwgMTU1
-  ###LCAxNDcsIDEwOCwgMTIxLCAyNTEsIDEyNywgNDQsIDg3XSwgImciOiBbNCwg
-  ###MCwgMjI5LCAxMzgsIDE0MywgMTkxLCA4LCAxNzksIDE0MiwgNTIsIDE2Mywg
-  ###MTAzLCAxMTEsIDEwOSwgMTA1LCAxMSwgMjM3LCA4OCwgMTcwLCA2NSwgMjEs
-  ###IDI1NSwgNTAsIDE2NSwgMTI2LCAyMDAsIDExMywgMTE0LCAyNTIsIDQyLCAz
-  ###MSwgMTg0LCAxNTcsIDMsIDM3LCAxNDAsIDEwMCwgNDEsIDE5NiwgMTAwLCAx
-  ###NTIsIDI3LCA1MCwgMTMyLCAxODEsIDI1NCwgMjE5LCAyMDksIDM2LCA3NSwg
-  ###MjQyLCAxMTYsIDUwLCAwLCAxMzYsIDEwNCwgMTEyLCAxMDEsIDE4NSwgNywg
-  ###OTMsIDIxMywgODgsIDIyNSwgNzgsIDIxNCwgMTUzLCAxLCAyMTAsIDIyLCA0
-  ###NSwgMTc3LCAxODYsIDU4LCA3MywgMjAxLCAxMjUsIDIwMiwgMTI0LCAxNDQs
-  ###IDQ0LCAxNzcsIDE4NSwgMTA3LCAxNzEsIDIyNiwgMjYsIDQ5LCAxNDgsIDMz
-  ###LCAyMCwgMjAwLCA5NiwgMTAyLCA5MSwgNTMsIDE5NiwgMTA3LCAxMzAsIDE5
-  ###LCAyNDYsIDIyMiwgMjMsIDI1LCA3NywgMjI5LCA3NiwgNjgsIDE2LCAxMzEs
-  ###IDIyMSwgMTcsIDk5LCAyMTMsIDE0NCwgMTIyLCAyMTgsIDIxNiwgMTMwLCA3
-  ###NSwgMTc3LCA0OCwgMTI1LCAyMDcsIDEwNiwgODUsIDE5MywgMjYsIDE0Mywg
-  ###MSwgMjE3LCAxMjAsIDE1NV0sICJ5YSI6IFswLCA5OSwgMTAzLCAyMzMsIDE5
-  ###NCwgMTc0LCAyNTUsIDE1OSwgMjksIDE3NywgMTU0LCAyNDYsIDAsIDIwNCwg
-  ###MTY3LCA1MSwgNjcsIDIxMiwgMTI0LCAxOTAsIDY4LCAxMDgsIDIzNSwgMTg5
-  ###LCAyOCwgMjA1LCAxMjAsIDYzLCAxMzAsIDExNywgOTAsIDEzNSwgNDUsIDE2
-  ###OCwgMTExLCAyMDgsIDExMiwgMTI2LCAxNzksIDExOCwgMTI0LCA5NywgMjAs
-  ###IDI0MSwgMTI4LCA2MSwgMjM1LCA5OCwgMjE0LCA1OSwgMjIxLCAzMCwgOTcs
-  ###IDYzLCAxMDMsIDIzMCwgNjIsIDE0MCwgMjAsIDMwLCAyMjksIDQ5LCAxNCwg
-  ###NjIsIDIzMiwgMjVdLCAiQURhIjogWzY1LCA2OCwgOTddLCAiWWEiOiBbNCwg
-  ###MCwgMTk0LCAxOTEsIDIxNSwgMTQ4LCA3MCwgMTI3LCA2OCwgNTYsIDM5LCAx
-  ###MjYsIDEzMywgMTY0LCA0NiwgMTYsIDMxLCAxNjQsIDYsIDMwLCAzMCwgMjQ2
-  ###LCAyMjQsIDk1LCAxMjksIDIyOSwgNTYsIDMxLCA0OCwgMjMxLCA1OSwgNTIs
-  ###IDI5LCAyMTUsIDM4LCA4LCAxNTYsIDE4MiwgMTY2LCAxODcsIDIyOSwgMTY1
-  ###LCA5LCAyNTAsIDIwOCwgOSwgMTMzLCAxMTYsIDEzNiwgMjE5LCAxMTMsIDQ4
-  ###LCAyNTUsIDExOCwgMTI4LCAxNDQsIDExNSwgMTgsIDIzNSwgMTE0LCA3Niwg
-  ###MjIxLCAxODAsIDIyMCwgMjA2LCAxMDMsIDkxLCAwLCAxNTIsIDE3MywgNjQs
-  ###IDE1LCAyMzksIDEyOCwgMjI1LCAyMjIsIDE4MCwgMTg4LCAyMywgODYsIDE5
-  ###NiwgNTcsIDk3LCAyMzksIDk2LCAxODQsIDk1LCA0NSwgOTgsIDIzNywgNjks
-  ###IDEzMiwgODQsIDIyNSwgMjIsIDIyLCAxNjUsIDIwOSwgMjIzLCAzMCwgODgs
-  ###IDksIDk5LCAxMDQsIDMzLCAxNjcsIDU0LCA5OCwgMjQ5LCAyNDEsIDM0LCA4
-  ###NCwgMjMwLCAyNDksIDE0OSwgMTMsIDIwOCwgMzEsIDE2OCwgMjI2LCAxMDYs
-  ###IDEzOSwgMzIsIDExNSwgMTExLCAxODIsIDYwLCA5OSwgMjAwLCAxNiwgMTQ4
-  ###LCAyNDYsIDEyOV0sICJ5YiI6IFswLCAxNDYsIDM5LCAxOTEsIDE0MSwgMTk5
-  ###LCA2NSwgMjE4LCAyMDQsIDE0OCwgMzQsIDI0OCwgMTkxLCA2MCwgMTQsIDE1
-  ###MCwgMjUyLCAyMzMsIDg4LCAxMjMsIDE5NywgOTgsIDIzNCwgMTc1LCAyMjQs
-  ###IDIyMCwgOTUsIDExMSwgMTMwLCAyNDIsIDEzMywgMTQ4LCAyMjgsIDE2Niwg
-  ###MjQ5LCAxMzMsIDgzLCA4NiwgMTIsIDk4LCAxODMsIDk1LCAxNjQsIDE3MSwg
-  ###MTc3LCAxNTIsIDIwNiwgMjAzLCAxODcsIDEzNCwgMjM1LCAyMTIsIDI3LCAx
-  ###NCwgMTYwLCAzNywgNzYsIDIyMiwgMTIwLCAxNzIsIDEwNCwgMjExLCAxNTQs
-  ###IDM2LCAxMCwgMjMxXSwgIkFEYiI6IFs2NSwgNjgsIDk4XSwgIlliIjogWzQs
-  ###IDAsIDExMiwgMTEwLCAxNjYsIDE1NSwgNDMsIDExMywgMTAzLCAxMTksIDUw
-  ###LCA3MiwgMjM0LCAxMTAsIDEwNSwgMTY1LCAxMTYsIDIzMywgMjIxLCA0Nywg
-  ###MjQ4LCAxNjMsIDIwOCwgNzQsIDExMCwgNywgMjQ3LCAxMiwgMTEyLCAxNTIs
-  ###IDEwNSwgMjAyLCA3MiwgMTA0LCAzOSwgMjEzLCAxNTksIDE0NiwgMTQ0LCA4
-  ###OSwgMTU3LCAyOCwgMjQ5LCA3OCwgMjYsIDMsIDI1MiwgMzYsIDQ2LCA0Mywg
-  ###MTksIDIyLCAxNzUsIDIyNiwgMjUwLCAzMywgMTM5LCAyNTAsIDIzNSwgNjIs
-  ###IDMxLCAyNTMsIDE1OSwgMjUsIDE5MSwgNiwgNDUsIDEsIDI0NiwgMTc3LCA5
-  ###MiwgMTU2LCA1NCwgODEsIDE5MCwgNzYsIDgsIDE4NiwgMjQwLCAzMCwgMjM2
-  ###LCAzNywgMjAwLCAyNCwgMjM4LCAxOCwgMTk4LCAyMzcsIDE5NiwgOTgsIDYs
-  ###IDY4LCAxNzcsIDIxNywgMTI0LCAyNDIsIDc5LCAxMzQsIDEzNSwgNTAsIDIx
-  ###MywgMTExLCAyMjgsIDkyLCAyMzEsIDE0MiwgNDgsIDQ0LCAzNCwgMjgsIDE0
-  ###NiwgMjQ0LCAzLCAyMjQsIDI1MCwgNTAsIDcsIDIyMiwgMTM5LCAxODAsIDI3
-  ###LCA1NiwgMTQxLCAxMjksIDQsIDEwNiwgNDEsIDE0MiwgMjE2LCAyMjEsIDE3
-  ###MiwgMTU1LCA0Ml0sICJLIjogWzEsIDE0MiwgMTQsIDEyNiwgMTU0LCAyMjIs
-  ###IDExNiwgMTQ1LCAxMjQsIDE3LCAxOTIsIDI0NiwgMTgxLCA0NywgMTQ5LCAy
-  ###MzcsIDEzNSwgMzAsIDE3MSwgMzUsIDg0LCA1NSwgMjAzLCAyMzgsIDEzOSwg
-  ###OTIsIDM3LCA5LCA4MSwgMTEwLCAxMjAsIDEyMiwgMTI4LCAyMzIsIDM3LCAy
-  ###MzcsIDkzLCA4MywgMTU5LCAxNjYsIDE2MCwgMjM2LCA1MCwgMTk2LCAxNDMs
-  ###IDE2OCwgMjUwLCAxOTAsIDEzMywgMTI4LCAxNTcsIDAsIDEzLCAxMiwgMjUz
-  ###LCA0OCwgMTMxLCA0NCwgMzUsIDIxMiwgMTE5LCAyMDEsIDE0NSwgMTkwLCAx
-  ###NjgsIDIyOV0sICJJU0tfSVIiOiBbMjIsIDEwNSwgMTYwLCAxNjIsIDE1MSwg
-  ###MzgsIDE3MywgMTk5LCAyMzgsIDE2MiwgODEsIDEzLCAxMTEsIDEyNiwgMCwg
-  ###NzQsIDE5LCA5NSwgMTY2LCA1OCwgMTk1LCAyMDEsIDI0OSwgMjMwLCAyMDYs
-  ###IDgzLCAyMDMsIDE2NSwgMjEzLCAyMjcsIDEyMCwgMjYsIDIwNiwgMjEzLCAy
-  ###MSwgMTQ5LCA5NiwgNjUsIDIyOCwgNTEsIDg4LCA2NCwgMTU0LCAxOSwgMjM5
-  ###LCAxNDQsIDIyMSwgMTk1LCAxOTUsIDExMSwgMjE2LCAyMTUsIDIxNiwgMjAs
-  ###IDM2LCAyMDAsIDIzMywgNjksIDE0NiwgMjI2LCAyNCwgODQsIDM4LCAxMF0s
-  ###ICJJU0tfU1kiOiBbMjQyLCAyNDMsIDE4OSwgMTQwLCAyMTIsIDY2LCAxNjQs
-  ###IDIyNSwgMTAyLCA4OSwgMTgwLCAxMjIsIDEyMywgMTIyLCAxMzIsIDI0Miwg
-  ###MTU1LCAyMzEsIDg4LCAxNDcsIDIzNywgNDYsIDk1LCAxMTksIDQ1LCAxMjIs
-  ###IDYwLCAxMzksIDExOSwgMTU4LCAxNzYsIDIyMywgMTQ3LCAxMjIsIDc4LCAx
-  ###OTcsIDEwLCA3OSwgMzEsIDI0MCwgMzAsIDE4NywgMTcwLCAxNTEsIDIxNiwg
-  ###MTQsIDksIDE0LCAxNjYsIDE1NSwgMCwgMTY5LCA4MiwgMCwgMjM3LCAzNywg
-  ###MTQyLCA3MiwgMTk4LCAyNDcsIDIzMywgMjE2LCAyNTEsIDE5NF0sICJzaWRf
-  ###b3V0cHV0X2lyIjogWzg2LCAyMDQsIDYwLCAyMTYsIDE5MCwgMTE5LCAyMDUs
-  ###IDIwMCwgNzYsIDEzLCAyNSwgNiwgMjIyLCAzMSwgMjUyLCAxNDIsIDI0Nywg
-  ###MjAzLCAxNzksIDM4LCAxNjMsIDI0MCwgODIsIDEwMywgMTgyLCAyMzIsIDE5
-  ###OCwgNTIsIDc4LCAzOSwgMTI5LCAyMzUsIDMyLCAyMzksIDExNCwgOTQsIDEz
-  ###MiwgMjAzLCAyNywgMTgwLCA4OSwgMzksIDY3LCA4MCwgODEsIDE4MCwgMjI0
-  ###LCAyNTAsIDIzMSwgMTQyLCAxNTEsIDkxLCAyNDEsIDgwLCAxNTMsIDI0OSwg
-  ###MjI3LCAxNDEsIDExNywgODQsIDE5LCAyMzgsIDIyNiwgMjUzXSwgInNpZF9v
-  ###dXRwdXRfb2MiOiBbMTY0LCAxMDgsIDExMywgMTM3LCAxODYsIDEwNiwgNTQs
-  ###IDE5NiwgNjgsIDExOSwgNjUsIDIyNCwgODcsIDIxOCwgNTcsIDIwMCwgMTMz
-  ###LCAxODMsIDIxMywgMTU4LCA4LCAxODksIDQ1LCAyNDEsIDEzMywgNDIsIDgy
-  ###LCAxMTMsIDI0MiwgMTY4LCAxNjIsIDIzMywgMTc3LCAxMzUsIDIwNCwgMjA4
-  ###LCAxMTUsIDM3LCAxNjMsIDIzOCwgMjIyLCAxMDAsIDEwNiwgMjIyLCAyMjQs
-  ###IDE5MiwgMTExLCAyMjksIDE0MSwgMTY3LCAxMjcsIDExNiwgMjMsIDEyMCwg
-  ###MTUwLCAxNzgsIDE2LCA4MywgMTk3LCAyMDksIDcsIDIyMiwgMCwgMTA5XX0=
-
+  ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
+  ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
+  ##I6ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIjA0M
+  ##DBFNThBOEZCRjA4QjM4RTM0QTM2NzZGNkQ2OTBCRUQ1OEFBNDExNUZGMzJBNTdF
+  ##Qzg3MTcyRkMyQTFGQjg5RDAzMjU4QzY0MjlDNDY0OTgxQjMyODRCNUZFREJEMTI
+  ##0NEJGMjc0MzIwMDg4Njg3MDY1QjkwNzVERDU1OEUxNEVENjk5MDFEMjE2MkRCMU
+  ##JBM0E0OUM5N0RDQTdDOTAyQ0IxQjk2QkFCRTIxQTMxOTQyMTE0Qzg2MDY2NUIzN
+  ##UM0NkI4MjEzRjZERTE3MTk0REU1NEM0NDEwODNERDExNjNENTkwN0FEQUQ4ODI0
+  ##QkIxMzA3RENGNkE1NUMxMUE4RjAxRDk3ODlCIiwgInlhIjogIjAwNjM2N0U5QzJ
+  ##BRUZGOUYxREIxOUFGNjAwQ0NBNzMzNDNENDdDQkU0NDZDRUJCRDFDQ0Q3ODNGOD
+  ##I3NTVBODcyREE4NkZEMDcwN0VCMzc2N0M2MTE0RjE4MDNERUI2MkQ2M0JERDFFN
+  ##jEzRjY3RTYzRThDMTQxRUU1MzEwRTNFRTgxOSIsICJBRGEiOiAiNDE0NDYxIiwg
+  ##IllhIjogIjA0MDBDMkJGRDc5NDQ2N0Y0NDM4Mjc3RTg1QTQyRTEwMUZBNDA2MUU
+  ##xRUY2RTA1RjgxRTUzODFGMzBFNzNCMzQxREQ3MjYwODlDQjZBNkJCRTVBNTA5Rk
+  ##FEMDA5ODU3NDg4REI3MTMwRkY3NjgwOTA3MzEyRUI3MjRDRERCNERDQ0U2NzVCM
+  ##DA5OEFENDAwRkVGODBFMURFQjRCQzE3NTZDNDM5NjFFRjYwQjg1RjJENjJFRDQ1
+  ##ODQ1NEUxMTYxNkE1RDFERjFFNTgwOTYzNjgyMUE3MzY2MkY5RjEyMjU0RTZGOTk
+  ##1MEREMDFGQThFMjZBOEIyMDczNkZCNjNDNjNDODEwOTRGNjgxIiwgInliIjogIj
+  ##AwOTIyN0JGOERDNzQxREFDQzk0MjJGOEJGM0MwRTk2RkNFOTU4N0JDNTYyRUFBR
+  ##kUwREM1RjZGODJGMjg1OTRFNEE2Rjk4NTUzNTYwQzYyQjc1RkE0QUJCMTk4Q0VD
+  ##QkJCODZFQkQ0MUIwRUEwMjU0Q0RFNzhBQzY4RDM5QTI0MEFFNyIsICJBRGIiOiA
+  ##iNDE0NDYyIiwgIlliIjogIjA0MDA3MDZFQTY5QjJCNzE2Nzc3MzI0OEVBNkU2OU
+  ##E1NzRFOUREMkZGOEEzRDA0QTZFMDdGNzBDNzA5ODY5Q0E0ODY4MjdENTlGOTI5M
+  ##DU5OUQxQ0Y5NEUxQTAzRkMyNDJFMkIxMzE2QUZFMkZBMjE4QkZBRUIzRTFGRkQ5
+  ##RjE5QkYwNjJEMDFGNkIxNUM5QzM2NTFCRTRDMDhCQUYwMUVFQzI1QzgxOEVFMTJ
+  ##DNkVEQzQ2MjA2NDRCMUQ5N0NGMjRGODY4NzMyRDU2RkU0NUNFNzhFMzAyQzIyMU
+  ##M5MkY0MDNFMEZBMzIwN0RFOEJCNDFCMzg4RDgxMDQ2QTI5OEVEOEREQUM5QjJBI
+  ##iwgIksiOiAiMDE4RTBFN0U5QURFNzQ5MTdDMTFDMEY2QjUyRjk1RUQ4NzFFQUIy
+  ##MzU0MzdDQkVFOEI1QzI1MDk1MTZFNzg3QTgwRTgyNUVENUQ1MzlGQTZBMEVDMzJ
+  ##DNDhGQThGQUJFODU4MDlEMDAwRDBDRkQzMDgzMkMyM0Q0NzdDOTkxQkVBOEU1Ii
+  ##wgIklTS19JUiI6ICIxNjY5QTBBMjk3MjZBREM3RUVBMjUxMEQ2RjdFMDA0QTEzN
+  ##UZBNjNBQzNDOUY5RTZDRTUzQ0JBNUQ1RTM3ODFBQ0VENTE1OTU2MDQxRTQzMzU4
+  ##NDA5QTEzRUY5MEREQzNDMzZGRDhEN0Q4MTQyNEM4RTk0NTkyRTIxODU0MjYwQSI
+  ##sICJJU0tfU1kiOiAiRjJGM0JEOENENDQyQTRFMTY2NTlCNDdBN0I3QTg0RjI5Qk
+  ##U3NTg5M0VEMkU1Rjc3MkQ3QTNDOEI3NzlFQjBERjkzN0E0RUM1MEE0RjFGRjAxR
+  ##UJCQUE5N0Q4MEUwOTBFQTY5QjAwQTk1MjAwRUQyNThFNDhDNkY3RTlEOEZCQzIi
+  ##LCAic2lkX291dHB1dF9pciI6ICI1NkNDM0NEOEJFNzdDREM4NEMwRDE5MDZERTF
+  ##GRkM4RUY3Q0JCMzI2QTNGMDUyNjdCNkU4QzYzNDRFMjc4MUVCMjBFRjcyNUU4NE
+  ##NCMUJCNDU5Mjc0MzUwNTFCNEUwRkFFNzhFOTc1QkYxNTA5OUY5RTM4RDc1NTQxM
+  ##0VFRTJGRCIsICJzaWRfb3V0cHV0X29jIjogIkE0NkM3MTg5QkE2QTM2QzQ0NDc3
+  ##NDFFMDU3REEzOUM4ODVCN0Q1OUUwOEJEMkRGMTg1MkE1MjcxRjJBOEEyRTlCMTg
+  ##3Q0NEMDczMjVBM0VFREU2NDZBREVFMEMwNkZFNThEQTc3Rjc0MTc3ODk2QjIxMD
+  ##UzQzVEMTA3REUwMDZEIn0=
 </pre><a href="#appendix-B.7.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6905,67 +6355,34 @@ const unsigned char tc_sid_out_oc[] = {
             <h5 id="name-testvectors-as-json-file-encoded-as-18">
 <a href="#appendix-B.7.11.1" class="section-number selfRef">B.7.11.1. </a><a href="#name-testvectors-as-json-file-encoded-as-18" class="section-name selfRef">Testvectors as JSON file encoded as BASE64</a>
             </h5>
-<div class="alignLeft art-text artwork" id="appendix-B.7.11.1-1">
+<div class="lang-test-vectors sourcecode" id="appendix-B.7.11.1-1">
 <pre>
-    ###eyJWYWxpZCI6IHsicyI6IFsxLCAxMzAsIDIyMSwgMTIxLCAzNywgMjQxLCAx
-    ###MTcsIDUyLCAyNSwgMjI4LCAxOTEsIDEzMSwgNjYsIDE1MSwgOTksIDE3Miwg
-    ###MjExLCAxMjUsIDEwMCwgMCwgMTIsIDIxMywgMTYxLCAxMTcsIDIzNywgMjQ1
-    ###LCA1OCwgMjEsIDEzNSwgMjIxLCAxNTIsIDEwNywgMjAxLCA5MCwgMjA0LCAy
-    ###MSwgNiwgMTUzLCAyMywgMiwgMTgyLCAxODYsIDI2LCAxNTgsIDIyNiwgNjks
-    ###IDE0MywgMjM4LCAxNDIsIDI1MiwgMCwgMjUsIDE0MCwgMjQwLCA4LCAxNDAs
-    ###IDcyLCA5LCAxMDEsIDIzOSwgMTAxLCAyNTUsIDMyLCA3MiwgMTg0LCA4Nl0s
-    ###ICJYIjogWzQsIDAsIDIyMCwgODAsIDEyMCwgMTc4LCA3NiwgNzQsIDI0MSwg
-    ###OTgsIDEyLCAxOTMsIDE1LCAxOTAsIDIwNCwgMTA4LCAyMTYsIDIwNywgMjgs
-    ###IDE3MSwgMTEsIDEsIDMwLCAyNTEsIDExNSwgMTk5LCAxMzAsIDI0MiwgMzgs
-    ###IDIyMCwgMzMsIDE5OSwgMjAyLCAxMjYsIDE4MCwgNiwgMTkwLCAxMTYsIDE2
-    ###NiwgMTU4LCAyMDMsIDE2NSwgMTgwLCAxNjgsIDEyNCwgNywgMjA3LCAxOTgs
-    ###IDIzMCwgMTM1LCAxODAsIDE5MCwgMjAyLCAxNTQsIDExMCwgMjE4LCAyMDEs
-    ###IDg5LCA2NCwgMTYzLCAxODAsIDE4LCA1LCAxMTUsIDE3OCwgMTA2LCAxMjgs
-    ###IDAsIDk0LCAxMDUsIDEyMCwgNTEsIDE3NiwgMTg2LCA0MCwgOTUsIDIwNiwg
-    ###MTIzLCA2MywgMzEsIDM3LCAzNiwgNDgsIDgsIDEzNCwgMTEsIDE0MywgMjks
-    ###IDIzMSwgMTYsIDE2MCwgMjIwLCAxOTIsIDkxLCAxMywgMzIsIDUyLCAzMCwg
-    ###MjU0LCAxNDQsIDIzNSwgNDMsIDIwNCwgMTYyLCAxMDMsIDE1MSwgMTk0LCAy
-    ###MTYsIDkwLCAyMzAsIDIwMiwgMTE2LCAxOTIsIDYsIDE1MCwgMjAzLCAyNywg
-    ###MTksIDIyOCwgMTEsIDIxOCwgMjEsIDE3OCwgMTIxLCAxMDAsIDIxNSwgMTAz
-    ###LCA1LCAxMTgsIDEwMCwgMTIzLCAyNTAsIDE4NV0sICJHLnNjYWxhcl9tdWx0
-    ###KHMsWCkgKGZ1bGwgY29vcmRpbmF0ZXMpIjogWzQsIDEsIDM0LCAyNDgsIDE0
-    ###MCwgMjMxLCA2MiwgMTk3LCAxNzAsIDQ1LCAyOCwgMTQwLCA5MywgNCwgMjAs
-    ###IDEzNSwgOTYsIDE5NSwgMjE3LCAxMjMsIDE2OCwgMTI1LCAxNzAsIDE2LCAy
-    ###MTYsIDIwMywgMTM5LCAxODMsIDE5OSwgNjAsIDI0NiwgMjMzLCA4MSwgMjUy
-    ###LCAxNDYsIDM5LCAzMywgMTkxLCAyMCwgNTUsIDE1MywgOTIsIDI1MSwgMTks
-    ###IDIyNSwgNTAsIDE2NywgMTM5LCAyMzUsIDEzNCwgNTYsIDE1OCwgOTYsIDIx
-    ###MSwgODEsIDEyNCwgMjIzLCAxMDksIDE1MywgMTY4LCAxNjIsIDIxNCwgMjE5
-    ###LCAyNSwgMjM5LCAzOSwgMTg5LCAwLCA4NSwgMTc1LCAxNTgsIDE0MSwgMjIw
-    ###LCAyNDMsIDU1LCAyMDYsIDEwLCAxMjQsIDM0LCAxNjksIDIwMCwgOSwgMTU1
-    ###LCAxOTYsIDE2NCwgNzksIDE3NCwgMjIyLCAyMDksIDIzNSwgMTE0LCAyMzks
-    ###IDI1MywgMzgsIDIyOCwgMjQzLCAzNCwgMzMsIDEyMywgMTAzLCAyMTQsIDEx
-    ###LCAxNDgsIDc1LCAzOCwgMTIzLCA2MSwgMjQ1LCA0LCA5NiwgMTIwLCAyNTMs
-    ###IDg3LCAxMjcsIDIzLCAxMzMsIDExNCwgMTQzLCA3MywgMTc4LCA2NSwgMjUz
-    ###LCA5NCwgMTQwLCAxMzEsIDM0LCA1OCwgMTUzLCA3NCwgNDUsIDMzLCAxNDYs
-    ###IDEyOV0sICJHLnNjYWxhcl9tdWx0X3ZmeShzLFgpIChvbmx5IFgtY29vcmRp
-    ###bmF0ZSkiOiBbMSwgMzQsIDI0OCwgMTQwLCAyMzEsIDYyLCAxOTcsIDE3MCwg
-    ###NDUsIDI4LCAxNDAsIDkzLCA0LCAyMCwgMTM1LCA5NiwgMTk1LCAyMTcsIDEy
-    ###MywgMTY4LCAxMjUsIDE3MCwgMTYsIDIxNiwgMjAzLCAxMzksIDE4MywgMTk5
-    ###LCA2MCwgMjQ2LCAyMzMsIDgxLCAyNTIsIDE0NiwgMzksIDMzLCAxOTEsIDIw
-    ###LCA1NSwgMTUzLCA5MiwgMjUxLCAxOSwgMjI1LCA1MCwgMTY3LCAxMzksIDIz
-    ###NSwgMTM0LCA1NiwgMTU4LCA5NiwgMjExLCA4MSwgMTI0LCAyMjMsIDEwOSwg
-    ###MTUzLCAxNjgsIDE2MiwgMjE0LCAyMTksIDI1LCAyMzksIDM5LCAxODldfSwg
-    ###IkludmFsaWQgWTEiOiBbNCwgMCwgMjIwLCA4MCwgMTIwLCAxNzgsIDc2LCA3
-    ###NCwgMjQxLCA5OCwgMTIsIDE5MywgMTUsIDE5MCwgMjA0LCAxMDgsIDIxNiwg
-    ###MjA3LCAyOCwgMTcxLCAxMSwgMSwgMzAsIDI1MSwgMTE1LCAxOTksIDEzMCwg
-    ###MjQyLCAzOCwgMjIwLCAzMywgMTk5LCAyMDIsIDEyNiwgMTgwLCA2LCAxOTAs
-    ###IDExNiwgMTY2LCAxNTgsIDIwMywgMTY1LCAxODAsIDE2OCwgMTI0LCA3LCAy
-    ###MDcsIDE5OCwgMjMwLCAxMzUsIDE4MCwgMTkwLCAyMDIsIDE1NCwgMTEwLCAy
-    ###MTgsIDIwMSwgODksIDY0LCAxNjMsIDE4MCwgMTgsIDUsIDExNSwgMTc4LCAx
-    ###MDYsIDEyOCwgMCwgOTQsIDEwNSwgMTIwLCA1MSwgMTc2LCAxODYsIDQwLCA5
-    ###NSwgMjA2LCAxMjMsIDYzLCAzMSwgMzcsIDM2LCA0OCwgOCwgMTM0LCAxMSwg
-    ###MTQzLCAyOSwgMjMxLCAxNiwgMTYwLCAyMjAsIDE5MiwgOTEsIDEzLCAzMiwg
-    ###NTIsIDMwLCAyNTQsIDE0NCwgMjM1LCA0MywgMjA0LCAxNjIsIDEwMywgMTUx
-    ###LCAxOTQsIDIxNiwgOTAsIDIzMCwgMjAyLCAxMTYsIDE5MiwgNiwgMTUwLCAy
-    ###MDMsIDI3LCAxOSwgMjI4LCAxMSwgMjE4LCAyMSwgMTc4LCAxMjEsIDEwMCwg
-    ###MjE1LCAxMDMsIDUsIDExOCwgMTAwLCAxMjMsIDI1MCwgMjQ5XSwgIkludmFs
-    ###aWQgWTIiOiBbMF19
-
+    ##eyJWYWxpZCI6IHsicyI6ICIwMTgyREQ3OTI1RjE3NTM0MTlFNEJGODM0Mjk3NjN
+    ##BQ0QzN0Q2NDAwMENENUExNzVFREY1M0ExNTg3REQ5ODZCQzk1QUNDMTUwNjk5MT
+    ##cwMkI2QkExQTlFRTI0NThGRUU4RUZDMDAxOThDRjAwODhDNDgwOTY1RUY2NUZGM
+    ##jA0OEI4NTYiLCAiWCI6ICIwNDAwREM1MDc4QjI0QzRBRjE2MjBDQzEwRkJFQ0M2
+    ##Q0Q4Q0YxQ0FCMEIwMTFFRkI3M0M3ODJGMjI2REMyMUM3Q0E3RUI0MDZCRTc0QTY
+    ##5RUNCQTVCNEE4N0MwN0NGQzZFNjg3QjRCRUNBOUE2RURBQzk1OTQwQTNCNDEyMD
+    ##U3M0IyNkE4MDAwNUU2OTc4MzNCMEJBMjg1RkNFN0IzRjFGMjUyNDMwMDg4NjBCO
+    ##EYxREU3MTBBMERDQzA1QjBEMjAzNDFFRkU5MEVCMkJDQ0EyNjc5N0MyRDg1QUU2
+    ##Q0E3NEMwMDY5NkNCMUIxM0U0MEJEQTE1QjI3OTY0RDc2NzA1NzY2NDdCRkFCOSI
+    ##sICJHLnNjYWxhcl9tdWx0KHMsWCkgKGZ1bGwgY29vcmRpbmF0ZXMpIjogIjA0MD
+    ##EyMkY4OENFNzNFQzVBQTJEMUM4QzVEMDQxNDg3NjBDM0Q5N0JBODdEQUExMEQ4Q
+    ##0I4QkI3QzczQ0Y2RTk1MUZDOTIyNzIxQkYxNDM3OTk1Q0ZCMTNFMTMyQTc4QkVC
+    ##ODYzODlFNjBEMzUxN0NERjZEOTlBOEEyRDZEQjE5RUYyN0JEMDA1NUFGOUU4RER
+    ##DRjMzN0NFMEE3QzIyQTlDODA5OUJDNEE0NEZBRURFRDFFQjcyRUZGRDI2RTRGMz
+    ##IyMjE3QjY3RDYwQjk0NEIyNjdCM0RGNTA0NjA3OEZENTc3RjE3ODU3MjhGNDlCM
+    ##jQxRkQ1RThDODMyMjNBOTk0QTJEMjE5MjgxIiwgIkcuc2NhbGFyX211bHRfdmZ5
+    ##KHMsWCkgKG9ubHkgWC1jb29yZGluYXRlKSI6ICIwMTIyRjg4Q0U3M0VDNUFBMkQ
+    ##xQzhDNUQwNDE0ODc2MEMzRDk3QkE4N0RBQTEwRDhDQjhCQjdDNzNDRjZFOTUxRk
+    ##M5MjI3MjFCRjE0Mzc5OTVDRkIxM0UxMzJBNzhCRUI4NjM4OUU2MEQzNTE3Q0RGN
+    ##kQ5OUE4QTJENkRCMTlFRjI3QkQifSwgIkludmFsaWQgWTEiOiAiMDQwMERDNTA3
+    ##OEIyNEM0QUYxNjIwQ0MxMEZCRUNDNkNEOENGMUNBQjBCMDExRUZCNzNDNzgyRjI
+    ##yNkRDMjFDN0NBN0VCNDA2QkU3NEE2OUVDQkE1QjRBODdDMDdDRkM2RTY4N0I0Qk
+    ##VDQTlBNkVEQUM5NTk0MEEzQjQxMjA1NzNCMjZBODAwMDVFNjk3ODMzQjBCQTI4N
+    ##UZDRTdCM0YxRjI1MjQzMDA4ODYwQjhGMURFNzEwQTBEQ0MwNUIwRDIwMzQxRUZF
+    ##OTBFQjJCQ0NBMjY3OTdDMkQ4NUFFNkNBNzRDMDA2OTZDQjFCMTNFNDBCREExNUI
+    ##yNzk2NEQ3NjcwNTc2NjQ3QkZBRjkiLCAiSW52YWxpZCBZMiI6ICIwMCJ9
 </pre><a href="#appendix-B.7.11.1-1" class="pilcrow">¶</a>
 </div>
 </section>
