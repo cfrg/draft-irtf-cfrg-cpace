@@ -113,10 +113,11 @@ Table of Contents
      9.10. Side channel attacks
      9.11. Quantum computers
    10. IANA Considerations
-   11. Acknowledgements
-   12. References
-     12.1.  Normative References
-     12.2.  Informative References
+   11. Reference implementaiton
+   12. Acknowledgements
+   13. References
+     13.1.  Normative References
+     13.2.  Informative References
    Appendix A.  CPace function definitions
      A.1.  Definition and test vectors for string utility functions
        A.1.1.  prepend_len function
@@ -1266,14 +1267,19 @@ Table of Contents
 
    No IANA action is required.
 
-11.  Acknowledgements
+11.  Reference implementaiton
+
+   The reference implementation that was used for deriving test vectors
+   is available at [REFIMP].
+
+12.  Acknowledgements
 
    We would like to thank the participants on the CFRG list for comments
    and advice.  Any comment and advice is appreciated.
 
-12.  References
+13.  References
 
-12.1.  Normative References
+13.1.  Normative References
 
    [I-D.draft-irtf-cfrg-ristretto255-decaf448]
               de Valence, H., Grigg, J., Hamburg, M., Lovecruft, I.,
@@ -1310,7 +1316,7 @@ Table of Contents
               Elliptic Curve Cryptography", May 2009,
               <http://www.secg.org/sec1-v2.pdf>.
 
-12.2.  Informative References
+13.2.  Informative References
 
    [ABKLX21]  Abdalla, M., Barbosa, M., Katz, J., Loss, J., and J. Xu,
               "Algebraic Adversaries in the Universal Composability
@@ -1339,6 +1345,10 @@ Table of Contents
               Output Functions", August 2015,
               <https://nvlpubs.nist.gov/nistpubs/FIPS/
               NIST.FIPS.202.pdf>.
+
+   [REFIMP]   "CPace reference implementation (sage)", n.d.,
+              <https://github.com/cfrg/draft-irtf-cfrg-
+              cpace/tree/master/poc>.
 
    [RFC2104]  Krawczyk, H., Bellare, M., and R. Canetti, "HMAC: Keyed-
               Hashing for Message Authentication", RFC 2104,
