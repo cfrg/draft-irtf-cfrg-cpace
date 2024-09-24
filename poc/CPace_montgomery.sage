@@ -34,7 +34,7 @@ class G_Montgomery:
 
 ## Decoding and Encoding functions according to RFC7748
 
-~~~
+~~~ python
    def decodeLittleEndian(b, bits):
        return sum([b[i] << 8*i for i in range((bits+7)/8)])
 
@@ -60,7 +60,7 @@ class G_Montgomery:
 The Elligator 2 map requires a non-square field element Z which shall be calculated
 as follows.
 
-~~~
+~~~ python
     def find_z_ell2(F):
         # Find nonsquare for Elligator2
         # Argument: F, a field object, e.g., F = GF(2^255 - 19)
@@ -80,7 +80,7 @@ results in a value of Z = 2 for Curve25519 and Z=-1 for Ed448.
 The following code maps a field element r to an encoded field element which
 is a valid u-coordinate of a Montgomery curve with curve parameter A.
 
-~~~
+~~~ python
     def elligator2(r, q, A, field_size_bits):
         # Inputs: field element r, field order q,
         #         curve parameter A and field size in bits
@@ -157,20 +157,18 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
             result_dict = {}
             result_dict["H"] = H.name
             result_dict["H.s_in_bytes"] = int(H.s_in_bytes)
-            result_dict["PRS"] = list (PRS)
+            result_dict["PRS"] = byte_string_to_json (PRS)
             result_dict["ZPAD length"] = int(len_zpad)
-            result_dict["DSI"] = list(self.DSI)
-            result_dict["CI"] = list(CI)
-            result_dict["sid"] = list(sid)
-            result_dict["generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes)"] = list(gen_string)
-            result_dict["hash generator string"] = list(string_hash)
-            result_dict["decoded field element of %i bits" % self.field_size_bits] = list(IntegerToByteArray(u,self.field_size_bytes))
-            result_dict["generator g"] = list(result)
+            result_dict["DSI"] = byte_string_to_json(self.DSI)
+            result_dict["CI"] = byte_string_to_json(CI)
+            result_dict["sid"] = byte_string_to_json(sid)
+            result_dict["generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes)"] = byte_string_to_json(gen_string)
+            result_dict["hash generator string"] = byte_string_to_json(string_hash)
+            result_dict["decoded field element of %i bits" % self.field_size_bits] = byte_string_to_json(IntegerToByteArray(u,self.field_size_bytes))
+            result_dict["generator g"] = byte_string_to_json(result)
             
             print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-            print ("~~~", file=file)
             tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
-            print ("~~~\n", file=file)    
             
         return result
 

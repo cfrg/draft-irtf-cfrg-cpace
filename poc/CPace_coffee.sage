@@ -83,19 +83,17 @@ class G_CoffeeEcosystem():
             result_dict = {}
             result_dict["H"] = H.name
             result_dict["H.s_in_bytes"] = int(H.s_in_bytes)
-            result_dict["PRS"] = list (PRS)
+            result_dict["PRS"] = byte_string_to_json (PRS)
             result_dict["ZPAD length"] = int(len_zpad)
-            result_dict["DSI"] = list(self.DSI)
-            result_dict["CI"] = list(CI)
-            result_dict["sid"] = list(sid)
-            result_dict["generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes)"] = list(gen_string)
-            result_dict["hash result"] = list(string_hash)
-            result_dict["encoded generator g"] = list(result.encode())
+            result_dict["DSI"] = byte_string_to_json(self.DSI)
+            result_dict["CI"] = byte_string_to_json(CI)
+            result_dict["sid"] = byte_string_to_json(sid)
+            result_dict["generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes)"] = byte_string_to_json(gen_string)
+            result_dict["hash result"] = byte_string_to_json(string_hash)
+            result_dict["encoded generator g"] = byte_string_to_json(result.encode())
             
             print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-            print ("~~~", file=file)
             tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
-            print ("~~~\n", file=file)    
 
             
             
@@ -120,10 +118,10 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
     print ("~~~\n", file = file)
     
     dict_valid = {}
-    dict_valid["s"] = list(y)
-    dict_valid["X"] = list(X)
-    dict_valid["G.scalar_mult(s,decode(X))"] = list(Z)
-    dict_valid["G.scalar_mult_vfy(s,X)"] = list(K)
+    dict_valid["s"] = byte_string_to_json(y)
+    dict_valid["X"] = byte_string_to_json(X)
+    dict_valid["G.scalar_mult(s,decode(X))"] = byte_string_to_json(Z)
+    dict_valid["G.scalar_mult_vfy(s,X)"] = byte_string_to_json(K)
     
     result_dict["Valid"] = dict_valid
     
@@ -147,13 +145,11 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
     print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I", file = file)
     print ("~~~\n", file = file)    
 
-    result_dict["Invalid Y1"] = list(Y_inv1)
-    result_dict["Invalid Y2"] = list(G.I)
+    result_dict["Invalid Y1"] = byte_string_to_json(Y_inv1)
+    result_dict["Invalid Y2"] = byte_string_to_json(G.I)
     
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    print ("~~~", file=file)
     tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
-    print ("~~~\n", file=file)
 
 
     return result_dict

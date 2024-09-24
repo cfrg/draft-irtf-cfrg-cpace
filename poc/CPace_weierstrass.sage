@@ -129,18 +129,16 @@ class G_ShortWeierstrass():
             result_dict = {}
             result_dict["H"] = H.name
             result_dict["H.s_in_bytes"] = int(H.s_in_bytes)
-            result_dict["PRS"] = list (PRS)
+            result_dict["PRS"] = byte_string_to_json (PRS)
             result_dict["ZPAD length"] = int(len_zpad)
-            result_dict["DSI"] = list(self.DSI)
-            result_dict["CI"] = list(CI)
-            result_dict["sid"] = list(sid)
-            result_dict["generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes)"] = list(gen_string)
-            result_dict["generator g"] = list(self.point_to_octets(result))
+            result_dict["DSI"] = byte_string_to_json(self.DSI)
+            result_dict["CI"] = byte_string_to_json(CI)
+            result_dict["sid"] = byte_string_to_json(sid)
+            result_dict["generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes)"] = byte_string_to_json(gen_string)
+            result_dict["generator g"] = byte_string_to_json(self.point_to_octets(result))
             
             print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-            print ("~~~", file=file)
             tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
-            print ("~~~\n", file=file)    
 
         return self.point_to_octets(result)
 
@@ -163,10 +161,10 @@ def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
                          line_prefix = "    ", max_len = 60, file = file)
     print ("~~~\n", file = file)
     dict_valid = {}
-    dict_valid["s"] = list(y)
-    dict_valid["X"] = list(X)
-    dict_valid["G.scalar_mult(s,X) (full coordinates)"] = list(Z)
-    dict_valid["G.scalar_mult_vfy(s,X) (only X-coordinate)"] = list(K)
+    dict_valid["s"] = byte_string_to_json(y)
+    dict_valid["X"] = byte_string_to_json(X)
+    dict_valid["G.scalar_mult(s,X) (full coordinates)"] = byte_string_to_json(Z)
+    dict_valid["G.scalar_mult_vfy(s,X) (only X-coordinate)"] = byte_string_to_json(K)
     result_dict["Valid"] = dict_valid
         
     Y_inv1 = bytearray(X)
@@ -188,13 +186,11 @@ def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
     print ("    G.scalar_mult_vfy(s,Y_i1) = G.scalar_mult_vfy(s,Y_i2) = G.I", file = file)
     print ("~~~\n", file = file)   
 
-    result_dict["Invalid Y1"] = list(Y_inv1)
-    result_dict["Invalid Y2"] = list(Y_inv2)
+    result_dict["Invalid Y1"] = byte_string_to_json(Y_inv1)
+    result_dict["Invalid Y2"] = byte_string_to_json(Y_inv2)
 
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    print ("~~~", file=file)
     tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
-    print ("~~~\n", file=file)    
         
     return result_dict 
     

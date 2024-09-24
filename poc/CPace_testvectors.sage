@@ -132,7 +132,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     
     if with_ANSI_C_initializers:
         print ("\n###  Corresponding C programming language initializers\n", file=file)
-        print ("~~~", file=file)
+        print ("~~~ c", file=file)
         print (ByteArrayToCInitializer(PRS, "tc_PRS"), file=file)
         print (ByteArrayToCInitializer(CI, "tc_CI"), file=file)
         print (ByteArrayToCInitializer(sid, "tc_sid"), file=file)
@@ -153,27 +153,25 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     
     
     dictionary = {}
-    dictionary["PRS"] = list(PRS)
-    dictionary["CI"] = list(CI)
-    dictionary["sid"] = list(sid)
-    dictionary["g"] = list(g)
-    dictionary["ya"] = list(ya)
-    dictionary["ADa"] = list(ADa)
-    dictionary["Ya"] = list(Ya)
-    dictionary["yb"] = list(yb)
-    dictionary["ADb"] = list(ADb)
-    dictionary["Yb"] = list(Yb)
-    dictionary["K"] = list(K)
-    dictionary["ISK_IR"] = list(ISK_IR)
-    dictionary["ISK_SY"] = list(ISK_SY)
-    dictionary["sid_output_ir"] = list(sid_output_ir)
-    dictionary["sid_output_oc"] = list(sid_output_oc)
+    dictionary["PRS"] = byte_string_to_json(PRS)
+    dictionary["CI"] = byte_string_to_json(CI)
+    dictionary["sid"] = byte_string_to_json(sid)
+    dictionary["g"] = byte_string_to_json(g)
+    dictionary["ya"] = byte_string_to_json(ya)
+    dictionary["ADa"] = byte_string_to_json(ADa)
+    dictionary["Ya"] = byte_string_to_json(Ya)
+    dictionary["yb"] = byte_string_to_json(yb)
+    dictionary["ADb"] = byte_string_to_json(ADb)
+    dictionary["Yb"] = byte_string_to_json(Yb)
+    dictionary["K"] = byte_string_to_json(K)
+    dictionary["ISK_IR"] = byte_string_to_json(ISK_IR)
+    dictionary["ISK_SY"] = byte_string_to_json(ISK_SY)
+    dictionary["sid_output_ir"] = byte_string_to_json(sid_output_ir)
+    dictionary["sid_output_oc"] = byte_string_to_json(sid_output_oc)
     
     
     print ("\n###  Testvectors as JSON file encoded as BASE64\n", file=file)
-    print ("~~~", file=file)
     tv_output_python_dictionary_as_json_base64(dictionary,file=file)
-    print ("~~~\n", file=file)
         
     return dictionary    
      
