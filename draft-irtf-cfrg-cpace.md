@@ -852,7 +852,7 @@ In this sense, using the wording suggested by Steve Thomas on the CFRG mailing l
 
 No IANA action is required.
 
-# Reference implementaiton
+# Reference implementation
 
 The reference implementation that was used for deriving test vectors is available at {{REFIMP}}.
 
