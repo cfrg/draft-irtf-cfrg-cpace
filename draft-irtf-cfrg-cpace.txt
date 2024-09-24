@@ -113,7 +113,7 @@ Table of Contents
      9.10. Side channel attacks
      9.11. Quantum computers
    10. IANA Considerations
-   11. Reference implementaiton
+   11. Reference implementation
    12. Acknowledgements
    13. References
      13.1.  Normative References
@@ -1267,7 +1267,7 @@ Table of Contents
 
    No IANA action is required.
 
-11.  Reference implementaiton
+11.  Reference implementation
 
    The reference implementation that was used for deriving test vectors
    is available at [REFIMP].
