@@ -189,7 +189,7 @@ As this document is primarily written for implementers and application designers
 
 CPace enables balanced password-authenticated key establishment. CPace requires a shared secret octet string, the password-related string (PRS), is available for both parties A and B. PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to {{?RFC8265}}, or any string derived from a common secret, for instance by use of a password-based key derivation function.
 
-Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use augmented PAKE protocols such as OPAQUE {{!I-D.irtf-cfrg-opaque}}.
+Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use augmented PAKE protocols such as OPAQUE {{I-D.irtf-cfrg-opaque}}.
 
 In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first.
 
