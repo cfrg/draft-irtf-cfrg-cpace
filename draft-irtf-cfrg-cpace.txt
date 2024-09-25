@@ -3,12 +3,12 @@
 
 
 Network Working Group                                         M. Abdalla
-Internet-Draft                                          DFINITY - Zurich
+Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 28 March 2025      Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 29 March 2025      Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                       24 September 2024
+                                                       25 September 2024
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 March 2025.
+   This Internet-Draft will expire on 29 March 2025.
 
 Copyright Notice
 
@@ -4150,7 +4150,7 @@ B.7.11.1.  Testvectors as JSON file encoded as BASE64
 Authors' Addresses
 
    Michel Abdalla
-   DFINITY - Zurich
+   Nexus - San Francisco
    Email: michel.abdalla@gmail.com
 
 
