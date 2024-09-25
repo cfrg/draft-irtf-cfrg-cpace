@@ -14,7 +14,7 @@ pi: [toc, sortrefs, symrefs]
 author:
  -  ins: M. Abdalla
     name: Michel Abdalla
-    org: DFINITY - Zurich
+    org: Nexus - San Francisco
     email: michel.abdalla@gmail.com
  -  ins: B. Haase
     name: Bjoern Haase
