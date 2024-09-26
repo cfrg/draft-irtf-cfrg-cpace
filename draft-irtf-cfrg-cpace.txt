@@ -1021,8 +1021,8 @@ Table of Contents
    recommended cipher suites included in this document.  The security
    analysis in [BGHJ24] extends the analysis from [AHH21] and covers
    also the case that no pre-agreed session identifier is available.
-   [AHH21] also shows how a session id sid_output can be generated along
-   with the protocol for applications that do not have a session
+   [BGHJ24] also shows how a session id sid_output can be generated
+   along with the protocol for applications that do not have a session
    identifier input available.
 
 9.1.  Party identifiers and relay attacks
