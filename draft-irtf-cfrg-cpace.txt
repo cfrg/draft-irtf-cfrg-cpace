@@ -1056,8 +1056,8 @@ Table of Contents
    *  Otherwise A SHOULD integrate its party identifiers in ADa and ADb,
       such that A integrates its identifier in ADa and B integrates its
       party identifier as part of ADb.  In this case the application
-      will have to add an explicit check for the identity string of the
-      communication partner for fending off relay attacks.
+      layer will have to add an explicit check for the identity string
+      of the actual communication partner for fending off relay attacks.
 
 9.2.  Hashing protocol transcripts
 
