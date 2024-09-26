@@ -224,7 +224,7 @@ For accomodating different application settings, CPace offers the following OPTI
   ADa and ADb will become authenticated in a CPace protocol run as
   both parties will only agree on a common key if they have had the same view on ADa and ADb.
 
-  If an application cannot integrate the party identities as part of CI, party identities (A,B) SHOULD be included in ADa and ADb instead
+  If an application cannot integrate the party identities (A,B) as part of CI, A SHOULD BE included in ADa and B SHOULD BE included in ADb instead
   (see {{sec-considerations-ids}}).
 
   In a setting with clear initiator and responder roles, identity information in ADa
