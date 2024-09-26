@@ -206,9 +206,10 @@ For accomodating different application settings, CPace offers the following OPTI
   In CPace each party can be be given a party identity string which
   might be a device name a user name or an URL.
   CPace offers two alternative options for authenticating the party identifiers in the course of the protocol run.
-  The preferred option is the integration of both, A and B into the channel identifier string CI. This is preferred as A and B will be kept
-  confidential and as this provides security advantages (see {{sec-quantum-annoying}}).
-  Integrating A,B into CI requires that both parties know the party identity string of the communication partner
+  The RECOMMENDED option is to integrate of both, A and B into the channel identifier string CI. This option is to be
+  preferred as A and B will be kept
+  confidential and as this provides security advantages (see {{sec-quantum-annoying}} and {{sec-considerations-ids}}).
+  Integrating A,B into CI, however, requires that both parties know the party identity string of the communication partner
   before starting the protocol. If this requirement is not fullfilled in an application setting then CPace offers the alternative of
   integrating A as part of the optional input ADa and B as part of the optional input ADb.
 
@@ -704,10 +705,10 @@ The following guidance SHOULD be followed regarding party identifiers.
 
 - If an application layer has party identifiers available, it SHOULD integrate party identifiers in the CPace protocol run, either within CI or ADa/ADb.
 
-- The application SHOULD give preference to integrate party identifiers in CI.This is possible if A and B have the identifiers (A,B) available
-  already before starting the protocol.
+- The application SHOULD give preference to the option of integrating party identifiers in CI. This avoids the need of an explicit check for the identity strings.
 
 - Otherwise A SHOULD integrate its party identifiers in ADa and ADb, such that A integrates its identifier in ADa and B integrates its party identifier as part of ADb.
+  In this case the application will have to add an explicit check for the identity string of the communication partner for fending off relay attacks.
 
 ## Hashing protocol transcripts
 
