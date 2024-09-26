@@ -336,15 +336,15 @@ Table of Contents
       a party identity string which might be a device name a user name
       or an URL.  CPace offers two alternative options for
       authenticating the party identifiers in the course of the protocol
-      run.  The preferred option is the integration of both, A and B
-      into the channel identifier string CI.  This is preferred as A and
-      B will be kept confidential and as this provides security
-      advantages (see Section 9.11).  Integrating A,B into CI requires
-      that both parties know the party identity string of the
-      communication partner before starting the protocol.  If this
-      requirement is not fullfilled in an application setting then CPace
-      offers the alternative of integrating A as part of the optional
-      input ADa and B as part of the optional input ADb.
+      run.  The RECOMMENDED option is to integrate of both, A and B into
+      the channel identifier string CI.  This option is to be preferred
+      as A and B will be kept confidential and as this provides security
+      advantages (see Section 9.11 and Section 9.1).  Integrating A,B
+      into CI, however, requires that both parties know the party
+      identity string of the communication partner before starting the
+      protocol.  If this requirement is not fullfilled in an application
+      setting then CPace offers the alternative of integrating A as part
+      of the optional input ADa and B as part of the optional input ADb.
 
    *  Channel identifier (CI).  CI can be used to bind a session key
       exchanged with CPace to a specific networking channel which
@@ -1049,13 +1049,15 @@ Table of Contents
       integrate party identifiers in the CPace protocol run, either
       within CI or ADa/ADb.
 
-   *  The application SHOULD give preference to integrate party
-      identifiers in CI.This is possible if A and B have the identifiers
-      (A,B) available already before starting the protocol.
+   *  The application SHOULD give preference to the option of
+      integrating party identifiers in CI.  This avoids the need of an
+      explicit check for the identity strings.
 
    *  Otherwise A SHOULD integrate its party identifiers in ADa and ADb,
       such that A integrates its identifier in ADa and B integrates its
-      party identifier as part of ADb.
+      party identifier as part of ADb.  In this case the application
+      will have to add an explicit check for the identity string of the
+      communication partner for fending off relay attacks.
 
 9.2.  Hashing protocol transcripts
 

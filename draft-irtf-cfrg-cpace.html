@@ -1715,9 +1715,10 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 In CPace each party can be be given a party identity string which
 might be a device name a user name or an URL.
 CPace offers two alternative options for authenticating the party identifiers in the course of the protocol run.
-The preferred option is the integration of both, A and B into the channel identifier string CI. This is preferred as A and B will be kept
-confidential and as this provides security advantages (see <a href="#sec-quantum-annoying" class="auto internal xref">Section 9.11</a>).
-Integrating A,B into CI requires that both parties know the party identity string of the communication partner
+The RECOMMENDED option is to integrate of both, A and B into the channel identifier string CI. This option is to be
+preferred as A and B will be kept
+confidential and as this provides security advantages (see <a href="#sec-quantum-annoying" class="auto internal xref">Section 9.11</a> and <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>).
+Integrating A,B into CI, however, requires that both parties know the party identity string of the communication partner
 before starting the protocol. If this requirement is not fullfilled in an application setting then CPace offers the alternative of
 integrating A as part of the optional input ADa and B as part of the optional input ADb.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
@@ -2410,11 +2411,11 @@ Including and checking party identifiers can fend off such relay attacks.<a href
             <p id="section-9.1-4.1.1">If an application layer has party identifiers available, it SHOULD integrate party identifiers in the CPace protocol run, either within CI or ADa/ADb.<a href="#section-9.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.1-4.2">
-            <p id="section-9.1-4.2.1">The application SHOULD give preference to integrate party identifiers in CI.This is possible if A and B have the identifiers (A,B) available
-already before starting the protocol.<a href="#section-9.1-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-9.1-4.2.1">The application SHOULD give preference to the option of integrating party identifiers in CI. This avoids the need of an explicit check for the identity strings.<a href="#section-9.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.1-4.3">
-            <p id="section-9.1-4.3.1">Otherwise A SHOULD integrate its party identifiers in ADa and ADb, such that A integrates its identifier in ADa and B integrates its party identifier as part of ADb.<a href="#section-9.1-4.3.1" class="pilcrow">¶</a></p>
+            <p id="section-9.1-4.3.1">Otherwise A SHOULD integrate its party identifiers in ADa and ADb, such that A integrates its identifier in ADa and B integrates its party identifier as part of ADb.
+In this case the application will have to add an explicit check for the identity string of the communication partner for fending off relay attacks.<a href="#section-9.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
