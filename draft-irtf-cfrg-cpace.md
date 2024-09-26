@@ -708,7 +708,7 @@ The following guidance SHOULD be followed regarding party identifiers.
 - The application SHOULD give preference to the option of integrating party identifiers in CI. This avoids the need of an explicit check for the identity strings.
 
 - Otherwise A SHOULD integrate its party identifiers in ADa and ADb, such that A integrates its identifier in ADa and B integrates its party identifier as part of ADb.
-  In this case the application will have to add an explicit check for the identity string of the communication partner for fending off relay attacks.
+  In this case the application layer will have to add an explicit check for the identity string of the actual communication partner for fending off relay attacks.
 
 ## Hashing protocol transcripts
 
