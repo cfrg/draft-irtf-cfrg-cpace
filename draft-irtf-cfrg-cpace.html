@@ -2462,7 +2462,7 @@ CMAC <span>[<a href="#RFC4493" class="cite xref">RFC4493</a>]</span> using a key
 <p id="section-9.4-5">One suitable option that works also in the parallel setting without message ordering is to proceed as follows.<a href="#section-9.4-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.4-6.1">
-            <p id="section-9.4-6.1.1">First calculate mac_key as mac_key = H.hash(b"CPaceMac" || ISK).<a href="#section-9.4-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-9.4-6.1.1">First calculate mac_key as mac_key = H.hash(b"CPaceMac" || sid || ISK).<a href="#section-9.4-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.4-6.2">
             <p id="section-9.4-6.2.1">Then let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously. I.e.

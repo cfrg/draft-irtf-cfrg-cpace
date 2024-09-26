@@ -1109,7 +1109,8 @@ Table of Contents
    One suitable option that works also in the parallel setting without
    message ordering is to proceed as follows.
 
-   *  First calculate mac_key as mac_key = H.hash(b"CPaceMac" || ISK).
+   *  First calculate mac_key as mac_key = H.hash(b"CPaceMac" || sid ||
+      ISK).
 
    *  Then let each party send an authenticator tag Ta, Tb that is
       calculated over the protocol message that it has sent previously.
