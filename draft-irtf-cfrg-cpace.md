@@ -685,7 +685,7 @@ Corresponding test vectors are given in the appendix for all recommended cipher 
 
 A security proof of CPace is found in {{AHH21}}. This proof covers all recommended cipher suites included in this document.
 The security analysis in {{BGHJ24}} extends the analysis from {{AHH21}} and covers also the case that
-no pre-agreed session identifier is available. {{AHH21}} also shows how a session id sid\_output can be generated along with the protocol
+no pre-agreed session identifier is available. {{BGHJ24}} also shows how a session id sid\_output can be generated along with the protocol
 for applications that do not have a session identifier input available.
 
 ## Party identifiers and relay attacks {#sec-considerations-ids}
