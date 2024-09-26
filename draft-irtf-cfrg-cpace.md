@@ -232,7 +232,7 @@ For accomodating different application settings, CPace offers the following OPTI
   ADa and ADb could also include application protocol version information of an application protocol (e.g. to avoid downgrade attacks).
 
 - Session identifier (sid).
-  If both parties have access to the same unique string sid being specific for a communication session before starting the protocol,
+  If both parties have access to the same unique octet string sid being specific for a communication session before starting the protocol,
   it is RECOMMENDED to forward this sid value as an additional input for the protocol as this provides security advantages
   and will bind the CPace run to this communication session (see {{sec-considerations}}).
 
