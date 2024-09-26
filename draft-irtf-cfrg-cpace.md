@@ -219,10 +219,10 @@ For accomodating different application settings, CPace offers the following OPTI
   information. Both parties will only establish a common session key if they initiated the protocol with the same view of CI.
 
 - Associated data fields (ADa and ADb).
-  These fields can be used to authenticate associated data alongside the CPace protocol.
+  These fields can be used for authenticating associated data alongside the CPace protocol.
   The ADa and ADb will be sent in clear text as part of the protocol messages.
   ADa and ADb will become authenticated in a CPace protocol run as
-  both parties will only agree on a common key if they have the same view on ADa and ADb.
+  both parties will only agree on a common key if they have had the same view on ADa and ADb.
 
   If an application cannot integrate the party identities as part of CI, party identities (A,B) SHOULD be included in ADa and ADb instead
   (see {{sec-considerations-ids}}).
