@@ -745,7 +745,7 @@ CMAC {{?RFC4493}} using a key mac\_key derived from ISK.
 
 One suitable option that works also in the parallel setting without message ordering is to proceed as follows.
 
-- First calculate mac\_key as mac\_key = H.hash(b"CPaceMac" \|\| ISK).
+- First calculate mac\_key as mac\_key = H.hash(b"CPaceMac" \|\| sid \|\| ISK).
 
 - Then let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously. I.e.
   let party A calculate its transmitted authentication code Ta as Ta = MAC(mac\_key, lv\_cat(Ya,ADa)) and let party B calculate its transmitted
