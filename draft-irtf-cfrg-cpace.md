@@ -228,7 +228,7 @@ For accomodating different application settings, CPace offers the following OPTI
   (see {{sec-considerations-ids}}).
 
   In a setting with clear initiator and responder roles, identity information in ADa
-  sent by the initiator can be used by the responder for choosing the matching PRS string (respectively password) for this identity.
+  sent by the initiator can be used by the responder for choosing the appropriate PRS string (respectively password) for this identity.
   ADa and ADb could also include application protocol version information of an application protocol (e.g. to avoid downgrade attacks).
 
 - Session identifier (sid).
