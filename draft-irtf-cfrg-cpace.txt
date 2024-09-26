@@ -5,10 +5,10 @@
 Network Working Group                                         M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 29 March 2025      Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 30 March 2025      Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                       25 September 2024
+                                                       26 September 2024
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 March 2025.
+   This Internet-Draft will expire on 30 March 2025.
 
 Copyright Notice
 
@@ -282,7 +282,7 @@ Table of Contents
 
    As this document is primarily written for implementers and
    application designers, we would like to refer the theory-inclined
-   reader to the scientific paper [AHH21] which covers the detailed
+   reader to the scientific papers [AHH21] which covers the detailed
    security analysis of the different CPace instantiations as defined in
    this document via the cipher suites.
 
@@ -332,53 +332,60 @@ Table of Contents
    following OPTIONAL inputs, i.e. inputs which MAY also be the empty
    string:
 
-   *  Party identities (A,B).  In CPace each party should best be given
-      a party identity string, which might be a device name a user name
-      or an URL.  The advantage of using party identity identifiers is
-      that these will become authenticated in the course of the protocol
-      run if integrated.  If party identity strings are available, an
-      application should include identity strings.  This is done best as
-      part of the channel identifier CI or, alternatively, if they are
-      not available for both parties at the beginning of the protocol
-      run as part of the the associated data fields.
+   *  Party identity strings (A,B).  In CPace each party can be be given
+      a party identity string which might be a device name a user name
+      or an URL.  CPace offers two alternative options for
+      authenticating the party identifiers in the course of the protocol
+      run.  The preferred option is the integration of both, A and B
+      into the channel identifier string CI.  This is preferred as A and
+      B will be kept confidential and as this provides security
+      advantages (see Section 9.11).  Integrating A,B into CI requires
+      that both parties know the party identity string of the
+      communication partner before starting the protocol.  If this
+      requirement is not fullfilled in an application setting then CPace
+      offers the alternative of integrating A as part of the optional
+      input ADa and B as part of the optional input ADb.
 
    *  Channel identifier (CI).  CI can be used to bind a session key
       exchanged with CPace to a specific networking channel which
-      interconnects the protocol parties.  Both parties are required to
-      have the same view of CI.  CI will not be publicly sent on the
-      wire and may also include confidential information.  If both
-      parties have an expected party identity field of the communication
-      partner available before starting the protocol, it is RECOMMENDED
-      to include the party identifiers as part of the CI string.
+      interconnects the protocol parties.  CI could for instance include
+      networking addresses of both parties or party identity strings.
+      Both parties are required to have the same view of CI.  CI will
+      not be publicly sent on the wire and may also include confidential
+      information.  Both parties will only establish a common session
+      key if they initiated the protocol with the same view of CI.
 
    *  Associated data fields (ADa and ADb).  These fields can be used to
-      authenticate public associated data alongside the CPace protocol.
-      The values ADa (and ADb, respectively) are guaranteed to be
-      authenticated in case both parties agree on a common key.  ADa and
-      ADb will be send publicly on the wire.
+      authenticate associated data alongside the CPace protocol.  The
+      ADa and ADb will be sent in clear text as part of the protocol
+      messages.  ADa and ADb will become authenticated in a CPace
+      protocol run as both parties will only agree on a common key if
+      they have the same view on ADa and ADb.
 
-      If party identities are not encoded as part of CI, party
-      identities (A,B) SHOULD be included in ADa and ADb instead (see
-      Section 9.1).  In a setting with clear initiator and responder
-      roles, identity information in ADa sent by the initiator can be
-      used by the responder for choosing the right PRS string
-      (respectively password) for this identity.  ADa and ADb could also
-      include protocol version information of an application protocol
-      (e.g. to avoid downgrade attacks).
+      If an application cannot integrate the party identities as part of
+      CI, party identities (A,B) SHOULD be included in ADa and ADb
+      instead (see Section 9.1).
+
+      In a setting with clear initiator and responder roles, identity
+      information in ADa sent by the initiator can be used by the
+      responder for choosing the matching PRS string (respectively
+      password) for this identity.  ADa and ADb could also include
+      application protocol version information of an application
+      protocol (e.g. to avoid downgrade attacks).
 
    *  Session identifier (sid).  If both parties have access to the same
       unique string sid being specific for a communication session
-      before starting the protocol, it is RECOMMENDED to use this sid
-      value as an additional input for the protocol.  See Section 9.1 on
-      how presence or absence of sid affects the "quantum annoying"
-      property of CPace.
+      before starting the protocol, it is RECOMMENDED to forward this
+      sid value as an additional input for the protocol as this provides
+      security advantages and will bind the CPace run to this
+      communication session (see Section 9).
 
 3.2.  Optional CPace output
 
    If a session identifier is not available as input at protocol start
    CPace can optionally produce a session identifier sid_output as
-   output that might be helpful for actions subsequent to the CPace
-   protocol step (see Section 9.6).
+   output that might be helpful for the application for actions
+   subsequent to the CPace protocol step (see Section 9.6).
 
 3.3.  Responsibilities of the application layer
 
@@ -1258,7 +1265,10 @@ Table of Contents
    computational Diffie-Hellman problem per password guess [ES21].  If
    party identifiers are included as part of CI then the adversary is
    forced to solve one computational Diffie-Hellman problem per password
-   guess and party identifier pair.
+   guess and party identifier pair.  For this reason it is RECOMMENDED
+   to use the optional inputs sid if available in an application
+   setting.  For the same reason it is RECOMMENDED to integrate party
+   identity strings A,B into CI.
 
    In this sense, using the wording suggested by Steve Thomas on the
    CFRG mailing list, CPace is "quantum-annoying".
@@ -1346,7 +1356,7 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
               opaque-16>.
 
-   [REFIMP]   "CPace reference implementation (sage)", n.d.,
+   [REFIMP]   "CPace reference implementation (sage)", September 2024,
               <https://github.com/cfrg/draft-irtf-cfrg-
               cpace/tree/master/poc>.
 
