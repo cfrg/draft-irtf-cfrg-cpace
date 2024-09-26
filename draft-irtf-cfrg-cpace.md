@@ -690,7 +690,7 @@ for applications that do not have a session identifier input available.
 
 ## Party identifiers and relay attacks {#sec-considerations-ids}
 
-If unique strings identifying the protocol partners are included either as part of the channel identifier CI or the associated data 
+If unique strings identifying the protocol partners are included either as part of the channel identifier CI or the associated data
 fields ADa, ADb, then ISK will provide implicit authentication also regarding the party identities.
 
 Incorporating party identifier strings is important for fending off relay attacks.
