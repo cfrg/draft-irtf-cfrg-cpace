@@ -1739,7 +1739,7 @@ If an application cannot integrate the party identities (A,B) as part of CI, A S
 (see <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>).<a href="#section-3.1-2.3.2" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.3">
 In a setting with clear initiator and responder roles, identity information in ADa
-sent by the initiator can be used by the responder for choosing the matching PRS string (respectively password) for this identity.
+sent by the initiator can be used by the responder for choosing the appropriate PRS string (respectively password) for this identity.
 ADa and ADb could also include application protocol version information of an application protocol (e.g. to avoid downgrade attacks).<a href="#section-3.1-2.3.3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.4">
@@ -2396,7 +2396,8 @@ for applications that do not have a session identifier input available.<a href="
         <h3 id="name-party-identifiers-and-relay">
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-party-identifiers-and-relay" class="section-name selfRef">Party identifiers and relay attacks</a>
         </h3>
-<p id="section-9.1-1">If unique strings identifying the protocol partners are included either as part of the channel identifier CI, the session id sid or the associated data fields ADa, ADb, the ISK will provide implicit authentication also regarding the party identities.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-1">If unique strings identifying the protocol partners are included either as part of the channel identifier CI or the associated data
+fields ADa, ADb, then ISK will provide implicit authentication also regarding the party identities.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">Incorporating party identifier strings is important for fending off relay attacks.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
 An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead.

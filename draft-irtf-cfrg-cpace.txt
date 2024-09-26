@@ -368,7 +368,7 @@ Table of Contents
 
       In a setting with clear initiator and responder roles, identity
       information in ADa sent by the initiator can be used by the
-      responder for choosing the matching PRS string (respectively
+      responder for choosing the appropriate PRS string (respectively
       password) for this identity.  ADa and ADb could also include
       application protocol version information of an application
       protocol (e.g. to avoid downgrade attacks).
@@ -1028,9 +1028,9 @@ Table of Contents
 9.1.  Party identifiers and relay attacks
 
    If unique strings identifying the protocol partners are included
-   either as part of the channel identifier CI, the session id sid or
-   the associated data fields ADa, ADb, the ISK will provide implicit
-   authentication also regarding the party identities.
+   either as part of the channel identifier CI or the associated data
+   fields ADa, ADb, then ISK will provide implicit authentication also
+   regarding the party identities.
 
    Incorporating party identifier strings is important for fending off
    relay attacks.  Such attacks become relevant in a setting where
