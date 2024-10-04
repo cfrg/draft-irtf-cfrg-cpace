@@ -23,7 +23,7 @@ author:
  -  ins: J. Hesse
     name: Julia Hesse
     org: IBM Research Europe - Zurich
-    email: JHS@zurich.ibm.com
+    email: juliahesse2@gmail.com
 
 normative:
   SEC1:
