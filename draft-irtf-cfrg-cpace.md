@@ -160,9 +160,9 @@ The CPace design was tailored considering the following main objectives:
 
 - Versatility: CPace supports different application scenarios via versatile input formats, and by supporting applications with and without clear initiator and responder roles.
 
-- Implementation error resistance: CPace aims at avoiding common implementation pitfalls already by-design, such as avoiding incentives for insecure execution-time speed optimizations. For smooth integration into different cryptographic library ecosystems, this document provides a variety of cipher suites.
+- Implementation error resistance: CPace aims at avoiding common implementation pitfalls already by design, such as avoiding incentives for insecure execution-time speed optimizations. For smooth integration into different cryptographic library ecosystems, this document provides a variety of cipher suites.
 
-- Post-quantum annoyance: CPace comes with mitigations with respect to adversaries that become capable of breaking the discrete logarithm problem on elliptic curves.
+- Post-quantum annoyance: CPace comes with measures to slow down adversaries capable of breaking the discrete logarithm problem on elliptic curves.
 
 ## Outline of this document
 
@@ -176,10 +176,10 @@ The CPace design was tailored considering the following main objectives:
 
 - {{protocol-section}} specifies the CPace protocol.
 
-- The final section provides explicit reference implementations and test vectors of all of the
-  functions defined for CPace in the appendix.
+- The appendix provides explicit reference implementations and test vectors of all of the
+  functions defined for CPace.
 
-As this document is primarily written for implementers and application designers, we would like to refer the theory-inclined reader to the scientific papers {{AHH21}} which covers the detailed security analysis of the different CPace instantiations as defined in this document via the cipher suites.
+As this document is primarily written for implementers and application designers, we would like to refer the theory-inclined reader to the scientific paper {{AHH21}} which covers the detailed security analysis of the different CPace instantiations as defined in this document via the cipher suites.
 
 # Requirements Notation
 
@@ -188,30 +188,30 @@ As this document is primarily written for implementers and application designers
 
 # High-level application perspective {#ApplicationPerspective}
 
-CPace enables balanced password-authenticated key establishment. CPace requires a shared secret octet string, the password-related string (PRS), is available for both parties A and B. PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to {{?RFC8265}}, or any string derived from a common secret, for instance by use of a password-based key derivation function.
+CPace enables balanced password-authenticated key establishment. CPace requires a shared secret octet string, the password-related string (PRS) available to both parties A and B. PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to {{?RFC8265}}, or any string derived from a common secret, for instance by use of a key derivation function.
 
 Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use augmented PAKE protocols such as OPAQUE {{?I-D.irtf-cfrg-opaque}}.
 
 In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first.
 
-CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS string and the same value for the optional input parameters CI, ADa, ADb and sid that will be specified in the upcoming sections.
+CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the optional input parameters CI, ADa, ADb and sid that will be specified in the upcoming sections.
 
-The naming of ISK key as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) before using the key in a higher-level protocol.
+The naming of ISK as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) before using the key in a higher-level protocol.
 
 ## Optional CPace inputs
 
-For accomodating different application settings, CPace offers the following OPTIONAL inputs, i.e. inputs which MAY also be the empty string:
+For accommodating different application settings, CPace offers the following OPTIONAL inputs, i.e. inputs which MAY also be the empty string:
 
 - Party identity strings (A,B).
-  In CPace each party can be be given a party identity string which
+  In CPace each party can be  given a party identity string which
   might be a device name a user name or an URL.
   CPace offers two alternative options for authenticating the party identifiers in the course of the protocol run.
-  The RECOMMENDED option is to integrate of both, A and B into the channel identifier string CI. This option is to be
+  The RECOMMENDED option is to integrate both, A and B, into the channel identifier string CI. This option is to be
   preferred as A and B will be kept
   confidential and as this provides security advantages (see {{sec-quantum-annoying}} and {{sec-considerations-ids}}).
   Integrating A,B into CI, however, requires that both parties know the party identity string of the communication partner
-  before starting the protocol. If this requirement is not fullfilled in an application setting then CPace offers the alternative of
-  integrating A as part of the optional input ADa and B as part of the optional input ADb.
+  before starting the protocol. If this requirement is not fulfilled in an application setting then CPace offers the alternative of
+  integrating A as part of the optional input ADa and B as part of the optional input ADb. If the key exchange is successful, parties are guaranteed to learn each other's identity string.
 
 - Channel identifier (CI).
   CI can be used to bind a session key exchanged with CPace to a specific networking channel which interconnects the protocol parties.
@@ -229,17 +229,17 @@ For accomodating different application settings, CPace offers the following OPTI
   (see {{sec-considerations-ids}}).
 
   In a setting with clear initiator and responder roles, identity information in ADa
-  sent by the initiator can be used by the responder for choosing the appropriate PRS string (respectively password) for this identity.
-  ADa and ADb could also include application protocol version information of an application protocol (e.g. to avoid downgrade attacks).
+  sent by the initiator can be used by the responder for choosing the appropriate PRS (respectively password) for this identity.
+  ADa and ADb could also include application protocol version information (e.g. to avoid downgrade attacks).
 
 - Session identifier (sid).
-  If both parties have access to the same unique octet string sid being specific for a communication session before starting the protocol,
-  it is RECOMMENDED to forward this sid value as an additional input for the protocol as this provides security advantages
+  If both parties have access to the same unique public octet string sid being specific for a communication session before starting the protocol,
+  it is RECOMMENDED to use this sid value as an additional input for the protocol as this provides security advantages
   and will bind the CPace run to this communication session (see {{sec-considerations}}).
 
 ## Optional CPace outputs
 
-If a session identifier is not available as input at protocol start CPace can optionally produce a session identifier sid\_output
+If a session identifier is not available as input at protocol start CPace can optionally produce a unique public session identifier sid\_output
 as output that might be helpful for the application for actions subsequent to the CPace protocol step (see {{sec-sid-output}}, {{BGHJ24}}).
 
 ## Responsibilities of the application layer
@@ -292,17 +292,15 @@ CPace can also securely be implemented using the cipher suites CPACE-RISTR255-SH
 
 ## Hash function H
 
-Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}. (I.e. the hash function
+Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}. (I.e., the hash function
 outputs octet strings, and not group elements.)
 For considering both variable-output-length hashes and fixed-output-length hashes, we use the following convention.
-In case that the hash function is specified for a fixed-size output, we define H.hash(m,l) such
-that it returns the first l octets of the output.
 
 We use the following notation for referring to the specific properties of a hash function H:
 
-- H.hash(m,l) is a function that operates on an input octet string m and returns a hashing result of l octets.
+- H.hash(m,l) is a function that operates on an input octet string m and returns the first l octets of the hash of m.
 
-- H.b\_in\_bytes denotes the minimum output size in bytes for collision resistance for the
+- H.b\_in\_bytes denotes the _minimum_ output size in bytes for collision resistance for the
 security level target of the hash function. E.g. H.b\_in\_bytes = 64 for SHA-512 and SHAKE-256 and H.b\_in_bytes = 32 for
 SHA-256 and SHAKE-128. We use the notation H.hash(m) = H.hash(m, H.b\_in\_bytes) and let the hash operation
 output the default length if no explicit length parameter is given.
@@ -321,7 +319,7 @@ The group environment G specifies an elliptic curve group (also denoted G for co
 and functions as detailed below. In this document we use additive notation for the group operation.
 
 - G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group
-which is derived from input octet strings PRS, CI, and sid and with the help of the hash function H.
+which is derived from input octet strings PRS, CI, and sid and with the help of a hash function H.
 
 - G.sample\_scalar() is a function returning a representation of an integer (referred to as "scalar" from now on) appropriate as a
 private Diffie-Hellman key for the group.
@@ -339,7 +337,7 @@ representation of the group element g\*y. Additionally, scalar\_mult\_vfy specif
 
 ## Notation for string operations {#notation-section}
 
-- bytes1 \|\| bytes2 and denotes concatenation of octet strings.
+- bytes1 \|\| bytes2 denotes concatenation of octet strings.
 
 - len(S) denotes the number of octets in an octet string S.
 
@@ -348,10 +346,10 @@ representation of the group element g\*y. Additionally, scalar\_mult\_vfy specif
 - This document uses quotation marks "" both for general language (e.g. for citation of notation used in other documents) and
   as syntax for specifying octet strings as in b"CPace25519".
 
-  We use a preceeding lower-case letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
-  I.e. we use the notation convention for byte string representations with single-byte ASCII character encodings from the python programming language.
+  We use a preceding lowercase letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
+  I.e., we use the notation convention for byte string representations with single-byte ASCII character encodings from the python programming language.
 
-- LEB128 denotes an algorithm that converts an integer to a variable size string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
+- LEB128 denotes an algorithm that converts an integer to a variable sized string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
   As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
   Test vectors and reference implementations for LEB128 encodings are given in the appendix.
 
@@ -360,17 +358,17 @@ representation of the group element g\*y. Additionally, scalar\_mult\_vfy specif
   Test vectors and reference implementations for prepend\_len are given in the appendix.
 
 - lv\_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
-  their respective length prepended. E.g. lv\_cat(a0,a1) returns
+  their respective length prepended. E.g., lv\_cat(a0,a1) returns
   prepend\_len(a0) \|\| prepend\_len(a1). The detailed specification of lv\_cat and a reference implementations are given in the appendix.
 
-- sample\_random\_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from an uniform distribution between 0 and 255.
+- sample\_random\_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from a uniform distribution between 0 and 255.
 
 - zero\_bytes(n) denotes a function that returns n octets with value 0.
 
-- o\_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexiographically larger octet
+- o\_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexicographically larger octet
   string first and prepends the two bytes from the octet string b"oc" to the result. (Explicit reference code for this function is given in the appendix.)
 
-- transcript(Ya,ADa,Yb,ADb) denotes a function outputing an octet string for the protocol transcript.
+- transcript(Ya,ADa,Yb,ADb) denotes a function outputting an octet string for the protocol transcript.
   In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
   not enforced by the protocol flow, transcript\_oc(Ya,Yb,ADa,ADb) = o\_cat(lv\_cat(Ya,ADa),lv\_cat(Yb, ADb)) SHALL be used.
   In the initiator-responder setting the implementation transcript\_ir(Ya,Yb,ADa,ADb) = lv\_cat(Ya,ADa) \|\| lv\_cat(Yb, ADb) SHALL be used.
@@ -382,8 +380,8 @@ We use additive notation for the group, i.e., X\*2  denotes the element that is 
 # The CPace protocol {#protocol-section}
 
 CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G,H and OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb (for B).
-A sends the public share Ya and OPTIONAL associated data ADa (i.e. an ADa field that MAY have a length of 0 bytes) to B.
-Likewise, B sends the public share Yb and OPTIONAL associated data ADb (i.e. an ADb field that MAY have a length of 0 bytes).
+A sends the public share Ya and OPTIONAL associated data ADa (i.e., an ADa field that MAY have a length of 0 bytes) to B.
+Likewise, B sends the public share Yb and OPTIONAL associated data ADb (i.e., an ADb field that MAY have a length of 0 bytes).
 Both A and B use the received messages for deriving a shared intermediate session key, ISK.
 
 ## Protocol flow
@@ -421,13 +419,13 @@ Likewise upon reception of the message from B,  A computes K = G.scalar\_mult\_v
 Otherwise A calculates
 ISK = H.hash(lv\_cat(G.DSI \|\| b"\_ISK", sid, K) \|\| transcript(Ya,ADa,Yb,ADb)). A returns ISK and terminates.
 
-The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view of both parties match.
+The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and the transcript views of both parties match.
 
 # Implementation of recommended CPace cipher suites
 
 ## Common function for computing generators
 
-The different cipher suites for CPace defined in the upcoming sections share the same method for deterministically combining the individual strings PRS, CI, sid and the domain-separation identifier DSI to a generator string that we describe here.
+The different cipher suites for CPace defined in the upcoming sections share the following method for deterministically combining the individual strings PRS, CI, sid and the domain-separation identifier DSI to a generator string:
 
 - generator\_string(DSI, PRS, CI, sid, s\_in\_bytes) denotes a function that returns the string
 lv\_cat(DSI, PRS, zero\_bytes(len\_zpad), CI, sid).
@@ -502,15 +500,15 @@ For both G\_X448 and G\_X25519 the G.calculate\_generator(H, PRS,sid,CI) functio
    from {{?RFC9380}}. Note that the v coordinate produced by the map\_to\_curve\_elligator2 function
    is not required for CPace and discarded. The appendix repeats the definitions from {{?RFC9380}} for convenience.
 
-In the appendix we show sage code that can be used as reference implementation.
+In the appendix we show sage code that can be used as a reference implementation.
 
 ### Verification tests
 
-For single-coordinate Montgomery ladders on Montgomery curves verification tests according to {{verification}} SHALL
+For single-coordinate Montgomery ladders on Montgomery curves, verification tests according to {{verification}} SHALL
 check for proper handling of the abort conditions, when a party is receiving u coordinate values that encode a low-order
 point on either the curve or the quadratic twist.
 
-In addition to that in case of G_X25519 the tests SHALL also verify that the implementation of G.scalar\_mult\_vfy(y,g) produces the
+In addition to that, in case of G_X25519, the tests SHALL also verify that the implementation of G.scalar\_mult\_vfy(y,g) produces the
 expected results for non-canonical u coordinate values with bit #255 set, which may also encode low-order points.
 
 Corresponding test vectors are provided in the appendix.
@@ -607,14 +605,14 @@ Elliptic curves in Short-Weierstrass form are considered in {{IEEE1363}}.
 group MUST BE of prime order.
 
 The specification for the group environment objects specified in this section closely follow the ECKAS-DH1 method from {{IEEE1363}}.
-I.e. we use the same methods and encodings and protocol substeps as employed in the TLS
+I.e. we use the same methods and encodings and protocol sub steps as employed in the TLS
  {{?RFC5246}} {{?RFC8446}} protocol family.
 
 For CPace only the uncompressed full-coordinate encodings from {{SEC1}} (x and y coordinate) SHOULD be used.
 Commonly used curve groups are specified in {{SEC2}} and {{?RFC5639}}. A typical representative of such a Short-Weierstrass curve is NIST-P256.
 Point verification as used in ECKAS-DH1 is described in Annex A.16.10. of {{IEEE1363}}.
 
-For deriving Diffie-Hellman shared secrets ECKAS-DH1 from {{IEEE1363}} specifies the use of an ECSVDP-DH method. We use ECSVDP-DH in combination with the identy map such that it either returns "error" or the x-coordinate of the Diffie-Hellman result point as shared secret in big endian format (fixed length output by FE2OSP without truncating leading zeros).
+For deriving Diffie-Hellman shared secrets ECKAS-DH1 from {{IEEE1363}} specifies the use of an ECSVDP-DH method. We use ECSVDP-DH in combination with the identity map such that it either returns "error" or the x-coordinate of the Diffie-Hellman result point as shared secret in big endian format (fixed length output by FE2OSP without truncating leading zeros).
 
 ### Suitable encode\_to\_curve methods
 
@@ -685,8 +683,8 @@ Corresponding test vectors are given in the appendix for all recommended cipher 
 # Security Considerations {#sec-considerations}
 
 A security proof of CPace is found in {{AHH21}}. This proof covers all recommended cipher suites included in this document.
-The security analysis in {{BGHJ24}} extends the analysis from {{AHH21}} and covers also the case that
-no pre-agreed session identifier is available. {{BGHJ24}} also shows how a session id sid\_output can be generated along with the protocol
+The security analysis in {{BGHJ24}} extends the analysis from {{AHH21}} by covering the case that
+no pre-agreed session identifier is available. {{BGHJ24}} also shows how a unique session id sid\_output can be generated along with the protocol
 for applications that do not have a session identifier input available.
 
 ## Party identifiers and relay attacks {#sec-considerations-ids}
@@ -696,7 +694,7 @@ fields ADa, ADb, then ISK will provide implicit authentication also regarding th
 
 Incorporating party identifier strings is important for fending off relay attacks.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
-An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead.
+An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
 If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
 establishing a common ISK key with C while assuming to interact with party B.
 Including and checking party identifiers can fend off such relay attacks.
@@ -727,8 +725,8 @@ before using the key in a higher-level protocol.
 ## Key confirmation {#sec-key-confirmation}
 
 In many applications it is advisable to add an explicit key confirmation round after the CPace protocol flow. However, as some applications
-might only require implicit authentication and as explicit authentication messages are already a built-in feature in many higher-level protocols (e.g. TLS 1.3) the CPace protocol described here does not mandate
-use of a key confirmation on the level of the CPace sub-protocol.
+might only require implicit authentication and as explicit authentication messages are already a built-in feature in many higher-level protocols (e.g. TLS 1.3), the CPace protocol described here does not mandate
+key confirmation.
 
 Already without explicit key confirmation, CPace enjoys weak forward security under the sCDH and sSDH assumptions {{AHH21}}.
 With added explicit confirmation, CPace enjoys perfect forward security also under the strong sCDH and sSDH assumptions {{AHH21}}.
@@ -747,9 +745,9 @@ One suitable option that works also in the parallel setting without message orde
 
 - First calculate mac\_key as mac\_key = H.hash(b"CPaceMac" \|\| sid \|\| ISK).
 
-- Then let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously. I.e.
-  let party A calculate its transmitted authentication code Ta as Ta = MAC(mac\_key, lv\_cat(Ya,ADa)) and let party B calculate its transmitted
-  authentication code Tb as Tb = MAC(mac\_key, , lv\_cat(Yb,ADb)).
+- Then let each party send an authenticator tag calculated over the protocol message that it has sent previously. I.e.
+  let party A calculate its authentication tag Ta as Ta = MAC(mac\_key, lv\_cat(Ya,ADa)) and let party B calculate its
+  authentication tag Tb as Tb = MAC(mac\_key, lv\_cat(Yb,ADb)).
 
 - Let the receiving party check the remote authentication tag for the correct value and abort in case that it's incorrect.
 
@@ -764,12 +762,12 @@ such as e.g. done in the "Finished" messages in TLS1.3 {{RFC8446}}.
 
 If an embedding protocol uses more than two messages (e.g. four message TLS1.3 {{RFC8446}} flows involving
 a hello-retry message and a repeated client-hello message) it is suggested
-that the CPace layer only considers the two messages used for the CPace run. I.e. it is suggested that
-authenticating the full message sequence involving also the additional messages that might preceed the two CPace messages
-is done under the responsibiity of the embedding application protocol.
+that the CPace layer only considers the two messages used for the CPace run. I.e., it is suggested that
+authenticating the full message sequence involving also the additional messages that might precede the two CPace messages
+is done under the responsibility of the embedding application protocol.
 This could be done by integrating the full protocol transcript as part of a final explicit key confirmation round (as commonly done by TLS 1.3 as part of the "Finished" messages).
-Alternatively, information on communication rounds preceeding the CPace flows can also be integrated as part of the CI field, as this will authenticate
-the information and will not require both communication partners to keep state information regarding preceeding messages in memory until after the CPace run.
+Alternatively, information on communication rounds preceding the CPace flows can also be integrated as part of the CI field, as this will authenticate
+the information and will not require both communication partners to keep state information regarding preceding messages in memory until after the CPace run.
 
 In case of TLS 1.3 {{RFC8446}} it is suggested to integrate Ya into the client-hello message and Yb into the server-hello message. Also party identifiers
 might best be added to the client-hello and server-hello messages as part of extension fields.
@@ -781,18 +779,18 @@ client- and server hello fields will always become authenticated as part of the 
 
 ## Calculating a session identifier alongside with the CPace run {#sec-sid-output}
 
-If CPace was run with an empty string sid available as input, both parties can produce a session identifier string
-sid\_output = H.hash(b"CPaceSidOut" \|\| transcript(Ya,ADa, Yb,ADb)) which will be unique for honest parties {{BGHJ24}}.
+If CPace was run with an empty string sid available as input, both parties can produce a public session identifier string
+sid\_output = H.hash(b"CPaceSidOut" \|\| transcript(Ya,ADa,Yb,ADb)) which will be unique for honest parties {{BGHJ24}}.
 
 ## Sampling of scalars
 
 For curves over fields F\_q where q is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
 with respect to side-channels for embedded systems in hostile environments.
-The effect of non-uniform sampling on security was demonstrated to be begnin in {{AHH21}} for the case of Curve25519 and Curve448.
+The effect of non-uniform sampling on security was demonstrated to be benign in {{AHH21}} for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form.
 
-As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}. Alternatively an algorithm designed allong the lines of the hash\_to\_field() function from {{?RFC9380}} can also be
-used. There oversampling to an integer significantly larger than the curve order is followed by a modular reduction to the group order.
+As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}. Alternatively an algorithm designed along the lines of the hash\_to\_field() function from {{?RFC9380}} can also be
+used. There, oversampling to an integer significantly larger than the curve order is followed by a modular reduction to the group order.
 
 ## Preconditions for using the simplified CPace specification from {{CPaceMontgomery}}
 
