@@ -1645,10 +1645,10 @@ for at most one single password guess per active interaction.<a href="#section-1
           <p id="section-1-3.2.1">Versatility: CPace supports different application scenarios via versatile input formats, and by supporting applications with and without clear initiator and responder roles.<a href="#section-1-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-3.3">
-          <p id="section-1-3.3.1">Implementation error resistance: CPace aims at avoiding common implementation pitfalls already by-design, such as avoiding incentives for insecure execution-time speed optimizations. For smooth integration into different cryptographic library ecosystems, this document provides a variety of cipher suites.<a href="#section-1-3.3.1" class="pilcrow">¶</a></p>
+          <p id="section-1-3.3.1">Implementation error resistance: CPace aims at avoiding common implementation pitfalls already by design, such as avoiding incentives for insecure execution-time speed optimizations. For smooth integration into different cryptographic library ecosystems, this document provides a variety of cipher suites.<a href="#section-1-3.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-3.4">
-          <p id="section-1-3.4.1">Post-quantum annoyance: CPace comes with mitigations with respect to adversaries that become capable of breaking the discrete logarithm problem on elliptic curves.<a href="#section-1-3.4.1" class="pilcrow">¶</a></p>
+          <p id="section-1-3.4.1">Post-quantum annoyance: CPace comes with measures to slow down adversaries capable of breaking the discrete logarithm problem on elliptic curves.<a href="#section-1-3.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <div id="outline-of-this-document">
@@ -1672,11 +1672,11 @@ library ecosystems.<a href="#section-1.1-1.2.1" class="pilcrow">¶</a></p>
             <p id="section-1.1-1.4.1"><a href="#protocol-section" class="auto internal xref">Section 6</a> specifies the CPace protocol.<a href="#section-1.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-1.5">
-            <p id="section-1.1-1.5.1">The final section provides explicit reference implementations and test vectors of all of the
-functions defined for CPace in the appendix.<a href="#section-1.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-1.5.1">The appendix provides explicit reference implementations and test vectors of all of the
+functions defined for CPace.<a href="#section-1.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-1.1-2">As this document is primarily written for implementers and application designers, we would like to refer the theory-inclined reader to the scientific papers <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> which covers the detailed security analysis of the different CPace instantiations as defined in this document via the cipher suites.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">As this document is primarily written for implementers and application designers, we would like to refer the theory-inclined reader to the scientific paper <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> which covers the detailed security analysis of the different CPace instantiations as defined in this document via the cipher suites.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1698,29 +1698,29 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-high-level-application-pers">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-high-level-application-pers" class="section-name selfRef">High-level application perspective</a>
       </h2>
-<p id="section-3-1">CPace enables balanced password-authenticated key establishment. CPace requires a shared secret octet string, the password-related string (PRS), is available for both parties A and B. PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to <span>[<a href="#RFC8265" class="cite xref">RFC8265</a>]</span>, or any string derived from a common secret, for instance by use of a password-based key derivation function.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">CPace enables balanced password-authenticated key establishment. CPace requires a shared secret octet string, the password-related string (PRS) available to both parties A and B. PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to <span>[<a href="#RFC8265" class="cite xref">RFC8265</a>]</span>, or any string derived from a common secret, for instance by use of a key derivation function.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use augmented PAKE protocols such as OPAQUE <span>[<a href="#I-D.irtf-cfrg-opaque" class="cite xref">I-D.irtf-cfrg-opaque</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS string and the same value for the optional input parameters CI, ADa, ADb and sid that will be specified in the upcoming sections.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">The naming of ISK key as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation function KDF (such as defined in <span>[<a href="#RFC5869" class="cite xref">RFC5869</a>]</span>) before using the key in a higher-level protocol.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-4">CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the optional input parameters CI, ADa, ADb and sid that will be specified in the upcoming sections.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">The naming of ISK as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation function KDF (such as defined in <span>[<a href="#RFC5869" class="cite xref">RFC5869</a>]</span>) before using the key in a higher-level protocol.<a href="#section-3-5" class="pilcrow">¶</a></p>
 <div id="optional-cpace-inputs">
 <section id="section-3.1">
         <h3 id="name-optional-cpace-inputs">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-optional-cpace-inputs" class="section-name selfRef">Optional CPace inputs</a>
         </h3>
-<p id="section-3.1-1">For accomodating different application settings, CPace offers the following OPTIONAL inputs, i.e. inputs which MAY also be the empty string:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-1">For accommodating different application settings, CPace offers the following OPTIONAL inputs, i.e. inputs which MAY also be the empty string:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.1-2.1">
             <p id="section-3.1-2.1.1">Party identity strings (A,B).
-In CPace each party can be be given a party identity string which
+In CPace each party can be  given a party identity string which
 might be a device name a user name or an URL.
 CPace offers two alternative options for authenticating the party identifiers in the course of the protocol run.
-The RECOMMENDED option is to integrate of both, A and B into the channel identifier string CI. This option is to be
+The RECOMMENDED option is to integrate both, A and B, into the channel identifier string CI. This option is to be
 preferred as A and B will be kept
 confidential and as this provides security advantages (see <a href="#sec-quantum-annoying" class="auto internal xref">Section 9.11</a> and <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>).
 Integrating A,B into CI, however, requires that both parties know the party identity string of the communication partner
-before starting the protocol. If this requirement is not fullfilled in an application setting then CPace offers the alternative of
-integrating A as part of the optional input ADa and B as part of the optional input ADb.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
+before starting the protocol. If this requirement is not fulfilled in an application setting then CPace offers the alternative of
+integrating A as part of the optional input ADa and B as part of the optional input ADb. If the key exchange is successful, parties are guaranteed to learn each other's identity string.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.2">
             <p id="section-3.1-2.2.1">Channel identifier (CI).
@@ -1740,13 +1740,13 @@ If an application cannot integrate the party identities (A,B) as part of CI, A S
 (see <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>).<a href="#section-3.1-2.3.2" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.3">
 In a setting with clear initiator and responder roles, identity information in ADa
-sent by the initiator can be used by the responder for choosing the appropriate PRS string (respectively password) for this identity.
-ADa and ADb could also include application protocol version information of an application protocol (e.g. to avoid downgrade attacks).<a href="#section-3.1-2.3.3" class="pilcrow">¶</a></p>
+sent by the initiator can be used by the responder for choosing the appropriate PRS (respectively password) for this identity.
+ADa and ADb could also include application protocol version information (e.g. to avoid downgrade attacks).<a href="#section-3.1-2.3.3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.4">
             <p id="section-3.1-2.4.1">Session identifier (sid).
-If both parties have access to the same unique octet string sid being specific for a communication session before starting the protocol,
-it is RECOMMENDED to forward this sid value as an additional input for the protocol as this provides security advantages
+If both parties have access to the same unique public octet string sid being specific for a communication session before starting the protocol,
+it is RECOMMENDED to use this sid value as an additional input for the protocol as this provides security advantages
 and will bind the CPace run to this communication session (see <a href="#sec-considerations" class="auto internal xref">Section 9</a>).<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
@@ -1757,7 +1757,7 @@ and will bind the CPace run to this communication session (see <a href="#sec-con
         <h3 id="name-optional-cpace-outputs">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-optional-cpace-outputs" class="section-name selfRef">Optional CPace outputs</a>
         </h3>
-<p id="section-3.2-1">If a session identifier is not available as input at protocol start CPace can optionally produce a session identifier sid_output
+<p id="section-3.2-1">If a session identifier is not available as input at protocol start CPace can optionally produce a unique public session identifier sid_output
 as output that might be helpful for the application for actions subsequent to the CPace protocol step (see <a href="#sec-sid-output" class="auto internal xref">Section 9.6</a>, <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span>).<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1837,18 +1837,16 @@ from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> on curve NI
         <h3 id="name-hash-function-h">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-hash-function-h" class="section-name selfRef">Hash function H</a>
         </h3>
-<p id="section-5.1-1">Common choices for H are SHA-512 <span>[<a href="#RFC6234" class="cite xref">RFC6234</a>]</span> or SHAKE-256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span>. (I.e. the hash function
+<p id="section-5.1-1">Common choices for H are SHA-512 <span>[<a href="#RFC6234" class="cite xref">RFC6234</a>]</span> or SHAKE-256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span>. (I.e., the hash function
 outputs octet strings, and not group elements.)
-For considering both variable-output-length hashes and fixed-output-length hashes, we use the following convention.
-In case that the hash function is specified for a fixed-size output, we define H.hash(m,l) such
-that it returns the first l octets of the output.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+For considering both variable-output-length hashes and fixed-output-length hashes, we use the following convention.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">We use the following notation for referring to the specific properties of a hash function H:<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.1-3.1">
-            <p id="section-5.1-3.1.1">H.hash(m,l) is a function that operates on an input octet string m and returns a hashing result of l octets.<a href="#section-5.1-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-3.1.1">H.hash(m,l) is a function that operates on an input octet string m and returns the first l octets of the hash of m.<a href="#section-5.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-3.2">
-            <p id="section-5.1-3.2.1">H.b_in_bytes denotes the minimum output size in bytes for collision resistance for the
+            <p id="section-5.1-3.2.1">H.b_in_bytes denotes the <em>minimum</em> output size in bytes for collision resistance for the
 security level target of the hash function. E.g. H.b_in_bytes = 64 for SHA-512 and SHAKE-256 and H.b_in_bytes = 32 for
 SHA-256 and SHAKE-128. We use the notation H.hash(m) = H.hash(m, H.b_in_bytes) and let the hash operation
 output the default length if no explicit length parameter is given.<a href="#section-5.1-3.2.1" class="pilcrow">¶</a></p>
@@ -1876,7 +1874,7 @@ and functions as detailed below. In this document we use additive notation for t
 <ul class="normal">
 <li class="normal" id="section-5.2-2.1">
             <p id="section-5.2-2.1.1">G.calculate_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group
-which is derived from input octet strings PRS, CI, and sid and with the help of the hash function H.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
+which is derived from input octet strings PRS, CI, and sid and with the help of a hash function H.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.2">
             <p id="section-5.2-2.2.1">G.sample_scalar() is a function returning a representation of an integer (referred to as "scalar" from now on) appropriate as a
@@ -1907,7 +1905,7 @@ representation of the group element g*y. Additionally, scalar_mult_vfy specifies
         </h3>
 <ul class="normal">
 <li class="normal" id="section-5.3-1.1">
-            <p id="section-5.3-1.1.1">bytes1 || bytes2 and denotes concatenation of octet strings.<a href="#section-5.3-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.1.1">bytes1 || bytes2 denotes concatenation of octet strings.<a href="#section-5.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.2">
             <p id="section-5.3-1.2.1">len(S) denotes the number of octets in an octet string S.<a href="#section-5.3-1.2.1" class="pilcrow">¶</a></p>
@@ -1919,11 +1917,11 @@ representation of the group element g*y. Additionally, scalar_mult_vfy specifies
             <p id="section-5.3-1.4.1">This document uses quotation marks "" both for general language (e.g. for citation of notation used in other documents) and
 as syntax for specifying octet strings as in b"CPace25519".<a href="#section-5.3-1.4.1" class="pilcrow">¶</a></p>
 <p id="section-5.3-1.4.2">
-We use a preceeding lower-case letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
-I.e. we use the notation convention for byte string representations with single-byte ASCII character encodings from the python programming language.<a href="#section-5.3-1.4.2" class="pilcrow">¶</a></p>
+We use a preceding lowercase letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
+I.e., we use the notation convention for byte string representations with single-byte ASCII character encodings from the python programming language.<a href="#section-5.3-1.4.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.5">
-            <p id="section-5.3-1.5.1">LEB128 denotes an algorithm that converts an integer to a variable size string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
+            <p id="section-5.3-1.5.1">LEB128 denotes an algorithm that converts an integer to a variable sized string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
 As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
 Test vectors and reference implementations for LEB128 encodings are given in the appendix.<a href="#section-5.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
@@ -1934,21 +1932,21 @@ Test vectors and reference implementations for prepend_len are given in the appe
 </li>
           <li class="normal" id="section-5.3-1.7">
             <p id="section-5.3-1.7.1">lv_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
-their respective length prepended. E.g. lv_cat(a0,a1) returns
+their respective length prepended. E.g., lv_cat(a0,a1) returns
 prepend_len(a0) || prepend_len(a1). The detailed specification of lv_cat and a reference implementations are given in the appendix.<a href="#section-5.3-1.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.8">
-            <p id="section-5.3-1.8.1">sample_random_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from an uniform distribution between 0 and 255.<a href="#section-5.3-1.8.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.8.1">sample_random_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from a uniform distribution between 0 and 255.<a href="#section-5.3-1.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.9">
             <p id="section-5.3-1.9.1">zero_bytes(n) denotes a function that returns n octets with value 0.<a href="#section-5.3-1.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.10">
-            <p id="section-5.3-1.10.1">o_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexiographically larger octet
+            <p id="section-5.3-1.10.1">o_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexicographically larger octet
 string first and prepends the two bytes from the octet string b"oc" to the result. (Explicit reference code for this function is given in the appendix.)<a href="#section-5.3-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.11">
-            <p id="section-5.3-1.11.1">transcript(Ya,ADa,Yb,ADb) denotes a function outputing an octet string for the protocol transcript.
+            <p id="section-5.3-1.11.1">transcript(Ya,ADa,Yb,ADb) denotes a function outputting an octet string for the protocol transcript.
 In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
 not enforced by the protocol flow, transcript_oc(Ya,Yb,ADa,ADb) = o_cat(lv_cat(Ya,ADa),lv_cat(Yb, ADb)) SHALL be used.
 In the initiator-responder setting the implementation transcript_ir(Ya,Yb,ADa,ADb) = lv_cat(Ya,ADa) || lv_cat(Yb, ADb) SHALL be used.<a href="#section-5.3-1.11.1" class="pilcrow">¶</a></p>
@@ -1972,8 +1970,8 @@ In the initiator-responder setting the implementation transcript_ir(Ya,Yb,ADa,AD
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-the-cpace-protocol" class="section-name selfRef">The CPace protocol</a>
       </h2>
 <p id="section-6-1">CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G,H and OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb (for B).
-A sends the public share Ya and OPTIONAL associated data ADa (i.e. an ADa field that MAY have a length of 0 bytes) to B.
-Likewise, B sends the public share Yb and OPTIONAL associated data ADb (i.e. an ADb field that MAY have a length of 0 bytes).
+A sends the public share Ya and OPTIONAL associated data ADa (i.e., an ADa field that MAY have a length of 0 bytes) to B.
+Likewise, B sends the public share Yb and OPTIONAL associated data ADb (i.e., an ADb field that MAY have a length of 0 bytes).
 Both A and B use the received messages for deriving a shared intermediate session key, ISK.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <div id="protocol-flow">
 <section id="section-6.1">
@@ -2013,7 +2011,7 @@ ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid, K)||transcript(Ya,ADa,Yb,ADb)). B ret
 <p id="section-6.2-4">Likewise upon reception of the message from B,  A computes K = G.scalar_mult_vfy(ya,Yb). A MUST abort if K=G.I.<a href="#section-6.2-4" class="pilcrow">¶</a></p>
 <p id="section-6.2-5">Otherwise A calculates
 ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid, K) || transcript(Ya,ADa,Yb,ADb)). A returns ISK and terminates.<a href="#section-6.2-5" class="pilcrow">¶</a></p>
-<p id="section-6.2-6">The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and transcript view of both parties match.<a href="#section-6.2-6" class="pilcrow">¶</a></p>
+<p id="section-6.2-6">The session key ISK returned by A and B is identical if and only if the supplied input parameters PRS, CI and sid match on both sides and the transcript views of both parties match.<a href="#section-6.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2028,7 +2026,7 @@ ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid, K) || transcript(Ya,ADa,Yb,ADb)). A r
         <h3 id="name-common-function-for-computi">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-common-function-for-computi" class="section-name selfRef">Common function for computing generators</a>
         </h3>
-<p id="section-7.1-1">The different cipher suites for CPace defined in the upcoming sections share the same method for deterministically combining the individual strings PRS, CI, sid and the domain-separation identifier DSI to a generator string that we describe here.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-1">The different cipher suites for CPace defined in the upcoming sections share the following method for deterministically combining the individual strings PRS, CI, sid and the domain-separation identifier DSI to a generator string:<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.1-2.1">
             <p id="section-7.1-2.1.1">generator_string(DSI, PRS, CI, sid, s_in_bytes) denotes a function that returns the string
@@ -2125,16 +2123,16 @@ from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span>. Note that 
 is not required for CPace and discarded. The appendix repeats the definitions from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> for convenience.<a href="#section-7.2-9.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.2-10">In the appendix we show sage code that can be used as reference implementation.<a href="#section-7.2-10" class="pilcrow">¶</a></p>
+<p id="section-7.2-10">In the appendix we show sage code that can be used as a reference implementation.<a href="#section-7.2-10" class="pilcrow">¶</a></p>
 <div id="verification-tests">
 <section id="section-7.2.1">
           <h4 id="name-verification-tests">
 <a href="#section-7.2.1" class="section-number selfRef">7.2.1. </a><a href="#name-verification-tests" class="section-name selfRef">Verification tests</a>
           </h4>
-<p id="section-7.2.1-1">For single-coordinate Montgomery ladders on Montgomery curves verification tests according to <a href="#verification" class="auto internal xref">Section 8</a> SHALL
+<p id="section-7.2.1-1">For single-coordinate Montgomery ladders on Montgomery curves, verification tests according to <a href="#verification" class="auto internal xref">Section 8</a> SHALL
 check for proper handling of the abort conditions, when a party is receiving u coordinate values that encode a low-order
 point on either the curve or the quadratic twist.<a href="#section-7.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.2.1-2">In addition to that in case of G_X25519 the tests SHALL also verify that the implementation of G.scalar_mult_vfy(y,g) produces the
+<p id="section-7.2.1-2">In addition to that, in case of G_X25519, the tests SHALL also verify that the implementation of G.scalar_mult_vfy(y,g) produces the
 expected results for non-canonical u coordinate values with bit #255 set, which may also encode low-order points.<a href="#section-7.2.1-2" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-3">Corresponding test vectors are provided in the appendix.<a href="#section-7.2.1-3" class="pilcrow">¶</a></p>
 </section>
@@ -2269,12 +2267,12 @@ encode_to_curve must map an octet string to a point on the curve.<a href="#secti
 <span>[<a href="#IEEE1363" class="cite xref">IEEE1363</a>]</span> allows for both, curves of prime and non-prime order. However, for the procedures described in this section any suitable
 group MUST BE of prime order.<a href="#section-7.4.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.4.1-2">The specification for the group environment objects specified in this section closely follow the ECKAS-DH1 method from <span>[<a href="#IEEE1363" class="cite xref">IEEE1363</a>]</span>.
-I.e. we use the same methods and encodings and protocol substeps as employed in the TLS
+I.e. we use the same methods and encodings and protocol sub steps as employed in the TLS
  <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span> <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> protocol family.<a href="#section-7.4.1-2" class="pilcrow">¶</a></p>
 <p id="section-7.4.1-3">For CPace only the uncompressed full-coordinate encodings from <span>[<a href="#SEC1" class="cite xref">SEC1</a>]</span> (x and y coordinate) SHOULD be used.
 Commonly used curve groups are specified in <span>[<a href="#SEC2" class="cite xref">SEC2</a>]</span> and <span>[<a href="#RFC5639" class="cite xref">RFC5639</a>]</span>. A typical representative of such a Short-Weierstrass curve is NIST-P256.
 Point verification as used in ECKAS-DH1 is described in Annex A.16.10. of <span>[<a href="#IEEE1363" class="cite xref">IEEE1363</a>]</span>.<a href="#section-7.4.1-3" class="pilcrow">¶</a></p>
-<p id="section-7.4.1-4">For deriving Diffie-Hellman shared secrets ECKAS-DH1 from <span>[<a href="#IEEE1363" class="cite xref">IEEE1363</a>]</span> specifies the use of an ECSVDP-DH method. We use ECSVDP-DH in combination with the identy map such that it either returns "error" or the x-coordinate of the Diffie-Hellman result point as shared secret in big endian format (fixed length output by FE2OSP without truncating leading zeros).<a href="#section-7.4.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.4.1-4">For deriving Diffie-Hellman shared secrets ECKAS-DH1 from <span>[<a href="#IEEE1363" class="cite xref">IEEE1363</a>]</span> specifies the use of an ECSVDP-DH method. We use ECSVDP-DH in combination with the identity map such that it either returns "error" or the x-coordinate of the Diffie-Hellman result point as shared secret in big endian format (fixed length output by FE2OSP without truncating leading zeros).<a href="#section-7.4.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="suitable-encodetocurve-methods">
@@ -2389,8 +2387,8 @@ in a protocol run. It SHALL be verified that the abort condition is properly han
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-9-1">A security proof of CPace is found in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>. This proof covers all recommended cipher suites included in this document.
-The security analysis in <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span> extends the analysis from <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> and covers also the case that
-no pre-agreed session identifier is available. <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span> also shows how a session id sid_output can be generated along with the protocol
+The security analysis in <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span> extends the analysis from <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> by covering the case that
+no pre-agreed session identifier is available. <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span> also shows how a unique session id sid_output can be generated along with the protocol
 for applications that do not have a session identifier input available.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <div id="sec-considerations-ids">
 <section id="section-9.1">
@@ -2401,7 +2399,7 @@ for applications that do not have a session identifier input available.<a href="
 fields ADa, ADb, then ISK will provide implicit authentication also regarding the party identities.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">Incorporating party identifier strings is important for fending off relay attacks.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
-An adversary might relay messages from a honest user A, who aims at interacting with user B, to a party C instead.
+An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
 If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
 establishing a common ISK key with C while assuming to interact with party B.
 Including and checking party identifiers can fend off such relay attacks.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
@@ -2447,8 +2445,8 @@ before using the key in a higher-level protocol.<a href="#section-9.3-2" class="
 <a href="#section-9.4" class="section-number selfRef">9.4. </a><a href="#name-key-confirmation" class="section-name selfRef">Key confirmation</a>
         </h3>
 <p id="section-9.4-1">In many applications it is advisable to add an explicit key confirmation round after the CPace protocol flow. However, as some applications
-might only require implicit authentication and as explicit authentication messages are already a built-in feature in many higher-level protocols (e.g. TLS 1.3) the CPace protocol described here does not mandate
-use of a key confirmation on the level of the CPace sub-protocol.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
+might only require implicit authentication and as explicit authentication messages are already a built-in feature in many higher-level protocols (e.g. TLS 1.3), the CPace protocol described here does not mandate
+key confirmation.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
 <p id="section-9.4-2">Already without explicit key confirmation, CPace enjoys weak forward security under the sCDH and sSDH assumptions <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>.
 With added explicit confirmation, CPace enjoys perfect forward security also under the strong sCDH and sSDH assumptions <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span>.<a href="#section-9.4-2" class="pilcrow">¶</a></p>
 <p id="section-9.4-3">Note that in <span>[<a href="#ABKLX21" class="cite xref">ABKLX21</a>]</span> it was shown that an idealized variant of CPace
@@ -2465,9 +2463,9 @@ CMAC <span>[<a href="#RFC4493" class="cite xref">RFC4493</a>]</span> using a key
             <p id="section-9.4-6.1.1">First calculate mac_key as mac_key = H.hash(b"CPaceMac" || sid || ISK).<a href="#section-9.4-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.4-6.2">
-            <p id="section-9.4-6.2.1">Then let each party send an authenticator tag Ta, Tb that is calculated over the protocol message that it has sent previously. I.e.
-let party A calculate its transmitted authentication code Ta as Ta = MAC(mac_key, lv_cat(Ya,ADa)) and let party B calculate its transmitted
-authentication code Tb as Tb = MAC(mac_key, , lv_cat(Yb,ADb)).<a href="#section-9.4-6.2.1" class="pilcrow">¶</a></p>
+            <p id="section-9.4-6.2.1">Then let each party send an authenticator tag calculated over the protocol message that it has sent previously. I.e.
+let party A calculate its authentication tag Ta as Ta = MAC(mac_key, lv_cat(Ya,ADa)) and let party B calculate its
+authentication tag Tb as Tb = MAC(mac_key, lv_cat(Yb,ADb)).<a href="#section-9.4-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.4-6.3">
             <p id="section-9.4-6.3.1">Let the receiving party check the remote authentication tag for the correct value and abort in case that it's incorrect.<a href="#section-9.4-6.3.1" class="pilcrow">¶</a></p>
@@ -2487,12 +2485,12 @@ For providing explicit authentication, it is recommended to add a key confirmati
 such as e.g. done in the "Finished" messages in TLS1.3 <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>.<a href="#section-9.5-2" class="pilcrow">¶</a></p>
 <p id="section-9.5-3">If an embedding protocol uses more than two messages (e.g. four message TLS1.3 <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> flows involving
 a hello-retry message and a repeated client-hello message) it is suggested
-that the CPace layer only considers the two messages used for the CPace run. I.e. it is suggested that
-authenticating the full message sequence involving also the additional messages that might preceed the two CPace messages
-is done under the responsibiity of the embedding application protocol.
+that the CPace layer only considers the two messages used for the CPace run. I.e., it is suggested that
+authenticating the full message sequence involving also the additional messages that might precede the two CPace messages
+is done under the responsibility of the embedding application protocol.
 This could be done by integrating the full protocol transcript as part of a final explicit key confirmation round (as commonly done by TLS 1.3 as part of the "Finished" messages).
-Alternatively, information on communication rounds preceeding the CPace flows can also be integrated as part of the CI field, as this will authenticate
-the information and will not require both communication partners to keep state information regarding preceeding messages in memory until after the CPace run.<a href="#section-9.5-3" class="pilcrow">¶</a></p>
+Alternatively, information on communication rounds preceding the CPace flows can also be integrated as part of the CI field, as this will authenticate
+the information and will not require both communication partners to keep state information regarding preceding messages in memory until after the CPace run.<a href="#section-9.5-3" class="pilcrow">¶</a></p>
 <p id="section-9.5-4">In case of TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> it is suggested to integrate Ya into the client-hello message and Yb into the server-hello message. Also party identifiers
 might best be added to the client-hello and server-hello messages as part of extension fields.
 It is recommended to use the full octet stream encoding of the
@@ -2507,8 +2505,8 @@ client- and server hello fields will always become authenticated as part of the 
         <h3 id="name-calculating-a-session-ident">
 <a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-calculating-a-session-ident" class="section-name selfRef">Calculating a session identifier alongside with the CPace run</a>
         </h3>
-<p id="section-9.6-1">If CPace was run with an empty string sid available as input, both parties can produce a session identifier string
-sid_output = H.hash(b"CPaceSidOut" || transcript(Ya,ADa, Yb,ADb)) which will be unique for honest parties <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span>.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.6-1">If CPace was run with an empty string sid available as input, both parties can produce a public session identifier string
+sid_output = H.hash(b"CPaceSidOut" || transcript(Ya,ADa,Yb,ADb)) which will be unique for honest parties <span>[<a href="#BGHJ24" class="cite xref">BGHJ24</a>]</span>.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sampling-of-scalars">
@@ -2518,10 +2516,10 @@ sid_output = H.hash(b"CPaceSidOut" || transcript(Ya,ADa, Yb,ADb)) which will be 
         </h3>
 <p id="section-9.7-1">For curves over fields F_q where q is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field_size_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
 with respect to side-channels for embedded systems in hostile environments.
-The effect of non-uniform sampling on security was demonstrated to be begnin in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> for the case of Curve25519 and Curve448.
+The effect of non-uniform sampling on security was demonstrated to be benign in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
-<p id="section-9.7-2">As a result, we recommend rejection sampling if G is as in <a href="#CPaceWeierstrass" class="auto internal xref">Section 7.4</a>. Alternatively an algorithm designed allong the lines of the hash_to_field() function from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> can also be
-used. There oversampling to an integer significantly larger than the curve order is followed by a modular reduction to the group order.<a href="#section-9.7-2" class="pilcrow">¶</a></p>
+<p id="section-9.7-2">As a result, we recommend rejection sampling if G is as in <a href="#CPaceWeierstrass" class="auto internal xref">Section 7.4</a>. Alternatively an algorithm designed along the lines of the hash_to_field() function from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> can also be
+used. There, oversampling to an integer significantly larger than the curve order is followed by a modular reduction to the group order.<a href="#section-9.7-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="preconditions-for-using-the-simplified-cpace-specification-from-cpacemontgomery">
