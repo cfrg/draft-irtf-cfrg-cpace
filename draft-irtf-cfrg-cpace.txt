@@ -5,10 +5,10 @@
 Network Working Group                                         M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 30 March 2025      Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 7 April 2025       Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                       26 September 2024
+                                                          4 October 2024
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 March 2025.
+   This Internet-Draft will expire on 7 April 2025.
 
 Copyright Notice
 
@@ -1359,9 +1359,9 @@ Table of Contents
    [I-D.irtf-cfrg-opaque]
               Bourdrez, D., Krawczyk, H., Lewi, K., and C. A. Wood, "The
               OPAQUE Augmented PAKE Protocol", Work in Progress,
-              Internet-Draft, draft-irtf-cfrg-opaque-16, 12 June 2024,
-              <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
-              opaque-16>.
+              Internet-Draft, draft-irtf-cfrg-opaque-17, 27 September
+              2024, <https://datatracker.ietf.org/doc/html/draft-irtf-
+              cfrg-opaque-17>.
 
    [REFIMP]   "CPace reference implementation (sage)", September 2024,
               <https://github.com/cfrg/draft-irtf-cfrg-
