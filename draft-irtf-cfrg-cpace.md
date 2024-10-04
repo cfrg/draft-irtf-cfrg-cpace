@@ -79,7 +79,7 @@ informative:
     target: link.springer.com/chapter/10.1007/978-3-031-68379-4_6
     author:
       -
-        ins: M Barbosa
+        ins: M. Barbosa
       -
         ins: K. Gellert
       -
