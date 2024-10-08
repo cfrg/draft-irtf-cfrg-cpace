@@ -861,9 +861,11 @@ In this sense, using the wording suggested by Steve Thomas on the CFRG mailing l
 
 No IANA action is required.
 
-# Reference implementation
+# Reference implementation and test vector generation
 
 The reference implementation that was used for deriving test vectors is available at {{REFIMP}}.
+The embedded base64-encoded test vectors will decode to JSON files having the test vector's octet strings encoded as base64 strings.
+
 
 # Acknowledgements
 
