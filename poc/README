@@ -6,8 +6,9 @@ make testvectors
 
 There will be a json file and a markdown file generated and stored at ../
 
-Don't forget to also pull the submodules: We include code from the hash_to_curve reference implementation.
+Code was tested with SageMath version 9.5 released at 2022-01-30.
 
+Don't forget to also pull the submodules: We include code from the hash_to_curve reference implementation.
 
 Warning:
 The jupyter notebook files might be a bit outdated. Recently we only worked on the plain .sage scripts.
