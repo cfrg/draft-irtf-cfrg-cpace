@@ -75,7 +75,7 @@ def output_test_vectors_for_weak_points_255(file = sys.stdout):
     print ("~~~\n", file = file)
     
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,file=file)
 
     return result_dict
     
@@ -201,7 +201,7 @@ def output_test_vectors_for_weak_points_448(file = sys.stdout):
     print ("~~~\n", file = file)
     
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,file=file)
     
     return result_dict
 

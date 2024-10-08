@@ -81,7 +81,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
                          line_prefix = "    ", max_len = 60, file=file)
                          
     if (print_negated_Y):
-        tv_output_byte_array(G.scalar_mult_negated_result(ya, g), test_vector_name = "Alternative correct value for Ya: g*(-ya)", 
+        tv_output_byte_array(G.scalar_mult_negated_result(ya, g), test_vector_name = "Alternative correct value for Ya: (-ya)*g", 
                              line_prefix = "    ", max_len = 60, file=file)
     
     print ("~~~", file=file)
@@ -95,7 +95,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     tv_output_byte_array(Yb, test_vector_name = "Yb", 
                          line_prefix = "    ", max_len = 60, file=file)
     if (print_negated_Y):
-        tv_output_byte_array(G.scalar_mult_negated_result(yb, g), test_vector_name = "Alternative correct value for Yb: g*(-yb)", 
+        tv_output_byte_array(G.scalar_mult_negated_result(yb, g), test_vector_name = "Alternative correct value for Yb: (-yb)*g", 
                              line_prefix = "    ", max_len = 60, file=file)
     
     print ("~~~", file=file)

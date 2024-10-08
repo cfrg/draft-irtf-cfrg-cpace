@@ -168,7 +168,7 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.
             result_dict["generator g"] = byte_string_to_json(result)
             
             print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-            tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+            tv_output_python_dictionary_as_json_base64(result_dict,file=file)
             
         return result
 

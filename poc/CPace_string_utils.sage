@@ -69,14 +69,14 @@ def tv_output_byte_array(data, test_vector_name = "", line_prefix = "  ", max_le
             return
 
 def byte_string_to_json(bytestring):
-    return base64.b16encode(bytestring).decode("ASCII")
+    return base64.b64encode(bytestring).decode("ASCII")
     
-def tv_output_python_dictionary_as_json_base64(dictionary, line_prefix = "  ", max_len = 63, file = sys.stdout):
+def tv_output_python_dictionary_as_json_base64(dictionary, line_prefix = " ", max_len = 66, file = sys.stdout):
     json_text = json.dumps(dictionary).encode("ASCII")
     json_string = base64.standard_b64encode(json_text).decode("ASCII")
     
     result = "\n~~~ test-vectors"
-    base64_header = "\n" + line_prefix + "##"
+    base64_header = "\n" + line_prefix + "#"
 
     offset = 0;
     while offset < len(json_string):
@@ -109,7 +109,7 @@ def lv_cat(*args):
 
 
 def lexiographically_larger(bytes1,bytes2):
-    "Returns True if bytes1 > bytes2 for lexiographical ordering."
+    "Returns True if bytes1>bytes2 for lexiographical ordering."
     min_len = min (len(bytes1), len(bytes2))
     for m in range(min_len):
         if bytes1[m] > bytes2[m]:
@@ -196,7 +196,7 @@ def prepend_len(data):
     result_dict["prepend_len(bytes(range(128)))"] = byte_string_to_json(prepend_len(bytes(range(128))))
             
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,file=file)
 
 
     print ("\n\n### lv\\_cat function\n", file = file)
@@ -215,20 +215,20 @@ def prepend_len(data):
 
     print ("\n### Testvector for lv\\_cat()\n", file = file)
     print ("~~~", file = file)
-    tv_output_byte_array(lv_cat(b"1234",b"5",b"",b"6789"), 
-                         test_vector_name = 'lv_cat(b"1234",b"5",b"",b"6789")', 
+    tv_output_byte_array(lv_cat(b"1234",b"5",b"",b"678"), 
+                         test_vector_name = 'lv_cat(b"1234",b"5",b"",b"678")', 
                          line_prefix = "  ", max_len = 60, file = file);
     
     print ("~~~", file = file)
         
     result_dict = {}
-    result_dict["ba1"] = byte_string_to_json(b"1234")
-    result_dict["ba2"] = byte_string_to_json(b"5")
-    result_dict["ba3"] = byte_string_to_json(b"6789")
-    result_dict["lv_cat(ba1,ba2,ba3)"] = byte_string_to_json(lv_cat(b"1234",b"5",b"",b"6789"))    
+    result_dict['b"1234"'] = byte_string_to_json(b"1234")
+    result_dict['b"5"'] = byte_string_to_json(b"5")
+    result_dict['b"678"'] = byte_string_to_json(b"678")
+    result_dict['lv_cat(b"1234",b"5",b"",b"678")'] = byte_string_to_json(lv_cat(b"1234",b"5",b"",b"678"))    
             
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,file=file)
     
 
     print ("\n## Definition of generator\\_string function.\n\n" +
@@ -252,7 +252,7 @@ def generator_string(DSI,PRS,CI,sid,s_in_bytes):
 """
 ~~~ python
    def lexiographically_larger(bytes1,bytes2):
-      "Returns True if bytes1 > bytes2 using lexiographical ordering."
+      "Returns True if bytes1>bytes2 using lexiographical ordering."
       min_len = min (len(bytes1), len(bytes2))
       for m in range(min_len):
           if bytes1[m] > bytes2[m]:
@@ -305,7 +305,7 @@ With the above definition of lexiographical ordering ordered concatenation is sp
     result_dict['o_cat(b"BCD",b"ABCDE")'] = byte_string_to_json(o_cat(b"BCD",b"ABCDE"))
             
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,file=file)
 
 
     print ("""
@@ -342,7 +342,7 @@ def transcript_ir(Ya,ADa,Yb,ADb):
     result_dict['transcript_ir(b"3456",b"PartyA",b"2345",b"PartyB")'] = byte_string_to_json(transcript_ir(b"3456",b"PartyA",b"2345",b"PartyB"))
     
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,file=file)
     
 
     print ("""
@@ -378,7 +378,7 @@ def transcript_oc(Ya,ADa,Yb,ADb):
     result_dict['transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB")'] = byte_string_to_json(transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB"))
     
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,file=file)
 
 
 

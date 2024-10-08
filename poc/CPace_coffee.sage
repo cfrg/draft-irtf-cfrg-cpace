@@ -93,7 +93,7 @@ class G_CoffeeEcosystem():
             result_dict["encoded generator g"] = byte_string_to_json(result.encode())
             
             print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-            tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+            tv_output_python_dictionary_as_json_base64(result_dict,file=file)
 
             
             
@@ -149,7 +149,7 @@ def output_coffee_invalid_point_test_cases(G, file = sys.stdout):
     result_dict["Invalid Y2"] = byte_string_to_json(G.I)
     
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,file=file)
 
 
     return result_dict

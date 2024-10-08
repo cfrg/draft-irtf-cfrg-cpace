@@ -138,7 +138,7 @@ class G_ShortWeierstrass():
             result_dict["generator g"] = byte_string_to_json(self.point_to_octets(result))
             
             print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-            tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+            tv_output_python_dictionary_as_json_base64(result_dict,file=file)
 
         return self.point_to_octets(result)
 
@@ -190,7 +190,7 @@ def output_weierstrass_invalid_point_test_cases(G, file = sys.stdout):
     result_dict["Invalid Y2"] = byte_string_to_json(Y_inv2)
 
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
-    tv_output_python_dictionary_as_json_base64(result_dict,line_prefix = "    ",file=file)
+    tv_output_python_dictionary_as_json_base64(result_dict,file=file)
         
     return result_dict 
     
