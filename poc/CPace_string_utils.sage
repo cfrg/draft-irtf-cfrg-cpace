@@ -69,7 +69,7 @@ def tv_output_byte_array(data, test_vector_name = "", line_prefix = "  ", max_le
             return
 
 def byte_string_to_json(bytestring):
-    return base64.b64encode(bytestring).decode("ASCII")
+    return base64.b16encode(bytestring).decode("ASCII")
     
 def tv_output_python_dictionary_as_json_base64(dictionary, line_prefix = " ", max_len = 66, file = sys.stdout):
     json_text = json.dumps(dictionary).encode("ASCII")
@@ -189,9 +189,9 @@ def prepend_len(data):
     print ("~~~", file = file)
 
     result_dict = {}
-    result_dict["prepend_len(b"")"] = byte_string_to_json(prepend_len(b""))
-    result_dict['b"1234"'] = byte_string_to_json(b"1234")
-    result_dict['prepend_len(b"1234")'] = byte_string_to_json(prepend_len(b"1234"))
+    result_dict["prepend_len(b'')"] = byte_string_to_json(prepend_len(b""))
+    result_dict["b'1234'"] = byte_string_to_json(b"1234")
+    result_dict["prepend_len(b'1234')"] = byte_string_to_json(prepend_len(b"1234"))
     result_dict["prepend_len(bytes(range(127)))"] = byte_string_to_json(prepend_len(bytes(range(127))))
     result_dict["prepend_len(bytes(range(128)))"] = byte_string_to_json(prepend_len(bytes(range(128))))
             
@@ -222,10 +222,10 @@ def prepend_len(data):
     print ("~~~", file = file)
         
     result_dict = {}
-    result_dict['b"1234"'] = byte_string_to_json(b"1234")
-    result_dict['b"5"'] = byte_string_to_json(b"5")
-    result_dict['b"678"'] = byte_string_to_json(b"678")
-    result_dict['lv_cat(b"1234",b"5",b"",b"678")'] = byte_string_to_json(lv_cat(b"1234",b"5",b"",b"678"))    
+    result_dict["b'1234'"] = byte_string_to_json(b"1234")
+    result_dict["b'5'"] = byte_string_to_json(b"5")
+    result_dict["b'678'"] = byte_string_to_json(b"678")
+    result_dict["lv_cat(b'1234',b'5',b'',b'678')"] = byte_string_to_json(lv_cat(b"1234",b"5",b"",b"678"))    
             
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
     tv_output_python_dictionary_as_json_base64(result_dict,file=file)
