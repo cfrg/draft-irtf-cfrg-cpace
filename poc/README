@@ -1,0 +1,7 @@
+For generating test vectors with sage use
+
+make clean
+make 
+make testvectors
+
+There will be a json file and a markdown file generated and stored at ../

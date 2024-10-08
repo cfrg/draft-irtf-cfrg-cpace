@@ -298,11 +298,11 @@ With the above definition of lexiographical ordering ordered concatenation is sp
     print ("~~~", file = file)
 
     result_dict = {}
-    result_dict['b"ABCD"'] = byte_string_to_json(b"ABCD")
-    result_dict['b"BCD"'] = byte_string_to_json(b"BCD")
-    result_dict['b"ABCDE"'] = byte_string_to_json(b"ABCDE")
-    result_dict['o_cat(b"ABCD",b"BCD")'] = byte_string_to_json(o_cat(b"ABCD",b"BCD"))
-    result_dict['o_cat(b"BCD",b"ABCDE")'] = byte_string_to_json(o_cat(b"BCD",b"ABCDE"))
+    result_dict["b'ABCD'"] = byte_string_to_json(b"ABCD")
+    result_dict["b'BCD'"] = byte_string_to_json(b"BCD")
+    result_dict["b'ABCDE'"] = byte_string_to_json(b"ABCDE")
+    result_dict["o_cat(b'ABCD',b'BCD')"] = byte_string_to_json(o_cat(b"ABCD",b"BCD"))
+    result_dict["o_cat(b'BCD',b'ABCDE')"] = byte_string_to_json(o_cat(b"BCD",b"ABCDE"))
             
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
     tv_output_python_dictionary_as_json_base64(result_dict,file=file)
@@ -332,14 +332,14 @@ def transcript_ir(Ya,ADa,Yb,ADb):
     print ("~~~", file = file)
 
     result_dict = {}
-    result_dict['b"123"'] = byte_string_to_json(b"123")
-    result_dict['b"234"'] = byte_string_to_json(b"234")
-    result_dict['b"PartyA"'] = byte_string_to_json(b"PartyA")
-    result_dict['b"PartyB"'] = byte_string_to_json(b"PartyB")
-    result_dict['b"3456"'] = byte_string_to_json(b"3456")    
-    result_dict['b"2345"'] = byte_string_to_json(b"2345")    
-    result_dict['transcript_ir(b"123",b"PartyA",b"234",b"PartyB")'] = byte_string_to_json(transcript_ir(b"123",b"PartyA",b"234",b"PartyB"))
-    result_dict['transcript_ir(b"3456",b"PartyA",b"2345",b"PartyB")'] = byte_string_to_json(transcript_ir(b"3456",b"PartyA",b"2345",b"PartyB"))
+    result_dict["b'123'"] = byte_string_to_json(b"123")
+    result_dict["b'234'"] = byte_string_to_json(b"234")
+    result_dict["b'PartyA'"] = byte_string_to_json(b"PartyA")
+    result_dict["b'PartyB'"] = byte_string_to_json(b"PartyB")
+    result_dict["b'3456'"] = byte_string_to_json(b"3456")    
+    result_dict["b'2345'"] = byte_string_to_json(b"2345")    
+    result_dict["transcript_ir(b'123',b'PartyA',b'234',b'PartyB')"] = byte_string_to_json(transcript_ir(b"123",b"PartyA",b"234",b"PartyB"))
+    result_dict["transcript_ir(b'3456',b'PartyA',b'2345',b'PartyB')"] = byte_string_to_json(transcript_ir(b"3456",b"PartyA",b"2345",b"PartyB"))
     
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
     tv_output_python_dictionary_as_json_base64(result_dict,file=file)
@@ -368,14 +368,14 @@ def transcript_oc(Ya,ADa,Yb,ADb):
     print ("~~~", file = file)
 
     result_dict = {}
-    result_dict['b"123"'] = byte_string_to_json(b"123")
-    result_dict['b"234"'] = byte_string_to_json(b"234")
-    result_dict['b"PartyA"'] = byte_string_to_json(b"PartyA")
-    result_dict['b"PartyB"'] = byte_string_to_json(b"PartyB")
-    result_dict['b"3456"'] = byte_string_to_json(b"3456")    
-    result_dict['b"2345"'] = byte_string_to_json(b"2345")    
-    result_dict['transcript_oc(b"123",b"PartyA",b"234",b"PartyB")'] = byte_string_to_json(transcript_oc(b"123",b"PartyA",b"234",b"PartyB"))
-    result_dict['transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB")'] = byte_string_to_json(transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB"))
+    result_dict["b'123'"] = byte_string_to_json(b"123")
+    result_dict["b'234'"] = byte_string_to_json(b"234")
+    result_dict["b'PartyA'"] = byte_string_to_json(b"PartyA")
+    result_dict["b'PartyB'"] = byte_string_to_json(b"PartyB")
+    result_dict["b'3456'"] = byte_string_to_json(b"3456")    
+    result_dict["b'2345'"] = byte_string_to_json(b"2345")    
+    result_dict["transcript_oc(b'123',b'PartyA',b'234',b'PartyB')"] = byte_string_to_json(transcript_oc(b"123",b"PartyA",b"234",b"PartyB"))
+    result_dict["transcript_oc(b'3456',b'PartyA',b'2345',b'PartyB')"] = byte_string_to_json(transcript_oc(b"3456",b"PartyA",b"2345",b"PartyB"))
     
     print ("\n####  Testvectors as JSON file encoded as BASE64\n", file=file)
     tv_output_python_dictionary_as_json_base64(result_dict,file=file)
@@ -390,7 +390,7 @@ def random_bytes(length):
     values = [randint(0, 255) for i in range(length)]
     result = b""
     for v in values:
-        result += v.to_bytes(1, 'little')
+        result += v.to_bytes(1, little)
     return result
 
 if __name__ == "__main__":
