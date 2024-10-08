@@ -1542,10 +1542,10 @@ A.3.3.  Test vectors ordered concatenation
 
 A.3.3.1.  Testvectors as JSON file encoded as BASE64
 
-    #eyJiXCJBQkNEXCIiOiAiNDE0MjQzNDQiLCAiYlwiQkNEXCIiOiAiNDI0MzQ0IiwgIm
-    #JcIkFCQ0RFXCIiOiAiNDE0MjQzNDQ0NSIsICJvX2NhdChiXCJBQkNEXCIsYlwiQkNE
-    #XCIpIjogIjZGNjM0MjQzNDQ0MTQyNDM0NCIsICJvX2NhdChiXCJCQ0RcIixiXCJBQk
-    #NERVwiKSI6ICI2RjYzNDI0MzQ0NDE0MjQzNDQ0NSJ9
+    #eyJiJ0FCQ0QnIjogIjQxNDI0MzQ0IiwgImInQkNEJyI6ICI0MjQzNDQiLCAiYidBQk
+    #NERSciOiAiNDE0MjQzNDQ0NSIsICJvX2NhdChiJ0FCQ0QnLGInQkNEJykiOiAiNkY2
+    #MzQyNDM0NDQxNDI0MzQ0IiwgIm9fY2F0KGInQkNEJyxiJ0FCQ0RFJykiOiAiNkY2Mz
+    #QyNDM0NDQxNDI0MzQ0NDUifQ==
 
 A.3.4.  Definitions for transcript_ir function
 
@@ -1564,14 +1564,14 @@ A.3.5.  Test vectors transcript_ir function
 
 A.3.5.1.  Testvectors as JSON file encoded as BASE64
 
-    #eyJiXCIxMjNcIiI6ICIzMTMyMzMiLCAiYlwiMjM0XCIiOiAiMzIzMzM0IiwgImJcIl
-    #BhcnR5QVwiIjogIjUwNjE3Mjc0Nzk0MSIsICJiXCJQYXJ0eUJcIiI6ICI1MDYxNzI3
-    #NDc5NDIiLCAiYlwiMzQ1NlwiIjogIjMzMzQzNTM2IiwgImJcIjIzNDVcIiI6ICIzMj
-    #MzMzQzNSIsICJ0cmFuc2NyaXB0X2lyKGJcIjEyM1wiLGJcIlBhcnR5QVwiLGJcIjIz
-    #NFwiLGJcIlBhcnR5QlwiKSI6ICIwMzMxMzIzMzA2NTA2MTcyNzQ3OTQxMDMzMjMzMz
-    #QwNjUwNjE3Mjc0Nzk0MiIsICJ0cmFuc2NyaXB0X2lyKGJcIjM0NTZcIixiXCJQYXJ0
-    #eUFcIixiXCIyMzQ1XCIsYlwiUGFydHlCXCIpIjogIjA0MzMzNDM1MzYwNjUwNjE3Mj
-    #c0Nzk0MTA0MzIzMzM0MzUwNjUwNjE3Mjc0Nzk0MiJ9
+    #eyJiJzEyMyciOiAiMzEzMjMzIiwgImInMjM0JyI6ICIzMjMzMzQiLCAiYidQYXJ0eU
+    #EnIjogIjUwNjE3Mjc0Nzk0MSIsICJiJ1BhcnR5QiciOiAiNTA2MTcyNzQ3OTQyIiwg
+    #ImInMzQ1NiciOiAiMzMzNDM1MzYiLCAiYicyMzQ1JyI6ICIzMjMzMzQzNSIsICJ0cm
+    #Fuc2NyaXB0X2lyKGInMTIzJyxiJ1BhcnR5QScsYicyMzQnLGInUGFydHlCJykiOiAi
+    #MDMzMTMyMzMwNjUwNjE3Mjc0Nzk0MTAzMzIzMzM0MDY1MDYxNzI3NDc5NDIiLCAidH
+    #JhbnNjcmlwdF9pcihiJzM0NTYnLGInUGFydHlBJyxiJzIzNDUnLGInUGFydHlCJyki
+    #OiAiMDQzMzM0MzUzNjA2NTA2MTcyNzQ3OTQxMDQzMjMzMzQzNTA2NTA2MTcyNzQ3OT
+    #QyIn0=
 
 A.3.6.  Definitions for transcript_oc function
 
@@ -1590,14 +1590,14 @@ A.3.7.  Test vectors for transcript_oc function
 
 A.3.7.1.  Testvectors as JSON file encoded as BASE64
 
-    #eyJiXCIxMjNcIiI6ICIzMTMyMzMiLCAiYlwiMjM0XCIiOiAiMzIzMzM0IiwgImJcIl
-    #BhcnR5QVwiIjogIjUwNjE3Mjc0Nzk0MSIsICJiXCJQYXJ0eUJcIiI6ICI1MDYxNzI3
-    #NDc5NDIiLCAiYlwiMzQ1NlwiIjogIjMzMzQzNTM2IiwgImJcIjIzNDVcIiI6ICIzMj
-    #MzMzQzNSIsICJ0cmFuc2NyaXB0X29jKGJcIjEyM1wiLGJcIlBhcnR5QVwiLGJcIjIz
-    #NFwiLGJcIlBhcnR5QlwiKSI6ICI2RjYzMDMzMjMzMzQwNjUwNjE3Mjc0Nzk0MjAzMz
-    #EzMjMzMDY1MDYxNzI3NDc5NDEiLCAidHJhbnNjcmlwdF9vYyhiXCIzNDU2XCIsYlwi
-    #UGFydHlBXCIsYlwiMjM0NVwiLGJcIlBhcnR5QlwiKSI6ICI2RjYzMDQzMzM0MzUzNj
-    #A2NTA2MTcyNzQ3OTQxMDQzMjMzMzQzNTA2NTA2MTcyNzQ3OTQyIn0=
+    #eyJiJzEyMyciOiAiMzEzMjMzIiwgImInMjM0JyI6ICIzMjMzMzQiLCAiYidQYXJ0eU
+    #EnIjogIjUwNjE3Mjc0Nzk0MSIsICJiJ1BhcnR5QiciOiAiNTA2MTcyNzQ3OTQyIiwg
+    #ImInMzQ1NiciOiAiMzMzNDM1MzYiLCAiYicyMzQ1JyI6ICIzMjMzMzQzNSIsICJ0cm
+    #Fuc2NyaXB0X29jKGInMTIzJyxiJ1BhcnR5QScsYicyMzQnLGInUGFydHlCJykiOiAi
+    #NkY2MzAzMzIzMzM0MDY1MDYxNzI3NDc5NDIwMzMxMzIzMzA2NTA2MTcyNzQ3OTQxIi
+    #wgInRyYW5zY3JpcHRfb2MoYiczNDU2JyxiJ1BhcnR5QScsYicyMzQ1JyxiJ1BhcnR5
+    #QicpIjogIjZGNjMwNDMzMzQzNTM2MDY1MDYxNzI3NDc5NDEwNDMyMzMzNDM1MDY1MD
+    #YxNzI3NDc5NDIifQ==
 
 A.4.  Decoding and Encoding functions according to RFC7748
 
