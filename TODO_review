@@ -424,4 +424,71 @@ remain:
 # Best regards,
 # Karthik
 
+------------------------------------------
 
+From: Bjoern Tackmann <bjoern.tackmann@ieee.org>
+Date: Sun, 7 Jan 2024 at 01:39
+Subject: Re: Request for review: CPace
+To: Stanislav V. Smyshlyaev <smyshsv@gmail.com>
+Cc: <cfrg-chairs@ietf.org>
+
+
+Dear Stanislav,
+
+it took me a bit longer than expected, but here comes my review. Overall the document seems to be in pretty good shape, I’ve collected various comments I had while reading. The comments are almost exclusively editorial.
+=======
+Technical
+
+Section 7.1, if I understand correctly, len_zpad is defined to ensure that the prefix of lv_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid) fills the first hash function block. To me, there seem to be two issues with this:
+- First, it seems that DSI and PRS could even exceed H.s_in_bytes. In that case the alignment at a block boundary would fail.
+- Second, the "-1" seems to assume that the len_zpad is encoded as a single byte in LEB128, which would mean it is < 128. This is likely true for all realistic implementations, but the dependence on this unstated restriction is a but unfortunate.
+
+
+Editorial
+
+Page 6:
+- "The final section provides explicit reference implementations" - Provides reference implementations? Is _provide_ the word you want to use here? Is _reference implementations_? Maybe I have a different understanding of what a reference implementation is.
+- Also, the formulation seems to indicate that only one more section follows, but indeed there are many more sections in the document.
+
+Page 7:
+- "CPace requires a shared secret octet string [...] is available for both parties A and B." – Somehow the grammar is broken in this sentence.
+- "A and B will produce the same ISK value only if both sides did initiate" - I expected an "if and only if"
+- "CI, ADa, ADb and sid that will be specified in the upcoming sections" - why even list the names if the reader can anyway not understand them? Or at least link to the section number explicitly.
+- "The values ADa (and ADb, respectively)" - why not just "The values ADa and ADb"?
+
+Page 8:
+- "by use of a sid string" - reads weird, maybe "a string sid" or "a session identifier" or maybe just "sid" referring to the previous use of the term?
+
+Page 12:
+- "The length shall be prepended by using an LEB128 encoding of the length." - This seems confusing to me. Maybe "The length is encoded using LEB128"?
+- "denotes function outputing" - "denotes a function outputting"?
+
+Page 14:
+- "Testvectors of examples" - "Test vectors"
+- s_in_bytes should probably be H.s_in_bytes in Section 7.1, although H is also not referenced there.
+
+Page 19:
+- "identy map" - "identity map"
+
+Page 21:
+- "or the secret shared value "z" (otherwise)." - in the definition of this function, z is not defined and whether it is secret or shared seems irrelevant.
+
+Page 22:
+- "with respect [to] invalid"
+- "recieved" - "received"
+
+Page 24:
+- is in H.hash(b"CPaceMac" the b"..." intentional, if so, what does it mean?
+- "was demonstrated to be begning in [AHH21]" - I am not actually sure what that is supposed to say
+
+Page 25:
+- EQUAL - why capitalized?
+
+Page 26:
+- why is Simultaneous capitalized for sSDH but not computational for sCDH?
+
+Subjective:
+
+- In the beginning of Section 6, there seems to be confusion between sending an empty string ADa vs. not sending ADa. For me, sending a length of 0 means sending an empty string. This does not seem important, but I think the text may become easier to read if this gets clarified and one consistent interpretation is used. (For instance, instead of always stating ADa and ADb as optional, one could just state that implementations that don't want to use these should just default them to the empty string. This is what seems to happen in the protocol anyway.)
+- At places, the punctuation seems quite unidiomatic to me, especially the frequent use of commas after the word "both".
+=======
