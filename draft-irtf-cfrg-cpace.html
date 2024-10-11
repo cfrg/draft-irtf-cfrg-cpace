@@ -1669,7 +1669,7 @@ library ecosystems.<a href="#section-1.1-1.2.1" class="pilcrow">¶</a></p>
             <p id="section-1.1-1.4.1"><a href="#protocol-section" class="auto internal xref">Section 6</a> specifies the CPace protocol.<a href="#section-1.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-1.5">
-            <p id="section-1.1-1.5.1">The appendix provides explicit reference implementations and test vectors of all of the
+            <p id="section-1.1-1.5.1">The appendix provides code and test vectors of all of the
 functions defined for CPace.<a href="#section-1.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
@@ -1920,7 +1920,7 @@ b"" denotes the empty string of length 0.<a href="#section-5.3-1.3.2" class="pil
           <li class="normal" id="section-5.3-1.4">
             <p id="section-5.3-1.4.1">LEB128 denotes an algorithm that converts an integer to a variable sized string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
 As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
-Test vectors and reference implementations for LEB128 encodings are given in the appendix.<a href="#section-5.3-1.4.1" class="pilcrow">¶</a></p>
+Test vectors and reference code for LEB128 encoding are available in the appendix.<a href="#section-5.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.5">
             <p id="section-5.3-1.5.1">prepend_len(octet_string) denotes the octet sequence that is obtained from prepending
@@ -1930,7 +1930,7 @@ Test vectors and code for prepend_len are available in the appendix.<a href="#se
           <li class="normal" id="section-5.3-1.6">
             <p id="section-5.3-1.6.1">lv_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
 their respective length prepended. E.g., lv_cat(a0,a1) returns
-prepend_len(a0) || prepend_len(a1). The detailed specification of lv_cat and a reference implementations are given in the appendix.<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
+prepend_len(a0) || prepend_len(a1). The detailed specification of lv_cat and reference code is available in the appendix.<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.7">
             <p id="section-5.3-1.7.1">sample_random_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from a uniform distribution between 0 and 255.<a href="#section-5.3-1.7.1" class="pilcrow">¶</a></p>
@@ -1940,7 +1940,7 @@ prepend_len(a0) || prepend_len(a1). The detailed specification of lv_cat and a r
 </li>
           <li class="normal" id="section-5.3-1.9">
             <p id="section-5.3-1.9.1">o_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexicographically larger octet
-string first and prepends the two bytes from the octet string b"oc" to the result. (Explicit reference code for this function is given in the appendix.)<a href="#section-5.3-1.9.1" class="pilcrow">¶</a></p>
+string first and prepends the two bytes from the octet string b"oc" to the result. Reference code for this function is available in the appendix.<a href="#section-5.3-1.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.10">
             <p id="section-5.3-1.10.1">transcript(Ya,ADa,Yb,ADb) denotes a function outputting an octet string for the protocol transcript.
@@ -2122,7 +2122,7 @@ from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span>. Note that 
 is not required for CPace and discarded. The appendix repeats the definitions from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> for convenience.<a href="#section-7.2-9.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.2-10">In the appendix we show sage code that can be used as a reference implementation.<a href="#section-7.2-10" class="pilcrow">¶</a></p>
+<p id="section-7.2-10">Code for the functions above is available in the appendix.<a href="#section-7.2-10" class="pilcrow">¶</a></p>
 <div id="verification-tests">
 <section id="section-7.2.1">
           <h4 id="name-verification-tests">

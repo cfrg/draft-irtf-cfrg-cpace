@@ -273,8 +273,8 @@ Table of Contents
 
    *  Section 6 specifies the CPace protocol.
 
-   *  The appendix provides explicit reference implementations and test
-      vectors of all of the functions defined for CPace.
+   *  The appendix provides code and test vectors of all of the
+      functions defined for CPace.
 
    As this document is primarily written for implementers and
    application designers, we would like to refer the theory-inclined
@@ -542,8 +542,7 @@ Table of Contents
       the least significant bits in bits #0 to #6.  As long as
       significant bits remain, bit #7 will be set.  This will result in
       a single-byte encoding for values below 128.  Test vectors and
-      reference implementations for LEB128 encodings are given in the
-      appendix.
+      reference code for LEB128 encoding are available in the appendix.
 
    *  prepend_len(octet_string) denotes the octet sequence that is
       obtained from prepending the length of the octet string to the
@@ -554,7 +553,7 @@ Table of Contents
       returns the concatenation of the input strings with an encoding of
       their respective length prepended.  E.g., lv_cat(a0,a1) returns
       prepend_len(a0) || prepend_len(a1).  The detailed specification of
-      lv_cat and a reference implementations are given in the appendix.
+      lv_cat and reference code is available in the appendix.
 
    *  sample_random_bytes(n) denotes a function that returns n octets,
       each of which is to be independently sampled from a uniform
@@ -566,8 +565,8 @@ Table of Contents
    *  o_cat(bytes1,bytes2) denotes a function for ordered concatenation
       of octet strings.  It places the lexicographically larger octet
       string first and prepends the two bytes from the octet string
-      b"oc" to the result.  (Explicit reference code for this function
-      is given in the appendix.)
+      b"oc" to the result.  Reference code for this function is
+      available in the appendix.
 
    *  transcript(Ya,ADa,Yb,ADb) denotes a function outputting an octet
       string for the protocol transcript.  In applications where CPace
@@ -737,8 +736,7 @@ Table of Contents
       function is not required for CPace and discarded.  The appendix
       repeats the definitions from [RFC9380] for convenience.
 
-   In the appendix we show sage code that can be used as a reference
-   implementation.
+   Code for the functions above is available in the appendix.
 
 7.2.1.  Verification tests
 
