@@ -2435,8 +2435,8 @@ all variable-size input strings results in a so-called prefix-free encoding of t
         <h3 id="name-key-derivation">
 <a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-key-derivation" class="section-name selfRef">Key derivation</a>
         </h3>
-<p id="section-9.3-1">Although already K is a shared value, it MUST NOT itself BE used as an application key. Instead, ISK MUST BE used. When facing an quantum-computing adversary
-with capability to calculate two discrete logarithms, leakage of K to can lead to classical offline dictionary attacks.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.3-1">A CPace implementation MUST NOT expose K, because it may enable offline dictionary attack
+on the password, and it does not provide authentication of ADa and ADb.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
 <p id="section-9.3-2">As noted already in <a href="#protocol-section" class="auto internal xref">Section 6</a> it is RECOMMENDED to process ISK
 by use of a suitable strong key derivation function KDF (such as defined in <span>[<a href="#RFC5869" class="cite xref">RFC5869</a>]</span>) first,
 before using the key in a higher-level protocol.<a href="#section-9.3-2" class="pilcrow">¶</a></p>
