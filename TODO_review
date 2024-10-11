@@ -434,61 +434,134 @@ Cc: <cfrg-chairs@ietf.org>
 
 
 Dear Stanislav,
+it took me a bit longer than expected, but here comes my review. Overall the
+document seems to be in pretty good shape, I’ve collected various comments 
+I had while reading. The comments are almost exclusively editorial.
 
-it took me a bit longer than expected, but here comes my review. Overall the document seems to be in pretty good shape, I’ve collected various comments I had while reading. The comments are almost exclusively editorial.
 =======
 Technical
+#Section 7.1, if I understand correctly, len_zpad is defined to ensure that the prefix 
+#of lv_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid) fills the first hash function block.
+#To me, there seem to be two issues with this:
+#- First, it seems that DSI and PRS could even exceed H.s_in_bytes. 
+#In that case the alignment at a block boundary would fail.
+#
+> Yes and we don't see how this could be producing a side-channel vulnerability as long 
+> as such excessively long PRS strings would still have low entropy.
+> As a response to Thomas Pornin we also have made explicit that use of long PRS strings
+> is explicitly encouraged.
 
-Section 7.1, if I understand correctly, len_zpad is defined to ensure that the prefix of lv_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid) fills the first hash function block. To me, there seem to be two issues with this:
-- First, it seems that DSI and PRS could even exceed H.s_in_bytes. In that case the alignment at a block boundary would fail.
-- Second, the "-1" seems to assume that the len_zpad is encoded as a single byte in LEB128, which would mean it is < 128. This is likely true for all realistic implementations, but the dependence on this unstated restriction is a but unfortunate.
-
+#-  Second, the "-1" seems to assume that the len_zpad is encoded as a single
+#  byte in LEB128, which would mean it is < 128. This is likely true for all 
+# realistic implementations, but the dependence on this unstated restriction is a but unfortunate.
+> No there is no such assumption that alignment takes any meaningful role.
+> In fact the side-channel considerations carried out by the teams whe have contacted only indicate
+> that the essential helpful aspect might be that at least the first hash block should be completely filled
+> (irrespective of the alingment idea). As such we think that we should not add the complexity
+> of making the zero padding length dependent on the LEB128 encoding length.
 
 Editorial
-
 Page 6:
-- "The final section provides explicit reference implementations" - Provides reference implementations? Is _provide_ the word you want to use here? Is _reference implementations_? Maybe I have a different understanding of what a reference implementation is.
-- Also, the formulation seems to indicate that only one more section follows, but indeed there are many more sections in the document.
+#- "The final section provides explicit reference implementations" 
+#- Provides reference implementations? Is _provide_ the word you want to use here? 
+# Is _reference implementations_?
+# Maybe I have a different understanding of what a reference implementation is.
+> We did rephrase that and state that we provide code for the functions. Regarding the reference
+> implementation there is also a new section giving the link to the true reference implementation in sage.
 
-Page 7:
-- "CPace requires a shared secret octet string [...] is available for both parties A and B." – Somehow the grammar is broken in this sentence.
-- "A and B will produce the same ISK value only if both sides did initiate" - I expected an "if and only if"
-- "CI, ADa, ADb and sid that will be specified in the upcoming sections" - why even list the names if the reader can anyway not understand them? Or at least link to the section number explicitly.
-- "The values ADa (and ADb, respectively)" - why not just "The values ADa and ADb"?
+#- Also, the formulation seems to indicate that only one more section follows, but 
+# indeed there are many more sections in the document.
+> Fixed.
 
-Page 8:
-- "by use of a sid string" - reads weird, maybe "a string sid" or "a session identifier" or maybe just "sid" referring to the previous use of the term?
+#Page 7:
+#- "CPace requires a shared secret octet string [...] is available for 
+#  both parties A and B." – Somehow the grammar is broken in this sentence.
+> We agree. We rephrased this as:
+> "CPace requires that both parties A and B start the protocol with
+> a shared secret octet string, namely the password-related string (PRS)."
 
-Page 12:
-- "The length shall be prepended by using an LEB128 encoding of the length." - This seems confusing to me. Maybe "The length is encoded using LEB128"?
-- "denotes function outputing" - "denotes a function outputting"?
+  
+#- "A and B will produce the same ISK value only if both sides did initiate" - 
+#  I expected an "if and only if"
+> Yes we added the "if and".
 
-Page 14:
-- "Testvectors of examples" - "Test vectors"
-- s_in_bytes should probably be H.s_in_bytes in Section 7.1, although H is also not referenced there.
+#- "CI, ADa, ADb and sid that will be specified in the upcoming sections" - 
+#   why even list the names if the reader can anyway not understand them? 
+#   Or at least link to the section number explicitly.
+> We added the section number. 
+ 
+# - "The values ADa (and ADb, respectively)" - why not just "The values ADa and ADb"?
+> We rephrased this paragraph.
 
-Page 19:
-- "identy map" - "identity map"
+#Page 8:
+#- "by use of a sid string" - reads weird, maybe "a string sid" 
+#  or "a session identifier" or maybe just "sid" referring to the previous use of the term?
+> We rephrased this section.
+
+#Page 12:
+#- "The length shall be prepended by using an LEB128 encoding of the 
+#  length." - This seems confusing to me. Maybe "The length is encoded using LEB128"?
+> Yes we did fix that.
+  
+# - "denotes function outputing" - "denotes a function outputting"?
+> Fixed.
+
+#Page 14:
+# - "Testvectors of examples" - "Test vectors"
+> Fixed.
+
+#- s_in_bytes should probably be H.s_in_bytes in Section 7.1, although
+#  H is also not referenced there.
+> Fixed.
+  
+#Page 19:
+#- "identy map" - "identity map"
+> Fixed.
 
 Page 21:
-- "or the secret shared value "z" (otherwise)." - in the definition of this function, z is not defined and whether it is secret or shared seems irrelevant.
+- "or the secret shared value "z" (otherwise)." - in the definition of this function, 
+  z is not defined and whether it is secret or shared seems irrelevant.
+> We rephrased this for making clear that the object "z" is something introduced and defined in [IEEE1363].
+ 
+#Page 22:
+#- "with respect [to] invalid"
+> Fixed.
 
-Page 22:
-- "with respect [to] invalid"
-- "recieved" - "received"
+# - "recieved" - "received"
+>Fixed.
 
-Page 24:
-- is in H.hash(b"CPaceMac" the b"..." intentional, if so, what does it mean?
-- "was demonstrated to be begning in [AHH21]" - I am not actually sure what that is supposed to say
+# Page 24:
+# - is in H.hash(b"CPaceMac" the b"..." intentional, if so, what does it mean?
+> We now explicitly introduce this notation. (This aspect also has been 
+> brought up by Thomas.)
 
-Page 25:
-- EQUAL - why capitalized?
+#- "was demonstrated to be begning in [AHH21]" - I am not actually sure what that 
+#  is supposed to say
+> We rephrased this as
+> [AHH21] demonstrated that non-uniform sampling did not negatively impact security
+> in case of Curve25519 and Curve448.
+  
+  
+#Page 25:
+#- EQUAL - why capitalized?
+> Fixed.
 
-Page 26:
-- why is Simultaneous capitalized for sSDH but not computational for sCDH?
+#Page 26:
+#- why is Simultaneous capitalized for sSDH but not computational for sCDH?
+> In [AHH21] the small "s" is used as acronym for "strong" and the large S in sSDH stands 
+> for "simultaneous". We could also have used SCDH as a name for the assumption instead of 
+> SDH but we kept SDH because the acronym SDH was used in previous papers.
 
-Subjective:
+#Subjective:
+#- In the beginning of Section 6, there seems to be confusion between sending an 
+#  empty string ADa vs. not sending ADa. For me, sending a length of 0 means sending an 
+#  empty string. This does not seem important, but I think the text may become easier to 
+#  read if this gets clarified and one consistent interpretation is used. 
+#  (For instance, instead of always stating ADa and ADb as optional, one could just state 
+#  that implementations that don't want to use these should just default them to the 
+#  empty string. This is what seems to happen in the protocol anyway.)
+> Agreed. Fixed.
 
-- In the beginning of Section 6, there seems to be confusion between sending an empty string ADa vs. not sending ADa. For me, sending a length of 0 means sending an empty string. This does not seem important, but I think the text may become easier to read if this gets clarified and one consistent interpretation is used. (For instance, instead of always stating ADa and ADb as optional, one could just state that implementations that don't want to use these should just default them to the empty string. This is what seems to happen in the protocol anyway.)
-- At places, the punctuation seems quite unidiomatic to me, especially the frequent use of commas after the word "both".
-=======
+#- At places, the punctuation seems quite unidiomatic to me, especially the frequent use 
+#  of commas after the word "both".
+> We did our best to rework that.
