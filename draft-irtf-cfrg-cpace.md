@@ -190,17 +190,19 @@ As this document is primarily written for implementers and application designers
 
 # High-level application perspective {#ApplicationPerspective}
 
-CPace enables balanced password-authenticated key establishment. CPace requires a shared secret octet string, the password-related string (PRS) available to both parties A and B. PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to {{?RFC8265}}, or any string derived from a common secret, for instance by use of a key derivation function.
+CPace enables balanced password-authenticated key establishment. I.e. with CPace the parties start the protocol with a shared secret octet string, namely the password-related string (PRS).
+PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to {{?RFC8265}}, or any string derived from a common secret, for instance by use of a key derivation function.
 
-Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use augmented PAKE protocols such as OPAQUE {{?I-D.irtf-cfrg-opaque}}.
+Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use _augmented_
+PAKE protocols such as OPAQUE {{?I-D.irtf-cfrg-opaque}}.
 
 In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first.
 
-CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the optional input parameters CI, ADa, ADb and sid that will be specified in the upcoming sections.
+CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value if and only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the optional input parameters CI, ADa, ADb and sid that will be specified in section {{OptionalInputs}}.
 
 The naming of ISK as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) before using the key in a higher-level protocol.
 
-## Optional CPace inputs
+## Optional CPace inputs {#OptionalInputs}
 
 For accommodating different application settings, CPace offers the following OPTIONAL inputs, i.e. inputs which MAY also be the empty string:
 
@@ -356,8 +358,8 @@ representation of the group element y\*g. Additionally, scalar\_mult\_vfy specif
   Test vectors and reference implementations for LEB128 encodings are given in the appendix.
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
-  the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
-  Test vectors and reference implementations for prepend\_len are given in the appendix.
+  the length of the octet string to the string itself. The length is encoded using LEB128.
+  Test vectors and code for prepend\_len are available in the appendix.
 
 - lv\_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
   their respective length prepended. E.g., lv\_cat(a0,a1) returns
@@ -381,9 +383,11 @@ We use additive notation for the group, i.e., 2\*X  denotes the element that is 
 
 # The CPace protocol {#protocol-section}
 
-CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G,H and OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb (for B).
-A sends the public share Ya and OPTIONAL associated data ADa (i.e., an ADa field that MAY have a length of 0 bytes) to B.
-Likewise, B sends the public share Yb and OPTIONAL associated data ADb (i.e., an ADb field that MAY have a length of 0 bytes).
+CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G and H.
+Parties will also be provisioned with OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb (for B) which will default to the empty
+string b"" if not used.
+A sends the public share Ya and optional associated data ADa to B.
+Likewise, B sends the public share Yb and optional associated data ADb to A.
 Both A and B use the received messages for deriving a shared intermediate session key, ISK.
 
 ## Protocol flow
@@ -436,7 +440,7 @@ lv\_cat(DSI, PRS, zero\_bytes(len\_zpad), CI, sid).
 
 The zero padding of length len\_zpad is designed such that the encoding of DSI and PRS together with the zero padding field completely
 fills at least the first input block (of length s\_in\_bytes) of the hash.
-As a result for the common case of short PRS the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation and test vectors are provided in the appendix.)
+As a result for the common case of short PRS the number of bytes to hash becomes independent of the actual length of the password (PRS). (Code and test vectors are provided in the appendix.)
 
 The introduction of a zero-padding within the generator string also helps mitigating attacks of a side-channel adversary that
 analyzes correlations between publicly known variable information with a short low-entropy PRS string.
@@ -662,7 +666,8 @@ It SHALL BE implemented as follows:
    - If is\_valid(X) = False then G.scalar\_mult\_vfy(s,X) SHALL return "error" as specified in {{IEEE1363}} A.16.10 and 7.2.1.
 
    - Otherwise G.scalar\_mult\_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from {{IEEE1363}} (section 7.2.1). I.e. it shall
-     either return "error" (in case that s\*X is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
+     either return "error" (in case that s\*X is the neutral element) or the secret shared value "z" defined in {{IEEE1363}} (otherwise).
+     "z" SHALL be encoded by using
      the big-endian encoding of the x-coordinate of the result point s\*X according to {{SEC1}}.
 
 - We represent the neutral element G.I by using the representation of the "error" result case from {{IEEE1363}} as used in the G.scalar\_mult\_vfy method above.
@@ -789,7 +794,7 @@ sid\_output = H.hash(b"CPaceSidOut" \|\| transcript(Ya,ADa,Yb,ADb)) which will b
 
 For curves over fields F\_q where q is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field\_size\_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
 with respect to side-channels for embedded systems in hostile environments.
-The effect of non-uniform sampling on security was demonstrated to be benign in {{AHH21}} for the case of Curve25519 and Curve448.
+{{AHH21}} demonstrated that non-uniform sampling did not negatively impact security for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form.
 
 As a result, we recommend rejection sampling if G is as in {{CPaceWeierstrass}}. Alternatively an algorithm designed along the lines of the hash\_to\_field() function from {{?RFC9380}} can also be
@@ -801,7 +806,7 @@ The security of the algorithms used for the recommended cipher suites for the Mo
 
 - The curve has order (p \* c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' \* c') with p' prime and c' a cofactor.
 
-- The cofactor c of the curve MUST BE EQUAL to or an integer multiple of the cofactor c' of the curve's quadratic twist. Also, importantly, the
+- The cofactor c of the curve MUST BE equal to or an integer multiple of the cofactor c' of the curve's quadratic twist. Also, importantly, the
   implementation of the scalar\_mult and scalar\_mult\_vfy
   functions must ensure that all scalars actually used for the group operation are integer multiples of
   c (e.g. such as asserted by the specification of the decodeScalar functions in {{?RFC7748}}).
