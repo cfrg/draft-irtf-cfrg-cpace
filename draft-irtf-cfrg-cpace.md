@@ -723,8 +723,8 @@ all variable-size input strings results in a so-called prefix-free encoding of t
 
 ## Key derivation {#key-derivation}
 
-Although already K is a shared value, it MUST NOT itself BE used as an application key. Instead, ISK MUST BE used. When facing an quantum-computing adversary
-with capability to calculate two discrete logarithms, leakage of K to can lead to classical offline dictionary attacks.
+A CPace implementation MUST NOT expose K, because it may enable offline dictionary attack
+on the password, and it does not provide authentication of ADa and ADb.
 
 As noted already in {{protocol-section}} it is RECOMMENDED to process ISK
 by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) first,
