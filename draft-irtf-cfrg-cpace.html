@@ -1910,45 +1910,43 @@ representation of the group element y*g. Additionally, scalar_mult_vfy specifies
             <p id="section-5.3-1.2.1">len(S) denotes the number of octets in an octet string S.<a href="#section-5.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.3">
-            <p id="section-5.3-1.3.1">nil denotes an empty octet string, i.e., len(nil) = 0.<a href="#section-5.3-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.3.1">This document uses quotation marks "" both for general language (e.g. for citation of notation used in other documents) and
+as syntax for specifying octet strings as in b"CPace25519".<a href="#section-5.3-1.3.1" class="pilcrow">¶</a></p>
+<p id="section-5.3-1.3.2">
+We use a preceding lowercase letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
+I.e., we use the notation convention for byte string representations with single-byte ASCII character encodings from the python programming language.
+b"" denotes the empty string of length 0.<a href="#section-5.3-1.3.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.4">
-            <p id="section-5.3-1.4.1">This document uses quotation marks "" both for general language (e.g. for citation of notation used in other documents) and
-as syntax for specifying octet strings as in b"CPace25519".<a href="#section-5.3-1.4.1" class="pilcrow">¶</a></p>
-<p id="section-5.3-1.4.2">
-We use a preceding lowercase letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
-I.e., we use the notation convention for byte string representations with single-byte ASCII character encodings from the python programming language.<a href="#section-5.3-1.4.2" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.4.1">LEB128 denotes an algorithm that converts an integer to a variable sized string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
+As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
+Test vectors and reference implementations for LEB128 encodings are given in the appendix.<a href="#section-5.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.5">
-            <p id="section-5.3-1.5.1">LEB128 denotes an algorithm that converts an integer to a variable sized string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
-As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
-Test vectors and reference implementations for LEB128 encodings are given in the appendix.<a href="#section-5.3-1.5.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.5.1">prepend_len(octet_string) denotes the octet sequence that is obtained from prepending
+the length of the octet string to the string itself. The length is encoded using LEB128.
+Test vectors and code for prepend_len are available in the appendix.<a href="#section-5.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.6">
-            <p id="section-5.3-1.6.1">prepend_len(octet_string) denotes the octet sequence that is obtained from prepending
-the length of the octet string to the string itself. The length is encoded using LEB128.
-Test vectors and code for prepend_len are available in the appendix.<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.6.1">lv_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
+their respective length prepended. E.g., lv_cat(a0,a1) returns
+prepend_len(a0) || prepend_len(a1). The detailed specification of lv_cat and a reference implementations are given in the appendix.<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.7">
-            <p id="section-5.3-1.7.1">lv_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
-their respective length prepended. E.g., lv_cat(a0,a1) returns
-prepend_len(a0) || prepend_len(a1). The detailed specification of lv_cat and a reference implementations are given in the appendix.<a href="#section-5.3-1.7.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.7.1">sample_random_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from a uniform distribution between 0 and 255.<a href="#section-5.3-1.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.8">
-            <p id="section-5.3-1.8.1">sample_random_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from a uniform distribution between 0 and 255.<a href="#section-5.3-1.8.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.8.1">zero_bytes(n) denotes a function that returns n octets with value 0.<a href="#section-5.3-1.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.9">
-            <p id="section-5.3-1.9.1">zero_bytes(n) denotes a function that returns n octets with value 0.<a href="#section-5.3-1.9.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-1.9.1">o_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexicographically larger octet
+string first and prepends the two bytes from the octet string b"oc" to the result. (Explicit reference code for this function is given in the appendix.)<a href="#section-5.3-1.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.10">
-            <p id="section-5.3-1.10.1">o_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexicographically larger octet
-string first and prepends the two bytes from the octet string b"oc" to the result. (Explicit reference code for this function is given in the appendix.)<a href="#section-5.3-1.10.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.3-1.11">
-            <p id="section-5.3-1.11.1">transcript(Ya,ADa,Yb,ADb) denotes a function outputting an octet string for the protocol transcript.
+            <p id="section-5.3-1.10.1">transcript(Ya,ADa,Yb,ADb) denotes a function outputting an octet string for the protocol transcript.
 In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
 not enforced by the protocol flow, transcript_oc(Ya,Yb,ADa,ADb) = o_cat(lv_cat(Ya,ADa),lv_cat(Yb, ADb)) SHALL be used.
-In the initiator-responder setting the implementation transcript_ir(Ya,Yb,ADa,ADb) = lv_cat(Ya,ADa) || lv_cat(Yb, ADb) SHALL be used.<a href="#section-5.3-1.11.1" class="pilcrow">¶</a></p>
+In the initiator-responder setting the implementation transcript_ir(Ya,Yb,ADa,ADb) = lv_cat(Ya,ADa) || lv_cat(Yb, ADb) SHALL be used.<a href="#section-5.3-1.10.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

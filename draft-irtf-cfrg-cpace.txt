@@ -526,8 +526,6 @@ Table of Contents
 
    *  len(S) denotes the number of octets in an octet string S.
 
-   *  nil denotes an empty octet string, i.e., len(nil) = 0.
-
    *  This document uses quotation marks "" both for general language
       (e.g. for citation of notation used in other documents) and as
       syntax for specifying octet strings as in b"CPace25519".
@@ -536,7 +534,8 @@ Table of Contents
       marks if a character sequence is representing an octet string
       sequence.  I.e., we use the notation convention for byte string
       representations with single-byte ASCII character encodings from
-      the python programming language.
+      the python programming language. b"" denotes the empty string of
+      length 0.
 
    *  LEB128 denotes an algorithm that converts an integer to a variable
       sized string.  The algorithm encodes 7 bits per byte starting with
