@@ -723,8 +723,9 @@ all variable-size input strings results in a so-called prefix-free encoding of t
 
 ## Key derivation {#key-derivation}
 
-A CPace implementation MUST NOT expose K, because it may enable offline dictionary attack
-on the password, and it does not provide authentication of ADa and ADb.
+A CPace implementation SHALL output ISK but MUST NOT expose K, because a leaked K
+may enable offline dictionary attack
+on the password, and a matching value for K does not provide authentication of ADa and ADb.
 
 As noted already in {{protocol-section}} it is RECOMMENDED to process ISK
 by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) first,
