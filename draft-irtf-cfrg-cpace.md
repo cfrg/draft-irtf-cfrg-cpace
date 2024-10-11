@@ -345,13 +345,12 @@ representation of the group element y\*g. Additionally, scalar\_mult\_vfy specif
 
 - len(S) denotes the number of octets in an octet string S.
 
-- nil denotes an empty octet string, i.e., len(nil) = 0.
-
 - This document uses quotation marks "" both for general language (e.g. for citation of notation used in other documents) and
   as syntax for specifying octet strings as in b"CPace25519".
 
   We use a preceding lowercase letter b"" in front of the quotation marks if a character sequence is representing an octet string sequence.
   I.e., we use the notation convention for byte string representations with single-byte ASCII character encodings from the python programming language.
+  b"" denotes the empty string of length 0.
 
 - LEB128 denotes an algorithm that converts an integer to a variable sized string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
   As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
