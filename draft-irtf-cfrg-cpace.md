@@ -178,7 +178,7 @@ The CPace design was tailored considering the following main objectives:
 
 - {{protocol-section}} specifies the CPace protocol.
 
-- The appendix provides explicit reference implementations and test vectors of all of the
+- The appendix provides code and test vectors of all of the
   functions defined for CPace.
 
 As this document is primarily written for implementers and application designers, we would like to refer the theory-inclined reader to the scientific paper {{AHH21}} which covers the detailed security analysis of the different CPace instantiations as defined in this document via the cipher suites.
@@ -354,7 +354,7 @@ representation of the group element y\*g. Additionally, scalar\_mult\_vfy specif
 
 - LEB128 denotes an algorithm that converts an integer to a variable sized string. The algorithm encodes 7 bits per byte starting with the least significant bits in bits #0 to #6.
   As long as significant bits remain, bit #7 will be set. This will result in a single-byte encoding for values below 128.
-  Test vectors and reference implementations for LEB128 encodings are given in the appendix.
+  Test vectors and reference code for LEB128 encoding are available in the appendix.
 
 - prepend\_len(octet\_string) denotes the octet sequence that is obtained from prepending
   the length of the octet string to the string itself. The length is encoded using LEB128.
@@ -362,14 +362,14 @@ representation of the group element y\*g. Additionally, scalar\_mult\_vfy specif
 
 - lv\_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
   their respective length prepended. E.g., lv\_cat(a0,a1) returns
-  prepend\_len(a0) \|\| prepend\_len(a1). The detailed specification of lv\_cat and a reference implementations are given in the appendix.
+  prepend\_len(a0) \|\| prepend\_len(a1). The detailed specification of lv\_cat and reference code is available in the appendix.
 
 - sample\_random\_bytes(n) denotes a function that returns n octets, each of which is to be independently sampled from a uniform distribution between 0 and 255.
 
 - zero\_bytes(n) denotes a function that returns n octets with value 0.
 
 - o\_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexicographically larger octet
-  string first and prepends the two bytes from the octet string b"oc" to the result. (Explicit reference code for this function is given in the appendix.)
+  string first and prepends the two bytes from the octet string b"oc" to the result. Reference code for this function is available in the appendix.
 
 - transcript(Ya,ADa,Yb,ADb) denotes a function outputting an octet string for the protocol transcript.
   In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
@@ -505,7 +505,7 @@ For both G\_X448 and G\_X25519 the G.calculate\_generator(H, PRS,sid,CI) functio
    from {{?RFC9380}}. Note that the v coordinate produced by the map\_to\_curve\_elligator2 function
    is not required for CPace and discarded. The appendix repeats the definitions from {{?RFC9380}} for convenience.
 
-In the appendix we show sage code that can be used as a reference implementation.
+Code for the functions above is available in the appendix.
 
 ### Verification tests
 
