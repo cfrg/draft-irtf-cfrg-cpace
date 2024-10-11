@@ -1695,12 +1695,14 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-high-level-application-pers">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-high-level-application-pers" class="section-name selfRef">High-level application perspective</a>
       </h2>
-<p id="section-3-1">CPace enables balanced password-authenticated key establishment. CPace requires a shared secret octet string, the password-related string (PRS) available to both parties A and B. PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to <span>[<a href="#RFC8265" class="cite xref">RFC8265</a>]</span>, or any string derived from a common secret, for instance by use of a key derivation function.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use augmented PAKE protocols such as OPAQUE <span>[<a href="#I-D.irtf-cfrg-opaque" class="cite xref">I-D.irtf-cfrg-opaque</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-1">CPace enables balanced password-authenticated key establishment. I.e. with CPace the parties start the protocol with a shared secret octet string, namely the password-related string (PRS).
+PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to <span>[<a href="#RFC8265" class="cite xref">RFC8265</a>]</span>, or any string derived from a common secret, for instance by use of a key derivation function.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use <em>augmented</em>
+PAKE protocols such as OPAQUE <span>[<a href="#I-D.irtf-cfrg-opaque" class="cite xref">I-D.irtf-cfrg-opaque</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the optional input parameters CI, ADa, ADb and sid that will be specified in the upcoming sections.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-4">CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value if and only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the optional input parameters CI, ADa, ADb and sid that will be specified in section <a href="#OptionalInputs" class="auto internal xref">Section 3.1</a>.<a href="#section-3-4" class="pilcrow">¶</a></p>
 <p id="section-3-5">The naming of ISK as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation function KDF (such as defined in <span>[<a href="#RFC5869" class="cite xref">RFC5869</a>]</span>) before using the key in a higher-level protocol.<a href="#section-3-5" class="pilcrow">¶</a></p>
-<div id="optional-cpace-inputs">
+<div id="OptionalInputs">
 <section id="section-3.1">
         <h3 id="name-optional-cpace-inputs">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-optional-cpace-inputs" class="section-name selfRef">Optional CPace inputs</a>
@@ -1924,8 +1926,8 @@ Test vectors and reference implementations for LEB128 encodings are given in the
 </li>
           <li class="normal" id="section-5.3-1.6">
             <p id="section-5.3-1.6.1">prepend_len(octet_string) denotes the octet sequence that is obtained from prepending
-the length of the octet string to the string itself. The length shall be prepended by using an LEB128 encoding of the length.
-Test vectors and reference implementations for prepend_len are given in the appendix.<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
+the length of the octet string to the string itself. The length is encoded using LEB128.
+Test vectors and code for prepend_len are available in the appendix.<a href="#section-5.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-1.7">
             <p id="section-5.3-1.7.1">lv_cat(a0,a1, ...) is the "length-value" encoding function which returns the concatenation of the input strings with an encoding of
@@ -1966,9 +1968,11 @@ In the initiator-responder setting the implementation transcript_ir(Ya,Yb,ADa,AD
       <h2 id="name-the-cpace-protocol">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-the-cpace-protocol" class="section-name selfRef">The CPace protocol</a>
       </h2>
-<p id="section-6-1">CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G,H and OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb (for B).
-A sends the public share Ya and OPTIONAL associated data ADa (i.e., an ADa field that MAY have a length of 0 bytes) to B.
-Likewise, B sends the public share Yb and OPTIONAL associated data ADb (i.e., an ADb field that MAY have a length of 0 bytes).
+<p id="section-6-1">CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G and H.
+Parties will also be provisioned with OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb (for B) which will default to the empty
+string b"" if not used.
+A sends the public share Ya and optional associated data ADa to B.
+Likewise, B sends the public share Yb and optional associated data ADb to A.
 Both A and B use the received messages for deriving a shared intermediate session key, ISK.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <div id="protocol-flow">
 <section id="section-6.1">
@@ -2035,7 +2039,7 @@ lv_cat(DSI, PRS, zero_bytes(len_zpad), CI, sid).<a href="#section-7.1-2.1.1" cla
         </ul>
 <p id="section-7.1-3">The zero padding of length len_zpad is designed such that the encoding of DSI and PRS together with the zero padding field completely
 fills at least the first input block (of length s_in_bytes) of the hash.
-As a result for the common case of short PRS the number of bytes to hash becomes independent of the actual length of the password (PRS). (A reference implementation and test vectors are provided in the appendix.)<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+As a result for the common case of short PRS the number of bytes to hash becomes independent of the actual length of the password (PRS). (Code and test vectors are provided in the appendix.)<a href="#section-7.1-3" class="pilcrow">¶</a></p>
 <p id="section-7.1-4">The introduction of a zero-padding within the generator string also helps mitigating attacks of a side-channel adversary that
 analyzes correlations between publicly known variable information with a short low-entropy PRS string.
 Note that the hash of the first block is intentionally made independent of session-specific inputs, such as sid or CI and that there is no limitation
@@ -2341,7 +2345,8 @@ It SHALL BE implemented as follows:<a href="#section-7.4.3-4.5.1" class="pilcrow
 </li>
                 <li class="normal" id="section-7.4.3-4.5.2.2">
                   <p id="section-7.4.3-4.5.2.2.1">Otherwise G.scalar_mult_vfy(s,X) SHALL return the result of the ECSVDP-DH procedure from <span>[<a href="#IEEE1363" class="cite xref">IEEE1363</a>]</span> (section 7.2.1). I.e. it shall
-either return "error" (in case that s*X is the neutral element) or the secret shared value "z" (otherwise). "z" SHALL be encoded by using
+either return "error" (in case that s*X is the neutral element) or the secret shared value "z" defined in <span>[<a href="#IEEE1363" class="cite xref">IEEE1363</a>]</span> (otherwise).
+"z" SHALL be encoded by using
 the big-endian encoding of the x-coordinate of the result point s*X according to <span>[<a href="#SEC1" class="cite xref">SEC1</a>]</span>.<a href="#section-7.4.3-4.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
@@ -2514,7 +2519,7 @@ sid_output = H.hash(b"CPaceSidOut" || transcript(Ya,ADa,Yb,ADb)) which will be u
         </h3>
 <p id="section-9.7-1">For curves over fields F_q where q is a prime close to a power of two, we recommend sampling scalars as a uniform bit string of length field_size_bits. We do so in order to reduce both, complexity of the implementation and the attack surface
 with respect to side-channels for embedded systems in hostile environments.
-The effect of non-uniform sampling on security was demonstrated to be benign in <span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> for the case of Curve25519 and Curve448.
+<span>[<a href="#AHH21" class="cite xref">AHH21</a>]</span> demonstrated that non-uniform sampling did not negatively impact security for the case of Curve25519 and Curve448.
 This analysis however does not transfer to most curves in Short-Weierstrass form.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
 <p id="section-9.7-2">As a result, we recommend rejection sampling if G is as in <a href="#CPaceWeierstrass" class="auto internal xref">Section 7.4</a>. Alternatively an algorithm designed along the lines of the hash_to_field() function from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> can also be
 used. There, oversampling to an integer significantly larger than the curve order is followed by a modular reduction to the group order.<a href="#section-9.7-2" class="pilcrow">¶</a></p>
@@ -2531,7 +2536,7 @@ used. There, oversampling to an integer significantly larger than the curve orde
             <p id="section-9.8-2.1.1">The curve has order (p * c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' * c') with p' prime and c' a cofactor.<a href="#section-9.8-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.8-2.2">
-            <p id="section-9.8-2.2.1">The cofactor c of the curve MUST BE EQUAL to or an integer multiple of the cofactor c' of the curve's quadratic twist. Also, importantly, the
+            <p id="section-9.8-2.2.1">The cofactor c of the curve MUST BE equal to or an integer multiple of the cofactor c' of the curve's quadratic twist. Also, importantly, the
 implementation of the scalar_mult and scalar_mult_vfy
 functions must ensure that all scalars actually used for the group operation are integer multiples of
 c (e.g. such as asserted by the specification of the decodeScalar functions in <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>).<a href="#section-9.8-2.2.1" class="pilcrow">¶</a></p>
