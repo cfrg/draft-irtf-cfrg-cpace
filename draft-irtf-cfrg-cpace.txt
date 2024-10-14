@@ -5,10 +5,10 @@
 CFRG                                                          M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 14 April 2025      Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 17 April 2025      Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                         11 October 2024
+                                                         14 October 2024
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 April 2025.
+   This Internet-Draft will expire on 17 April 2025.
 
 Copyright Notice
 
@@ -1159,7 +1159,7 @@ Table of Contents
 
    If CPace was run with an empty string sid available as input, both
    parties can produce a public session identifier string sid_output =
-   H.hash(b"CPaceSidOut" || transcript(Ya,ADa,Yb,ADb)) which will be
+   H.hash(b"CPaceSidOutput" || transcript(Ya,ADa,Yb,ADb)) which will be
    unique for honest parties [BGHJ24].
 
 9.7.  Sampling of scalars
