@@ -788,7 +788,7 @@ client- and server hello fields will always become authenticated as part of the 
 ## Calculating a session identifier alongside with the CPace run {#sec-sid-output}
 
 If CPace was run with an empty string sid available as input, both parties can produce a public session identifier string
-sid\_output = H.hash(b"CPaceSidOut" \|\| transcript(Ya,ADa,Yb,ADb)) which will be unique for honest parties {{BGHJ24}}.
+sid\_output = H.hash(b"CPaceSidOutput" \|\| transcript(Ya,ADa,Yb,ADb)) which will be unique for honest parties {{BGHJ24}}.
 
 ## Sampling of scalars
 
