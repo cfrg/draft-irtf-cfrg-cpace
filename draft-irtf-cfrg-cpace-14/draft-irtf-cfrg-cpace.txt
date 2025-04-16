@@ -2,13 +2,13 @@
 
 
 
-Network Working Group                                         M. Abdalla
+CFRG                                                          M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 30 March 2025      Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 18 October 2025    Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                       26 September 2024
+                                                           16 April 2025
 
 
                    CPace, a balanced composable PAKE
@@ -48,21 +48,18 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 March 2025.
+   This Internet-Draft will expire on 18 October 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
-   and restrictions with respect to this document.  Code Components
-   extracted from this document must include Revised BSD License text as
-   described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Revised BSD License.
+   and restrictions with respect to this document.
 
 Table of Contents
 
@@ -113,7 +110,7 @@ Table of Contents
      9.10. Side channel attacks
      9.11. Quantum computers
    10. IANA Considerations
-   11. Reference implementation
+   11. Reference implementation and test vector generation
    12. Acknowledgements
    13. References
      13.1.  Normative References
@@ -253,14 +250,14 @@ Table of Contents
       without clear initiator and responder roles.
 
    *  Implementation error resistance: CPace aims at avoiding common
-      implementation pitfalls already by-design, such as avoiding
+      implementation pitfalls already by design, such as avoiding
       incentives for insecure execution-time speed optimizations.  For
       smooth integration into different cryptographic library
       ecosystems, this document provides a variety of cipher suites.
 
-   *  Post-quantum annoyance: CPace comes with mitigations with respect
-      to adversaries that become capable of breaking the discrete
-      logarithm problem on elliptic curves.
+   *  Post-quantum annoyance: CPace comes with measures to slow down
+      adversaries capable of breaking the discrete logarithm problem on
+      elliptic curves.
 
 1.1.  Outline of this document
 
@@ -276,13 +273,12 @@ Table of Contents
 
    *  Section 6 specifies the CPace protocol.
 
-   *  The final section provides explicit reference implementations and
-      test vectors of all of the functions defined for CPace in the
-      appendix.
+   *  The appendix provides code and test vectors of all of the
+      functions defined for CPace.
 
    As this document is primarily written for implementers and
    application designers, we would like to refer the theory-inclined
-   reader to the scientific papers [AHH21] which covers the detailed
+   reader to the scientific paper [AHH21] which covers the detailed
    security analysis of the different CPace instantiations as defined in
    this document via the cipher suites.
 
@@ -297,15 +293,15 @@ Table of Contents
 3.  High-level application perspective
 
    CPace enables balanced password-authenticated key establishment.
-   CPace requires a shared secret octet string, the password-related
-   string (PRS), is available for both parties A and B.  PRS can be a
+   I.e. with CPace the parties start the protocol with a shared secret
+   octet string, namely the password-related string (PRS).  PRS can be a
    low-entropy secret itself, for instance a clear-text password encoded
    according to [RFC8265], or any string derived from a common secret,
-   for instance by use of a password-based key derivation function.
+   for instance by use of a key derivation function.
 
    Applications with clients and servers where the server side is
    storing account and password information in its persistent memory are
-   recommended to use augmented PAKE protocols such as OPAQUE
+   recommended to use _augmented_ PAKE protocols such as OPAQUE
    [I-D.irtf-cfrg-opaque].
 
    In the course of the CPace protocol, A sends one message to B and B
@@ -316,35 +312,37 @@ Table of Contents
 
    CPace's output is an intermediate session key (ISK), but any party
    might abort in case of an invalid received message.  A and B will
-   produce the same ISK value only if both sides did initiate the
+   produce the same ISK value if and only if both sides did initiate the
    protocol using the same protocol inputs, specifically the same PRS
-   string and the same value for the optional input parameters CI, ADa,
-   ADb and sid that will be specified in the upcoming sections.
+   and the same value for the optional input parameters CI, ADa, ADb and
+   sid that will be specified in section Section 3.1.
 
-   The naming of ISK key as "intermediate" session key highlights the
-   fact that it is RECOMMENDED that applications process ISK by use of a
+   The naming of ISK as "intermediate" session key highlights the fact
+   that it is RECOMMENDED that applications process ISK by use of a
    suitable strong key derivation function KDF (such as defined in
    [RFC5869]) before using the key in a higher-level protocol.
 
 3.1.  Optional CPace inputs
 
-   For accomodating different application settings, CPace offers the
+   For accommodating different application settings, CPace offers the
    following OPTIONAL inputs, i.e. inputs which MAY also be the empty
    string:
 
-   *  Party identity strings (A,B).  In CPace each party can be be given
-      a party identity string which might be a device name a user name
-      or an URL.  CPace offers two alternative options for
-      authenticating the party identifiers in the course of the protocol
-      run.  The RECOMMENDED option is to integrate of both, A and B into
-      the channel identifier string CI.  This option is to be preferred
-      as A and B will be kept confidential and as this provides security
-      advantages (see Section 9.11 and Section 9.1).  Integrating A,B
-      into CI, however, requires that both parties know the party
-      identity string of the communication partner before starting the
-      protocol.  If this requirement is not fullfilled in an application
-      setting then CPace offers the alternative of integrating A as part
-      of the optional input ADa and B as part of the optional input ADb.
+   *  Party identity strings (A,B).  In CPace each party can be given a
+      party identity string which might be a device name a user name or
+      an URL.  CPace offers two alternative options for authenticating
+      the party identifiers in the course of the protocol run.  The
+      RECOMMENDED option is to integrate both, A and B, into the channel
+      identifier string CI.  This option is to be preferred as A and B
+      will be kept confidential and as this provides security advantages
+      (see Section 9.11 and Section 9.1).  Integrating A,B into CI,
+      however, requires that both parties know the party identity string
+      of the communication partner before starting the protocol.  If
+      this requirement is not fulfilled in an application setting then
+      CPace offers the alternative of integrating A as part of the
+      optional input ADa and B as part of the optional input ADb.  If
+      the key exchange is successful, parties are guaranteed to learn
+      each other's identity string.
 
    *  Channel identifier (CI).  CI can be used to bind a session key
       exchanged with CPace to a specific networking channel which
@@ -368,24 +366,24 @@ Table of Contents
 
       In a setting with clear initiator and responder roles, identity
       information in ADa sent by the initiator can be used by the
-      responder for choosing the appropriate PRS string (respectively
-      password) for this identity.  ADa and ADb could also include
-      application protocol version information of an application
-      protocol (e.g. to avoid downgrade attacks).
+      responder for choosing the appropriate PRS (respectively password)
+      for this identity.  ADa and ADb could also include application
+      protocol version information (e.g. to avoid downgrade attacks).
 
    *  Session identifier (sid).  If both parties have access to the same
-      unique octet string sid being specific for a communication session
-      before starting the protocol, it is RECOMMENDED to forward this
-      sid value as an additional input for the protocol as this provides
-      security advantages and will bind the CPace run to this
+      unique public octet string sid being specific for a communication
+      session before starting the protocol, it is RECOMMENDED to use
+      this sid value as an additional input for the protocol as this
+      provides security advantages and will bind the CPace run to this
       communication session (see Section 9).
 
 3.2.  Optional CPace outputs
 
    If a session identifier is not available as input at protocol start
-   CPace can optionally produce a session identifier sid_output as
-   output that might be helpful for the application for actions
-   subsequent to the CPace protocol step (see Section 9.6, [BGHJ24]).
+   CPace can optionally produce a unique public session identifier
+   sid_output as output that might be helpful for the application for
+   actions subsequent to the CPace protocol step (see Section 9.6,
+   [BGHJ24]).
 
 3.3.  Responsibilities of the application layer
 
@@ -455,20 +453,17 @@ Table of Contents
 5.1.  Hash function H
 
    Common choices for H are SHA-512 [RFC6234] or SHAKE-256 [FIPS202].
-   (I.e. the hash function outputs octet strings, and not group
+   (I.e., the hash function outputs octet strings, and not group
    elements.)  For considering both variable-output-length hashes and
-   fixed-output-length hashes, we use the following convention.  In case
-   that the hash function is specified for a fixed-size output, we
-   define H.hash(m,l) such that it returns the first l octets of the
-   output.
+   fixed-output-length hashes, we use the following convention.
 
    We use the following notation for referring to the specific
    properties of a hash function H:
 
    *  H.hash(m,l) is a function that operates on an input octet string m
-      and returns a hashing result of l octets.
+      and returns the first l octets of the hash of m.
 
-   *  H.b_in_bytes denotes the minimum output size in bytes for
+   *  H.b_in_bytes denotes the _minimum_ output size in bytes for
       collision resistance for the security level target of the hash
       function.  E.g.  H.b_in_bytes = 64 for SHA-512 and SHAKE-256 and
       H.b_in_bytes = 32 for SHA-256 and SHAKE-128.  We use the notation
@@ -501,7 +496,7 @@ Table of Contents
    *  G.calculate_generator(H,PRS,CI,sid) denotes a function that
       outputs a representation of a generator (referred to as
       "generator" from now on) of the group which is derived from input
-      octet strings PRS, CI, and sid and with the help of the hash
+      octet strings PRS, CI, and sid and with the help of a hash
       function H.
 
    *  G.sample_scalar() is a function returning a representation of an
@@ -510,7 +505,7 @@ Table of Contents
 
    *  G.scalar_mult(y,g) is a function operating on a scalar y and a
       group element g.  It returns an octet string representation of the
-      group element Y = g*y.
+      group element Y = y*g.
 
    *  G.I denotes a unique octet string representation of the neutral
       element of the group.  G.I is used for detecting and signaling
@@ -518,8 +513,8 @@ Table of Contents
 
    *  G.scalar_mult_vfy(y,g) is a function operating on a scalar y and a
       group element g.  It returns an octet string representation of the
-      group element g*y.  Additionally, scalar_mult_vfy specifies
-      validity conditions for y,g and g*y and outputs G.I in case they
+      group element y*g.  Additionally, scalar_mult_vfy specifies
+      validity conditions for y,g and y*g and outputs G.I in case they
       are not met.
 
    *  G.DSI denotes a domain-separation identifier octet string which
@@ -527,56 +522,53 @@ Table of Contents
 
 5.3.  Notation for string operations
 
-   *  bytes1 || bytes2 and denotes concatenation of octet strings.
+   *  bytes1 || bytes2 denotes concatenation of octet strings.
 
    *  len(S) denotes the number of octets in an octet string S.
-
-   *  nil denotes an empty octet string, i.e., len(nil) = 0.
 
    *  This document uses quotation marks "" both for general language
       (e.g. for citation of notation used in other documents) and as
       syntax for specifying octet strings as in b"CPace25519".
 
-      We use a preceeding lower-case letter b"" in front of the
-      quotation marks if a character sequence is representing an octet
-      string sequence.  I.e. we use the notation convention for byte
-      string representations with single-byte ASCII character encodings
-      from the python programming language.
+      We use a preceding lowercase letter b"" in front of the quotation
+      marks if a character sequence is representing an octet string
+      sequence.  I.e., we use the notation convention for byte string
+      representations with single-byte ASCII character encodings from
+      the python programming language. b"" denotes the empty string of
+      length 0.
 
    *  LEB128 denotes an algorithm that converts an integer to a variable
-      size string.  The algorithm encodes 7 bits per byte starting with
+      sized string.  The algorithm encodes 7 bits per byte starting with
       the least significant bits in bits #0 to #6.  As long as
       significant bits remain, bit #7 will be set.  This will result in
       a single-byte encoding for values below 128.  Test vectors and
-      reference implementations for LEB128 encodings are given in the
-      appendix.
+      reference code for LEB128 encoding are available in the appendix.
 
    *  prepend_len(octet_string) denotes the octet sequence that is
       obtained from prepending the length of the octet string to the
-      string itself.  The length shall be prepended by using an LEB128
-      encoding of the length.  Test vectors and reference
-      implementations for prepend_len are given in the appendix.
+      string itself.  The length is encoded using LEB128.  Test vectors
+      and code for prepend_len are available in the appendix.
 
    *  lv_cat(a0,a1, ...) is the "length-value" encoding function which
       returns the concatenation of the input strings with an encoding of
-      their respective length prepended.  E.g. lv_cat(a0,a1) returns
+      their respective length prepended.  E.g., lv_cat(a0,a1) returns
       prepend_len(a0) || prepend_len(a1).  The detailed specification of
-      lv_cat and a reference implementations are given in the appendix.
+      lv_cat and reference code is available in the appendix.
 
    *  sample_random_bytes(n) denotes a function that returns n octets,
-      each of which is to be independently sampled from an uniform
+      each of which is to be independently sampled from a uniform
       distribution between 0 and 255.
 
    *  zero_bytes(n) denotes a function that returns n octets with value
       0.
 
    *  o_cat(bytes1,bytes2) denotes a function for ordered concatenation
-      of octet strings.  It places the lexiographically larger octet
+      of octet strings.  It places the lexicographically larger octet
       string first and prepends the two bytes from the octet string
-      b"oc" to the result.  (Explicit reference code for this function
-      is given in the appendix.)
+      b"oc" to the result.  Reference code for this function is
+      available in the appendix.
 
-   *  transcript(Ya,ADa,Yb,ADb) denotes a function outputing an octet
+   *  transcript(Ya,ADa,Yb,ADb) denotes a function outputting an octet
       string for the protocol transcript.  In applications where CPace
       is used without clear initiator and responder roles, i.e. where
       the ordering of messages is not enforced by the protocol flow,
@@ -587,20 +579,20 @@ Table of Contents
 
 5.4.  Notation for group operations
 
-   We use additive notation for the group, i.e., X*2 denotes the element
+   We use additive notation for the group, i.e., 2*X denotes the element
    that is obtained by computing X+X, for group element X and group
    operation +.
 
 6.  The CPace protocol
 
    CPace is a one round protocol between two parties, A and B.  At
-   invocation, A and B are provisioned with PRS,G,H and OPTIONAL
-   CI,sid,ADa (for A) and CI,sid,ADb (for B).  A sends the public share
-   Ya and OPTIONAL associated data ADa (i.e. an ADa field that MAY have
-   a length of 0 bytes) to B.  Likewise, B sends the public share Yb and
-   OPTIONAL associated data ADb (i.e. an ADb field that MAY have a
-   length of 0 bytes).  Both A and B use the received messages for
-   deriving a shared intermediate session key, ISK.
+   invocation, A and B are provisioned with PRS,G and H.  Parties will
+   also be provisioned with OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb
+   (for B) which will default to the empty string b"" if not used.  A
+   sends the public share Ya and optional associated data ADa to B.
+   Likewise, B sends the public share Yb and optional associated data
+   ADb to A.  Both A and B use the received messages for deriving a
+   shared intermediate session key, ISK.
 
 6.1.  Protocol flow
 
@@ -641,16 +633,16 @@ Table of Contents
 
    The session key ISK returned by A and B is identical if and only if
    the supplied input parameters PRS, CI and sid match on both sides and
-   transcript view of both parties match.
+   the transcript views of both parties match.
 
 7.  Implementation of recommended CPace cipher suites
 
 7.1.  Common function for computing generators
 
    The different cipher suites for CPace defined in the upcoming
-   sections share the same method for deterministically combining the
-   individual strings PRS, CI, sid and the domain-separation identifier
-   DSI to a generator string that we describe here.
+   sections share the following method for deterministically combining
+   the individual strings PRS, CI, sid and the domain-separation
+   identifier DSI to a generator string:
 
    *  generator_string(DSI, PRS, CI, sid, s_in_bytes) denotes a function
       that returns the string lv_cat(DSI, PRS, zero_bytes(len_zpad), CI,
@@ -664,8 +656,8 @@ Table of Contents
    completely fills at least the first input block (of length
    s_in_bytes) of the hash.  As a result for the common case of short
    PRS the number of bytes to hash becomes independent of the actual
-   length of the password (PRS).  (A reference implementation and test
-   vectors are provided in the appendix.)
+   length of the password (PRS).  (Code and test vectors are provided in
+   the appendix.)
 
    The introduction of a zero-padding within the generator string also
    helps mitigating attacks of a side-channel adversary that analyzes
@@ -744,18 +736,17 @@ Table of Contents
       function is not required for CPace and discarded.  The appendix
       repeats the definitions from [RFC9380] for convenience.
 
-   In the appendix we show sage code that can be used as reference
-   implementation.
+   Code for the functions above is available in the appendix.
 
 7.2.1.  Verification tests
 
-   For single-coordinate Montgomery ladders on Montgomery curves
+   For single-coordinate Montgomery ladders on Montgomery curves,
    verification tests according to Section 8 SHALL check for proper
    handling of the abort conditions, when a party is receiving u
    coordinate values that encode a low-order point on either the curve
    or the quadratic twist.
 
-   In addition to that in case of G_X25519 the tests SHALL also verify
+   In addition to that, in case of G_X25519, the tests SHALL also verify
    that the implementation of G.scalar_mult_vfy(y,g) produces the
    expected results for non-canonical u coordinate values with bit #255
    set, which may also encode low-order points.
@@ -828,7 +819,7 @@ Table of Contents
 
    *  G.scalar_mult(y,_g) SHALL operate on a scalar y and a group
       element _g in the internal representation of the group abstraction
-      environment.  It returns the value Y = encode((_g) * y), i.e. it
+      environment.  It returns the value Y = encode(y * (_g)), i.e. it
       returns a value using the public encoding.
 
    *  G.I = is the public encoding representation of the identity
@@ -837,7 +828,7 @@ Table of Contents
    *  G.scalar_mult_vfy(y,X) operates on a value using the public
       encoding and a scalar and is implemented as follows.  If the
       decode(X) function fails, it returns G.I.  Otherwise it returns
-      encode( decode(X) * y ).
+      encode( y * decode(X) ).
 
    *  The G.calculate_generator(H, PRS,sid,CI) function SHALL return a
       decoded point and SHALL BE implemented as follows.
@@ -884,7 +875,7 @@ Table of Contents
 
    The specification for the group environment objects specified in this
    section closely follow the ECKAS-DH1 method from [IEEE1363].  I.e. we
-   use the same methods and encodings and protocol substeps as employed
+   use the same methods and encodings and protocol sub steps as employed
    in the TLS [RFC5246] [RFC8446] protocol family.
 
    For CPace only the uncompressed full-coordinate encodings from [SEC1]
@@ -895,7 +886,7 @@ Table of Contents
 
    For deriving Diffie-Hellman shared secrets ECKAS-DH1 from [IEEE1363]
    specifies the use of an ECSVDP-DH method.  We use ECSVDP-DH in
-   combination with the identy map such that it either returns "error"
+   combination with the identity map such that it either returns "error"
    or the x-coordinate of the Diffie-Hellman result point as shared
    secret in big endian format (fixed length output by FE2OSP without
    truncating leading zeros).
@@ -968,11 +959,11 @@ Table of Contents
       an input point X.  The input X shall use the same encoding as
       produced by the G.calculate_generator method above.
       G.scalar_mult(s,X) SHALL return an encoding of either the point
-      X*s or the point X*(-s) according to [SEC1].  Implementations
+      s*X or the point (-s)*X according to [SEC1].  Implementations
       SHOULD use the full-coordinate format without compression, as
       important protocols such as TLS 1.3 removed support for
       compression.  Implementations of scalar_mult(s,X) MAY output
-      either X*s or X*(-s) as both points X*s and X*(-s) have the same
+      either s*X or (-s)*X as both points s*X and (-s)*X have the same
       x-coordinate and result in the same Diffie-Hellman shared secrets
       K.  (This allows implementations to opt for x-coordinate-only
       scalar multiplication algorithms.)
@@ -986,10 +977,11 @@ Table of Contents
 
       -  Otherwise G.scalar_mult_vfy(s,X) SHALL return the result of the
          ECSVDP-DH procedure from [IEEE1363] (section 7.2.1).  I.e. it
-         shall either return "error" (in case that X*s is the neutral
-         element) or the secret shared value "z" (otherwise). "z" SHALL
-         be encoded by using the big-endian encoding of the x-coordinate
-         of the result point X*s according to [SEC1].
+         shall either return "error" (in case that s*X is the neutral
+         element) or the secret shared value "z" defined in [IEEE1363]
+         (otherwise). "z" SHALL be encoded by using the big-endian
+         encoding of the x-coordinate of the result point s*X according
+         to [SEC1].
 
    *  We represent the neutral element G.I by using the representation
       of the "error" result case from [IEEE1363] as used in the
@@ -1019,11 +1011,11 @@ Table of Contents
 
    A security proof of CPace is found in [AHH21].  This proof covers all
    recommended cipher suites included in this document.  The security
-   analysis in [BGHJ24] extends the analysis from [AHH21] and covers
-   also the case that no pre-agreed session identifier is available.
-   [BGHJ24] also shows how a session id sid_output can be generated
-   along with the protocol for applications that do not have a session
-   identifier input available.
+   analysis in [BGHJ24] extends the analysis from [AHH21] by covering
+   the case that no pre-agreed session identifier is available.
+   [BGHJ24] also shows how a unique session id sid_output can be
+   generated along with the protocol for applications that do not have a
+   session identifier input available.
 
 9.1.  Party identifiers and relay attacks
 
@@ -1035,7 +1027,7 @@ Table of Contents
    Incorporating party identifier strings is important for fending off
    relay attacks.  Such attacks become relevant in a setting where
    several parties, say, A, B and C, share the same password PRS.  An
-   adversary might relay messages from a honest user A, who aims at
+   adversary might relay messages from an honest user A, who aims at
    interacting with user B, to a party C instead.  If no party
    identifier strings are used and B and C share the same PRS value then
    A might be using CPace for establishing a common ISK key with C while
@@ -1071,9 +1063,10 @@ Table of Contents
 
 9.3.  Key derivation
 
-   Although already K is a shared value, it MUST NOT itself be used as
-   an application key.  Instead, ISK MUST BE used.  Leakage of K to an
-   adversary can lead to offline dictionary attacks.
+   A CPace implementation SHALL output ISK but MUST NOT expose K,
+   because a leaked K may enable offline dictionary attack on the
+   password, and a matching value for K does not provide authentication
+   of ADa and ADb.
 
    As noted already in Section 6 it is RECOMMENDED to process ISK by use
    of a suitable strong key derivation function KDF (such as defined in
@@ -1085,9 +1078,8 @@ Table of Contents
    confirmation round after the CPace protocol flow.  However, as some
    applications might only require implicit authentication and as
    explicit authentication messages are already a built-in feature in
-   many higher-level protocols (e.g.  TLS 1.3) the CPace protocol
-   described here does not mandate use of a key confirmation on the
-   level of the CPace sub-protocol.
+   many higher-level protocols (e.g. TLS 1.3), the CPace protocol
+   described here does not mandate key confirmation.
 
    Already without explicit key confirmation, CPace enjoys weak forward
    security under the sCDH and sSDH assumptions [AHH21].  With added
@@ -1112,12 +1104,11 @@ Table of Contents
    *  First calculate mac_key as mac_key = H.hash(b"CPaceMac" || sid ||
       ISK).
 
-   *  Then let each party send an authenticator tag Ta, Tb that is
-      calculated over the protocol message that it has sent previously.
-      I.e. let party A calculate its transmitted authentication code Ta
-      as Ta = MAC(mac_key, lv_cat(Ya,ADa)) and let party B calculate its
-      transmitted authentication code Tb as Tb = MAC(mac_key, ,
-      lv_cat(Yb,ADb)).
+   *  Then let each party send an authenticator tag calculated over the
+      protocol message that it has sent previously.  I.e. let party A
+      calculate its authentication tag Ta as Ta = MAC(mac_key,
+      lv_cat(Ya,ADa)) and let party B calculate its authentication tag
+      Tb as Tb = MAC(mac_key, lv_cat(Yb,ADb)).
 
    *  Let the receiving party check the remote authentication tag for
       the correct value and abort in case that it's incorrect.
@@ -1138,18 +1129,18 @@ Table of Contents
    If an embedding protocol uses more than two messages (e.g. four
    message TLS1.3 [RFC8446] flows involving a hello-retry message and a
    repeated client-hello message) it is suggested that the CPace layer
-   only considers the two messages used for the CPace run.  I.e. it is
+   only considers the two messages used for the CPace run.  I.e., it is
    suggested that authenticating the full message sequence involving
-   also the additional messages that might preceed the two CPace
-   messages is done under the responsibiity of the embedding application
-   protocol.  This could be done by integrating the full protocol
-   transcript as part of a final explicit key confirmation round (as
-   commonly done by TLS 1.3 as part of the "Finished" messages).
-   Alternatively, information on communication rounds preceeding the
-   CPace flows can also be integrated as part of the CI field, as this
-   will authenticate the information and will not require both
-   communication partners to keep state information regarding preceeding
-   messages in memory until after the CPace run.
+   also the additional messages that might precede the two CPace
+   messages is done under the responsibility of the embedding
+   application protocol.  This could be done by integrating the full
+   protocol transcript as part of a final explicit key confirmation
+   round (as commonly done by TLS 1.3 as part of the "Finished"
+   messages).  Alternatively, information on communication rounds
+   preceding the CPace flows can also be integrated as part of the CI
+   field, as this will authenticate the information and will not require
+   both communication partners to keep state information regarding
+   preceding messages in memory until after the CPace run.
 
    In case of TLS 1.3 [RFC8446] it is suggested to integrate Ya into the
    client-hello message and Yb into the server-hello message.  Also
@@ -1167,8 +1158,8 @@ Table of Contents
 9.6.  Calculating a session identifier alongside with the CPace run
 
    If CPace was run with an empty string sid available as input, both
-   parties can produce a session identifier string sid_output =
-   H.hash(b"CPaceSidOut" || transcript(Ya,ADa, Yb,ADb)) which will be
+   parties can produce a public session identifier string sid_output =
+   H.hash(b"CPaceSidOutput" || transcript(Ya,ADa,Yb,ADb)) which will be
    unique for honest parties [BGHJ24].
 
 9.7.  Sampling of scalars
@@ -1177,14 +1168,14 @@ Table of Contents
    two, we recommend sampling scalars as a uniform bit string of length
    field_size_bits.  We do so in order to reduce both, complexity of the
    implementation and the attack surface with respect to side-channels
-   for embedded systems in hostile environments.  The effect of non-
-   uniform sampling on security was demonstrated to be begnin in [AHH21]
-   for the case of Curve25519 and Curve448.  This analysis however does
-   not transfer to most curves in Short-Weierstrass form.
+   for embedded systems in hostile environments.  [AHH21] demonstrated
+   that non-uniform sampling did not negatively impact security for the
+   case of Curve25519 and Curve448.  This analysis however does not
+   transfer to most curves in Short-Weierstrass form.
 
    As a result, we recommend rejection sampling if G is as in
-   Section 7.4.  Alternatively an algorithm designed allong the lines of
-   the hash_to_field() function from [RFC9380] can also be used.  There
+   Section 7.4.  Alternatively an algorithm designed along the lines of
+   the hash_to_field() function from [RFC9380] can also be used.  There,
    oversampling to an integer significantly larger than the curve order
    is followed by a modular reduction to the group order.
 
@@ -1199,7 +1190,7 @@ Table of Contents
       Also the curve's quadratic twist must be of order (p' * c') with
       p' prime and c' a cofactor.
 
-   *  The cofactor c of the curve MUST BE EQUAL to or an integer
+   *  The cofactor c of the curve MUST BE equal to or an integer
       multiple of the cofactor c' of the curve's quadratic twist.  Also,
       importantly, the implementation of the scalar_mult and
       scalar_mult_vfy functions must ensure that all scalars actually
@@ -1284,10 +1275,12 @@ Table of Contents
 
    No IANA action is required.
 
-11.  Reference implementation
+11.  Reference implementation and test vector generation
 
    The reference implementation that was used for deriving test vectors
-   is available at [REFIMP].
+   is available at [REFIMP].  The embedded base64-encoded test vectors
+   will decode to JSON files having the test vector's octet strings
+   encoded as base16 (i.e. hexadecimal) strings.
 
 12.  Acknowledgements
 
@@ -1359,9 +1352,9 @@ Table of Contents
    [I-D.irtf-cfrg-opaque]
               Bourdrez, D., Krawczyk, H., Lewi, K., and C. A. Wood, "The
               OPAQUE Augmented PAKE Protocol", Work in Progress,
-              Internet-Draft, draft-irtf-cfrg-opaque-16, 12 June 2024,
-              <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
-              opaque-16>.
+              Internet-Draft, draft-irtf-cfrg-opaque-18, 21 November
+              2024, <https://datatracker.ietf.org/doc/html/draft-irtf-
+              cfrg-opaque-18>.
 
    [REFIMP]   "CPace reference implementation (sage)", September 2024,
               <https://github.com/cfrg/draft-irtf-cfrg-
@@ -1456,21 +1449,20 @@ A.1.2.  prepend_len test vectors
 
 A.1.2.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJwcmVwZW5kX2xlbihiKSI6ICIwMCIsICJiXCIxMjM0XCIiOiAiMzEzMjMzMzQ
-       ##iLCAicHJlcGVuZF9sZW4oYlwiMTIzNFwiKSI6ICIwNDMxMzIzMzM0IiwgInByZX
-       ##BlbmRfbGVuKGJ5dGVzKHJhbmdlKDEyNykpKSI6ICI3RjAwMDEwMjAzMDQwNTA2M
-       ##DcwODA5MEEwQjBDMEQwRTBGMTAxMTEyMTMxNDE1MTYxNzE4MTkxQTFCMUMxRDFF
-       ##MUYyMDIxMjIyMzI0MjUyNjI3MjgyOTJBMkIyQzJEMkUyRjMwMzEzMjMzMzQzNTM
-       ##2MzczODM5M0EzQjNDM0QzRTNGNDA0MTQyNDM0NDQ1NDY0NzQ4NDk0QTRCNEM0RD
-       ##RFNEY1MDUxNTI1MzU0NTU1NjU3NTg1OTVBNUI1QzVENUU1RjYwNjE2MjYzNjQ2N
-       ##TY2Njc2ODY5NkE2QjZDNkQ2RTZGNzA3MTcyNzM3NDc1NzY3Nzc4Nzk3QTdCN0M3
-       ##RDdFIiwgInByZXBlbmRfbGVuKGJ5dGVzKHJhbmdlKDEyOCkpKSI6ICI4MDAxMDA
-       ##wMTAyMDMwNDA1MDYwNzA4MDkwQTBCMEMwRDBFMEYxMDExMTIxMzE0MTUxNjE3MT
-       ##gxOTFBMUIxQzFEMUUxRjIwMjEyMjIzMjQyNTI2MjcyODI5MkEyQjJDMkQyRTJGM
-       ##zAzMTMyMzMzNDM1MzYzNzM4MzkzQTNCM0MzRDNFM0Y0MDQxNDI0MzQ0NDU0NjQ3
-       ##NDg0OTRBNEI0QzRENEU0RjUwNTE1MjUzNTQ1NTU2NTc1ODU5NUE1QjVDNUQ1RTV
-       ##GNjA2MTYyNjM2NDY1NjY2NzY4Njk2QTZCNkM2RDZFNkY3MDcxNzI3Mzc0NzU3Nj
-       ##c3Nzg3OTdBN0I3QzdEN0U3RiJ9
+    #eyJwcmVwZW5kX2xlbihiJycpIjogIjAwIiwgImInMTIzNCciOiAiMzEzMjMzMzQiLC
+    #AicHJlcGVuZF9sZW4oYicxMjM0JykiOiAiMDQzMTMyMzMzNCIsICJwcmVwZW5kX2xl
+    #bihieXRlcyhyYW5nZSgxMjcpKSkiOiAiN0YwMDAxMDIwMzA0MDUwNjA3MDgwOTBBME
+    #IwQzBEMEUwRjEwMTExMjEzMTQxNTE2MTcxODE5MUExQjFDMUQxRTFGMjAyMTIyMjMy
+    #NDI1MjYyNzI4MjkyQTJCMkMyRDJFMkYzMDMxMzIzMzM0MzUzNjM3MzgzOTNBM0IzQz
+    #NEM0UzRjQwNDE0MjQzNDQ0NTQ2NDc0ODQ5NEE0QjRDNEQ0RTRGNTA1MTUyNTM1NDU1
+    #NTY1NzU4NTk1QTVCNUM1RDVFNUY2MDYxNjI2MzY0NjU2NjY3Njg2OTZBNkI2QzZENk
+    #U2RjcwNzE3MjczNzQ3NTc2Nzc3ODc5N0E3QjdDN0Q3RSIsICJwcmVwZW5kX2xlbihi
+    #eXRlcyhyYW5nZSgxMjgpKSkiOiAiODAwMTAwMDEwMjAzMDQwNTA2MDcwODA5MEEwQj
+    #BDMEQwRTBGMTAxMTEyMTMxNDE1MTYxNzE4MTkxQTFCMUMxRDFFMUYyMDIxMjIyMzI0
+    #MjUyNjI3MjgyOTJBMkIyQzJEMkUyRjMwMzEzMjMzMzQzNTM2MzczODM5M0EzQjNDM0
+    #QzRTNGNDA0MTQyNDM0NDQ1NDY0NzQ4NDk0QTRCNEM0RDRFNEY1MDUxNTI1MzU0NTU1
+    #NjU3NTg1OTVBNUI1QzVENUU1RjYwNjE2MjYzNjQ2NTY2Njc2ODY5NkE2QjZDNkQ2RT
+    #ZGNzA3MTcyNzM3NDc1NzY3Nzc4Nzk3QTdCN0M3RDdFN0YifQ==
 
 A.1.3.  lv_cat function
 
@@ -1482,14 +1474,14 @@ A.1.3.  lv_cat function
 
 A.1.4.  Testvector for lv_cat()
 
-     lv_cat(b"1234",b"5",b"",b"6789"): (length: 13 bytes)
-       04313233340135000436373839
+     lv_cat(b"1234",b"5",b"",b"678"): (length: 12 bytes)
+       043132333401350003363738
 
 A.1.4.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJiYTEiOiAiMzEzMjMzMzQiLCAiYmEyIjogIjM1IiwgImJhMyI6ICIzNjM3Mzg
-       ##zOSIsICJsdl9jYXQoYmExLGJhMixiYTMpIjogIjA0MzEzMjMzMzQwMTM1MDAwND
-       ##M2MzczODM5In0=
+    #eyJiJzEyMzQnIjogIjMxMzIzMzM0IiwgImInNSciOiAiMzUiLCAiYic2NzgnIjogIj
+    #M2MzczOCIsICJsdl9jYXQoYicxMjM0JyxiJzUnLGInJyxiJzY3OCcpIjogIjA0MzEz
+    #MjMzMzQwMTM1MDAwMzM2MzczOCJ9
 
 A.2.  Definition of generator_string function.
 
@@ -1509,7 +1501,7 @@ A.3.1.  Definitions for lexiographical ordering
    is used:
 
       def lexiographically_larger(bytes1,bytes2):
-         "Returns True if bytes1 > bytes2 using lexiographical ordering."
+         "Returns True if bytes1>bytes2 using lexiographical ordering."
          min_len = min (len(bytes1), len(bytes2))
          for m in range(min_len):
              if bytes1[m] > bytes2[m]:
@@ -1546,10 +1538,10 @@ A.3.3.  Test vectors ordered concatenation
 
 A.3.3.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJiXCJBQkNEXCIiOiAiNDE0MjQzNDQiLCAiYlwiQkNEXCIiOiAiNDI0MzQ0Iiw
-       ##gImJcIkFCQ0RFXCIiOiAiNDE0MjQzNDQ0NSIsICJvX2NhdChiXCJBQkNEXCIsYl
-       ##wiQkNEXCIpIjogIjZGNjM0MjQzNDQ0MTQyNDM0NCIsICJvX2NhdChiXCJCQ0RcI
-       ##ixiXCJBQkNERVwiKSI6ICI2RjYzNDI0MzQ0NDE0MjQzNDQ0NSJ9
+    #eyJiJ0FCQ0QnIjogIjQxNDI0MzQ0IiwgImInQkNEJyI6ICI0MjQzNDQiLCAiYidBQk
+    #NERSciOiAiNDE0MjQzNDQ0NSIsICJvX2NhdChiJ0FCQ0QnLGInQkNEJykiOiAiNkY2
+    #MzQyNDM0NDQxNDI0MzQ0IiwgIm9fY2F0KGInQkNEJyxiJ0FCQ0RFJykiOiAiNkY2Mz
+    #QyNDM0NDQxNDI0MzQ0NDUifQ==
 
 A.3.4.  Definitions for transcript_ir function
 
@@ -1568,14 +1560,14 @@ A.3.5.  Test vectors transcript_ir function
 
 A.3.5.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJiXCIxMjNcIiI6ICIzMTMyMzMiLCAiYlwiMjM0XCIiOiAiMzIzMzM0IiwgImJ
-       ##cIlBhcnR5QVwiIjogIjUwNjE3Mjc0Nzk0MSIsICJiXCJQYXJ0eUJcIiI6ICI1MD
-       ##YxNzI3NDc5NDIiLCAiYlwiMzQ1NlwiIjogIjMzMzQzNTM2IiwgImJcIjIzNDVcI
-       ##iI6ICIzMjMzMzQzNSIsICJ0cmFuc2NyaXB0X2lyKGJcIjEyM1wiLGJcIlBhcnR5
-       ##QVwiLGJcIjIzNFwiLGJcIlBhcnR5QlwiKSI6ICIwMzMxMzIzMzA2NTA2MTcyNzQ
-       ##3OTQxMDMzMjMzMzQwNjUwNjE3Mjc0Nzk0MiIsICJ0cmFuc2NyaXB0X2lyKGJcIj
-       ##M0NTZcIixiXCJQYXJ0eUFcIixiXCIyMzQ1XCIsYlwiUGFydHlCXCIpIjogIjA0M
-       ##zMzNDM1MzYwNjUwNjE3Mjc0Nzk0MTA0MzIzMzM0MzUwNjUwNjE3Mjc0Nzk0MiJ9
+    #eyJiJzEyMyciOiAiMzEzMjMzIiwgImInMjM0JyI6ICIzMjMzMzQiLCAiYidQYXJ0eU
+    #EnIjogIjUwNjE3Mjc0Nzk0MSIsICJiJ1BhcnR5QiciOiAiNTA2MTcyNzQ3OTQyIiwg
+    #ImInMzQ1NiciOiAiMzMzNDM1MzYiLCAiYicyMzQ1JyI6ICIzMjMzMzQzNSIsICJ0cm
+    #Fuc2NyaXB0X2lyKGInMTIzJyxiJ1BhcnR5QScsYicyMzQnLGInUGFydHlCJykiOiAi
+    #MDMzMTMyMzMwNjUwNjE3Mjc0Nzk0MTAzMzIzMzM0MDY1MDYxNzI3NDc5NDIiLCAidH
+    #JhbnNjcmlwdF9pcihiJzM0NTYnLGInUGFydHlBJyxiJzIzNDUnLGInUGFydHlCJyki
+    #OiAiMDQzMzM0MzUzNjA2NTA2MTcyNzQ3OTQxMDQzMjMzMzQzNTA2NTA2MTcyNzQ3OT
+    #QyIn0=
 
 A.3.6.  Definitions for transcript_oc function
 
@@ -1594,15 +1586,14 @@ A.3.7.  Test vectors for transcript_oc function
 
 A.3.7.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJiXCIxMjNcIiI6ICIzMTMyMzMiLCAiYlwiMjM0XCIiOiAiMzIzMzM0IiwgImJ
-       ##cIlBhcnR5QVwiIjogIjUwNjE3Mjc0Nzk0MSIsICJiXCJQYXJ0eUJcIiI6ICI1MD
-       ##YxNzI3NDc5NDIiLCAiYlwiMzQ1NlwiIjogIjMzMzQzNTM2IiwgImJcIjIzNDVcI
-       ##iI6ICIzMjMzMzQzNSIsICJ0cmFuc2NyaXB0X29jKGJcIjEyM1wiLGJcIlBhcnR5
-       ##QVwiLGJcIjIzNFwiLGJcIlBhcnR5QlwiKSI6ICI2RjYzMDMzMjMzMzQwNjUwNjE
-       ##3Mjc0Nzk0MjAzMzEzMjMzMDY1MDYxNzI3NDc5NDEiLCAidHJhbnNjcmlwdF9vYy
-       ##hiXCIzNDU2XCIsYlwiUGFydHlBXCIsYlwiMjM0NVwiLGJcIlBhcnR5QlwiKSI6I
-       ##CI2RjYzMDQzMzM0MzUzNjA2NTA2MTcyNzQ3OTQxMDQzMjMzMzQzNTA2NTA2MTcy
-       ##NzQ3OTQyIn0=
+    #eyJiJzEyMyciOiAiMzEzMjMzIiwgImInMjM0JyI6ICIzMjMzMzQiLCAiYidQYXJ0eU
+    #EnIjogIjUwNjE3Mjc0Nzk0MSIsICJiJ1BhcnR5QiciOiAiNTA2MTcyNzQ3OTQyIiwg
+    #ImInMzQ1NiciOiAiMzMzNDM1MzYiLCAiYicyMzQ1JyI6ICIzMjMzMzQzNSIsICJ0cm
+    #Fuc2NyaXB0X29jKGInMTIzJyxiJ1BhcnR5QScsYicyMzQnLGInUGFydHlCJykiOiAi
+    #NkY2MzAzMzIzMzM0MDY1MDYxNzI3NDc5NDIwMzMxMzIzMzA2NTA2MTcyNzQ3OTQxIi
+    #wgInRyYW5zY3JpcHRfb2MoYiczNDU2JyxiJ1BhcnR5QScsYicyMzQ1JyxiJ1BhcnR5
+    #QicpIjogIjZGNjMwNDMzMzQzNTM2MDY1MDYxNzI3NDc5NDEwNDMyMzMzNDM1MDY1MD
+    #YxNzI3NDc5NDIifQ==
 
 A.4.  Decoding and Encoding functions according to RFC7748
 
@@ -1693,25 +1684,25 @@ B.1.1.  Test vectors for calculate_generator with group X25519
 
 B.1.1.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjU
-       ##wNjE3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiAxMDksICJEU0kiOiAiND
-       ##M1MDYxNjM2NTMyMzUzNSIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NTczNzA2RjZFN
-       ##jQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI3RTRCNDc5
-       ##MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnZW5lcmF0b3Jfc3RyaW5nKEc
-       ##uRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6ICIwODQzNTA2MTYzNjUzMj
-       ##M1MzUwODUwNjE3MzczNzc2RjcyNjQ2RDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-       ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-       ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
-       ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
-       ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-       ##DAwMDAwMUE2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5
-       ##NzQ2OTYxNzQ2RjcyMTA3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyI
-       ##sICJoYXNoIGdlbmVyYXRvciBzdHJpbmciOiAiOTI4MDZEQzYwODk4NERCRjRFNE
-       ##FBRTQ3OEM2RUM0NTNBRTk3OUNDMDFFQ0MxQTJBN0NGNDlGNUNFRTU2NTUxQiIsI
-       ##CJkZWNvZGVkIGZpZWxkIGVsZW1lbnQgb2YgMjU1IGJpdHMiOiAiOTI4MDZEQzYw
-       ##ODk4NERCRjRFNEFBRTQ3OEM2RUM0NTNBRTk3OUNDMDFFQ0MxQTJBN0NGNDlGNUN
-       ##FRTU2NTUxQiIsICJnZW5lcmF0b3IgZyI6ICI2NEU4MDk5RTNFQTY4MkNGREM1Q0
-       ##I2NjVDMDU3RUJCNTE0RDA2QkYyM0VCQzlGNzQzQjUxQjgyMjQyMzI3MDc0In0=
+    #eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjUwNj
+    #E3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiAxMDksICJEU0kiOiAiNDM1MDYx
+    #NjM2NTMyMzUzNSIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyME
+    #I0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI3RTRCNDc5MUQ2QThFRjAx
+    #OUI5MzZDNzlGQjdGMkM1NyIsICJnZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSS
+    #xzaWQsSC5zX2luX2J5dGVzKSI6ICIwODQzNTA2MTYzNjUzMjM1MzUwODUwNjE3Mzcz
+    #Nzc2RjcyNjQ2RDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMUE2RjYzMEI0MjVGNzI2NTczNz
+    #A2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyMTA3RTRCNDc5MUQ2QThF
+    #RjAxOUI5MzZDNzlGQjdGMkM1NyIsICJoYXNoIGdlbmVyYXRvciBzdHJpbmciOiAiOT
+    #I4MDZEQzYwODk4NERCRjRFNEFBRTQ3OEM2RUM0NTNBRTk3OUNDMDFFQ0MxQTJBN0NG
+    #NDlGNUNFRTU2NTUxQiIsICJkZWNvZGVkIGZpZWxkIGVsZW1lbnQgb2YgMjU1IGJpdH
+    #MiOiAiOTI4MDZEQzYwODk4NERCRjRFNEFBRTQ3OEM2RUM0NTNBRTk3OUNDMDFFQ0Mx
+    #QTJBN0NGNDlGNUNFRTU2NTUxQiIsICJnZW5lcmF0b3IgZyI6ICI2NEU4MDk5RTNFQT
+    #Y4MkNGREM1Q0I2NjVDMDU3RUJCNTE0RDA2QkYyM0VCQzlGNzQzQjUxQjgyMjQyMzI3
+    #MDc0In0=
 
 B.1.2.  Test vector for message from A
 
@@ -1892,32 +1883,31 @@ B.1.8.  Corresponding C programming language initializers
 
 B.1.9.  Testvectors as JSON file encoded as BASE64
 
-     ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
-     ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
-     ##I6ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIjY0R
-     ##TgwOTlFM0VBNjgyQ0ZEQzVDQjY2NUMwNTdFQkI1MTREMDZCRjIzRUJDOUY3NDNC
-     ##NTFCODIyNDIzMjcwNzQiLCAieWEiOiAiMjFCNEY0QkQ5RTY0RUQzNTVDM0VCNjc
-     ##2QTI4RUJFREFGNkQ4RjE3QkRDMzY1OTk1QjMxOTA5NzE1MzA0NDA4MCIsICJBRG
-     ##EiOiAiNDE0NDYxIiwgIllhIjogIjFCMDJEQUQ2REJEMjlBMDdCNkQyOEM5RTA0Q
-     ##0IyRjE4NEYwNzM0MzUwRTMyQkI3RTYyRkY5REJDRkRCNjNEMTUiLCAieWIiOiAi
-     ##ODQ4QjA3NzlGRjQxNUYwQUY0RUExNERGOUREMUQzQzI5QUM0MUQ4MzZDNzgwODg
-     ##5NkM0RUJBMTlDNTFBQzQwQSIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIjIwQ0
-     ##RBNTk1NUY4MkM0OTMxNTQ1QkNCRjQwNzU4Q0UxMDEwRDdEQjREQjJBOTA3MDEzR
-     ##Dc5QzdBOEZDRjk1N0YiLCAiSyI6ICJGOTdGREZDRkZGMUM5ODNFRDYyODM4NTZB
-     ##NDAxREUzMTkxQ0E5MTk5MDJCMzIzQzVGOTUwQzk3MDNERjcyOTdBIiwgIklTS19
-     ##JUiI6ICJBMDUxRUU1RUUyNDk5RDE2REEzRjY5RjQzMDIxOEI4RUE5NEExOEE0NU
-     ##I2N0Y5RTg2NDk1QjM4MkMzM0QxNEE1QzM4Q0VDQzBDQzgzNEY5NjBFMzlFMEQxQ
-     ##kY3RDc2QjlFRjVENTRFRUNDNUUwRjM4NkM5N0FEMTJEQThDM0Q1RiIsICJJU0tf
-     ##U1kiOiAiNUNDMjdFNDk2Nzk0MjNGODFBMzdENzUyMUQ5RkIxMzI3Qzg0MEQyRUE
-     ##0QTE1NDM2NTJFN0RFNUNBQkI4OUVCQUQyN0QyNDc2MUIzMjg4QTNGRDU3NjRCND
-     ##QxRUNCNzhEMzBBQkMyNjE2MUZGNDVFQTI5N0JCMzExRERFMDQ3MjciLCAic2lkX
-     ##291dHB1dF9pciI6ICJGN0FFMTFBQzNFRTg1QzNDNDJEOEJENTFCQTgyM0ZCRTE3
-     ##MTU4RjQzRDM0QTEyOTZGMUNCMjU2N0JDQzcxREM4QjIwMUExMzRCNTY2QjQ2OEF
-     ##BRDhGRDA0RjAyRjk2RTNDQUY5RDU2MDFGN0VENzYwQTBBOTUxQTVBODYxQjVFNy
-     ##IsICJzaWRfb3V0cHV0X29jIjogIkEzODM4OUUzNEZBNDkyNzg4QzFERjQzQjA2Q
-     ##jQyNzcxMDQ5MTE3NEU1M0MzM0IwMTM2MkE0OTBEMTE2RkUxQjdFODcwQUE2RTJB
-     ##N0ZDMDE4NzI1RTNCN0Y5NjlGNzUwODA0MkU0NENEMzg2M0YzOUFBNzUwMjZBMTk
-     ##wRDE5MDJCIn0=
+    #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
+    #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI3
+    #RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIjY0RTgwOTlFM0
+    #VBNjgyQ0ZEQzVDQjY2NUMwNTdFQkI1MTREMDZCRjIzRUJDOUY3NDNCNTFCODIyNDIz
+    #MjcwNzQiLCAieWEiOiAiMjFCNEY0QkQ5RTY0RUQzNTVDM0VCNjc2QTI4RUJFREFGNk
+    #Q4RjE3QkRDMzY1OTk1QjMxOTA5NzE1MzA0NDA4MCIsICJBRGEiOiAiNDE0NDYxIiwg
+    #IllhIjogIjFCMDJEQUQ2REJEMjlBMDdCNkQyOEM5RTA0Q0IyRjE4NEYwNzM0MzUwRT
+    #MyQkI3RTYyRkY5REJDRkRCNjNEMTUiLCAieWIiOiAiODQ4QjA3NzlGRjQxNUYwQUY0
+    #RUExNERGOUREMUQzQzI5QUM0MUQ4MzZDNzgwODg5NkM0RUJBMTlDNTFBQzQwQSIsIC
+    #JBRGIiOiAiNDE0NDYyIiwgIlliIjogIjIwQ0RBNTk1NUY4MkM0OTMxNTQ1QkNCRjQw
+    #NzU4Q0UxMDEwRDdEQjREQjJBOTA3MDEzRDc5QzdBOEZDRjk1N0YiLCAiSyI6ICJGOT
+    #dGREZDRkZGMUM5ODNFRDYyODM4NTZBNDAxREUzMTkxQ0E5MTk5MDJCMzIzQzVGOTUw
+    #Qzk3MDNERjcyOTdBIiwgIklTS19JUiI6ICJBMDUxRUU1RUUyNDk5RDE2REEzRjY5Rj
+    #QzMDIxOEI4RUE5NEExOEE0NUI2N0Y5RTg2NDk1QjM4MkMzM0QxNEE1QzM4Q0VDQzBD
+    #QzgzNEY5NjBFMzlFMEQxQkY3RDc2QjlFRjVENTRFRUNDNUUwRjM4NkM5N0FEMTJEQT
+    #hDM0Q1RiIsICJJU0tfU1kiOiAiNUNDMjdFNDk2Nzk0MjNGODFBMzdENzUyMUQ5RkIx
+    #MzI3Qzg0MEQyRUE0QTE1NDM2NTJFN0RFNUNBQkI4OUVCQUQyN0QyNDc2MUIzMjg4QT
+    #NGRDU3NjRCNDQxRUNCNzhEMzBBQkMyNjE2MUZGNDVFQTI5N0JCMzExRERFMDQ3Mjci
+    #LCAic2lkX291dHB1dF9pciI6ICJGN0FFMTFBQzNFRTg1QzNDNDJEOEJENTFCQTgyM0
+    #ZCRTE3MTU4RjQzRDM0QTEyOTZGMUNCMjU2N0JDQzcxREM4QjIwMUExMzRCNTY2QjQ2
+    #OEFBRDhGRDA0RjAyRjk2RTNDQUY5RDU2MDFGN0VENzYwQTBBOTUxQTVBODYxQjVFNy
+    #IsICJzaWRfb3V0cHV0X29jIjogIkEzODM4OUUzNEZBNDkyNzg4QzFERjQzQjA2QjQy
+    #NzcxMDQ5MTE3NEU1M0MzM0IwMTM2MkE0OTBEMTE2RkUxQjdFODcwQUE2RTJBN0ZDMD
+    #E4NzI1RTNCN0Y5NjlGNzUwODA0MkU0NENEMzg2M0YzOUFBNzUwMjZBMTkwRDE5MDJC
+    #In0=
 
 B.1.10.  Test vectors for G_X25519.scalar_mult_vfy: low order points
 
@@ -1962,27 +1952,26 @@ B.1.10.  Test vectors for G_X25519.scalar_mult_vfy: low order points
 
 B.1.10.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJJbnZhbGlkIFkwIjogIjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
-       ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAiLCAiSW52YWxpZCBZMS
-       ##I6ICIwMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-       ##DAwMDAwMDAwMDAwMDAwMDAwMDAwIiwgIkludmFsaWQgWTIiOiAiRUNGRkZGRkZG
-       ##RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZ
-       ##GRkZGRkY3RiIsICJJbnZhbGlkIFkzIjogIkUwRUI3QTdDM0I0MUI4QUUxNjU2RT
-       ##NGQUYxOUZDNDZBREEwOThERUI5QzMyQjFGRDg2NjIwNTE2NUY0OUI4MDAiLCAiS
-       ##W52YWxpZCBZNCI6ICI1RjlDOTVCQ0EzNTA4QzI0QjFEMEIxNTU5QzgzRUY1QjA0
-       ##NDQ1Q0M0NTgxQzhFODZEODIyNEVEREQwOUYxMTU3IiwgIkludmFsaWQgWTUiOiA
-       ##iRURGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRk
-       ##ZGRkZGRkZGRkZGRkZGRkY3RiIsICJJbnZhbGlkIFk2IjogIkRBRkZGRkZGRkZGR
-       ##kZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZG
-       ##RkZGRkYiLCAiSW52YWxpZCBZNyI6ICJFRUZGRkZGRkZGRkZGRkZGRkZGRkZGRkZ
-       ##GRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRjdGIiwgIkludm
-       ##FsaWQgWTgiOiAiREJGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGR
-       ##kZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRiIsICJJbnZhbGlkIFk5IjogIkQ5
-       ##RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZ
-       ##GRkZGRkZGRkZGRkZGRkYiLCAiSW52YWxpZCBZMTAiOiAiQ0RFQjdBN0MzQjQxQj
-       ##hBRTE2NTZFM0ZBRjE5RkM0NkFEQTA5OERFQjlDMzJCMUZEODY2MjA1MTY1RjQ5Q
-       ##jg4MCIsICJJbnZhbGlkIFkxMSI6ICI0QzlDOTVCQ0EzNTA4QzI0QjFEMEIxNTU5
-       ##QzgzRUY1QjA0NDQ1Q0M0NTgxQzhFODZEODIyNEVEREQwOUYxMUQ3In0=
+    #eyJJbnZhbGlkIFkwIjogIjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAiLCAiSW52YWxpZCBZMSI6ICIw
+    #MTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwIiwgIkludmFsaWQgWTIiOiAiRUNGRkZGRkZGRkZGRkZGRkZG
+    #RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkY3RiIsIC
+    #JJbnZhbGlkIFkzIjogIkUwRUI3QTdDM0I0MUI4QUUxNjU2RTNGQUYxOUZDNDZBREEw
+    #OThERUI5QzMyQjFGRDg2NjIwNTE2NUY0OUI4MDAiLCAiSW52YWxpZCBZNCI6ICI1Rj
+    #lDOTVCQ0EzNTA4QzI0QjFEMEIxNTU5QzgzRUY1QjA0NDQ1Q0M0NTgxQzhFODZEODIy
+    #NEVEREQwOUYxMTU3IiwgIkludmFsaWQgWTUiOiAiRURGRkZGRkZGRkZGRkZGRkZGRk
+    #ZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkY3RiIsICJJ
+    #bnZhbGlkIFk2IjogIkRBRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRk
+    #ZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYiLCAiSW52YWxpZCBZNyI6ICJFRUZG
+    #RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRk
+    #ZGRkZGRkZGRjdGIiwgIkludmFsaWQgWTgiOiAiREJGRkZGRkZGRkZGRkZGRkZGRkZG
+    #RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRiIsICJJbn
+    #ZhbGlkIFk5IjogIkQ5RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZG
+    #RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYiLCAiSW52YWxpZCBZMTAiOiAiQ0RFQj
+    #dBN0MzQjQxQjhBRTE2NTZFM0ZBRjE5RkM0NkFEQTA5OERFQjlDMzJCMUZEODY2MjA1
+    #MTY1RjQ5Qjg4MCIsICJJbnZhbGlkIFkxMSI6ICI0QzlDOTVCQ0EzNTA4QzI0QjFEME
+    #IxNTU5QzgzRUY1QjA0NDQ1Q0M0NTgxQzhFODZEODIyNEVEREQwOUYxMUQ3In0=
 
 B.2.  Test vector for CPace using group X448 and hash SHAKE-256
 
@@ -2016,29 +2005,28 @@ B.2.1.  Test vectors for calculate_generator with group X448
 
 B.2.1.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJIIjogIlNIQUtFLTI1NiIsICJILnNfaW5fYnl0ZXMiOiAxMzYsICJQUlMiOiA
-       ##iNTA2MTczNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDExNywgIkRTSSI6IC
-       ##I0MzUwNjE2MzY1MzQzNDM4IiwgIkNJIjogIjZGNjMwQjQyNUY3MjY1NzM3MDZGN
-       ##kU2NDY1NzIwQjQxNUY2OTZFNjk3NDY5NjE3NDZGNzIiLCAic2lkIjogIjUyMjNF
-       ##MENEQzQ1RDY1NzU2NjhENjRDNTUyMDA0MTI0IiwgImdlbmVyYXRvcl9zdHJpbmc
-       ##oRy5EU0ksUFJTLENJLHNpZCxILnNfaW5fYnl0ZXMpIjogIjA4NDM1MDYxNjM2NT
-       ##M0MzQzODA4NTA2MTczNzM3NzZGNzI2NDc1MDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-       ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-       ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
-       ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
-       ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-       ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMUE2RjYzMEI0MjVGNzI2NTczNzA2RjZF
-       ##NjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyMTA1MjIzRTBDREM0NUQ2NTc
-       ##1NjY4RDY0QzU1MjAwNDEyNCIsICJoYXNoIGdlbmVyYXRvciBzdHJpbmciOiAiOT
-       ##hCNzEzRjg0NTI5MTk0RDcxOUE3RDg2Q0IwRjUwNEI4QUZFQjA1MzU0RDY4NzQ3R
-       ##TE4QjJFN0NDOEI2REE1MjYwODVFNDI2M0JEOEJFQTdENjlFNDc5RUJBRDA5RTMw
-       ##QUUwNjJFNUQwODlEQTdGMyIsICJkZWNvZGVkIGZpZWxkIGVsZW1lbnQgb2YgNDQ
-       ##4IGJpdHMiOiAiOThCNzEzRjg0NTI5MTk0RDcxOUE3RDg2Q0IwRjUwNEI4QUZFQj
-       ##A1MzU0RDY4NzQ3RTE4QjJFN0NDOEI2REE1MjYwODVFNDI2M0JEOEJFQTdENjlFN
-       ##Dc5RUJBRDA5RTMwQUUwNjJFNUQwODlEQTdGMyIsICJnZW5lcmF0b3IgZyI6ICJF
-       ##MjkzQjdDQ0Y2MUNBN0VCOTI4QTI2MzkxQ0YzOEI2NjBGODc0QTAwMUZERjBCRjN
-       ##BOTFGRDE4MkYyQjZEODNFNjFBOTM3N0VERTEyN0VCQTdFMEQ0QzA4NTkyRUFGRj
-       ##MzRDRBQTcwNUQ2Q0U1NEJCIn0=
+    #eyJIIjogIlNIQUtFLTI1NiIsICJILnNfaW5fYnl0ZXMiOiAxMzYsICJQUlMiOiAiNT
+    #A2MTczNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDExNywgIkRTSSI6ICI0MzUw
+    #NjE2MzY1MzQzNDM4IiwgIkNJIjogIjZGNjMwQjQyNUY3MjY1NzM3MDZGNkU2NDY1Nz
+    #IwQjQxNUY2OTZFNjk3NDY5NjE3NDZGNzIiLCAic2lkIjogIjUyMjNFMENEQzQ1RDY1
+    #NzU2NjhENjRDNTUyMDA0MTI0IiwgImdlbmVyYXRvcl9zdHJpbmcoRy5EU0ksUFJTLE
+    #NJLHNpZCxILnNfaW5fYnl0ZXMpIjogIjA4NDM1MDYxNjM2NTM0MzQzODA4NTA2MTcz
+    #NzM3NzZGNzI2NDc1MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMU
+    #E2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2
+    #RjcyMTA1MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJoYXNoIGdlbm
+    #VyYXRvciBzdHJpbmciOiAiOThCNzEzRjg0NTI5MTk0RDcxOUE3RDg2Q0IwRjUwNEI4
+    #QUZFQjA1MzU0RDY4NzQ3RTE4QjJFN0NDOEI2REE1MjYwODVFNDI2M0JEOEJFQTdENj
+    #lFNDc5RUJBRDA5RTMwQUUwNjJFNUQwODlEQTdGMyIsICJkZWNvZGVkIGZpZWxkIGVs
+    #ZW1lbnQgb2YgNDQ4IGJpdHMiOiAiOThCNzEzRjg0NTI5MTk0RDcxOUE3RDg2Q0IwRj
+    #UwNEI4QUZFQjA1MzU0RDY4NzQ3RTE4QjJFN0NDOEI2REE1MjYwODVFNDI2M0JEOEJF
+    #QTdENjlFNDc5RUJBRDA5RTMwQUUwNjJFNUQwODlEQTdGMyIsICJnZW5lcmF0b3IgZy
+    #I6ICJFMjkzQjdDQ0Y2MUNBN0VCOTI4QTI2MzkxQ0YzOEI2NjBGODc0QTAwMUZERjBC
+    #RjNBOTFGRDE4MkYyQjZEODNFNjFBOTM3N0VERTEyN0VCQTdFMEQ0QzA4NTkyRUFGRj
+    #MzRDRBQTcwNUQ2Q0U1NEJCIn0=
 
 B.2.2.  Test vector for message from A
 
@@ -2241,38 +2229,36 @@ B.2.8.  Corresponding C programming language initializers
 
 B.2.9.  Testvectors as JSON file encoded as BASE64
 
-     ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
-     ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
-     ##I6ICI1MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnIjogIkUyO
-     ##TNCN0NDRjYxQ0E3RUI5MjhBMjYzOTFDRjM4QjY2MEY4NzRBMDAxRkRGMEJGM0E5
-     ##MUZEMTgyRjJCNkQ4M0U2MUE5Mzc3RURFMTI3RUJBN0UwRDRDMDg1OTJFQUZGMzN
-     ##ENEFBNzA1RDZDRTU0QkIiLCAieWEiOiAiMjFCNEY0QkQ5RTY0RUQzNTVDM0VCNj
-     ##c2QTI4RUJFREFGNkQ4RjE3QkRDMzY1OTk1QjMxOTA5NzE1MzA0NDA4MDUxNkJEM
-     ##DgzQkZDQ0U2NjEyMUEzMDcyNjQ2OTk0Qzg0MzBDQzM4MkI4REM1NDNFOCIsICJB
-     ##RGEiOiAiNDE0NDYxIiwgIllhIjogIjdGNjQ1NzcyQ0MyMDlCRjlGRDlENzZEQkI
-     ##xMDI4M0JFQTcxQjEyMjM1RTNCQjIxODc4RDVFNTZBNzA1MDZFMTY1NzQzQTYzMk
-     ##RFOThFQ0E5OTMyQzVEMkVGRTM2NTAwQTU5QjJGREFFRDBEOEExNDgiLCAieWIiO
-     ##iAiODQ4QjA3NzlGRjQxNUYwQUY0RUExNERGOUREMUQzQzI5QUM0MUQ4MzZDNzgw
-     ##ODg5NkM0RUJBMTlDNTFBQzQwQTQzOUNBRjVFNjFFQzg4QzMwN0M3RDYxOTE5NTI
-     ##yOTQxMkVBQTczRkIyQTVFQTIwRCIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIk
-     ##E0NjkwQTA3NTBDNDJCMjg4REREMEJBMDhFM0Y0OTAyREZFNzBCQUU1QzlFMkM2R
-     ##UU5NTg0NERFRjI2OTJCRTc3NjQ2QjIwRDNCNDI5RjhEQTAwRDIxNDMzRUUwODkx
-     ##QzY2NzY1OEQ4RDBDNDhFMzgiLCAiSyI6ICJEQjNGRkY5REE1OTU3NjcxNUIwNEQ
-     ##0REY4REM4RDE4REIyNDMwRTU3QkJFRDMzN0RCRUVFNUJCMkQ2QUI2Q0VEREM5Qz
-     ##c1QzVDMEIxN0ZBRDdFQjcyNERBQTEyRjhGMTkwM0RENkMyQ0VERTYxMzVBIiwgI
-     ##klTS19JUiI6ICI1OTk4OTJBMjA3OEE4Qzk4ODE4MTYyNUUxRTVFNUY3QTYxNjNG
-     ##N0Q3MkYyMUI5M0VCRUZCQTBGMTdGRjdFQTNBQTA1OTRCRDU2OUNGNzQyNjQxNTd
-     ##CM0MwMDg3QkRDQ0YyRjU5Qzc3MTU2NjI4NDg3RjVDQTE2NDVCOEU5RDA1QiIsIC
-     ##JJU0tfU1kiOiAiM0FDNzNGMDMwMzAyOTZBQTU5MUYwMTMyNkIxOEFGQTQ3RTExO
-     ##DkxMjlDRDA2QUU4REZCMDVFNkVCMTMxMENERTk0OEI1OUVFRjA3NTUzNjVDMDZB
-     ##MzM5MjY2QUZFNTk0OTQ4QzU2QTUzOEQ5OEE2NTc2NzExMzkzOEE5QTc4RDgiLCA
-     ##ic2lkX291dHB1dF9pciI6ICIwMEEyMzMzQTc5NDgxQUJFNzFFRkQ2NTk0RDdCQk
-     ##FBQzU1QzgwODQ4MkU4NjlDOUI2NUM0QjUzRDcxMDBEM0RBOEYzQ0FCRDU5RkEwQ
-     ##zFGMjJENkQyRjlBQzBDMDkzOTYyMjkyNzk4RkNBMkMwQjkzMjY4OTc0Q0FENzVE
-     ##NTc1QSIsICJzaWRfb3V0cHV0X29jIjogIkExQ0U5MDUzN0E4RDUzQjA2RDc3RTc
-     ##5RkU3MTk0NjFDQzVFRDgzMDBEMjFEMTg2NkE1OUY5NjM4NjAxODMzRjU3QThCNU
-     ##U4OERCOUE1MkFCRkExQjRFOEE2NTFBNDAwQkM5MjA1MDgyQUFEODFFQjMxMUM0N
-     ##DM3M0I5QTE5RUZGIn0=
+    #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
+    #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI1
+    #MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnIjogIkUyOTNCN0NDRj
+    #YxQ0E3RUI5MjhBMjYzOTFDRjM4QjY2MEY4NzRBMDAxRkRGMEJGM0E5MUZEMTgyRjJC
+    #NkQ4M0U2MUE5Mzc3RURFMTI3RUJBN0UwRDRDMDg1OTJFQUZGMzNENEFBNzA1RDZDRT
+    #U0QkIiLCAieWEiOiAiMjFCNEY0QkQ5RTY0RUQzNTVDM0VCNjc2QTI4RUJFREFGNkQ4
+    #RjE3QkRDMzY1OTk1QjMxOTA5NzE1MzA0NDA4MDUxNkJEMDgzQkZDQ0U2NjEyMUEzMD
+    #cyNjQ2OTk0Qzg0MzBDQzM4MkI4REM1NDNFOCIsICJBRGEiOiAiNDE0NDYxIiwgIllh
+    #IjogIjdGNjQ1NzcyQ0MyMDlCRjlGRDlENzZEQkIxMDI4M0JFQTcxQjEyMjM1RTNCQj
+    #IxODc4RDVFNTZBNzA1MDZFMTY1NzQzQTYzMkRFOThFQ0E5OTMyQzVEMkVGRTM2NTAw
+    #QTU5QjJGREFFRDBEOEExNDgiLCAieWIiOiAiODQ4QjA3NzlGRjQxNUYwQUY0RUExNE
+    #RGOUREMUQzQzI5QUM0MUQ4MzZDNzgwODg5NkM0RUJBMTlDNTFBQzQwQTQzOUNBRjVF
+    #NjFFQzg4QzMwN0M3RDYxOTE5NTIyOTQxMkVBQTczRkIyQTVFQTIwRCIsICJBRGIiOi
+    #AiNDE0NDYyIiwgIlliIjogIkE0NjkwQTA3NTBDNDJCMjg4REREMEJBMDhFM0Y0OTAy
+    #REZFNzBCQUU1QzlFMkM2RUU5NTg0NERFRjI2OTJCRTc3NjQ2QjIwRDNCNDI5RjhEQT
+    #AwRDIxNDMzRUUwODkxQzY2NzY1OEQ4RDBDNDhFMzgiLCAiSyI6ICJEQjNGRkY5REE1
+    #OTU3NjcxNUIwNEQ0REY4REM4RDE4REIyNDMwRTU3QkJFRDMzN0RCRUVFNUJCMkQ2QU
+    #I2Q0VEREM5Qzc1QzVDMEIxN0ZBRDdFQjcyNERBQTEyRjhGMTkwM0RENkMyQ0VERTYx
+    #MzVBIiwgIklTS19JUiI6ICI1OTk4OTJBMjA3OEE4Qzk4ODE4MTYyNUUxRTVFNUY3QT
+    #YxNjNGN0Q3MkYyMUI5M0VCRUZCQTBGMTdGRjdFQTNBQTA1OTRCRDU2OUNGNzQyNjQx
+    #NTdCM0MwMDg3QkRDQ0YyRjU5Qzc3MTU2NjI4NDg3RjVDQTE2NDVCOEU5RDA1QiIsIC
+    #JJU0tfU1kiOiAiM0FDNzNGMDMwMzAyOTZBQTU5MUYwMTMyNkIxOEFGQTQ3RTExODkx
+    #MjlDRDA2QUU4REZCMDVFNkVCMTMxMENERTk0OEI1OUVFRjA3NTUzNjVDMDZBMzM5Mj
+    #Y2QUZFNTk0OTQ4QzU2QTUzOEQ5OEE2NTc2NzExMzkzOEE5QTc4RDgiLCAic2lkX291
+    #dHB1dF9pciI6ICIwMEEyMzMzQTc5NDgxQUJFNzFFRkQ2NTk0RDdCQkFBQzU1QzgwOD
+    #Q4MkU4NjlDOUI2NUM0QjUzRDcxMDBEM0RBOEYzQ0FCRDU5RkEwQzFGMjJENkQyRjlB
+    #QzBDMDkzOTYyMjkyNzk4RkNBMkMwQjkzMjY4OTc0Q0FENzVENTc1QSIsICJzaWRfb3
+    #V0cHV0X29jIjogIkExQ0U5MDUzN0E4RDUzQjA2RDc3RTc5RkU3MTk0NjFDQzVFRDgz
+    #MDBEMjFEMTg2NkE1OUY5NjM4NjAxODMzRjU3QThCNUU4OERCOUE1MkFCRkExQjRFOE
+    #E2NTFBNDAwQkM5MjA1MDgyQUFEODFFQjMxMUM0NDM3M0I5QTE5RUZGIn0=
 
 B.2.10.  Test vectors for G_X448.scalar_mult_vfy: low order points
 
@@ -2347,37 +2333,36 @@ B.2.10.  Test vectors for G_X448.scalar_mult_vfy: low order points
 
 B.2.10.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJJbnZhbGlkIFkxIjogIjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
-       ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
-       ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAiLCAiSW52YWxpZCBZM
-       ##iI6ICIwMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-       ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
-       ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwIiwgIkludmFsaWQgWTMiOiAiRkVGRkZGRk
-       ##ZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGR
-       ##kZGRUZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZG
-       ##RkZGRkZGRkZGRiIsICJJbnZhbGlkIFk0IjogIkZGRkZGRkZGRkZGRkZGRkZGRkZ
-       ##GRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkVGRkZGRkZGRk
-       ##ZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYiL
-       ##CAiSW52YWxpZCBZNSI6ICIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-       ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMEZGRkZGRkZGRkZGRkZGRkZGRkZGRkZ
-       ##GRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGIiwgIlZhbGlkIChvbi
-       ##BjdXJ2ZSkiOiB7InMiOiAiQUY4QTE0MjE4QkYyQTIwNjI5MjZEMkVBOUI4RkU0R
-       ##ThCNjgxNzM0OUI2RUQyRkVCMUU1RDY0RDdBNDUyM0YxNUZDRUVDNzBGQjExMUU4
-       ##NzBEQzU4RDE5MUU2NkExNEQzRTlENDgyRDA0NDMyQ0FERCIsICJ1X2N1cnZlIjo
-       ##gIkFCMEM2OEQ3NzJFQzJFQjlERTI1QzQ5NzAwRTQ2RDYzMjVFNjZENkFBMzlEN0
-       ##I2NUVCODRBNjhDNTU2OUQ0N0JENzFCNDFGM0UwRDIxMEY0NEUxNDZERUM4OTI2Q
-       ##jE3NEFDQjNGOTQwQTBCODJDQUIiLCAicmVzX2N1cnZlIjogIjNCMEZBOUJDNDBB
-       ##NkZEQzc4QzlFMDZGRjdBNTRDMTQzQzVENTJGMzY1NjA3MDUzQkYwNjU2RjUxNDI
-       ##wNDk2Mjk1RjkxMEExMDFCMzhFREMxQUNEM0JEMjQwRkQ1NURDQjdBMzYwNTUzQj
-       ##hBNzYyN0UifSwgIlZhbGlkIChvbiB0d2lzdCkiOiB7InMiOiAiQUY4QTE0MjE4Q
-       ##kYyQTIwNjI5MjZEMkVBOUI4RkU0RThCNjgxNzM0OUI2RUQyRkVCMUU1RDY0RDdB
-       ##NDUyM0YxNUZDRUVDNzBGQjExMUU4NzBEQzU4RDE5MUU2NkExNEQzRTlENDgyRDA
-       ##0NDMyQ0FERCIsICJ1X3R3aXN0IjogIkM5ODFDRDFFMUY3MkQ5QzM1QzdEN0NGNk
-       ##JFNDI2NzU3QzBEQzgyMDZBMkZDRkE1NjRBOEU3NjE4QzAzQzBFNjFGOUEyRUIxQ
-       ##zNFMEREOTdENkU5QjEwMTBGNUVERDAzMzk3QTgzRjVBOTE0Q0IzRkYiLCAicmVz
-       ##X3R3aXN0IjogIkQwQTJCQjdFOUM1QzJDNjI3NzkzRDgzNDJGMjNCNzU5RkU3RDl
-       ##FMzMyMEE4NUNBNEZENjEzNzYzMzE1MEZGRDlBOTE0OEE5Qjc1QzM0OUZBQzQzRD
-       ##Y0QkVDNDlBNkUxMjZDQzkyQ0JGQkYzNTM5NjEifX0=
+    #eyJJbnZhbGlkIFkxIjogIjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAiLCAiSW52YWxpZCBZMiI6ICIwMT
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwIiwgIkludmFsaWQgWTMiOiAiRkVGRkZGRkZGRkZGRkZGRkZGRkZG
+    #RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRUZGRkZGRkZGRkZGRk
+    #ZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRiIsICJJbnZh
+    #bGlkIFk0IjogIkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRk
+    #ZGRkZGRkZGRkZGRkZGRkZGRkVGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZG
+    #RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYiLCAiSW52YWxpZCBZNSI6ICIwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMEZG
+    #RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRk
+    #ZGRkZGIiwgIlZhbGlkIChvbiBjdXJ2ZSkiOiB7InMiOiAiQUY4QTE0MjE4QkYyQTIw
+    #NjI5MjZEMkVBOUI4RkU0RThCNjgxNzM0OUI2RUQyRkVCMUU1RDY0RDdBNDUyM0YxNU
+    #ZDRUVDNzBGQjExMUU4NzBEQzU4RDE5MUU2NkExNEQzRTlENDgyRDA0NDMyQ0FERCIs
+    #ICJ1X2N1cnZlIjogIkFCMEM2OEQ3NzJFQzJFQjlERTI1QzQ5NzAwRTQ2RDYzMjVFNj
+    #ZENkFBMzlEN0I2NUVCODRBNjhDNTU2OUQ0N0JENzFCNDFGM0UwRDIxMEY0NEUxNDZE
+    #RUM4OTI2QjE3NEFDQjNGOTQwQTBCODJDQUIiLCAicmVzX2N1cnZlIjogIjNCMEZBOU
+    #JDNDBBNkZEQzc4QzlFMDZGRjdBNTRDMTQzQzVENTJGMzY1NjA3MDUzQkYwNjU2RjUx
+    #NDIwNDk2Mjk1RjkxMEExMDFCMzhFREMxQUNEM0JEMjQwRkQ1NURDQjdBMzYwNTUzQj
+    #hBNzYyN0UifSwgIlZhbGlkIChvbiB0d2lzdCkiOiB7InMiOiAiQUY4QTE0MjE4QkYy
+    #QTIwNjI5MjZEMkVBOUI4RkU0RThCNjgxNzM0OUI2RUQyRkVCMUU1RDY0RDdBNDUyM0
+    #YxNUZDRUVDNzBGQjExMUU4NzBEQzU4RDE5MUU2NkExNEQzRTlENDgyRDA0NDMyQ0FE
+    #RCIsICJ1X3R3aXN0IjogIkM5ODFDRDFFMUY3MkQ5QzM1QzdEN0NGNkJFNDI2NzU3Qz
+    #BEQzgyMDZBMkZDRkE1NjRBOEU3NjE4QzAzQzBFNjFGOUEyRUIxQzNFMEREOTdENkU5
+    #QjEwMTBGNUVERDAzMzk3QTgzRjVBOTE0Q0IzRkYiLCAicmVzX3R3aXN0IjogIkQwQT
+    #JCQjdFOUM1QzJDNjI3NzkzRDgzNDJGMjNCNzU5RkU3RDlFMzMyMEE4NUNBNEZENjEz
+    #NzYzMzE1MEZGRDlBOTE0OEE5Qjc1QzM0OUZBQzQzRDY0QkVDNDlBNkUxMjZDQzkyQ0
+    #JGQkYzNTM5NjEifX0=
 
 B.3.  Test vector for CPace using group ristretto255 and hash SHA-512
 
@@ -2410,25 +2395,24 @@ B.3.1.  Test vectors for calculate_generator with group ristretto255
 
 B.3.1.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjU
-       ##wNjE3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiAxMDAsICJEU0kiOiAiND
-       ##M1MDYxNjM2NTUyNjk3Mzc0NzI2NTc0NzQ2RjMyMzUzNSIsICJDSSI6ICI2RjYzM
-       ##EI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2Rjcy
-       ##IiwgInNpZCI6ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJ
-       ##nZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKS
-       ##I6ICIxMTQzNTA2MTYzNjU1MjY5NzM3NDcyNjU3NDc0NkYzMjM1MzUwODUwNjE3M
-       ##zczNzc2RjcyNjQ2NDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-       ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
-       ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
-       ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-       ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMUE2RjYzMEI0MjVGNzI2NTczNzA2RjZF
-       ##NjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyMTA3RTRCNDc5MUQ2QThFRjA
-       ##xOUI5MzZDNzlGQjdGMkM1NyIsICJoYXNoIHJlc3VsdCI6ICJDNjNBNTc1MEUyND
-       ##M5QzE3Q0NEODIxM0JFMTRGREUyRjg3RTFCQzYzNzAwMUE5N0Y1OTI5Qzc3QjMwR
-       ##UEwRTA4QUZCQzc1QUNFNUQzRDczQjI4NDJBNzlEMDE0ODhDNUZEN0VBMzBENDc1
-       ##RUU2MDk1NDVBRjFCRkQxRkY3N0M4RSIsICJlbmNvZGVkIGdlbmVyYXRvciBnIjo
-       ##gIkE2RkM4MkMzQjg5NjhGQkIyRTA2RkVFODFDQTg1ODU4NkRFQTUwRDI0OEYwQz
-       ##dDQTZBMThCMDkwMkEzMEIzNkIifQ==
+    #eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjUwNj
+    #E3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiAxMDAsICJEU0kiOiAiNDM1MDYx
+    #NjM2NTUyNjk3Mzc0NzI2NTc0NzQ2RjMyMzUzNSIsICJDSSI6ICI2RjYzMEI0MjVGNz
+    #I2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6
+    #ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnZW5lcmF0b3Jfc3
+    #RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6ICIxMTQzNTA2MTYz
+    #NjU1MjY5NzM3NDcyNjU3NDc0NkYzMjM1MzUwODUwNjE3MzczNzc2RjcyNjQ2NDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMU
+    #E2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2
+    #RjcyMTA3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJoYXNoIHJlc3
+    #VsdCI6ICJDNjNBNTc1MEUyNDM5QzE3Q0NEODIxM0JFMTRGREUyRjg3RTFCQzYzNzAw
+    #MUE5N0Y1OTI5Qzc3QjMwRUEwRTA4QUZCQzc1QUNFNUQzRDczQjI4NDJBNzlEMDE0OD
+    #hDNUZEN0VBMzBENDc1RUU2MDk1NDVBRjFCRkQxRkY3N0M4RSIsICJlbmNvZGVkIGdl
+    #bmVyYXRvciBnIjogIkE2RkM4MkMzQjg5NjhGQkIyRTA2RkVFODFDQTg1ODU4NkRFQT
+    #UwRDI0OEYwQzdDQTZBMThCMDkwMkEzMEIzNkIifQ==
 
 B.3.2.  Test vector for message from A
 
@@ -2613,32 +2597,31 @@ B.3.8.  Corresponding C programming language initializers
 
 B.3.9.  Testvectors as JSON file encoded as BASE64
 
-     ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
-     ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
-     ##I6ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIkE2R
-     ##kM4MkMzQjg5NjhGQkIyRTA2RkVFODFDQTg1ODU4NkRFQTUwRDI0OEYwQzdDQTZB
-     ##MThCMDkwMkEzMEIzNkIiLCAieWEiOiAiREEzRDIzNzAwQTlFNTY5OTI1OEFFRjk
-     ##0REMwNjBERkRBNUVCQjYxRjAyQTVFQTc3RkFENTNGNEZGMDk3NkQwOCIsICJBRG
-     ##EiOiAiNDE0NDYxIiwgIllhIjogIkQ0MEZCMjY1QTdBQkVBRUU3OTM5RDkxQTU4N
-     ##UZFNTlGNzA1M0Y5ODJDMjk2RUM0MTNDNjI0QzY2OTMwOEY4N0EiLCAieWIiOiAi
-     ##RDIzMTZCNDU0NzE4QzM1MzYyRDgzRDY5REY2MzIwRjM4NTc4RUQ1OTg0NjUxNDM
-     ##1RTI5NDk3NjJEOTAwQjgwRCIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIjA4Qk
-     ##NGNkU5Nzc3QTlDMzEzQTNEQjZEQUE1MTBGMkQzOTg0MDMzMTlDMjM0MUJENTA2Q
-     ##TkyRTY3MkVCN0UzMDciLCAiSyI6ICJFMjJCMUVGNzc4OEY2NjE0NzhGM0NEREQ0
-     ##QzYwMDc3NEZDMEY0MUU2QjcxMTU2OTE5MEZGODhGQTBFNjA3RTA5IiwgIklTS19
-     ##JUiI6ICI0QzU0NjlBMTZCMjM2NEM0Qjk0NEVCQzFBNzlFNTFEMTY3NEFENDdEQj
-     ##I2RTg3MTgxNTRGNTlGQUVCRkFBNTJEODM0NkYzMEFBNTgzNzcxMTdFQjIwRDUyN
-     ##0YyQ0JDNUM3NjM4MUY3RkQzNzJFODlERjgyMzlGODdGMkUwMkVEMSIsICJJU0tf
-     ##U1kiOiAiOTgwRENDNUExQzUyQ0VFQTAzMUU3NUYzOEVEMjY2NTg2NjE2NDg4QzV
-     ##DNTc4MDI4NUZDQkNGNzkwODdDN0JDREJEOTkzNTAyRUVFNjA2QjcxOEJBMzFFOD
-     ##QwQTAwMEE3QjdCRUZFMTVFQTQyN0M1Q0ZFODgzNDRGQTEyMzdGMzUiLCAic2lkX
-     ##291dHB1dF9pciI6ICIyQTc2RDNCQkM0OTlERkRDNERDQUNDOUZGMDQyRjRFMUE1
-     ##NEUzODQzMjU4RTEwMENDRDdDNjBGMEE1NDFGOUQzRUJGMDI1RTY4QTQ2MERERTI
-     ##xOEJEMzlGMDcxMUJDNkZBMTE0MDlDOUQ3QjY5RDhDQ0Y2QjMyRkM1MUREQjY5OS
-     ##IsICJzaWRfb3V0cHV0X29jIjogIkNBNEI1MDcwMEM0NjIwM0NDRDEwQkMwRTlGM
-     ##zEwOTVFNTA4MTg5Q0I1OTg1NzUzN0JFNTYxMDQ4RDM0QjlFRDlBOTY5N0FGMTFD
-     ##OTk4RjQ4NEMzRDc4M0IwQjUzMTQzNENBQTY4MzVENEMzMjM0NEZDRDE3MTYwQzl
-     ##DMzQ4RkM3In0=
+    #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
+    #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI3
+    #RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIkE2RkM4MkMzQj
+    #g5NjhGQkIyRTA2RkVFODFDQTg1ODU4NkRFQTUwRDI0OEYwQzdDQTZBMThCMDkwMkEz
+    #MEIzNkIiLCAieWEiOiAiREEzRDIzNzAwQTlFNTY5OTI1OEFFRjk0REMwNjBERkRBNU
+    #VCQjYxRjAyQTVFQTc3RkFENTNGNEZGMDk3NkQwOCIsICJBRGEiOiAiNDE0NDYxIiwg
+    #IllhIjogIkQ0MEZCMjY1QTdBQkVBRUU3OTM5RDkxQTU4NUZFNTlGNzA1M0Y5ODJDMj
+    #k2RUM0MTNDNjI0QzY2OTMwOEY4N0EiLCAieWIiOiAiRDIzMTZCNDU0NzE4QzM1MzYy
+    #RDgzRDY5REY2MzIwRjM4NTc4RUQ1OTg0NjUxNDM1RTI5NDk3NjJEOTAwQjgwRCIsIC
+    #JBRGIiOiAiNDE0NDYyIiwgIlliIjogIjA4QkNGNkU5Nzc3QTlDMzEzQTNEQjZEQUE1
+    #MTBGMkQzOTg0MDMzMTlDMjM0MUJENTA2QTkyRTY3MkVCN0UzMDciLCAiSyI6ICJFMj
+    #JCMUVGNzc4OEY2NjE0NzhGM0NEREQ0QzYwMDc3NEZDMEY0MUU2QjcxMTU2OTE5MEZG
+    #ODhGQTBFNjA3RTA5IiwgIklTS19JUiI6ICI0QzU0NjlBMTZCMjM2NEM0Qjk0NEVCQz
+    #FBNzlFNTFEMTY3NEFENDdEQjI2RTg3MTgxNTRGNTlGQUVCRkFBNTJEODM0NkYzMEFB
+    #NTgzNzcxMTdFQjIwRDUyN0YyQ0JDNUM3NjM4MUY3RkQzNzJFODlERjgyMzlGODdGMk
+    #UwMkVEMSIsICJJU0tfU1kiOiAiOTgwRENDNUExQzUyQ0VFQTAzMUU3NUYzOEVEMjY2
+    #NTg2NjE2NDg4QzVDNTc4MDI4NUZDQkNGNzkwODdDN0JDREJEOTkzNTAyRUVFNjA2Qj
+    #cxOEJBMzFFODQwQTAwMEE3QjdCRUZFMTVFQTQyN0M1Q0ZFODgzNDRGQTEyMzdGMzUi
+    #LCAic2lkX291dHB1dF9pciI6ICIyQTc2RDNCQkM0OTlERkRDNERDQUNDOUZGMDQyRj
+    #RFMUE1NEUzODQzMjU4RTEwMENDRDdDNjBGMEE1NDFGOUQzRUJGMDI1RTY4QTQ2MERE
+    #RTIxOEJEMzlGMDcxMUJDNkZBMTE0MDlDOUQ3QjY5RDhDQ0Y2QjMyRkM1MUREQjY5OS
+    #IsICJzaWRfb3V0cHV0X29jIjogIkNBNEI1MDcwMEM0NjIwM0NDRDEwQkMwRTlGMzEw
+    #OTVFNTA4MTg5Q0I1OTg1NzUzN0JFNTYxMDQ4RDM0QjlFRDlBOTY5N0FGMTFDOTk4Rj
+    #Q4NEMzRDc4M0IwQjUzMTQzNENBQTY4MzVENEMzMjM0NEZDRDE3MTYwQzlDMzQ4RkM3
+    #In0=
 
 B.3.10.  Test case for scalar_mult with valid inputs
 
@@ -2674,17 +2657,17 @@ B.3.11.  Invalid inputs for scalar_mult_vfy
 
 B.3.11.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJWYWxpZCI6IHsicyI6ICI3Q0QwRTA3NUZBNzk1NUJBNTJDMDI3NTlBNkM5MER
-       ##CQkZDMTBFNkQ0MEFFQThEMjgzRTQwN0Q4OENGNTM4QTA1IiwgIlgiOiAiMkMzQz
-       ##ZCOEM0RjM4MDBFN0FFRjY4NjQwMjVCNEVENzlCRDU5OTExN0U0MjdDNDFCRDQ3R
-       ##DkzRDY1NEI0QTUxQyIsICJHLnNjYWxhcl9tdWx0KHMsZGVjb2RlKFgpKSI6ICI3
-       ##QzEzNjQ1RkU3OTBBNDY4RjYyQzM5QkVCNzM4OEU1NDFEODQwNUQxQURFNjlEMTc
-       ##3OEM1RkUzRTdGNkI2MDBFIiwgIkcuc2NhbGFyX211bHRfdmZ5KHMsWCkiOiAiN0
-       ##MxMzY0NUZFNzkwQTQ2OEY2MkMzOUJFQjczODhFNTQxRDg0MDVEMUFERTY5RDE3N
-       ##zhDNUZFM0U3RjZCNjAwRSJ9LCAiSW52YWxpZCBZMSI6ICIyQjNDNkI4QzRGMzgw
-       ##MEU3QUVGNjg2NDAyNUI0RUQ3OUJENTk5MTE3RTQyN0M0MUJENDdEOTNENjU0QjR
-       ##BNTFDIiwgIkludmFsaWQgWTIiOiAiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
-       ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9
+    #eyJWYWxpZCI6IHsicyI6ICI3Q0QwRTA3NUZBNzk1NUJBNTJDMDI3NTlBNkM5MERCQk
+    #ZDMTBFNkQ0MEFFQThEMjgzRTQwN0Q4OENGNTM4QTA1IiwgIlgiOiAiMkMzQzZCOEM0
+    #RjM4MDBFN0FFRjY4NjQwMjVCNEVENzlCRDU5OTExN0U0MjdDNDFCRDQ3RDkzRDY1NE
+    #I0QTUxQyIsICJHLnNjYWxhcl9tdWx0KHMsZGVjb2RlKFgpKSI6ICI3QzEzNjQ1RkU3
+    #OTBBNDY4RjYyQzM5QkVCNzM4OEU1NDFEODQwNUQxQURFNjlEMTc3OEM1RkUzRTdGNk
+    #I2MDBFIiwgIkcuc2NhbGFyX211bHRfdmZ5KHMsWCkiOiAiN0MxMzY0NUZFNzkwQTQ2
+    #OEY2MkMzOUJFQjczODhFNTQxRDg0MDVEMUFERTY5RDE3NzhDNUZFM0U3RjZCNjAwRS
+    #J9LCAiSW52YWxpZCBZMSI6ICIyQjNDNkI4QzRGMzgwMEU3QUVGNjg2NDAyNUI0RUQ3
+    #OUJENTk5MTE3RTQyN0M0MUJENDdEOTNENjU0QjRBNTFDIiwgIkludmFsaWQgWTIiOi
+    #AiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMCJ9
 
 B.4.  Test vector for CPace using group decaf448 and hash SHAKE-256
 
@@ -2718,28 +2701,27 @@ B.4.1.  Test vectors for calculate_generator with group decaf448
 
 B.4.1.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJIIjogIlNIQUtFLTI1NiIsICJILnNfaW5fYnl0ZXMiOiAxMzYsICJQUlMiOiA
-       ##iNTA2MTczNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDExMiwgIkRTSSI6IC
-       ##I0MzUwNjE2MzY1NDQ2NTYzNjE2NjM0MzQzOCIsICJDSSI6ICI2RjYzMEI0MjVGN
-       ##zI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNp
-       ##ZCI6ICI1MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnZW5lcmF
-       ##0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6ICIwRD
-       ##QzNTA2MTYzNjU0NDY1NjM2MTY2MzQzNDM4MDg1MDYxNzM3Mzc3NkY3MjY0NzAwM
-       ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-       ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
-       ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
-       ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-       ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDFBNkY2MzBCNDI1Rjcy
-       ##NjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MjEwNTIyM0U
-       ##wQ0RDNDVENjU3NTY2OEQ2NEM1NTIwMDQxMjQiLCAiaGFzaCByZXN1bHQiOiAiNz
-       ##E0OEY0RDYwNTg3QUFBRkE2NEQyRkQ2QkNGRTQ1RUU3MUU4Qjk3MUQxRDVGRjNCQ
-       ##kY4QzE0NTE3OTdDNjJBMUFGMjJBQjI1NjM4NzQ5Rjk3RjlCMTVGRURDRjRBRUVF
-       ##ODcyODJDRjY2NzU5NEFCMDkyQjYwMjNDOEY4RDNBNjFDMzhCMEFGNzkxQzkyNzE
-       ##xMzdERjAxQjU3RDYzQjc5NzM0QkJDRTY5OTFFM0UyRTEwRkRDODA1QUJDOUU2RT
-       ##ZGM0RBRUZGNkZEMzQwOTNEMjZERTI0MEIzMjY3NjQyNTIiLCAiZW5jb2RlZCBnZ
-       ##W5lcmF0b3IgZyI6ICI5QTcwMEVDQzM3OEVCOThFNTczODdERjQ1NkQ1QjRCNEYx
-       ##RENFRUJCQjEzNzE1MjdFRUI3RTFCRkJBQjY0RUNDOUM5MzAzMzk2MTQ1QkEwNEY
-       ##1QjVBRUE1QkFFREZBNjFGMzFGMDBGQkM1RkQ1NjA2In0=
+    #eyJIIjogIlNIQUtFLTI1NiIsICJILnNfaW5fYnl0ZXMiOiAxMzYsICJQUlMiOiAiNT
+    #A2MTczNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDExMiwgIkRTSSI6ICI0MzUw
+    #NjE2MzY1NDQ2NTYzNjE2NjM0MzQzOCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NTczNz
+    #A2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI1MjIz
+    #RTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnZW5lcmF0b3Jfc3RyaW5nKE
+    #cuRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6ICIwRDQzNTA2MTYzNjU0NDY1
+    #NjM2MTY2MzQzNDM4MDg1MDYxNzM3Mzc3NkY3MjY0NzAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5NkU2
+    #OTc0Njk2MTc0NkY3MjEwNTIyM0UwQ0RDNDVENjU3NTY2OEQ2NEM1NTIwMDQxMjQiLC
+    #AiaGFzaCByZXN1bHQiOiAiNzE0OEY0RDYwNTg3QUFBRkE2NEQyRkQ2QkNGRTQ1RUU3
+    #MUU4Qjk3MUQxRDVGRjNCQkY4QzE0NTE3OTdDNjJBMUFGMjJBQjI1NjM4NzQ5Rjk3Rj
+    #lCMTVGRURDRjRBRUVFODcyODJDRjY2NzU5NEFCMDkyQjYwMjNDOEY4RDNBNjFDMzhC
+    #MEFGNzkxQzkyNzExMzdERjAxQjU3RDYzQjc5NzM0QkJDRTY5OTFFM0UyRTEwRkRDOD
+    #A1QUJDOUU2RTZGM0RBRUZGNkZEMzQwOTNEMjZERTI0MEIzMjY3NjQyNTIiLCAiZW5j
+    #b2RlZCBnZW5lcmF0b3IgZyI6ICI5QTcwMEVDQzM3OEVCOThFNTczODdERjQ1NkQ1Qj
+    #RCNEYxRENFRUJCQjEzNzE1MjdFRUI3RTFCRkJBQjY0RUNDOUM5MzAzMzk2MTQ1QkEw
+    #NEY1QjVBRUE1QkFFREZBNjFGMzFGMDBGQkM1RkQ1NjA2In0=
 
 B.4.2.  Test vector for message from A
 
@@ -2942,38 +2924,36 @@ B.4.8.  Corresponding C programming language initializers
 
 B.4.9.  Testvectors as JSON file encoded as BASE64
 
-     ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
-     ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
-     ##I6ICI1MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnIjogIjlBN
-     ##zAwRUNDMzc4RUI5OEU1NzM4N0RGNDU2RDVCNEI0RjFEQ0VFQkJCMTM3MTUyN0VF
-     ##QjdFMUJGQkFCNjRFQ0M5QzkzMDMzOTYxNDVCQTA0RjVCNUFFQTVCQUVERkE2MUY
-     ##zMUYwMEZCQzVGRDU2MDYiLCAieWEiOiAiMzNENTYxRjEzQ0ZDMERDQTI3OUMzME
-     ##U4Q0RFODk1MTc1REMyNTQ4Mzg5MjgxOUVCQTEzMkQ1OEMxM0MwNDYyQThFQjBEN
-     ##zNGREE5NDE5NTA1OTRCRUY1MTkxRDgzOTQ2OTFGODZFREZGQ0FENkMxRSIsICJB
-     ##RGEiOiAiNDE0NDYxIiwgIllhIjogIjYyN0Y4QkIyQUU5NDVFMkE1MTg5NjdERjl
-     ##CMDBBRkYxOTI1M0QzMDg2Mzk4RjJFQzE4QkU4NDZDQzBEMUYyODZDMkNFM0NBRj
-     ##FEQTYzOTg1OUNDRDJBNkEwMUE5MzcyQTE3RTY2QkI3MDA2RTU3MUIiLCAieWIiO
-     ##iAiMjUyM0M5NjlGNjhGQTJCMkFFQTI5NEMyNTM5RUYzNkVCMUUwNTU4QUJEMTQ3
-     ##MTJBNzgyOEYxNkE4NUVEMkM3RTc3RTJCREQ0MTg5OTQ0MDVGQjFCNTdCNkJCQUF
-     ##ERDY2ODQ5ODkyQUFDOUQ4MTQwMiIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIj
-     ##hFOTgxMUU0NDAyRkFDMDk4NzQzQ0E3QjJCNTA5QjkxQjM4QzhDRjEzNjBDQzZDQ
-     ##UIzMDExODcxNzAxOTc4MkI3RjU4QTU5MUM2M0Q5QzkyNDdCNzc0RTZCMEUwQjgy
-     ##NkZGNEY4Mzk5Rjk0NzcyREIiLCAiSyI6ICI5NEY0QUU0OTRGNEU4QjA3QURFMzM
-     ##1NDcyNkVFRTQ5QzU1MThCMzYzQ0RBNTQ0RjVCNDU0MUI5NzMyODMwQkUzN0VBME
-     ##U2M0ZDODNGNTRCRTI4MERFQTA3NDdBMDQzQzc2RDQ3M0UwMTY4OUFGNzdGIiwgI
-     ##klTS19JUiI6ICI5QzI3MjZBNkNEQTExNzkzNDlDQkMzOEYzMTc2NUVBQjY0NkEy
-     ##QTVGMTc2RjMwMTlGQUI0QTBBQUJEOUQxN0MyQkE4OTU5OThDRkY2OThEODAxNzY
-     ##xQTAwMzUxMkMxQ0Y2N0QxNDRCMjFFMUNCNkQ2QjgyREE3MUQwREE3NkNBRCIsIC
-     ##JJU0tfU1kiOiAiNkQyMTc4RUQzMDQ4NzAzMDI1QjkwMDdFQzg0QzREOTY5RThEO
-     ##DEzNURGNDU1RTYwOEMxNkFBMTUyRTEyMTlDODZDRUE1NjMyNTQ0MjhBOUQ5Njk5
-     ##MDNBRTM2NDlEMTA1MERBMUU2RTBDMUMwNjBFMUVCRjczMTZBN0U5OTMzODkiLCA
-     ##ic2lkX291dHB1dF9pciI6ICI2NUJGRkRFMTdCN0FDRjA3Q0ZENDM3QkRCOTczQT
-     ##hGNzM0MEJGOTExRDM5M0E2MTQ5OEMwQTUwRUYwRDY4QkNBMTAzRkJEQjBGNUI3O
-     ##Tk1MDU1NjJFNTk4MTFERjFCQzVEOUI0RjVGMEY3QzU3QzIyQ0Q3RUQ2REI0RDE1
-     ##M0UzQSIsICJzaWRfb3V0cHV0X29jIjogIjdDRTI3MDQzRDFCMUQwRDBFMDJFMTY
-     ##5Nzk2MzdFMkEwMDU0N0VENkUxNUVBOTg4RjdEM0M5QjNDMjE1OUIyNkFCMzgzNE
-     ##JGRjdGRjg2MjQwMzIzRTI1MjE2QkEyRUU2RUE2RTE1ODI1MDIwMTdGOEU2RDY1R
-     ##jhDNEE1RTY1NTQzIn0=
+    #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
+    #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI1
+    #MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnIjogIjlBNzAwRUNDMz
+    #c4RUI5OEU1NzM4N0RGNDU2RDVCNEI0RjFEQ0VFQkJCMTM3MTUyN0VFQjdFMUJGQkFC
+    #NjRFQ0M5QzkzMDMzOTYxNDVCQTA0RjVCNUFFQTVCQUVERkE2MUYzMUYwMEZCQzVGRD
+    #U2MDYiLCAieWEiOiAiMzNENTYxRjEzQ0ZDMERDQTI3OUMzMEU4Q0RFODk1MTc1REMy
+    #NTQ4Mzg5MjgxOUVCQTEzMkQ1OEMxM0MwNDYyQThFQjBENzNGREE5NDE5NTA1OTRCRU
+    #Y1MTkxRDgzOTQ2OTFGODZFREZGQ0FENkMxRSIsICJBRGEiOiAiNDE0NDYxIiwgIllh
+    #IjogIjYyN0Y4QkIyQUU5NDVFMkE1MTg5NjdERjlCMDBBRkYxOTI1M0QzMDg2Mzk4Rj
+    #JFQzE4QkU4NDZDQzBEMUYyODZDMkNFM0NBRjFEQTYzOTg1OUNDRDJBNkEwMUE5Mzcy
+    #QTE3RTY2QkI3MDA2RTU3MUIiLCAieWIiOiAiMjUyM0M5NjlGNjhGQTJCMkFFQTI5NE
+    #MyNTM5RUYzNkVCMUUwNTU4QUJEMTQ3MTJBNzgyOEYxNkE4NUVEMkM3RTc3RTJCREQ0
+    #MTg5OTQ0MDVGQjFCNTdCNkJCQUFERDY2ODQ5ODkyQUFDOUQ4MTQwMiIsICJBRGIiOi
+    #AiNDE0NDYyIiwgIlliIjogIjhFOTgxMUU0NDAyRkFDMDk4NzQzQ0E3QjJCNTA5Qjkx
+    #QjM4QzhDRjEzNjBDQzZDQUIzMDExODcxNzAxOTc4MkI3RjU4QTU5MUM2M0Q5QzkyND
+    #dCNzc0RTZCMEUwQjgyNkZGNEY4Mzk5Rjk0NzcyREIiLCAiSyI6ICI5NEY0QUU0OTRG
+    #NEU4QjA3QURFMzM1NDcyNkVFRTQ5QzU1MThCMzYzQ0RBNTQ0RjVCNDU0MUI5NzMyOD
+    #MwQkUzN0VBMEU2M0ZDODNGNTRCRTI4MERFQTA3NDdBMDQzQzc2RDQ3M0UwMTY4OUFG
+    #NzdGIiwgIklTS19JUiI6ICI5QzI3MjZBNkNEQTExNzkzNDlDQkMzOEYzMTc2NUVBQj
+    #Y0NkEyQTVGMTc2RjMwMTlGQUI0QTBBQUJEOUQxN0MyQkE4OTU5OThDRkY2OThEODAx
+    #NzYxQTAwMzUxMkMxQ0Y2N0QxNDRCMjFFMUNCNkQ2QjgyREE3MUQwREE3NkNBRCIsIC
+    #JJU0tfU1kiOiAiNkQyMTc4RUQzMDQ4NzAzMDI1QjkwMDdFQzg0QzREOTY5RThEODEz
+    #NURGNDU1RTYwOEMxNkFBMTUyRTEyMTlDODZDRUE1NjMyNTQ0MjhBOUQ5Njk5MDNBRT
+    #M2NDlEMTA1MERBMUU2RTBDMUMwNjBFMUVCRjczMTZBN0U5OTMzODkiLCAic2lkX291
+    #dHB1dF9pciI6ICI2NUJGRkRFMTdCN0FDRjA3Q0ZENDM3QkRCOTczQThGNzM0MEJGOT
+    #ExRDM5M0E2MTQ5OEMwQTUwRUYwRDY4QkNBMTAzRkJEQjBGNUI3OTk1MDU1NjJFNTk4
+    #MTFERjFCQzVEOUI0RjVGMEY3QzU3QzIyQ0Q3RUQ2REI0RDE1M0UzQSIsICJzaWRfb3
+    #V0cHV0X29jIjogIjdDRTI3MDQzRDFCMUQwRDBFMDJFMTY5Nzk2MzdFMkEwMDU0N0VE
+    #NkUxNUVBOTg4RjdEM0M5QjNDMjE1OUIyNkFCMzgzNEJGRjdGRjg2MjQwMzIzRTI1Mj
+    #E2QkEyRUU2RUE2RTE1ODI1MDIwMTdGOEU2RDY1RjhDNEE1RTY1NTQzIn0=
 
 B.4.10.  Test case for scalar_mult with valid inputs
 
@@ -3009,23 +2989,23 @@ B.4.11.  Invalid inputs for scalar_mult_vfy
 
 B.4.11.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJWYWxpZCI6IHsicyI6ICJERDFCQzcwMTVEQUFCQjc2NzIxMjlDQzM1QTNCQTg
-       ##xNTQ4NkIxMzlERUZGOUJERUNBN0E0RkM2MTM0MzIzRDM0NjU4NzYxRTkwRkYwNz
-       ##k5NzJBN0NBOEFBNTYwNjQ5OEY0RjRGMEVCQzA5MzNBODE5IiwgIlgiOiAiNjAxN
-       ##DMxRDVFNTFGNDNENDIyQTkyRDNGQjIzNzNCREUyODIxN0FBQjQyNTI0QzM0MUFB
-       ##NDA0RUFCQTVBQTU1NDFGNzA0MkRCQjMyNTNDRTRDOTBGNzcyQjAzOEE0MTNEQ0I
-       ##zQTBGNkJGM0FFOUUyMSIsICJHLnNjYWxhcl9tdWx0KHMsZGVjb2RlKFgpKSI6IC
-       ##IzODhCMzVDNjBFQjQxQjY2MDg1QTIxMTgzMTYyMTg2ODFENzg5NzlENjY3NzAyR
-       ##EUxMDVGREMxRjIxRkZFODg0QTU3N0Q3OTVGNDU2OTE3ODEzOTBBMjI5QTNCRDdC
-       ##NTI3RTgzMTM4MEYyRjU4NUE0IiwgIkcuc2NhbGFyX211bHRfdmZ5KHMsWCkiOiA
-       ##iMzg4QjM1QzYwRUI0MUI2NjA4NUEyMTE4MzE2MjE4NjgxRDc4OTc5RDY2NzcwMk
-       ##RFMTA1RkRDMUYyMUZGRTg4NEE1NzdENzk1RjQ1NjkxNzgxMzkwQTIyOUEzQkQ3Q
-       ##jUyN0U4MzEzODBGMkY1ODVBNCJ9LCAiSW52YWxpZCBZMSI6ICI1RjE0MzFENUU1
-       ##MUY0M0Q0MjJBOTJEM0ZCMjM3M0JERTI4MjE3QUFCNDI1MjRDMzQxQUE0MDRFQUJ
-       ##BNUFBNTU0MUY3MDQyREJCMzI1M0NFNEM5MEY3NzJCMDM4QTQxM0RDQjNBMEY2Qk
-       ##YzQUU5RTIxIiwgIkludmFsaWQgWTIiOiAiMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-       ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-       ##MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9
+    #eyJWYWxpZCI6IHsicyI6ICJERDFCQzcwMTVEQUFCQjc2NzIxMjlDQzM1QTNCQTgxNT
+    #Q4NkIxMzlERUZGOUJERUNBN0E0RkM2MTM0MzIzRDM0NjU4NzYxRTkwRkYwNzk5NzJB
+    #N0NBOEFBNTYwNjQ5OEY0RjRGMEVCQzA5MzNBODE5IiwgIlgiOiAiNjAxNDMxRDVFNT
+    #FGNDNENDIyQTkyRDNGQjIzNzNCREUyODIxN0FBQjQyNTI0QzM0MUFBNDA0RUFCQTVB
+    #QTU1NDFGNzA0MkRCQjMyNTNDRTRDOTBGNzcyQjAzOEE0MTNEQ0IzQTBGNkJGM0FFOU
+    #UyMSIsICJHLnNjYWxhcl9tdWx0KHMsZGVjb2RlKFgpKSI6ICIzODhCMzVDNjBFQjQx
+    #QjY2MDg1QTIxMTgzMTYyMTg2ODFENzg5NzlENjY3NzAyREUxMDVGREMxRjIxRkZFOD
+    #g0QTU3N0Q3OTVGNDU2OTE3ODEzOTBBMjI5QTNCRDdCNTI3RTgzMTM4MEYyRjU4NUE0
+    #IiwgIkcuc2NhbGFyX211bHRfdmZ5KHMsWCkiOiAiMzg4QjM1QzYwRUI0MUI2NjA4NU
+    #EyMTE4MzE2MjE4NjgxRDc4OTc5RDY2NzcwMkRFMTA1RkRDMUYyMUZGRTg4NEE1NzdE
+    #Nzk1RjQ1NjkxNzgxMzkwQTIyOUEzQkQ3QjUyN0U4MzEzODBGMkY1ODVBNCJ9LCAiSW
+    #52YWxpZCBZMSI6ICI1RjE0MzFENUU1MUY0M0Q0MjJBOTJEM0ZCMjM3M0JERTI4MjE3
+    #QUFCNDI1MjRDMzQxQUE0MDRFQUJBNUFBNTU0MUY3MDQyREJCMzI1M0NFNEM5MEY3Nz
+    #JCMDM4QTQxM0RDQjNBMEY2QkYzQUU5RTIxIiwgIkludmFsaWQgWTIiOiAiMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMCJ9
 
 B.5.  Test vector for CPace using group NIST P-256 and hash SHA-256
 
@@ -3053,21 +3033,20 @@ B.5.1.  Test vectors for calculate_generator with group NIST P-256
 
 B.5.1.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJIIjogIlNIQS0yNTYiLCAiSC5zX2luX2J5dGVzIjogNjQsICJQUlMiOiAiNTA
-       ##2MTczNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDIzLCAiRFNJIjogIjQzNT
-       ##A2MTYzNjU1MDMyMzUzNjVGNTg0RDQ0M0E1MzQ4NDEyRDMyMzUzNjVGNTM1MzU3N
-       ##TU1RjRFNTU1RiIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcy
-       ##MEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICIzNEIzNjQ1NENBQjJ
-       ##FNzg0MkMzODlGN0Q4OEVDQjdERiIsICJnZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLF
-       ##BSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6ICIxRTQzNTA2MTYzNjU1MDMyMzUzN
-       ##jVGNTg0RDQ0M0E1MzQ4NDEyRDMyMzUzNjVGNTM1MzU3NTU1RjRFNTU1RjA4NTA2
-       ##MTczNzM3NzZGNzI2NDE3MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
-       ##wMDAwMDAwMDAwMDAwMDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCND
-       ##E1RjY5NkU2OTc0Njk2MTc0NkY3MjEwMzRCMzY0NTRDQUIyRTc4NDJDMzg5RjdEO
-       ##DhFQ0I3REYiLCAiZ2VuZXJhdG9yIGciOiAiMDRFRUU1NzczMjBCMUMyNDFBNzk0
-       ##MTlGQ0RFNTcxOEMyQjYzRjgxRUY4NzE3RDU2QTU3RDJGQjI2QjY1QThCRUI2MzU
-       ##3M0I1MjYwNUVGQjMyRkY0Q0YzMUFBRUY5QTkyREY4NEU0RTg0MDhDQzZDN0NGMj
-       ##dBNTM1QUFEMkIzOEE1NiJ9
+    #eyJIIjogIlNIQS0yNTYiLCAiSC5zX2luX2J5dGVzIjogNjQsICJQUlMiOiAiNTA2MT
+    #czNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDIzLCAiRFNJIjogIjQzNTA2MTYz
+    #NjU1MDMyMzUzNjVGNTg0RDQ0M0E1MzQ4NDEyRDMyMzUzNjVGNTM1MzU3NTU1RjRFNT
+    #U1RiIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2
+    #RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICIzNEIzNjQ1NENBQjJFNzg0MkMzODlGN0
+    #Q4OEVDQjdERiIsICJnZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5z
+    #X2luX2J5dGVzKSI6ICIxRTQzNTA2MTYzNjU1MDMyMzUzNjVGNTg0RDQ0M0E1MzQ4ND
+    #EyRDMyMzUzNjVGNTM1MzU3NTU1RjRFNTU1RjA4NTA2MTczNzM3NzZGNzI2NDE3MDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDFBNkY2Mz
+    #BCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MjEw
+    #MzRCMzY0NTRDQUIyRTc4NDJDMzg5RjdEODhFQ0I3REYiLCAiZ2VuZXJhdG9yIGciOi
+    #AiMDRFRUU1NzczMjBCMUMyNDFBNzk0MTlGQ0RFNTcxOEMyQjYzRjgxRUY4NzE3RDU2
+    #QTU3RDJGQjI2QjY1QThCRUI2MzU3M0I1MjYwNUVGQjMyRkY0Q0YzMUFBRUY5QTkyRE
+    #Y4NEU0RTg0MDhDQzZDN0NGMjdBNTM1QUFEMkIzOEE1NiJ9
 
 B.5.2.  Test vector for message from A
 
@@ -3081,7 +3060,7 @@ B.5.2.  Test vector for message from A
          041f12ad5fc65010a24fc04c86197109a36df0e9ce85a7479e1e1364
          692fdace17ea5a634e19c207a5d52ead6c6817a163cf2f2fe3406c5d
          fdfc2ecdf8e42c5e16
-       Alternative correct value for Ya: g*(-ya):
+       Alternative correct value for Ya: (-ya)*g:
        (length: 65 bytes)
          041f12ad5fc65010a24fc04c86197109a36df0e9ce85a7479e1e1364
          692fdace1715a59cb0e63df85b2ad1529397e85e9c30d0d01dbf93a2
@@ -3099,7 +3078,7 @@ B.5.3.  Test vector for message from B
          046a51180b6ebabaf5ed0af8cd786886d93342bcae4c158ce1617a0a
          cc8ec354486f9ed2e9210913206d1e3f5e463d2d320c4f1f5ce8b677
          a7e38a26f752bf8f84
-       Alternative correct value for Yb: g*(-yb):
+       Alternative correct value for Yb: (-yb)*g:
        (length: 65 bytes)
          046a51180b6ebabaf5ed0af8cd786886d93342bcae4c158ce1617a0a
          cc8ec3544890612d15def6ece092e1c0a1b9c2d2cdf3b0e0a4174988
@@ -3267,30 +3246,29 @@ B.5.8.  Corresponding C programming language initializers
 
 B.5.9.  Testvectors as JSON file encoded as BASE64
 
-     ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
-     ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
-     ##I6ICIzNEIzNjQ1NENBQjJFNzg0MkMzODlGN0Q4OEVDQjdERiIsICJnIjogIjA0R
-     ##UVFNTc3MzIwQjFDMjQxQTc5NDE5RkNERTU3MThDMkI2M0Y4MUVGODcxN0Q1NkE1
-     ##N0QyRkIyNkI2NUE4QkVCNjM1NzNCNTI2MDVFRkIzMkZGNENGMzFBQUVGOUE5MkR
-     ##GODRFNEU4NDA4Q0M2QzdDRjI3QTUzNUFBRDJCMzhBNTYiLCAieWEiOiAiMzc1Nz
-     ##RDRkJGMUI5NUZGNkE4RTJEN0JFNDYyRDREMDFFNkRERTI2MThGMzRGNERFOURGO
-     ##DY5QjI0RjUzMkM1RCIsICJBRGEiOiAiNDE0NDYxIiwgIllhIjogIjA0MUYxMkFE
-     ##NUZDNjUwMTBBMjRGQzA0Qzg2MTk3MTA5QTM2REYwRTlDRTg1QTc0NzlFMUUxMzY
-     ##0NjkyRkRBQ0UxN0VBNUE2MzRFMTlDMjA3QTVENTJFQUQ2QzY4MTdBMTYzQ0YyRj
-     ##JGRTM0MDZDNURGREZDMkVDREY4RTQyQzVFMTYiLCAieWIiOiAiRTU2NzJGQzlFQ
-     ##jRFNzIxRjQxRDgwMTgxRUM0QzlGRDk4ODY2NjhBQ0M0ODAyNEQzM0M4MkJCMTAy
-     ##QUVDQkE1MiIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIjA0NkE1MTE4MEI2RUJ
-     ##BQkFGNUVEMEFGOENENzg2ODg2RDkzMzQyQkNBRTRDMTU4Q0UxNjE3QTBBQ0M4RU
-     ##MzNTQ0ODZGOUVEMkU5MjEwOTEzMjA2RDFFM0Y1RTQ2M0QyRDMyMEM0RjFGNUNFO
-     ##EI2NzdBN0UzOEEyNkY3NTJCRjhGODQiLCAiSyI6ICIzRTBFMkY4OTc2RkI4RDBE
-     ##RUVFMzBBRUY0QjVDRDM2MzFFRUQyNDlBRjMyRjUzRDBERDAwOUI1RDdCOEY2QjZ
-     ##DIiwgIklTS19JUiI6ICI5NTY1RUQyODZCNkUzQ0YxRjk0M0ZEMzE3NDZGOUEyMj
-     ##kzNTUzNzAyNUExMzI4RDQ5ODAwMDVCQTk4NEYwQzM5IiwgIklTS19TWSI6ICI2M
-     ##kE0NDVBNERBQTM1NDZERDAzMUM2NkVBRDJFNEUwMTVBQkJDQzgzQkRFMzFDOTBG
-     ##ODQxMTQ5RkQ0NDFDNThBIiwgInNpZF9vdXRwdXRfaXIiOiAiQTczODZEMUMyRUI
-     ##wNkU4MDU2RDdGRUNCQ0Y2OTFFMDhEMTg5RDk2MjM2MDIwRUYzMUI0MTQwNjk4QT
-     ##RCOTlGOSIsICJzaWRfb3V0cHV0X29jIjogIkQzMzdEQkMwREQ3OTdCNEU2RjJGM
-     ##TRFQTQ5MjVDNThFNUQ1NTIzODcxRThDQjQzQTNDMUIwRjJCMUExRkZERTMifQ==
+    #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
+    #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICIz
+    #NEIzNjQ1NENBQjJFNzg0MkMzODlGN0Q4OEVDQjdERiIsICJnIjogIjA0RUVFNTc3Mz
+    #IwQjFDMjQxQTc5NDE5RkNERTU3MThDMkI2M0Y4MUVGODcxN0Q1NkE1N0QyRkIyNkI2
+    #NUE4QkVCNjM1NzNCNTI2MDVFRkIzMkZGNENGMzFBQUVGOUE5MkRGODRFNEU4NDA4Q0
+    #M2QzdDRjI3QTUzNUFBRDJCMzhBNTYiLCAieWEiOiAiMzc1NzRDRkJGMUI5NUZGNkE4
+    #RTJEN0JFNDYyRDREMDFFNkRERTI2MThGMzRGNERFOURGODY5QjI0RjUzMkM1RCIsIC
+    #JBRGEiOiAiNDE0NDYxIiwgIllhIjogIjA0MUYxMkFENUZDNjUwMTBBMjRGQzA0Qzg2
+    #MTk3MTA5QTM2REYwRTlDRTg1QTc0NzlFMUUxMzY0NjkyRkRBQ0UxN0VBNUE2MzRFMT
+    #lDMjA3QTVENTJFQUQ2QzY4MTdBMTYzQ0YyRjJGRTM0MDZDNURGREZDMkVDREY4RTQy
+    #QzVFMTYiLCAieWIiOiAiRTU2NzJGQzlFQjRFNzIxRjQxRDgwMTgxRUM0QzlGRDk4OD
+    #Y2NjhBQ0M0ODAyNEQzM0M4MkJCMTAyQUVDQkE1MiIsICJBRGIiOiAiNDE0NDYyIiwg
+    #IlliIjogIjA0NkE1MTE4MEI2RUJBQkFGNUVEMEFGOENENzg2ODg2RDkzMzQyQkNBRT
+    #RDMTU4Q0UxNjE3QTBBQ0M4RUMzNTQ0ODZGOUVEMkU5MjEwOTEzMjA2RDFFM0Y1RTQ2
+    #M0QyRDMyMEM0RjFGNUNFOEI2NzdBN0UzOEEyNkY3NTJCRjhGODQiLCAiSyI6ICIzRT
+    #BFMkY4OTc2RkI4RDBERUVFMzBBRUY0QjVDRDM2MzFFRUQyNDlBRjMyRjUzRDBERDAw
+    #OUI1RDdCOEY2QjZDIiwgIklTS19JUiI6ICI5NTY1RUQyODZCNkUzQ0YxRjk0M0ZEMz
+    #E3NDZGOUEyMjkzNTUzNzAyNUExMzI4RDQ5ODAwMDVCQTk4NEYwQzM5IiwgIklTS19T
+    #WSI6ICI2MkE0NDVBNERBQTM1NDZERDAzMUM2NkVBRDJFNEUwMTVBQkJDQzgzQkRFMz
+    #FDOTBGODQxMTQ5RkQ0NDFDNThBIiwgInNpZF9vdXRwdXRfaXIiOiAiQTczODZEMUMy
+    #RUIwNkU4MDU2RDdGRUNCQ0Y2OTFFMDhEMTg5RDk2MjM2MDIwRUYzMUI0MTQwNjk4QT
+    #RCOTlGOSIsICJzaWRfb3V0cHV0X29jIjogIkQzMzdEQkMwREQ3OTdCNEU2RjJGMTRF
+    #QTQ5MjVDNThFNUQ1NTIzODcxRThDQjQzQTNDMUIwRjJCMUExRkZERTMifQ==
 
 B.5.10.  Test case for scalar_mult_vfy with correct inputs
 
@@ -3329,21 +3307,20 @@ B.5.11.  Invalid inputs for scalar_mult_vfy
 
 B.5.11.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJWYWxpZCI6IHsicyI6ICJGMDEyNTAxQzA5MUZGOUI5OUExMjNGRkZFNTcxRDh
-       ##CQzAxRTgwNzdFRTU4MTM2MkUxQkQyMTM5OTA4MzU2NDNCIiwgIlgiOiAiMDQyND
-       ##Y0OEVCOTg2QzJCRTBBRjYzNjQ1NUNFRjA1NTA2NzFENkJDRDhBQTI2RTBENzJGR
-       ##kExQjFGRDEyQkE0RTBGNzhEQTJCNkQyMTg0RjMxQUYzOUU1NjZBRUYxMjcwMTRC
-       ##NjkzNkM5QTM3MzQ2RDEwQTRBQjI1MTRGQUVGNTgzMSIsICJHLnNjYWxhcl9tdWx
-       ##0KHMsWCkgKGZ1bGwgY29vcmRpbmF0ZXMpIjogIjA0RjVBMTkxRjA3OEM4N0MzNj
-       ##YzM0I3OEM3MDE3NTExNTlENTZDNTlGM0ZFOTEwNUI1NzIwNjczNDcwRjMwM0FCO
-       ##TI1QjZBN0ZEMUNERDhGNjQ5QTIxQ0YzNkI2OEQ5RTlDNEExMTkxOUE5NTE4OTI1
-       ##MTk3ODYxMDRCMjcwMzM3NTciLCAiRy5zY2FsYXJfbXVsdF92ZnkocyxYKSAob25
-       ##seSBYLWNvb3JkaW5hdGUpIjogIkY1QTE5MUYwNzhDODdDMzY2MzNCNzhDNzAxNz
-       ##UxMTU5RDU2QzU5RjNGRTkxMDVCNTcyMDY3MzQ3MEYzMDNBQjkifSwgIkludmFsa
-       ##WQgWTEiOiAiMDQyNDY0OEVCOTg2QzJCRTBBRjYzNjQ1NUNFRjA1NTA2NzFENkJD
-       ##RDhBQTI2RTBENzJGRkExQjFGRDEyQkE0RTBGNzhEQTJCNkQyMTg0RjMxQUYzOUU
-       ##1NjZBRUYxMjcwMTRCNjkzNkM5QTM3MzQ2RDEwQTRBQjI1MTRGQUVGNTg1NyIsIC
-       ##JJbnZhbGlkIFkyIjogIjAwIn0=
+    #eyJWYWxpZCI6IHsicyI6ICJGMDEyNTAxQzA5MUZGOUI5OUExMjNGRkZFNTcxRDhCQz
+    #AxRTgwNzdFRTU4MTM2MkUxQkQyMTM5OTA4MzU2NDNCIiwgIlgiOiAiMDQyNDY0OEVC
+    #OTg2QzJCRTBBRjYzNjQ1NUNFRjA1NTA2NzFENkJDRDhBQTI2RTBENzJGRkExQjFGRD
+    #EyQkE0RTBGNzhEQTJCNkQyMTg0RjMxQUYzOUU1NjZBRUYxMjcwMTRCNjkzNkM5QTM3
+    #MzQ2RDEwQTRBQjI1MTRGQUVGNTgzMSIsICJHLnNjYWxhcl9tdWx0KHMsWCkgKGZ1bG
+    #wgY29vcmRpbmF0ZXMpIjogIjA0RjVBMTkxRjA3OEM4N0MzNjYzM0I3OEM3MDE3NTEx
+    #NTlENTZDNTlGM0ZFOTEwNUI1NzIwNjczNDcwRjMwM0FCOTI1QjZBN0ZEMUNERDhGNj
+    #Q5QTIxQ0YzNkI2OEQ5RTlDNEExMTkxOUE5NTE4OTI1MTk3ODYxMDRCMjcwMzM3NTci
+    #LCAiRy5zY2FsYXJfbXVsdF92ZnkocyxYKSAob25seSBYLWNvb3JkaW5hdGUpIjogIk
+    #Y1QTE5MUYwNzhDODdDMzY2MzNCNzhDNzAxNzUxMTU5RDU2QzU5RjNGRTkxMDVCNTcy
+    #MDY3MzQ3MEYzMDNBQjkifSwgIkludmFsaWQgWTEiOiAiMDQyNDY0OEVCOTg2QzJCRT
+    #BBRjYzNjQ1NUNFRjA1NTA2NzFENkJDRDhBQTI2RTBENzJGRkExQjFGRDEyQkE0RTBG
+    #NzhEQTJCNkQyMTg0RjMxQUYzOUU1NjZBRUYxMjcwMTRCNjkzNkM5QTM3MzQ2RDEwQT
+    #RBQjI1MTRGQUVGNTg1NyIsICJJbnZhbGlkIFkyIjogIjAwIn0=
 
 B.6.  Test vector for CPace using group NIST P-384 and hash SHA-384
 
@@ -3375,25 +3352,24 @@ B.6.1.  Test vectors for calculate_generator with group NIST P-384
 
 B.6.1.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJIIjogIlNIQS0zODQiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjU
-       ##wNjE3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiA4NywgIkRTSSI6ICI0Mz
-       ##UwNjE2MzY1NTAzMzM4MzQ1RjU4NEQ0NDNBNTM0ODQxMkQzMzM4MzQ1RjUzNTM1N
-       ##zU1NUY0RTU1NUYiLCAiQ0kiOiAiNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3
-       ##MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MiIsICJzaWQiOiAiNUIzNzczQUE5MEU
-       ##4RjIzQzYxNTYzQTRCNjQ1QjI3NkMiLCAiZ2VuZXJhdG9yX3N0cmluZyhHLkRTSS
-       ##xQUlMsQ0ksc2lkLEguc19pbl9ieXRlcykiOiAiMUU0MzUwNjE2MzY1NTAzMzM4M
-       ##zQ1RjU4NEQ0NDNBNTM0ODQxMkQzMzM4MzQ1RjUzNTM1NzU1NUY0RTU1NUYwODUw
-       ##NjE3MzczNzc2RjcyNjQ1NzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
-       ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
-       ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-       ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-       ##MDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5NkU2OTc0Njk
-       ##2MTc0NkY3MjEwNUIzNzczQUE5MEU4RjIzQzYxNTYzQTRCNjQ1QjI3NkMiLCAiZ2
-       ##VuZXJhdG9yIGciOiAiMDRGRkUxQkRDMzI5M0ZEQkUzMUIyOTU5OTE2RTUyQzAxO
-       ##EU5MjNFQUM5OTgzNkJEOUExQ0JFRUM3OTRBOEQ0RDc4QkFBMzJDREFGQzk2ODVC
-       ##QzEwNjdBNzgwRjRBRDlDOEE2QzZFMTY0QUE0MjkwNkQxRTI3Rjc4MjU4MUFEQzh
-       ##FMDEwOTIxOTYyNkEyQjhGQkRDMzQ2MDJFNDA4NDU1NEJERDZDMEM2OThERDY1N0
-       ##FDOEUzMUIyQkNDRTFDN0IwRDgifQ==
+    #eyJIIjogIlNIQS0zODQiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjUwNj
+    #E3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiA4NywgIkRTSSI6ICI0MzUwNjE2
+    #MzY1NTAzMzM4MzQ1RjU4NEQ0NDNBNTM0ODQxMkQzMzM4MzQ1RjUzNTM1NzU1NUY0RT
+    #U1NUYiLCAiQ0kiOiAiNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5
+    #NkU2OTc0Njk2MTc0NkY3MiIsICJzaWQiOiAiNUIzNzczQUE5MEU4RjIzQzYxNTYzQT
+    #RCNjQ1QjI3NkMiLCAiZ2VuZXJhdG9yX3N0cmluZyhHLkRTSSxQUlMsQ0ksc2lkLEgu
+    #c19pbl9ieXRlcykiOiAiMUU0MzUwNjE2MzY1NTAzMzM4MzQ1RjU4NEQ0NDNBNTM0OD
+    #QxMkQzMzM4MzQ1RjUzNTM1NzU1NUY0RTU1NUYwODUwNjE3MzczNzc2RjcyNjQ1NzAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0
+    #NjU3MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MjEwNUIzNzczQUE5MEU4RjIzQzYxNT
+    #YzQTRCNjQ1QjI3NkMiLCAiZ2VuZXJhdG9yIGciOiAiMDRGRkUxQkRDMzI5M0ZEQkUz
+    #MUIyOTU5OTE2RTUyQzAxOEU5MjNFQUM5OTgzNkJEOUExQ0JFRUM3OTRBOEQ0RDc4Qk
+    #FBMzJDREFGQzk2ODVCQzEwNjdBNzgwRjRBRDlDOEE2QzZFMTY0QUE0MjkwNkQxRTI3
+    #Rjc4MjU4MUFEQzhFMDEwOTIxOTYyNkEyQjhGQkRDMzQ2MDJFNDA4NDU1NEJERDZDME
+    #M2OThERDY1N0FDOEUzMUIyQkNDRTFDN0IwRDgifQ==
 
 B.6.2.  Test vector for message from A
 
@@ -3408,7 +3384,7 @@ B.6.2.  Test vector for message from A
          3b96fa1ec78619c5a1e524472778331fbe009fa1564a3203e42993a3
          6285fa54e6c24184fd227458c87781be16fff46dbc970cc1b1770050
          a94d6826d52f211b234792e66d
-       Alternative correct value for Ya: g*(-ya):
+       Alternative correct value for Ya: (-ya)*g:
        (length: 97 bytes)
          0434a04da121995d81d7c5ded02cf2e70954dca49059485ea38310b7
          3b96fa1ec78619c5a1e524472778331fbe009fa156b5cdfc1bd66c5c
@@ -3428,7 +3404,7 @@ B.6.3.  Test vector for message from B
          104cdaeb630b7c5c18748deb25653ad2a4cb5e6274841cad328bb031
          2628b9b1f51bea72b8c610999a6730f752649205ae85c452ef83f98b
          e715cd0103186874b07cf02074
-       Alternative correct value for Yb: g*(-yb):
+       Alternative correct value for Yb: (-yb)*g:
        (length: 97 bytes)
          040a6559147fd492ad74ab1f4def6196fd6399540e84706227a1f90d
          104cdaeb630b7c5c18748deb25653ad2a4cb5e62747be352cd744fce
@@ -3623,39 +3599,38 @@ B.6.8.  Corresponding C programming language initializers
 
 B.6.9.  Testvectors as JSON file encoded as BASE64
 
-     ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
-     ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
-     ##I6ICI1QjM3NzNBQTkwRThGMjNDNjE1NjNBNEI2NDVCMjc2QyIsICJnIjogIjA0R
-     ##kZFMUJEQzMyOTNGREJFMzFCMjk1OTkxNkU1MkMwMThFOTIzRUFDOTk4MzZCRDlB
-     ##MUNCRUVDNzk0QThENEQ3OEJBQTMyQ0RBRkM5Njg1QkMxMDY3QTc4MEY0QUQ5Qzh
-     ##BNkM2RTE2NEFBNDI5MDZEMUUyN0Y3ODI1ODFBREM4RTAxMDkyMTk2MjZBMkI4Rk
-     ##JEQzM0NjAyRTQwODQ1NTRCREQ2QzBDNjk4REQ2NTdBQzhFMzFCMkJDQ0UxQzdCM
-     ##EQ4IiwgInlhIjogIkVGNDMzREQ1QUQxNDJDODYwRTdDQjY0MDBERDMxNUQzODhE
-     ##NUVDNTQyMEM1NTBFOUQ2RjA5MDdGMzc1RDk4OEJDNEQ3MDQ4MzdFNDM1NjFDNDk
-     ##3RTdERDkzRURDREI5RCIsICJBRGEiOiAiNDE0NDYxIiwgIllhIjogIjA0MzRBMD
-     ##REQTEyMTk5NUQ4MUQ3QzVERUQwMkNGMkU3MDk1NERDQTQ5MDU5NDg1RUEzODMxM
-     ##EI3M0I5NkZBMUVDNzg2MTlDNUExRTUyNDQ3Mjc3ODMzMUZCRTAwOUZBMTU2NEEz
-     ##MjAzRTQyOTkzQTM2Mjg1RkE1NEU2QzI0MTg0RkQyMjc0NThDODc3ODFCRTE2RkZ
-     ##GNDZEQkM5NzBDQzFCMTc3MDA1MEE5NEQ2ODI2RDUyRjIxMUIyMzQ3OTJFNjZEIi
-     ##wgInliIjogIjUwQjBFMzZCOTVBMkVERkFBODM0MkI4NDNERERDOTBCMTc1MzMwR
-     ##jIzOTlDMUIzNjU4NkRFRERBM0MyNTU5NzVGMzBCRTZBNzUwRjk0MDRGQ0NDNjJB
-     ##NjMyM0I1RTQ3MSIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjogIjA0MEE2NTU5MTQ
-     ##3RkQ0OTJBRDc0QUIxRjRERUY2MTk2RkQ2Mzk5NTQwRTg0NzA2MjI3QTFGOTBEMT
-     ##A0Q0RBRUI2MzBCN0M1QzE4NzQ4REVCMjU2NTNBRDJBNENCNUU2Mjc0ODQxQ0FEM
-     ##zI4QkIwMzEyNjI4QjlCMUY1MUJFQTcyQjhDNjEwOTk5QTY3MzBGNzUyNjQ5MjA1
-     ##QUU4NUM0NTJFRjgzRjk4QkU3MTVDRDAxMDMxODY4NzRCMDdDRjAyMDc0IiwgIks
-     ##iOiAiQTlBQ0FFQTk1NjkyQTY0NDYyMDY3RkU4RTQzMjFGMkZDQTk3OTNBOEEwND
-     ##IwRjBFMjUzRUQwRDZEQjg1OEZFMTYxREU3NTc2MjA2QThBMzVCRDRBNjBFMDA3M
-     ##jRGRDNFIiwgIklTS19JUiI6ICJEMUI3NDM3NUM3RDYzRDdERTI0NkNCRjNGQzJC
-     ##MzA5MjY0NUM3M0EwQUE4MTY5ODlDMERFNjA0OEVENEVDRTZBNTRERjgyRDA1RDJ
-     ##CRTM0OThDQjkyODhCRTdCREJEQjkiLCAiSVNLX1NZIjogIkEwNTFENDUzMkNBOU
-     ##ZCNjc3NEUwOTdFQkFDNjlDMUQ2QTE4MTQ0QTE1NDIxREMxNTVEMEIxRThBRUY5R
-     ##jlEOEMwRkU4NkU4NUQzQ0JFRTc3OTZGRjUwMTcxRjQyODAxQiIsICJzaWRfb3V0
-     ##cHV0X2lyIjogIjhENUEwMzk0NkE2OUZGQTEyQ0Q2RUZENDY5RkU4NjcxQkJDMjV
-     ##GQUQ2REIyNjU2RjM5NjNDOTRFOUM5NDBCREVDQzJCRDU1NTQ3NEMyMTE4MTc3OD
-     ##dENUNGNzg3MEVEMSIsICJzaWRfb3V0cHV0X29jIjogIkMwNzI5REIyNURCNDBDN
-     ##DhBMzVGNzg3RDU0MTBCMkNCOUEyRDlGNUU5Q0YxQ0YxNTlFRDJGNjNDNkIyMTg1
-     ##RTU5N0UxNzZDQzIyMTQyMkU5NDk2RUVEQTJCRjEyM0M4QiJ9
+    #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
+    #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI1
+    #QjM3NzNBQTkwRThGMjNDNjE1NjNBNEI2NDVCMjc2QyIsICJnIjogIjA0RkZFMUJEQz
+    #MyOTNGREJFMzFCMjk1OTkxNkU1MkMwMThFOTIzRUFDOTk4MzZCRDlBMUNCRUVDNzk0
+    #QThENEQ3OEJBQTMyQ0RBRkM5Njg1QkMxMDY3QTc4MEY0QUQ5QzhBNkM2RTE2NEFBND
+    #I5MDZEMUUyN0Y3ODI1ODFBREM4RTAxMDkyMTk2MjZBMkI4RkJEQzM0NjAyRTQwODQ1
+    #NTRCREQ2QzBDNjk4REQ2NTdBQzhFMzFCMkJDQ0UxQzdCMEQ4IiwgInlhIjogIkVGND
+    #MzREQ1QUQxNDJDODYwRTdDQjY0MDBERDMxNUQzODhENUVDNTQyMEM1NTBFOUQ2RjA5
+    #MDdGMzc1RDk4OEJDNEQ3MDQ4MzdFNDM1NjFDNDk3RTdERDkzRURDREI5RCIsICJBRG
+    #EiOiAiNDE0NDYxIiwgIllhIjogIjA0MzRBMDREQTEyMTk5NUQ4MUQ3QzVERUQwMkNG
+    #MkU3MDk1NERDQTQ5MDU5NDg1RUEzODMxMEI3M0I5NkZBMUVDNzg2MTlDNUExRTUyND
+    #Q3Mjc3ODMzMUZCRTAwOUZBMTU2NEEzMjAzRTQyOTkzQTM2Mjg1RkE1NEU2QzI0MTg0
+    #RkQyMjc0NThDODc3ODFCRTE2RkZGNDZEQkM5NzBDQzFCMTc3MDA1MEE5NEQ2ODI2RD
+    #UyRjIxMUIyMzQ3OTJFNjZEIiwgInliIjogIjUwQjBFMzZCOTVBMkVERkFBODM0MkI4
+    #NDNERERDOTBCMTc1MzMwRjIzOTlDMUIzNjU4NkRFRERBM0MyNTU5NzVGMzBCRTZBNz
+    #UwRjk0MDRGQ0NDNjJBNjMyM0I1RTQ3MSIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjog
+    #IjA0MEE2NTU5MTQ3RkQ0OTJBRDc0QUIxRjRERUY2MTk2RkQ2Mzk5NTQwRTg0NzA2Mj
+    #I3QTFGOTBEMTA0Q0RBRUI2MzBCN0M1QzE4NzQ4REVCMjU2NTNBRDJBNENCNUU2Mjc0
+    #ODQxQ0FEMzI4QkIwMzEyNjI4QjlCMUY1MUJFQTcyQjhDNjEwOTk5QTY3MzBGNzUyNj
+    #Q5MjA1QUU4NUM0NTJFRjgzRjk4QkU3MTVDRDAxMDMxODY4NzRCMDdDRjAyMDc0Iiwg
+    #IksiOiAiQTlBQ0FFQTk1NjkyQTY0NDYyMDY3RkU4RTQzMjFGMkZDQTk3OTNBOEEwND
+    #IwRjBFMjUzRUQwRDZEQjg1OEZFMTYxREU3NTc2MjA2QThBMzVCRDRBNjBFMDA3MjRG
+    #RDNFIiwgIklTS19JUiI6ICJEMUI3NDM3NUM3RDYzRDdERTI0NkNCRjNGQzJCMzA5Mj
+    #Y0NUM3M0EwQUE4MTY5ODlDMERFNjA0OEVENEVDRTZBNTRERjgyRDA1RDJCRTM0OThD
+    #QjkyODhCRTdCREJEQjkiLCAiSVNLX1NZIjogIkEwNTFENDUzMkNBOUZCNjc3NEUwOT
+    #dFQkFDNjlDMUQ2QTE4MTQ0QTE1NDIxREMxNTVEMEIxRThBRUY5RjlEOEMwRkU4NkU4
+    #NUQzQ0JFRTc3OTZGRjUwMTcxRjQyODAxQiIsICJzaWRfb3V0cHV0X2lyIjogIjhENU
+    #EwMzk0NkE2OUZGQTEyQ0Q2RUZENDY5RkU4NjcxQkJDMjVGQUQ2REIyNjU2RjM5NjND
+    #OTRFOUM5NDBCREVDQzJCRDU1NTQ3NEMyMTE4MTc3ODdENUNGNzg3MEVEMSIsICJzaW
+    #Rfb3V0cHV0X29jIjogIkMwNzI5REIyNURCNDBDNDhBMzVGNzg3RDU0MTBCMkNCOUEy
+    #RDlGNUU5Q0YxQ0YxNTlFRDJGNjNDNkIyMTg1RTU5N0UxNzZDQzIyMTQyMkU5NDk2RU
+    #VEQTJCRjEyM0M4QiJ9
 
 B.6.10.  Test case for scalar_mult_vfy with correct inputs
 
@@ -3697,26 +3672,25 @@ B.6.11.  Invalid inputs for scalar_mult_vfy
 
 B.6.11.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJWYWxpZCI6IHsicyI6ICI2RThBOTlBNUNERDQwOEVBRTk4RTFCOEFFRDI4NkU
-       ##3QjEyQURCQkRBQzdGMkM2MjhEOTA2MENFOTJBRTBEOTBCRDU3QTU2NEZEMzUwME
-       ##ZCQ0NFMzQyNURDOTRCQTBBREUiLCAiWCI6ICIwNDVCNENENTNDNDUwNkNDMDRCQ
-       ##TRDNDRGMjc2MkQ1RDMyQzNFNTVERjI1QjhCQUE1NTcxQjE2NTdBRDk1NzZFRkVB
-       ##ODI1OUYwNjg0REUwNjVBNDcwNTg1QjRCRTg3Njc0OEM3Nzk3MDU0RjNERUZFRjI
-       ##xQjc3RjgzRDUzQkFDNTdDODlENTJBQTRENkRENTg3MkJEMjgxOTg5QjEzODM1OT
-       ##Y5ODAwOUY4QUMxRjMwMTUzOEJBRENDRTlEOUY0MDM2RSIsICJHLnNjYWxhcl9td
-       ##Wx0KHMsWCkgKGZ1bGwgY29vcmRpbmF0ZXMpIjogIjA0NjVDMjhEQjA1RkQ5RjlB
-       ##OTM2NTFDNUNDMzFFQUU0OUM0RTUyNDZCNDY0ODlCOEY2MTA1ODczMzE3M0EwMzN
-       ##DREE3NkMzRTNFQTUzNTJCODA0RTY3RkRCRTJFMzM0QkU4MjQ1REFENUM4Qzk5M0
-       ##U2M0JBQ0YwNDU2NDc4RjI5QjcxQjZDODU5RjEzNjc2Rjg0RkYxNTBEMjc0MUYwM
-       ##jhGNTYwNTg0QTBCREJBMTlBNjNERjYyQzA4OTQ5QzJGRDZEIiwgIkcuc2NhbGFy
-       ##X211bHRfdmZ5KHMsWCkgKG9ubHkgWC1jb29yZGluYXRlKSI6ICI2NUMyOERCMDV
-       ##GRDlGOUE5MzY1MUM1Q0MzMUVBRTQ5QzRFNTI0NkI0NjQ4OUI4RjYxMDU4NzMzMT
-       ##czQTAzM0NEQTc2QzNFM0VBNTM1MkI4MDRFNjdGREJFMkUzMzRCRTgifSwgIklud
-       ##mFsaWQgWTEiOiAiMDQ1QjRDRDUzQzQ1MDZDQzA0QkE0QzQ0RjI3NjJENUQzMkMz
-       ##RTU1REYyNUI4QkFBNTU3MUIxNjU3QUQ5NTc2RUZFQTgyNTlGMDY4NERFMDY1QTQ
-       ##3MDU4NUI0QkU4NzY3NDhDNzc5NzA1NEYzREVGRUYyMUI3N0Y4M0Q1M0JBQzU3Qz
-       ##g5RDUyQUE0RDZERDU4NzJCRDI4MTk4OUIxMzgzNTk2OTgwMDlGOEFDMUYzMDE1M
-       ##zhCQURDQ0U5RDlGNDAzMDIiLCAiSW52YWxpZCBZMiI6ICIwMCJ9
+    #eyJWYWxpZCI6IHsicyI6ICI2RThBOTlBNUNERDQwOEVBRTk4RTFCOEFFRDI4NkU3Qj
+    #EyQURCQkRBQzdGMkM2MjhEOTA2MENFOTJBRTBEOTBCRDU3QTU2NEZEMzUwMEZCQ0NF
+    #MzQyNURDOTRCQTBBREUiLCAiWCI6ICIwNDVCNENENTNDNDUwNkNDMDRCQTRDNDRGMj
+    #c2MkQ1RDMyQzNFNTVERjI1QjhCQUE1NTcxQjE2NTdBRDk1NzZFRkVBODI1OUYwNjg0
+    #REUwNjVBNDcwNTg1QjRCRTg3Njc0OEM3Nzk3MDU0RjNERUZFRjIxQjc3RjgzRDUzQk
+    #FDNTdDODlENTJBQTRENkRENTg3MkJEMjgxOTg5QjEzODM1OTY5ODAwOUY4QUMxRjMw
+    #MTUzOEJBRENDRTlEOUY0MDM2RSIsICJHLnNjYWxhcl9tdWx0KHMsWCkgKGZ1bGwgY2
+    #9vcmRpbmF0ZXMpIjogIjA0NjVDMjhEQjA1RkQ5RjlBOTM2NTFDNUNDMzFFQUU0OUM0
+    #RTUyNDZCNDY0ODlCOEY2MTA1ODczMzE3M0EwMzNDREE3NkMzRTNFQTUzNTJCODA0RT
+    #Y3RkRCRTJFMzM0QkU4MjQ1REFENUM4Qzk5M0U2M0JBQ0YwNDU2NDc4RjI5QjcxQjZD
+    #ODU5RjEzNjc2Rjg0RkYxNTBEMjc0MUYwMjhGNTYwNTg0QTBCREJBMTlBNjNERjYyQz
+    #A4OTQ5QzJGRDZEIiwgIkcuc2NhbGFyX211bHRfdmZ5KHMsWCkgKG9ubHkgWC1jb29y
+    #ZGluYXRlKSI6ICI2NUMyOERCMDVGRDlGOUE5MzY1MUM1Q0MzMUVBRTQ5QzRFNTI0Nk
+    #I0NjQ4OUI4RjYxMDU4NzMzMTczQTAzM0NEQTc2QzNFM0VBNTM1MkI4MDRFNjdGREJF
+    #MkUzMzRCRTgifSwgIkludmFsaWQgWTEiOiAiMDQ1QjRDRDUzQzQ1MDZDQzA0QkE0Qz
+    #Q0RjI3NjJENUQzMkMzRTU1REYyNUI4QkFBNTU3MUIxNjU3QUQ5NTc2RUZFQTgyNTlG
+    #MDY4NERFMDY1QTQ3MDU4NUI0QkU4NzY3NDhDNzc5NzA1NEYzREVGRUYyMUI3N0Y4M0
+    #Q1M0JBQzU3Qzg5RDUyQUE0RDZERDU4NzJCRDI4MTk4OUIxMzgzNTk2OTgwMDlGOEFD
+    #MUYzMDE1MzhCQURDQ0U5RDlGNDAzMDIiLCAiSW52YWxpZCBZMiI6ICIwMCJ9
 
 B.7.  Test vector for CPace using group NIST P-521 and hash SHA-512
 
@@ -3749,26 +3723,26 @@ B.7.1.  Test vectors for calculate_generator with group NIST P-521
 
 B.7.1.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjU
-       ##wNjE3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiA4NywgIkRTSSI6ICI0Mz
-       ##UwNjE2MzY1NTAzNTMyMzE1RjU4NEQ0NDNBNTM0ODQxMkQzNTMxMzI1RjUzNTM1N
-       ##zU1NUY0RTU1NUYiLCAiQ0kiOiAiNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3
-       ##MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MiIsICJzaWQiOiAiN0U0QjQ3OTFENkE
-       ##4RUYwMTlCOTM2Qzc5RkI3RjJDNTciLCAiZ2VuZXJhdG9yX3N0cmluZyhHLkRTSS
-       ##xQUlMsQ0ksc2lkLEguc19pbl9ieXRlcykiOiAiMUU0MzUwNjE2MzY1NTAzNTMyM
-       ##zE1RjU4NEQ0NDNBNTM0ODQxMkQzNTMxMzI1RjUzNTM1NzU1NUY0RTU1NUYwODUw
-       ##NjE3MzczNzc2RjcyNjQ1NzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
-       ##wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
-       ##AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-       ##DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-       ##MDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5NkU2OTc0Njk
-       ##2MTc0NkY3MjEwN0U0QjQ3OTFENkE4RUYwMTlCOTM2Qzc5RkI3RjJDNTciLCAiZ2
-       ##VuZXJhdG9yIGciOiAiMDQwMEU1OEE4RkJGMDhCMzhFMzRBMzY3NkY2RDY5MEJFR
-       ##DU4QUE0MTE1RkYzMkE1N0VDODcxNzJGQzJBMUZCODlEMDMyNThDNjQyOUM0NjQ5
-       ##ODFCMzI4NEI1RkVEQkQxMjQ0QkYyNzQzMjAwODg2ODcwNjVCOTA3NURENTU4RTE
-       ##0RUQ2OTkwMUQyMTYyREIxQkEzQTQ5Qzk3RENBN0M5MDJDQjFCOTZCQUJFMjFBMz
-       ##E5NDIxMTRDODYwNjY1QjM1QzQ2QjgyMTNGNkRFMTcxOTRERTU0QzQ0MTA4M0REM
-       ##TE2M0Q1OTA3QURBRDg4MjRCQjEzMDdEQ0Y2QTU1QzExQThGMDFEOTc4OUIifQ==
+    #eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjUwNj
+    #E3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiA4NywgIkRTSSI6ICI0MzUwNjE2
+    #MzY1NTAzNTMyMzE1RjU4NEQ0NDNBNTM0ODQxMkQzNTMxMzI1RjUzNTM1NzU1NUY0RT
+    #U1NUYiLCAiQ0kiOiAiNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5
+    #NkU2OTc0Njk2MTc0NkY3MiIsICJzaWQiOiAiN0U0QjQ3OTFENkE4RUYwMTlCOTM2Qz
+    #c5RkI3RjJDNTciLCAiZ2VuZXJhdG9yX3N0cmluZyhHLkRTSSxQUlMsQ0ksc2lkLEgu
+    #c19pbl9ieXRlcykiOiAiMUU0MzUwNjE2MzY1NTAzNTMyMzE1RjU4NEQ0NDNBNTM0OD
+    #QxMkQzNTMxMzI1RjUzNTM1NzU1NUY0RTU1NUYwODUwNjE3MzczNzc2RjcyNjQ1NzAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+    #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+    #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0
+    #NjU3MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MjEwN0U0QjQ3OTFENkE4RUYwMTlCOT
+    #M2Qzc5RkI3RjJDNTciLCAiZ2VuZXJhdG9yIGciOiAiMDQwMEU1OEE4RkJGMDhCMzhF
+    #MzRBMzY3NkY2RDY5MEJFRDU4QUE0MTE1RkYzMkE1N0VDODcxNzJGQzJBMUZCODlEMD
+    #MyNThDNjQyOUM0NjQ5ODFCMzI4NEI1RkVEQkQxMjQ0QkYyNzQzMjAwODg2ODcwNjVC
+    #OTA3NURENTU4RTE0RUQ2OTkwMUQyMTYyREIxQkEzQTQ5Qzk3RENBN0M5MDJDQjFCOT
+    #ZCQUJFMjFBMzE5NDIxMTRDODYwNjY1QjM1QzQ2QjgyMTNGNkRFMTcxOTRERTU0QzQ0
+    #MTA4M0REMTE2M0Q1OTA3QURBRDg4MjRCQjEzMDdEQ0Y2QTU1QzExQThGMDFEOTc4OU
+    #IifQ==
 
 B.7.2.  Test vector for message from A
 
@@ -3785,7 +3759,7 @@ B.7.2.  Test vector for message from A
          7312eb724cddb4dcce675b0098ad400fef80e1deb4bc1756c43961ef
          60b85f2d62ed458454e11616a5d1df1e5809636821a73662f9f12254
          e6f9950dd01fa8e26a8b20736fb63c63c81094f681
-       Alternative correct value for Ya: g*(-ya):
+       Alternative correct value for Ya: (-ya)*g:
        (length: 133 bytes)
          0400c2bfd794467f4438277e85a42e101fa4061e1ef6e05f81e5381f
          30e73b341dd726089cb6a6bbe5a509fad009857488db7130ff768090
@@ -3808,7 +3782,7 @@ B.7.3.  Test vector for message from B
          8bfaeb3e1ffd9f19bf062d01f6b15c9c3651be4c08baf01eec25c818
          ee12c6edc4620644b1d97cf24f868732d56fe45ce78e302c221c92f4
          03e0fa3207de8bb41b388d81046a298ed8ddac9b2a
-       Alternative correct value for Yb: g*(-yb):
+       Alternative correct value for Yb: (-yb)*g:
        (length: 133 bytes)
          0400706ea69b2b7167773248ea6e69a574e9dd2ff8a3d04a6e07f70c
          709869ca486827d59f9290599d1cf94e1a03fc242e2b1316afe2fa21
@@ -4047,49 +4021,47 @@ B.7.8.  Corresponding C programming language initializers
 
 B.7.9.  Testvectors as JSON file encoded as BASE64
 
-     ##eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI
-     ##2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZC
-     ##I6ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIjA0M
-     ##DBFNThBOEZCRjA4QjM4RTM0QTM2NzZGNkQ2OTBCRUQ1OEFBNDExNUZGMzJBNTdF
-     ##Qzg3MTcyRkMyQTFGQjg5RDAzMjU4QzY0MjlDNDY0OTgxQjMyODRCNUZFREJEMTI
-     ##0NEJGMjc0MzIwMDg4Njg3MDY1QjkwNzVERDU1OEUxNEVENjk5MDFEMjE2MkRCMU
-     ##JBM0E0OUM5N0RDQTdDOTAyQ0IxQjk2QkFCRTIxQTMxOTQyMTE0Qzg2MDY2NUIzN
-     ##UM0NkI4MjEzRjZERTE3MTk0REU1NEM0NDEwODNERDExNjNENTkwN0FEQUQ4ODI0
-     ##QkIxMzA3RENGNkE1NUMxMUE4RjAxRDk3ODlCIiwgInlhIjogIjAwNjM2N0U5QzJ
-     ##BRUZGOUYxREIxOUFGNjAwQ0NBNzMzNDNENDdDQkU0NDZDRUJCRDFDQ0Q3ODNGOD
-     ##I3NTVBODcyREE4NkZEMDcwN0VCMzc2N0M2MTE0RjE4MDNERUI2MkQ2M0JERDFFN
-     ##jEzRjY3RTYzRThDMTQxRUU1MzEwRTNFRTgxOSIsICJBRGEiOiAiNDE0NDYxIiwg
-     ##IllhIjogIjA0MDBDMkJGRDc5NDQ2N0Y0NDM4Mjc3RTg1QTQyRTEwMUZBNDA2MUU
-     ##xRUY2RTA1RjgxRTUzODFGMzBFNzNCMzQxREQ3MjYwODlDQjZBNkJCRTVBNTA5Rk
-     ##FEMDA5ODU3NDg4REI3MTMwRkY3NjgwOTA3MzEyRUI3MjRDRERCNERDQ0U2NzVCM
-     ##DA5OEFENDAwRkVGODBFMURFQjRCQzE3NTZDNDM5NjFFRjYwQjg1RjJENjJFRDQ1
-     ##ODQ1NEUxMTYxNkE1RDFERjFFNTgwOTYzNjgyMUE3MzY2MkY5RjEyMjU0RTZGOTk
-     ##1MEREMDFGQThFMjZBOEIyMDczNkZCNjNDNjNDODEwOTRGNjgxIiwgInliIjogIj
-     ##AwOTIyN0JGOERDNzQxREFDQzk0MjJGOEJGM0MwRTk2RkNFOTU4N0JDNTYyRUFBR
-     ##kUwREM1RjZGODJGMjg1OTRFNEE2Rjk4NTUzNTYwQzYyQjc1RkE0QUJCMTk4Q0VD
-     ##QkJCODZFQkQ0MUIwRUEwMjU0Q0RFNzhBQzY4RDM5QTI0MEFFNyIsICJBRGIiOiA
-     ##iNDE0NDYyIiwgIlliIjogIjA0MDA3MDZFQTY5QjJCNzE2Nzc3MzI0OEVBNkU2OU
-     ##E1NzRFOUREMkZGOEEzRDA0QTZFMDdGNzBDNzA5ODY5Q0E0ODY4MjdENTlGOTI5M
-     ##DU5OUQxQ0Y5NEUxQTAzRkMyNDJFMkIxMzE2QUZFMkZBMjE4QkZBRUIzRTFGRkQ5
-     ##RjE5QkYwNjJEMDFGNkIxNUM5QzM2NTFCRTRDMDhCQUYwMUVFQzI1QzgxOEVFMTJ
-     ##DNkVEQzQ2MjA2NDRCMUQ5N0NGMjRGODY4NzMyRDU2RkU0NUNFNzhFMzAyQzIyMU
-     ##M5MkY0MDNFMEZBMzIwN0RFOEJCNDFCMzg4RDgxMDQ2QTI5OEVEOEREQUM5QjJBI
-     ##iwgIksiOiAiMDE4RTBFN0U5QURFNzQ5MTdDMTFDMEY2QjUyRjk1RUQ4NzFFQUIy
-     ##MzU0MzdDQkVFOEI1QzI1MDk1MTZFNzg3QTgwRTgyNUVENUQ1MzlGQTZBMEVDMzJ
-     ##DNDhGQThGQUJFODU4MDlEMDAwRDBDRkQzMDgzMkMyM0Q0NzdDOTkxQkVBOEU1Ii
-     ##wgIklTS19JUiI6ICIxNjY5QTBBMjk3MjZBREM3RUVBMjUxMEQ2RjdFMDA0QTEzN
-     ##UZBNjNBQzNDOUY5RTZDRTUzQ0JBNUQ1RTM3ODFBQ0VENTE1OTU2MDQxRTQzMzU4
-     ##NDA5QTEzRUY5MEREQzNDMzZGRDhEN0Q4MTQyNEM4RTk0NTkyRTIxODU0MjYwQSI
-     ##sICJJU0tfU1kiOiAiRjJGM0JEOENENDQyQTRFMTY2NTlCNDdBN0I3QTg0RjI5Qk
-     ##U3NTg5M0VEMkU1Rjc3MkQ3QTNDOEI3NzlFQjBERjkzN0E0RUM1MEE0RjFGRjAxR
-     ##UJCQUE5N0Q4MEUwOTBFQTY5QjAwQTk1MjAwRUQyNThFNDhDNkY3RTlEOEZCQzIi
-     ##LCAic2lkX291dHB1dF9pciI6ICI1NkNDM0NEOEJFNzdDREM4NEMwRDE5MDZERTF
-     ##GRkM4RUY3Q0JCMzI2QTNGMDUyNjdCNkU4QzYzNDRFMjc4MUVCMjBFRjcyNUU4NE
-     ##NCMUJCNDU5Mjc0MzUwNTFCNEUwRkFFNzhFOTc1QkYxNTA5OUY5RTM4RDc1NTQxM
-     ##0VFRTJGRCIsICJzaWRfb3V0cHV0X29jIjogIkE0NkM3MTg5QkE2QTM2QzQ0NDc3
-     ##NDFFMDU3REEzOUM4ODVCN0Q1OUUwOEJEMkRGMTg1MkE1MjcxRjJBOEEyRTlCMTg
-     ##3Q0NEMDczMjVBM0VFREU2NDZBREVFMEMwNkZFNThEQTc3Rjc0MTc3ODk2QjIxMD
-     ##UzQzVEMTA3REUwMDZEIn0=
+    #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
+    #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI3
+    #RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIjA0MDBFNThBOE
+    #ZCRjA4QjM4RTM0QTM2NzZGNkQ2OTBCRUQ1OEFBNDExNUZGMzJBNTdFQzg3MTcyRkMy
+    #QTFGQjg5RDAzMjU4QzY0MjlDNDY0OTgxQjMyODRCNUZFREJEMTI0NEJGMjc0MzIwMD
+    #g4Njg3MDY1QjkwNzVERDU1OEUxNEVENjk5MDFEMjE2MkRCMUJBM0E0OUM5N0RDQTdD
+    #OTAyQ0IxQjk2QkFCRTIxQTMxOTQyMTE0Qzg2MDY2NUIzNUM0NkI4MjEzRjZERTE3MT
+    #k0REU1NEM0NDEwODNERDExNjNENTkwN0FEQUQ4ODI0QkIxMzA3RENGNkE1NUMxMUE4
+    #RjAxRDk3ODlCIiwgInlhIjogIjAwNjM2N0U5QzJBRUZGOUYxREIxOUFGNjAwQ0NBNz
+    #MzNDNENDdDQkU0NDZDRUJCRDFDQ0Q3ODNGODI3NTVBODcyREE4NkZEMDcwN0VCMzc2
+    #N0M2MTE0RjE4MDNERUI2MkQ2M0JERDFFNjEzRjY3RTYzRThDMTQxRUU1MzEwRTNFRT
+    #gxOSIsICJBRGEiOiAiNDE0NDYxIiwgIllhIjogIjA0MDBDMkJGRDc5NDQ2N0Y0NDM4
+    #Mjc3RTg1QTQyRTEwMUZBNDA2MUUxRUY2RTA1RjgxRTUzODFGMzBFNzNCMzQxREQ3Mj
+    #YwODlDQjZBNkJCRTVBNTA5RkFEMDA5ODU3NDg4REI3MTMwRkY3NjgwOTA3MzEyRUI3
+    #MjRDRERCNERDQ0U2NzVCMDA5OEFENDAwRkVGODBFMURFQjRCQzE3NTZDNDM5NjFFRj
+    #YwQjg1RjJENjJFRDQ1ODQ1NEUxMTYxNkE1RDFERjFFNTgwOTYzNjgyMUE3MzY2MkY5
+    #RjEyMjU0RTZGOTk1MEREMDFGQThFMjZBOEIyMDczNkZCNjNDNjNDODEwOTRGNjgxIi
+    #wgInliIjogIjAwOTIyN0JGOERDNzQxREFDQzk0MjJGOEJGM0MwRTk2RkNFOTU4N0JD
+    #NTYyRUFBRkUwREM1RjZGODJGMjg1OTRFNEE2Rjk4NTUzNTYwQzYyQjc1RkE0QUJCMT
+    #k4Q0VDQkJCODZFQkQ0MUIwRUEwMjU0Q0RFNzhBQzY4RDM5QTI0MEFFNyIsICJBRGIi
+    #OiAiNDE0NDYyIiwgIlliIjogIjA0MDA3MDZFQTY5QjJCNzE2Nzc3MzI0OEVBNkU2OU
+    #E1NzRFOUREMkZGOEEzRDA0QTZFMDdGNzBDNzA5ODY5Q0E0ODY4MjdENTlGOTI5MDU5
+    #OUQxQ0Y5NEUxQTAzRkMyNDJFMkIxMzE2QUZFMkZBMjE4QkZBRUIzRTFGRkQ5RjE5Qk
+    #YwNjJEMDFGNkIxNUM5QzM2NTFCRTRDMDhCQUYwMUVFQzI1QzgxOEVFMTJDNkVEQzQ2
+    #MjA2NDRCMUQ5N0NGMjRGODY4NzMyRDU2RkU0NUNFNzhFMzAyQzIyMUM5MkY0MDNFME
+    #ZBMzIwN0RFOEJCNDFCMzg4RDgxMDQ2QTI5OEVEOEREQUM5QjJBIiwgIksiOiAiMDE4
+    #RTBFN0U5QURFNzQ5MTdDMTFDMEY2QjUyRjk1RUQ4NzFFQUIyMzU0MzdDQkVFOEI1Qz
+    #I1MDk1MTZFNzg3QTgwRTgyNUVENUQ1MzlGQTZBMEVDMzJDNDhGQThGQUJFODU4MDlE
+    #MDAwRDBDRkQzMDgzMkMyM0Q0NzdDOTkxQkVBOEU1IiwgIklTS19JUiI6ICIxNjY5QT
+    #BBMjk3MjZBREM3RUVBMjUxMEQ2RjdFMDA0QTEzNUZBNjNBQzNDOUY5RTZDRTUzQ0JB
+    #NUQ1RTM3ODFBQ0VENTE1OTU2MDQxRTQzMzU4NDA5QTEzRUY5MEREQzNDMzZGRDhEN0
+    #Q4MTQyNEM4RTk0NTkyRTIxODU0MjYwQSIsICJJU0tfU1kiOiAiRjJGM0JEOENENDQy
+    #QTRFMTY2NTlCNDdBN0I3QTg0RjI5QkU3NTg5M0VEMkU1Rjc3MkQ3QTNDOEI3NzlFQj
+    #BERjkzN0E0RUM1MEE0RjFGRjAxRUJCQUE5N0Q4MEUwOTBFQTY5QjAwQTk1MjAwRUQy
+    #NThFNDhDNkY3RTlEOEZCQzIiLCAic2lkX291dHB1dF9pciI6ICI1NkNDM0NEOEJFNz
+    #dDREM4NEMwRDE5MDZERTFGRkM4RUY3Q0JCMzI2QTNGMDUyNjdCNkU4QzYzNDRFMjc4
+    #MUVCMjBFRjcyNUU4NENCMUJCNDU5Mjc0MzUwNTFCNEUwRkFFNzhFOTc1QkYxNTA5OU
+    #Y5RTM4RDc1NTQxM0VFRTJGRCIsICJzaWRfb3V0cHV0X29jIjogIkE0NkM3MTg5QkE2
+    #QTM2QzQ0NDc3NDFFMDU3REEzOUM4ODVCN0Q1OUUwOEJEMkRGMTg1MkE1MjcxRjJBOE
+    #EyRTlCMTg3Q0NEMDczMjVBM0VFREU2NDZBREVFMEMwNkZFNThEQTc3Rjc0MTc3ODk2
+    #QjIxMDUzQzVEMTA3REUwMDZEIn0=
 
 B.7.10.  Test case for scalar_mult_vfy with correct inputs
 
@@ -4137,32 +4109,31 @@ B.7.11.  Invalid inputs for scalar_mult_vfy
 
 B.7.11.1.  Testvectors as JSON file encoded as BASE64
 
-       ##eyJWYWxpZCI6IHsicyI6ICIwMTgyREQ3OTI1RjE3NTM0MTlFNEJGODM0Mjk3NjN
-       ##BQ0QzN0Q2NDAwMENENUExNzVFREY1M0ExNTg3REQ5ODZCQzk1QUNDMTUwNjk5MT
-       ##cwMkI2QkExQTlFRTI0NThGRUU4RUZDMDAxOThDRjAwODhDNDgwOTY1RUY2NUZGM
-       ##jA0OEI4NTYiLCAiWCI6ICIwNDAwREM1MDc4QjI0QzRBRjE2MjBDQzEwRkJFQ0M2
-       ##Q0Q4Q0YxQ0FCMEIwMTFFRkI3M0M3ODJGMjI2REMyMUM3Q0E3RUI0MDZCRTc0QTY
-       ##5RUNCQTVCNEE4N0MwN0NGQzZFNjg3QjRCRUNBOUE2RURBQzk1OTQwQTNCNDEyMD
-       ##U3M0IyNkE4MDAwNUU2OTc4MzNCMEJBMjg1RkNFN0IzRjFGMjUyNDMwMDg4NjBCO
-       ##EYxREU3MTBBMERDQzA1QjBEMjAzNDFFRkU5MEVCMkJDQ0EyNjc5N0MyRDg1QUU2
-       ##Q0E3NEMwMDY5NkNCMUIxM0U0MEJEQTE1QjI3OTY0RDc2NzA1NzY2NDdCRkFCOSI
-       ##sICJHLnNjYWxhcl9tdWx0KHMsWCkgKGZ1bGwgY29vcmRpbmF0ZXMpIjogIjA0MD
-       ##EyMkY4OENFNzNFQzVBQTJEMUM4QzVEMDQxNDg3NjBDM0Q5N0JBODdEQUExMEQ4Q
-       ##0I4QkI3QzczQ0Y2RTk1MUZDOTIyNzIxQkYxNDM3OTk1Q0ZCMTNFMTMyQTc4QkVC
-       ##ODYzODlFNjBEMzUxN0NERjZEOTlBOEEyRDZEQjE5RUYyN0JEMDA1NUFGOUU4RER
-       ##DRjMzN0NFMEE3QzIyQTlDODA5OUJDNEE0NEZBRURFRDFFQjcyRUZGRDI2RTRGMz
-       ##IyMjE3QjY3RDYwQjk0NEIyNjdCM0RGNTA0NjA3OEZENTc3RjE3ODU3MjhGNDlCM
-       ##jQxRkQ1RThDODMyMjNBOTk0QTJEMjE5MjgxIiwgIkcuc2NhbGFyX211bHRfdmZ5
-       ##KHMsWCkgKG9ubHkgWC1jb29yZGluYXRlKSI6ICIwMTIyRjg4Q0U3M0VDNUFBMkQ
-       ##xQzhDNUQwNDE0ODc2MEMzRDk3QkE4N0RBQTEwRDhDQjhCQjdDNzNDRjZFOTUxRk
-       ##M5MjI3MjFCRjE0Mzc5OTVDRkIxM0UxMzJBNzhCRUI4NjM4OUU2MEQzNTE3Q0RGN
-       ##kQ5OUE4QTJENkRCMTlFRjI3QkQifSwgIkludmFsaWQgWTEiOiAiMDQwMERDNTA3
-       ##OEIyNEM0QUYxNjIwQ0MxMEZCRUNDNkNEOENGMUNBQjBCMDExRUZCNzNDNzgyRjI
-       ##yNkRDMjFDN0NBN0VCNDA2QkU3NEE2OUVDQkE1QjRBODdDMDdDRkM2RTY4N0I0Qk
-       ##VDQTlBNkVEQUM5NTk0MEEzQjQxMjA1NzNCMjZBODAwMDVFNjk3ODMzQjBCQTI4N
-       ##UZDRTdCM0YxRjI1MjQzMDA4ODYwQjhGMURFNzEwQTBEQ0MwNUIwRDIwMzQxRUZF
-       ##OTBFQjJCQ0NBMjY3OTdDMkQ4NUFFNkNBNzRDMDA2OTZDQjFCMTNFNDBCREExNUI
-       ##yNzk2NEQ3NjcwNTc2NjQ3QkZBRjkiLCAiSW52YWxpZCBZMiI6ICIwMCJ9
+    #eyJWYWxpZCI6IHsicyI6ICIwMTgyREQ3OTI1RjE3NTM0MTlFNEJGODM0Mjk3NjNBQ0
+    #QzN0Q2NDAwMENENUExNzVFREY1M0ExNTg3REQ5ODZCQzk1QUNDMTUwNjk5MTcwMkI2
+    #QkExQTlFRTI0NThGRUU4RUZDMDAxOThDRjAwODhDNDgwOTY1RUY2NUZGMjA0OEI4NT
+    #YiLCAiWCI6ICIwNDAwREM1MDc4QjI0QzRBRjE2MjBDQzEwRkJFQ0M2Q0Q4Q0YxQ0FC
+    #MEIwMTFFRkI3M0M3ODJGMjI2REMyMUM3Q0E3RUI0MDZCRTc0QTY5RUNCQTVCNEE4N0
+    #MwN0NGQzZFNjg3QjRCRUNBOUE2RURBQzk1OTQwQTNCNDEyMDU3M0IyNkE4MDAwNUU2
+    #OTc4MzNCMEJBMjg1RkNFN0IzRjFGMjUyNDMwMDg4NjBCOEYxREU3MTBBMERDQzA1Qj
+    #BEMjAzNDFFRkU5MEVCMkJDQ0EyNjc5N0MyRDg1QUU2Q0E3NEMwMDY5NkNCMUIxM0U0
+    #MEJEQTE1QjI3OTY0RDc2NzA1NzY2NDdCRkFCOSIsICJHLnNjYWxhcl9tdWx0KHMsWC
+    #kgKGZ1bGwgY29vcmRpbmF0ZXMpIjogIjA0MDEyMkY4OENFNzNFQzVBQTJEMUM4QzVE
+    #MDQxNDg3NjBDM0Q5N0JBODdEQUExMEQ4Q0I4QkI3QzczQ0Y2RTk1MUZDOTIyNzIxQk
+    #YxNDM3OTk1Q0ZCMTNFMTMyQTc4QkVCODYzODlFNjBEMzUxN0NERjZEOTlBOEEyRDZE
+    #QjE5RUYyN0JEMDA1NUFGOUU4RERDRjMzN0NFMEE3QzIyQTlDODA5OUJDNEE0NEZBRU
+    #RFRDFFQjcyRUZGRDI2RTRGMzIyMjE3QjY3RDYwQjk0NEIyNjdCM0RGNTA0NjA3OEZE
+    #NTc3RjE3ODU3MjhGNDlCMjQxRkQ1RThDODMyMjNBOTk0QTJEMjE5MjgxIiwgIkcuc2
+    #NhbGFyX211bHRfdmZ5KHMsWCkgKG9ubHkgWC1jb29yZGluYXRlKSI6ICIwMTIyRjg4
+    #Q0U3M0VDNUFBMkQxQzhDNUQwNDE0ODc2MEMzRDk3QkE4N0RBQTEwRDhDQjhCQjdDNz
+    #NDRjZFOTUxRkM5MjI3MjFCRjE0Mzc5OTVDRkIxM0UxMzJBNzhCRUI4NjM4OUU2MEQz
+    #NTE3Q0RGNkQ5OUE4QTJENkRCMTlFRjI3QkQifSwgIkludmFsaWQgWTEiOiAiMDQwME
+    #RDNTA3OEIyNEM0QUYxNjIwQ0MxMEZCRUNDNkNEOENGMUNBQjBCMDExRUZCNzNDNzgy
+    #RjIyNkRDMjFDN0NBN0VCNDA2QkU3NEE2OUVDQkE1QjRBODdDMDdDRkM2RTY4N0I0Qk
+    #VDQTlBNkVEQUM5NTk0MEEzQjQxMjA1NzNCMjZBODAwMDVFNjk3ODMzQjBCQTI4NUZD
+    #RTdCM0YxRjI1MjQzMDA4ODYwQjhGMURFNzEwQTBEQ0MwNUIwRDIwMzQxRUZFOTBFQj
+    #JCQ0NBMjY3OTdDMkQ4NUFFNkNBNzRDMDA2OTZDQjFCMTNFNDBCREExNUIyNzk2NEQ3
+    #NjcwNTc2NjQ3QkZBRjkiLCAiSW52YWxpZCBZMiI6ICIwMCJ9
 
 Authors' Addresses
 
@@ -4178,4 +4149,4 @@ Authors' Addresses
 
    Julia Hesse
    IBM Research Europe - Zurich
-   Email: JHS@zurich.ibm.com
+   Email: juliahesse2@gmail.com
