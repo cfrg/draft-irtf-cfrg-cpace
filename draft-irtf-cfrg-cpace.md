@@ -84,7 +84,7 @@ informative:
         ins: F. Hao
       -
         ins: S. F. Shahandashti
-  
+
   BGHJ24:
     title: "Bare PAKE: Universally Composable Key Exchange from Just Passwords"
     target: link.springer.com/chapter/10.1007/978-3-031-68379-4_6
@@ -207,9 +207,12 @@ PAKE protocols such as OPAQUE {{?I-D.irtf-cfrg-opaque}}.
 
 In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first.
 
-CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value if and only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the optional input parameters CI, ADa, ADb and sid that will be specified in section {{OptionalInputs}}.
+CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value if and
+only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the optional input parameters CI, ADa, ADb
+and sid that will be specified in section {{OptionalInputs}}.
 
-The naming of ISK as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation function KDF (such as defined in {{?RFC5869}}) before using the key in a higher-level protocol.
+The naming of ISK as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation
+function KDF (such as defined in {{?RFC5869}}) before using the key in a higher-level protocol.
 
 ## Optional CPace inputs {#OptionalInputs}
 
@@ -225,7 +228,8 @@ For accommodating different application settings, CPace offers the following OPT
   confidential and as this provides security advantages (see {{sec-quantum-annoying}} and {{sec-considerations-ids}}).
   Integrating A,B into CI, however, requires that both parties know the party identity string of the communication partner
   before starting the protocol. If this requirement is not fulfilled in an application setting then CPace offers the alternative of
-  integrating A as part of the optional input ADa and B as part of the optional input ADb. If the key exchange is successful, parties are guaranteed to learn each other's identity string.
+  integrating A as part of the optional input ADa and B as part of the optional input ADb. If the key exchange is successful, parties are guaranteed to learn each
+  other's identity string.
 
 - Channel identifier (CI).
   CI can be used to bind a session key exchanged with CPace to a specific networking channel which interconnects the protocol parties.
