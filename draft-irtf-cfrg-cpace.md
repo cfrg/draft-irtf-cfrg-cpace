@@ -76,6 +76,15 @@ informative:
       -
         ins: J. Hesse
 
+  HS14:
+    title: The SPEKE Protocol Revisited
+    target: https://eprint.iacr.org/2014/585.pdf
+    author:
+      -
+        ins: F. Hao
+      -
+        ins: S. F. Shahandashti
+  
   BGHJ24:
     title: "Bare PAKE: Universally Composable Key Exchange from Just Passwords"
     target: link.springer.com/chapter/10.1007/978-3-031-68379-4_6
@@ -208,7 +217,8 @@ For accommodating different application settings, CPace offers the following OPT
 
 - Party identity strings (A,B).
   In CPace each party can be  given a party identity string which
-  might be a device name a user name or an URL.
+  might be a device name a user name or an URL. It is strongly RECOMMENDED to use CPace in conjunction with party identity strings
+  as otherwise relay attacks may become feasible (see {{sec-considerations-ids}}).
   CPace offers two alternative options for authenticating the party identifiers in the course of the protocol run.
   The RECOMMENDED option is to integrate both, A and B, into the channel identifier string CI. This option is to be
   preferred as A and B will be kept
@@ -702,8 +712,9 @@ Incorporating party identifier strings is important for fending off relay attack
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
 An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
 If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
-establishing a common ISK key with C while assuming to interact with party B.
-Including and checking party identifiers can fend off such relay attacks.
+establishing a common ISK key with C while assuming to interact with party B. (If A is allowing for multiple concurrent
+sessions the adversary might even relay messages back to A such that A interacts with itself {{HS14}}.)
+Including and checking remote party identifiers can fend off such relay attacks.
 
 The following guidance SHOULD be followed regarding party identifiers.
 
