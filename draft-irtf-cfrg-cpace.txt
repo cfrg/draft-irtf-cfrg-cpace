@@ -5,10 +5,10 @@
 CFRG                                                          M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 17 April 2025      Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 8 June 2026        Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                         14 October 2024
+                                                         5 December 2025
 
 
                    CPace, a balanced composable PAKE
@@ -48,11 +48,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 April 2025.
+   This Internet-Draft will expire on 8 June 2026.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -330,19 +330,21 @@ Table of Contents
 
    *  Party identity strings (A,B).  In CPace each party can be given a
       party identity string which might be a device name a user name or
-      an URL.  CPace offers two alternative options for authenticating
-      the party identifiers in the course of the protocol run.  The
-      RECOMMENDED option is to integrate both, A and B, into the channel
-      identifier string CI.  This option is to be preferred as A and B
-      will be kept confidential and as this provides security advantages
-      (see Section 9.11 and Section 9.1).  Integrating A,B into CI,
-      however, requires that both parties know the party identity string
-      of the communication partner before starting the protocol.  If
-      this requirement is not fulfilled in an application setting then
-      CPace offers the alternative of integrating A as part of the
-      optional input ADa and B as part of the optional input ADb.  If
-      the key exchange is successful, parties are guaranteed to learn
-      each other's identity string.
+      an URL.  It is strongly RECOMMENDED to use CPace in conjunction
+      with party identity strings as otherwise relay attacks may become
+      feasible (see Section 9.1).  CPace offers two alternative options
+      for authenticating the party identifiers in the course of the
+      protocol run.  The RECOMMENDED option is to integrate both, A and
+      B, into the channel identifier string CI.  This option is to be
+      preferred as A and B will be kept confidential and as this
+      provides security advantages (see Section 9.11 and Section 9.1).
+      Integrating A,B into CI, however, requires that both parties know
+      the party identity string of the communication partner before
+      starting the protocol.  If this requirement is not fulfilled in an
+      application setting then CPace offers the alternative of
+      integrating A as part of the optional input ADa and B as part of
+      the optional input ADb.  If the key exchange is successful,
+      parties are guaranteed to learn each other's identity string.
 
    *  Channel identifier (CI).  CI can be used to bind a session key
       exchanged with CPace to a specific networking channel which
@@ -1031,8 +1033,10 @@ Table of Contents
    interacting with user B, to a party C instead.  If no party
    identifier strings are used and B and C share the same PRS value then
    A might be using CPace for establishing a common ISK key with C while
-   assuming to interact with party B.  Including and checking party
-   identifiers can fend off such relay attacks.
+   assuming to interact with party B.  (If A is allowing for multiple
+   concurrent sessions the adversary might even relay messages back to A
+   such that A interacts with itself [HS14].)  Including and checking
+   remote party identifiers can fend off such relay attacks.
 
    The following guidance SHOULD be followed regarding party
    identifiers.
@@ -1078,7 +1082,7 @@ Table of Contents
    confirmation round after the CPace protocol flow.  However, as some
    applications might only require implicit authentication and as
    explicit authentication messages are already a built-in feature in
-   many higher-level protocols (e.g.  TLS 1.3), the CPace protocol
+   many higher-level protocols (e.g. TLS 1.3), the CPace protocol
    described here does not mandate key confirmation.
 
    Already without explicit key confirmation, CPace enjoys weak forward
@@ -1349,12 +1353,15 @@ Table of Contents
               <https://nvlpubs.nist.gov/nistpubs/FIPS/
               NIST.FIPS.202.pdf>.
 
+   [HS14]     Hao, F. and S. F. Shahandashti, "The SPEKE Protocol
+              Revisited", n.d., <https://eprint.iacr.org/2014/585.pdf>.
+
    [I-D.irtf-cfrg-opaque]
               Bourdrez, D., Krawczyk, H., Lewi, K., and C. A. Wood, "The
               OPAQUE Augmented PAKE Protocol", Work in Progress,
-              Internet-Draft, draft-irtf-cfrg-opaque-17, 27 September
+              Internet-Draft, draft-irtf-cfrg-opaque-18, 21 November
               2024, <https://datatracker.ietf.org/doc/html/draft-irtf-
-              cfrg-opaque-17>.
+              cfrg-opaque-18>.
 
    [REFIMP]   "CPace reference implementation (sage)", September 2024,
               <https://github.com/cfrg/draft-irtf-cfrg-
