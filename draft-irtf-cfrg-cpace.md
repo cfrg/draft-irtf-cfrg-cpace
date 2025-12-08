@@ -83,7 +83,7 @@ informative:
       -
         ins: F. Hao
       -
-        ins: S. F. Shahandashti
+        ins: S. Shahandashti
 
   BGHJ24:
     title: "Bare PAKE: Universally Composable Key Exchange from Just Passwords"
