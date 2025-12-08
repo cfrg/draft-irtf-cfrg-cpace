@@ -1054,7 +1054,7 @@ Table of Contents
       integrating party identifiers in CI.  This avoids the need of an
       explicit check for the identity strings.
 
-   *  Otherwise an application layer should integrate party identifiers
+   *  Otherwise an application layer SHOULD integrate party identifiers
       in ADa and ADb, such that A integrates its identifier in ADa and B
       integrates its party identifier as part of ADb.  In this case the
       application layer shall make the recipient check the identity
@@ -1065,8 +1065,8 @@ Table of Contents
       identification strings of parties but does assign distinct roles
       to A and B (e.g. "client" or "server"), then strings specifying
       the respective role SHOULD BE integrated in ADa and ADb and
-      checked by the recipient for fending off relay attacks where an
-      adversary relays messages of A back to A.
+      checked by the recipient for fending off loopback relay attacks
+      where an adversary relays messages of A back to A.
 
 9.2.  Hashing protocol transcripts
 
