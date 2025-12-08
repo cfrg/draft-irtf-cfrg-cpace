@@ -879,6 +879,11 @@ For the same reason it is RECOMMENDED to integrate party identity strings A,B in
 
 In this sense, using the wording suggested by Steve Thomas on the CFRG mailing list, CPace is "quantum-annoying".
 
+# Large-characteristic finite fields
+This document intentionally specifies CPace only for use on elliptic curve groups and the security proofs in {{AHH21}} only cover this case explicitly.
+For group environments built upon safe primes additional security analysis will be required. For instance exponential equivalence attacks
+may become practical when short exponents are used.
+
 # IANA Considerations
 
 No IANA action is required.
