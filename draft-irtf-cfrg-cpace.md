@@ -732,7 +732,7 @@ The following guidance SHOULD be followed regarding party identifiers.
 - Otherwise an application layer SHOULD integrate party identifiers in ADa and ADb, such that A integrates its identifier in ADa and B integrates its party identifier as part of ADb. In this case the application layer SHALL make the recipient check the party identifier string of the remote communication partner for fending off relay attacks.
 
 - If an application scenario does not have party identifiers available but does assign distinct roles to A and B (e.g. "client" or "server"), then strings specifying the respective role SHOULD BE integrated in ADa and ADb and checked by the recipient for fending off loopback relay attacks where an adversary
-relays messages of A back to A.
+relays messages back to the sender.
 
 ## Hashing protocol transcripts
 
