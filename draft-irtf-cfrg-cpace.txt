@@ -1378,7 +1378,7 @@ Table of Contents
               <https://nvlpubs.nist.gov/nistpubs/FIPS/
               NIST.FIPS.202.pdf>.
 
-   [HS14]     Hao, F. and S. F. Shahandashti, "The SPEKE Protocol
+   [HS14]     Hao, F. and S. Shahandashti, "The SPEKE Protocol
               Revisited", n.d., <https://eprint.iacr.org/2014/585.pdf>.
 
    [I-D.irtf-cfrg-opaque]
