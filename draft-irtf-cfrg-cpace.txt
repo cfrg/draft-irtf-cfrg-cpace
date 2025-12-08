@@ -108,14 +108,14 @@ Table of Contents
             from Section 7.2
      9.9.  Nonce values
      9.10. Side channel attacks
-     9.11. Quantum computers
-   10. Large-characteristic finite fields
-   11. IANA Considerations
-   12. Reference implementation and test vector generation
-   13. Acknowledgements
-   14. References
-     14.1.  Normative References
-     14.2.  Informative References
+     9.11. Large-characteristic finite fields
+     9.12. Quantum computers
+   10. IANA Considerations
+   11. Reference implementation and test vector generation
+   12. Acknowledgements
+   13. References
+     13.1.  Normative References
+     13.2.  Informative References
    Appendix A.  CPace function definitions
      A.1.  Definition and test vectors for string utility functions
        A.1.1.  prepend_len function
@@ -338,7 +338,7 @@ Table of Contents
       protocol run.  The RECOMMENDED option is to integrate both, A and
       B, into the channel identifier string CI.  This option is to be
       preferred as A and B will be kept confidential and as this
-      provides security advantages (see Section 9.11 and Section 9.1).
+      provides security advantages (see Section 9.12 and Section 9.1).
       Integrating A,B into CI, however, requires that both parties know
       the party identity string of the communication partner before
       starting the protocol.  If this requirement is not fulfilled in an
@@ -1258,7 +1258,16 @@ Table of Contents
    ephemeral values, such as scalar sampling and scalar multiplication
    should be protected from side-channels.
 
-9.11.  Quantum computers
+9.11.  Large-characteristic finite fields
+
+   This document intentionally specifies CPace only for use on elliptic
+   curve groups and the security proofs in [AHH21] only cover this case
+   explicitly.  For group environments built upon safe primes additional
+   security analysis will be required.  For instance exponential
+   equivalence attacks may become practical when short exponents are
+   used.
+
+9.12.  Quantum computers
 
    CPace is proven secure under the hardness of the strong computational
    Simultaneous Diffie-Hellmann (sSDH) and strong computational Diffie-
@@ -1279,34 +1288,25 @@ Table of Contents
    In this sense, using the wording suggested by Steve Thomas on the
    CFRG mailing list, CPace is "quantum-annoying".
 
-10.  Large-characteristic finite fields
-
-   This document intentionally specifies CPace only for use on elliptic
-   curve groups and the security proofs in [AHH21] only cover this case
-   explicitly.  For group environments built upon safe primes additional
-   security analysis will be required.  For instance exponential
-   equivalence attacks may become practical when short exponents are
-   used.
-
-11.  IANA Considerations
+10.  IANA Considerations
 
    No IANA action is required.
 
-12.  Reference implementation and test vector generation
+11.  Reference implementation and test vector generation
 
    The reference implementation that was used for deriving test vectors
    is available at [REFIMP].  The embedded base64-encoded test vectors
    will decode to JSON files having the test vector's octet strings
    encoded as base16 (i.e. hexadecimal) strings.
 
-13.  Acknowledgements
+12.  Acknowledgements
 
    We would like to thank the participants on the CFRG list for comments
    and advice.  Any comment and advice is appreciated.
 
-14.  References
+13.  References
 
-14.1.  Normative References
+13.1.  Normative References
 
    [I-D.draft-irtf-cfrg-ristretto255-decaf448]
               de Valence, H., Grigg, J., Hamburg, M., Lovecruft, I.,
@@ -1336,7 +1336,7 @@ Table of Contents
               Elliptic Curve Cryptography", May 2009,
               <http://www.secg.org/sec1-v2.pdf>.
 
-14.2.  Informative References
+13.2.  Informative References
 
    [ABKLX21]  Abdalla, M., Barbosa, M., Katz, J., Loss, J., and J. Xu,
               "Algebraic Adversaries in the Universal Composability
