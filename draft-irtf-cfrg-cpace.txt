@@ -5,10 +5,10 @@
 CFRG                                                          M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 8 June 2026        Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 11 June 2026       Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                         5 December 2025
+                                                         8 December 2025
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 June 2026.
+   This Internet-Draft will expire on 11 June 2026.
 
 Copyright Notice
 
@@ -1246,7 +1246,10 @@ Table of Contents
    padding introduced when hashing the sensitive PRS string can be
    expected to make the task for a side-channel attack somewhat more
    complex.  Still this feature alone is not sufficient for ruling out
-   power analysis attacks.
+   power analysis attacks.  The mapping algorithm that converts the
+   generator string to a elliptic curve point SHALL execute in constant
+   time.  In [RFC9380] suitable constant-time methods are available for
+   any elliptic curve.
 
    Even though the calculate_generator operation might be considered to
    form the primary target for side-channel attacks as information on
