@@ -1067,7 +1067,7 @@ Table of Contents
       or "server"), then strings specifying the respective role SHOULD
       BE integrated in ADa and ADb and checked by the recipient for
       fending off loopback relay attacks where an adversary relays
-      messages of A back to A.
+      messages back to the sender.
 
 9.2.  Hashing protocol transcripts
 
