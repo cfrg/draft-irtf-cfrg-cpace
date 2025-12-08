@@ -716,8 +716,11 @@ Incorporating party identifier strings is important for fending off relay attack
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
 An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
 If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
-establishing a common ISK key with C while assuming to interact with party B. (If A is allowing for multiple concurrent
-sessions the adversary might even relay messages back to A such that A interacts with itself {{HS14}}.)
+establishing a common ISK key with C while assuming to interact with party B.
+
+If A is allowing for multiple concurrent
+sessions the adversary might even relay messages of A back to A such that A interacts with itself {{HS14}}.
+
 Including and checking remote party identifiers can fend off such relay attacks.
 
 The following guidance SHOULD be followed regarding party identifiers.
@@ -728,7 +731,7 @@ The following guidance SHOULD be followed regarding party identifiers.
 
 - Otherwise an application layer should integrate party identifiers in ADa and ADb, such that A integrates its identifier in ADa and B integrates its party identifier as part of ADb. In this case the application layer will have to add an explicit check for the identity string of the actual communication partner for fending off relay attacks.
 
-If an application scenario does not allow for unique identification strings of parties but does assign distinct roles to A and B (e.g. the roles "client" or "server"), then it is RECOMMENDED to integrate and check strings specifying the respective role in ADa and ADb for fending off loopback relay attacks.
+- If an application scenario does not allow for unique identification strings of parties but does assign distinct roles to A and B (e.g. the roles "client" or "server"), then strings specifying the respective role SHOULD BE integrated in ADa and ADb and checked by the recipient for fending off relay attacks where an adversary relays messages of A back to A.
 
 ## Hashing protocol transcripts
 
