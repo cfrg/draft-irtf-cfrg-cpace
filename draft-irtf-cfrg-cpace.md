@@ -865,6 +865,11 @@ Even though the calculate_generator operation might be considered to form the pr
 also the subsequent operations on ephemeral values, such as scalar
 sampling and scalar multiplication should be protected from side-channels.
 
+## Large-characteristic finite fields
+This document intentionally specifies CPace only for use on elliptic curve groups and the security proofs in {{AHH21}} only cover this case explicitly.
+For group environments built upon safe primes additional security analysis will be required. For instance exponential equivalence attacks
+may become practical when short exponents are used.
+
 ## Quantum computers {#sec-quantum-annoying}
 
 CPace is proven secure under the hardness of the strong computational Simultaneous Diffie-Hellmann (sSDH) and strong computational Diffie-Hellmann (sCDH)
@@ -879,10 +884,6 @@ For the same reason it is RECOMMENDED to integrate party identity strings A,B in
 
 In this sense, using the wording suggested by Steve Thomas on the CFRG mailing list, CPace is "quantum-annoying".
 
-# Large-characteristic finite fields
-This document intentionally specifies CPace only for use on elliptic curve groups and the security proofs in {{AHH21}} only cover this case explicitly.
-For group environments built upon safe primes additional security analysis will be required. For instance exponential equivalence attacks
-may become practical when short exponents are used.
 
 # IANA Considerations
 
