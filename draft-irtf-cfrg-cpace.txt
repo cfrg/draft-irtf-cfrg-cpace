@@ -109,12 +109,13 @@ Table of Contents
      9.9.  Nonce values
      9.10. Side channel attacks
      9.11. Quantum computers
-   10. IANA Considerations
-   11. Reference implementation and test vector generation
-   12. Acknowledgements
-   13. References
-     13.1.  Normative References
-     13.2.  Informative References
+   10. Large-characteristic finite fields
+   11. IANA Considerations
+   12. Reference implementation and test vector generation
+   13. Acknowledgements
+   14. References
+     14.1.  Normative References
+     14.2.  Informative References
    Appendix A.  CPace function definitions
      A.1.  Definition and test vectors for string utility functions
        A.1.1.  prepend_len function
@@ -1278,25 +1279,34 @@ Table of Contents
    In this sense, using the wording suggested by Steve Thomas on the
    CFRG mailing list, CPace is "quantum-annoying".
 
-10.  IANA Considerations
+10.  Large-characteristic finite fields
+
+   This document intentionally specifies CPace only for use on elliptic
+   curve groups and the security proofs in [AHH21] only cover this case
+   explicitly.  For group environments built upon safe primes additional
+   security analysis will be required.  For instance exponential
+   equivalence attacks may become practical when short exponents are
+   used.
+
+11.  IANA Considerations
 
    No IANA action is required.
 
-11.  Reference implementation and test vector generation
+12.  Reference implementation and test vector generation
 
    The reference implementation that was used for deriving test vectors
    is available at [REFIMP].  The embedded base64-encoded test vectors
    will decode to JSON files having the test vector's octet strings
    encoded as base16 (i.e. hexadecimal) strings.
 
-12.  Acknowledgements
+13.  Acknowledgements
 
    We would like to thank the participants on the CFRG list for comments
    and advice.  Any comment and advice is appreciated.
 
-13.  References
+14.  References
 
-13.1.  Normative References
+14.1.  Normative References
 
    [I-D.draft-irtf-cfrg-ristretto255-decaf448]
               de Valence, H., Grigg, J., Hamburg, M., Lovecruft, I.,
@@ -1326,7 +1336,7 @@ Table of Contents
               Elliptic Curve Cryptography", May 2009,
               <http://www.secg.org/sec1-v2.pdf>.
 
-13.2.  Informative References
+14.2.  Informative References
 
    [ABKLX21]  Abdalla, M., Barbosa, M., Katz, J., Loss, J., and J. Xu,
               "Algebraic Adversaries in the Universal Composability
