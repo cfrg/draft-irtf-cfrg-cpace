@@ -852,7 +852,7 @@ as important standard documents including {{IEEE1363}} describe curve operations
 non-constant-time algorithms.
 
 In case that side channel attacks are to be considered practical for a given application, it is RECOMMENDED to pay special
-attention on computing the secret generator G.calculate_generator(PRS,CI,sid). 
+attention on computing the secret generator G.calculate_generator(PRS,CI,sid).
 The most critical substep to consider might be the processing of the first block of the hash that includes
 the PRS string.
 The zero-padding introduced when hashing the sensitive PRS string can be expected to make
