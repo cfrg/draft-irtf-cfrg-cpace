@@ -1722,7 +1722,7 @@ PRS can be a low-entropy secret itself, for instance a clear-text password encod
 <p id="section-3-2">Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use <em>augmented</em>
 PAKE protocols such as OPAQUE <span>[<a href="#I-D.irtf-cfrg-opaque" class="cite xref">I-D.irtf-cfrg-opaque</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first. If an application scenario does assign distinct roles to A and B (e.g. "client" or "server"), then
-the application SHALL use CPace in the initiator/responder setting.<a href="#section-3-3" class="pilcrow">¶</a></p>
+the application SHALL use CPace in the initiator-responder setting and specify which role shall initiate the protocol flow.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value if and
 only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the input parameters CI, ADa, ADb
 and sid that will be specified in section <a href="#OptionalInputs" class="auto internal xref">Section 3.1</a>.<a href="#section-3-4" class="pilcrow">¶</a></p>
