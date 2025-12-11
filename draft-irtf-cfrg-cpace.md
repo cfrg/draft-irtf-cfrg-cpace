@@ -739,9 +739,8 @@ The following guidance SHALL be followed regarding party identifiers.
   check the party identifier string of the remote communication partner for fending off relay attacks. Note that in this case the identities will
   not be kept confidential.
 
-- If an application scenario does not have party identifiers available but does assign distinct roles to A and B (e.g. "client" or "server"), then
-  strings specifying the respective role SHALL BE integrated in ADa and ADb and checked by the recipient for fending off loopback relay attacks where an adversary
-  relays messages back to the sender.
+- If an application scenario does not rely on party identifiers available but does assign distinct roles to A and B (e.g. "client" or "server"), then
+  the application SHALL use CPace in the initiator/responder setting and assign which role will have to be initiator and responder respectively.
 
 ## Hashing protocol transcripts
 
