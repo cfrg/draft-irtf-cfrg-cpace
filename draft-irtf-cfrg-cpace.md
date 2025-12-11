@@ -98,6 +98,32 @@ informative:
       -
         ins: S. Jarecki
 
+  BFK09:
+  title: "Security Analysis of the PACE Key-Agreement Protocol"
+  target: https://eprint.iacr.org/2009/624.pdf
+  author: 
+    -
+       ins: J. Bender
+    -  
+       ins: K. Gellert
+    - 
+       ins: M. Fischlin
+    -
+       ins: D. Kügler
+
+  HMSD18:
+    title: "Analysing and Patching SPEKE in ISO/IEC"
+    target: https://arxiv.org/abs/1802.04900
+    author:
+      -
+         ins: F. Hao
+      -
+         ins: R. Metere
+      -
+         ins: S. Sahahandashti
+      -
+         ins: C. Dong
+
   CDMP05:
     title: "Merkle-Damgaard Revisited: How to Construct a Hash Function"
     seriesinfo:
@@ -139,7 +165,6 @@ informative:
     author:
       -
         org: Standards for Efficient Cryptography Group (SECG)
-
 
   REFIMP:
      title: "CPace reference implementation (sage)"
@@ -698,6 +723,13 @@ in a protocol run. It SHALL be verified that the abort condition is properly han
 
 Corresponding test vectors are given in the appendix for all recommended cipher suites.
 
+
+
+
+
+
+
+
 # Security Considerations {#sec-considerations}
 
 A security proof of CPace is found in {{AHH21}}. This proof covers all recommended cipher suites included in this document.
@@ -707,11 +739,14 @@ for applications that do not have a session identifier input available.
 
 ## Party identifiers and relay attacks {#sec-considerations-ids}
 
-If CPace is instantiated without using identity strings for A or B it is configured for anonymous key exchange and obviously does not give any guarantee regarding the identity of the communication partner.
+If CPace is instantiated without using identity strings for A or B it is configured for anonymous key exchange and obviously does not give any guarantee
+regarding the identity of the communication partner. This setting is not explicitly covered in the security paper {{AHH21}} but the security of SPEKE-variants
+without party identifiers are considered in {{BFK09}} for the use-case of PAKE on digital identity documents.
 
-If unique strings identifying one or both protocol partners are included either as part of the channel identifier CI or the associated data fields ADa, ADb, then ISK will provide implicit authentication also regarding the included party identities.
+If unique strings identifying one or both protocol partners are included either as part of the channel identifier CI or the
+associated data fields ADa, ADb, then ISK will provide implicit authentication also regarding the included party identities.
 
-Incorporating party identifier strings is important for fending off relay attacks.
+Incorporating party identifier strings is important for fending off unknown-key-share attacks.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
 An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
 If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
@@ -719,19 +754,21 @@ establishing a common ISK key with C while assuming to interact with party B.
 
 If A is allowing for multiple concurrent sessions the adversary might even relay messages of A back to A such that A interacts with itself {{HS14}}.
 
-The following guidance SHALL be followed regarding party identifiers.
+For fending off these attacks the following guidance SHALL be followed regarding party identifiers.
 
 - If an application layer's security relies on party identities, it SHALL integrate the party identifiers that are
   to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
 
-- Identity strings to be authenticated that are available for both communication partners at protocol start SHALL be integrated as
-  part of CI. If both identities are to be checked then CPace SHALL be used in initiator/responder mode and the initiator's identity SHALL be placed first within CI.
-  This avoids the need of an explicit subsequent check for the identity strings and keeps the identities confidential.
+- Identity strings that are to be authenticated that are available for both communication partners at protocol start SHALL be integrated as
+  part of CI. If both identities are available before protocol start then CPace SHALL be used in initiator-responder
+  mode and the initiator's identity SHALL be placed first within CI.
+  This avoids the need of an explicit subsequent check for the identity strings, strengthens the security properties with respect
+  to attacks based on quantum computers {sec-quantum-annoying} and keeps the identities confidential.
 
 - Party identities that are not included in CI and need verification SHALL be integrated in ADa and/or ADb, such that
   A integrates its identifier in ADa and B integrates its party identifier as part of ADb. In this case the application layer SHALL make the recipient
   check the party identifier string of the remote communication partner for fending off relay attacks. Note that identities communicated in ADa or ADb will
-  not be kept confidential.
+  not be kept confidential. This mode corresponds to the method analyzed in {{HMSD18}}.
 
 ## Hashing protocol transcripts
 
