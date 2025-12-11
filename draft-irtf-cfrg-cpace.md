@@ -230,8 +230,7 @@ PRS can be a low-entropy secret itself, for instance a clear-text password encod
 Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use _augmented_
 PAKE protocols such as OPAQUE {{?I-D.irtf-cfrg-opaque}}.
 
-In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first. If an application scenario does assign distinct roles to A and B (e.g. "client" or "server"), then
-the application SHALL use CPace in the initiator-responder setting and specify which role shall initiate the protocol flow.
+In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first.
 
 CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value if and
 only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the input parameters CI, ADa, ADb
@@ -738,10 +737,13 @@ no pre-agreed session identifier is available. {{BGHJ24}} also shows how a uniqu
 for applications that do not have a session identifier input available.
 
 ## Party identifiers and relay attacks {#sec-considerations-ids}
+Use of identity verification in application layers that use CPace will require some care. The protocol assures that both communication
+partners have had the same view on the communication transcript and the inputs CI and sid.
 
-If CPace is instantiated without using identity strings for A or B it is configured for anonymous key exchange and obviously does not give any guarantee
+If CPace is instantiated without identity strings for A or B in its input it will implement an for anonymous key exchange with any party in posession of the
+PRS string and obviously cannot give any guarantee
 regarding the identity of the communication partner. This setting is not explicitly covered in the security paper {{AHH21}} but the security of SPEKE-variants
-without party identifiers are considered in {{BFK09}} for the use-case of the PACE protocol as used in digital identity documents.
+without party identifiers are considered in {{BFK09}} for the use-case of the PACE protocol as used in travel documents such as passports.
 
 If unique strings identifying one or both protocol partners are included either as part of the channel identifier CI or the
 associated data fields ADa, ADb, then ISK will provide implicit authentication also regarding the included party identities.
@@ -755,7 +757,16 @@ establishing a common ISK key with C while assuming to interact with party B.
 If A is allowing for multiple concurrent sessions the adversary might even relay messages of A back to A such that A interacts with itself {{HS14}}.
 This specifically also holds for the case that no identity strings are used and also if identity strings are integrated incorrectly.
 
-For fending off these attacks the following guidance SHALL be followed regarding party identifiers if guarantees regarding
+Moreover if computers A and B allow for running a protocol with different roles (e.g. both might run several client and a server instances concurrently
+on different ports) then a relay attack may successfully generate protocol confusion. E.g. a client instance on A may be maliciously redirected
+to a second client instance on B while it should be connecting to a server on B. This will work if client and server instances on B share the same
+PRS and the same identity string.
+
+I.e. regarding identity verification with CPace will face
+the same issues may arise as in certificate-based protocols (such as the ALPACA attack) if different services share
+certificates and identities.
+
+As a result the following guidance SHALL be followed regarding party identifiers if guarantees regarding
 the identities are requested from CPace.
 
 - If an application layer's security relies on CPace for checking party identities, it SHALL integrate the party identifiers that are
