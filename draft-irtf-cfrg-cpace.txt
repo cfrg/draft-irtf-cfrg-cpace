@@ -309,7 +309,9 @@ Table of Contents
    sends one message to A.  CPace does not mandate any ordering of these
    two messages.  We use the term "initiator-responder" for CPace where
    A always speaks first, and the term "symmetric" setting where anyone
-   can speak first.
+   can speak first.  If an application scenario does assign distinct
+   roles to A and B (e.g. "client" or "server"), then the application
+   SHALL use CPace in the initiator/responder setting.
 
    CPace's output is an intermediate session key (ISK), but any party
    might abort in case of an invalid received message.  A and B will
@@ -1069,12 +1071,6 @@ Table of Contents
       SHALL make the recipient check the party identifier string of the
       remote communication partner for fending off relay attacks.  Note
       that in this case the identities will not be kept confidential.
-
-   *  If an application scenario does not rely on party identifiers
-      available but does assign distinct roles to A and B (e.g. "client"
-      or "server"), then the application SHALL use CPace in the
-      initiator/responder setting and assign which role will have to be
-      initiator and responder respectively.
 
 9.2.  Hashing protocol transcripts
 
