@@ -212,7 +212,7 @@ only if both sides did initiate the protocol using the same protocol inputs, spe
 and sid that will be specified in section {{OptionalInputs}}.
 
 This specification considers different application scenarios. This includes applications aiming at anonymous key exchange and applications that need to
-rely on verification of identities of communicatin partners.
+rely on verification of identities of communication partners.
 Moreover, when identities are used they may or may not have to be kept confidential. Depending on the application's requirements identity information of the
 communication partners may or may not mandatorily need to be integrated in the input parameters CI, ADa, ADb (see {{sec-considerations-ids}}).
 
@@ -400,7 +400,7 @@ We use additive notation for the group, i.e., 2\*X  denotes the element that is 
 # The CPace protocol {#protocol-section}
 
 CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G and H.
-Parties will also be provisioned with OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb (for B) which will default to the empty
+Parties will also be provisioned with CI,sid,ADa (for A) and CI,sid,ADb (for B) which will default to the empty
 string b"" if not used.
 A sends the public share Ya and optional associated data ADa to B.
 Likewise, B sends the public share Yb and optional associated data ADb to A.
@@ -713,7 +713,7 @@ for applications that do not have a session identifier input available.
 ## Party identifiers and relay attacks {#sec-considerations-ids}
 
 If CPace is instantiated without using identity strings A,B it is configured for anonymous key exchange and obviously does not
-come with any guarantee regarding the identity of the remote communication partner.
+give any guarantee regarding the identity of the communication partner.
 
 If unique strings identifying the protocol partners are included either as part of the channel identifier CI or the associated data
 fields ADa, ADb, then ISK will provide implicit authentication also regarding the party identities.
