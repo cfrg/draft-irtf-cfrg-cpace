@@ -99,18 +99,18 @@ informative:
         ins: S. Jarecki
 
   BFK09:
-  title: "Security Analysis of the PACE Key-Agreement Protocol"
-  target: https://eprint.iacr.org/2009/624.pdf
-  author:
-    -
-       ins: J. Bender
-    -
-       ins: K. Gellert
-    -
-       ins: M. Fischlin
-    -
-       ins: D. Kügler
-
+    title: "Security Analysis of the PACE Key-Agreement Protocol"
+    target: https://eprint.iacr.org/2009/624.pdf
+    author:
+      -
+        ins: J. Bender
+      -
+        ins: K. Gellert
+      -
+        ins: M. Fischlin
+      -
+        ins: D. Kügler
+        
   HMSD18:
     title: "Analysing and Patching SPEKE in ISO/IEC"
     target: https://arxiv.org/abs/1802.04900
