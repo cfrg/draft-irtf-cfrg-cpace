@@ -321,7 +321,7 @@ Table of Contents
    This specification considers different application scenarios.  This
    includes applications aiming at anonymous key exchange and
    applications that need to rely on verification of identities of
-   communicatin partners.  Moreover, when identities are used they may
+   communication partners.  Moreover, when identities are used they may
    or may not have to be kept confidential.  Depending on the
    application's requirements identity information of the communication
    partners may or may not mandatorily need to be integrated in the
@@ -595,12 +595,12 @@ Table of Contents
 
    CPace is a one round protocol between two parties, A and B.  At
    invocation, A and B are provisioned with PRS,G and H.  Parties will
-   also be provisioned with OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb
-   (for B) which will default to the empty string b"" if not used.  A
-   sends the public share Ya and optional associated data ADa to B.
-   Likewise, B sends the public share Yb and optional associated data
-   ADb to A.  Both A and B use the received messages for deriving a
-   shared intermediate session key, ISK.
+   also be provisioned with CI,sid,ADa (for A) and CI,sid,ADb (for B)
+   which will default to the empty string b"" if not used.  A sends the
+   public share Ya and optional associated data ADa to B.  Likewise, B
+   sends the public share Yb and optional associated data ADb to A.
+   Both A and B use the received messages for deriving a shared
+   intermediate session key, ISK.
 
 6.1.  Protocol flow
 
@@ -1028,9 +1028,8 @@ Table of Contents
 9.1.  Party identifiers and relay attacks
 
    If CPace is instantiated without using identity strings A,B it is
-   configured for anonymous key exchange and obviously does not come
-   with any guarantee regarding the identity of the remote communication
-   partner.
+   configured for anonymous key exchange and obviously does not give any
+   guarantee regarding the identity of the communication partner.
 
    If unique strings identifying the protocol partners are included
    either as part of the channel identifier CI or the associated data

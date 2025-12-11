@@ -1726,7 +1726,7 @@ PAKE protocols such as OPAQUE <span>[<a href="#I-D.irtf-cfrg-opaque" class="cite
 only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the input parameters CI, ADa, ADb
 and sid that will be specified in section <a href="#OptionalInputs" class="auto internal xref">Section 3.1</a>.<a href="#section-3-4" class="pilcrow">¶</a></p>
 <p id="section-3-5">This specification considers different application scenarios. This includes applications aiming at anonymous key exchange and applications that need to
-rely on verification of identities of communicatin partners.
+rely on verification of identities of communication partners.
 Moreover, when identities are used they may or may not have to be kept confidential. Depending on the application's requirements identity information of the
 communication partners may or may not mandatorily need to be integrated in the input parameters CI, ADa, ADb (see <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>).<a href="#section-3-5" class="pilcrow">¶</a></p>
 <p id="section-3-6">The naming of ISK as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation
@@ -1996,7 +1996,7 @@ In the initiator-responder setting the implementation transcript_ir(Ya,Yb,ADa,AD
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-the-cpace-protocol" class="section-name selfRef">The CPace protocol</a>
       </h2>
 <p id="section-6-1">CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G and H.
-Parties will also be provisioned with OPTIONAL CI,sid,ADa (for A) and CI,sid,ADb (for B) which will default to the empty
+Parties will also be provisioned with CI,sid,ADa (for A) and CI,sid,ADb (for B) which will default to the empty
 string b"" if not used.
 A sends the public share Ya and optional associated data ADa to B.
 Likewise, B sends the public share Yb and optional associated data ADb to A.
@@ -2425,7 +2425,7 @@ for applications that do not have a session identifier input available.<a href="
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-party-identifiers-and-relay" class="section-name selfRef">Party identifiers and relay attacks</a>
         </h3>
 <p id="section-9.1-1">If CPace is instantiated without using identity strings A,B it is configured for anonymous key exchange and obviously does not
-come with any guarantee regarding the identity of the remote communication partner.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+give any guarantee regarding the identity of the communication partner.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">If unique strings identifying the protocol partners are included either as part of the channel identifier CI or the associated data
 fields ADa, ADb, then ISK will provide implicit authentication also regarding the party identities.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
 <p id="section-9.1-3">Incorporating party identifier strings is important for fending off relay attacks.
