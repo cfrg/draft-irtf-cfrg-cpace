@@ -232,7 +232,7 @@ For accommodating different application settings, CPace offers the following inp
 
 - Channel identifier (CI).
   CI can be used to bind a session key exchanged with CPace to a specific networking channel which interconnects the protocol parties.
-  CI could for instance include networking addresses of both parties or party identity strings or a service port number identifiers.
+  CI could for instance include networking addresses of both parties or party identity strings or service port number identifiers.
   Both parties are required to have the same view of CI. CI will not be publicly sent on the wire and may also include confidential
   information.
   Both parties will only establish a common session key if they initiated the protocol with the same view of CI.
