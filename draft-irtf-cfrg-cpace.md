@@ -227,14 +227,8 @@ For accommodating different application settings, CPace offers the following inp
 - Party identity strings (A,B).
   In CPace each party can be  given a party identity string which
   might be a device name a user name or an URL.
-  CPace offers two alternative options for authenticating the party identifiers in the course of the protocol run.
-  The RECOMMENDED option is to integrate both, A and B, into the channel identifier string CI. This option is to be
-  preferred as A and B will be kept
-  confidential and as this provides security advantages (see {{sec-quantum-annoying}} and {{sec-considerations-ids}}).
-  Integrating A,B into CI, however, requires that both parties know the party identity string of the communication partner
-  before starting the protocol. If this requirement is not fulfilled in an application setting then CPace offers the alternative of
-  integrating A as part of the optional input ADa and B as part of the optional input ADb.
-  If the key exchange is successful, parties are guaranteed to learn each other's identity string.
+  CPace offers two alternative options for authenticating the party identifiers in the course of the protocol run
+  (see {{sec-considerations-ids}}).
 
 - Channel identifier (CI).
   CI can be used to bind a session key exchanged with CPace to a specific networking channel which interconnects the protocol parties.
