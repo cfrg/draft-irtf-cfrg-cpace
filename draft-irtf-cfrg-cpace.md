@@ -101,12 +101,12 @@ informative:
   BFK09:
   title: "Security Analysis of the PACE Key-Agreement Protocol"
   target: https://eprint.iacr.org/2009/624.pdf
-  author: 
+  author:
     -
        ins: J. Bender
-    -  
+    -
        ins: K. Gellert
-    - 
+    -
        ins: M. Fischlin
     -
        ins: D. Kügler
