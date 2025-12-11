@@ -324,7 +324,7 @@ Table of Contents
    includes applications aiming at anonymous key exchange and
    applications that need to rely on verification of identities of
    communication partners.  Moreover, when identities are used they may
-   or may not have to be kept confidential.  Depending on the
+   or may not need to be kept confidential.  Depending on the
    application's requirements identity information of the communication
    partners may or may not mandatorily need to be integrated in the
    input parameters CI, ADa, ADb (see Section 9.1).
