@@ -2429,22 +2429,28 @@ Such attacks become relevant in a setting where several parties, say, A, B and C
 An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
 If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
 establishing a common ISK key with C while assuming to interact with party B.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
-<p id="section-9.1-4">If A is allowing for multiple concurrent sessions the adversary might even relay messages of A back to A such that A interacts with itself <span>[<a href="#HS14" class="cite xref">HS14</a>]</span>.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
-<p id="section-9.1-5">For fending off these attacks the following guidance SHALL be followed regarding party identifiers.<a href="#section-9.1-5" class="pilcrow">¶</a></p>
+<p id="section-9.1-4">If A is allowing for multiple concurrent sessions the adversary might even relay messages of A back to A such that A interacts with itself <span>[<a href="#HS14" class="cite xref">HS14</a>]</span>.
+This specifically also holds for the case that no identity strings are used and also if identity strings are integrated incorrectly.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
+<p id="section-9.1-5">For fending off these attacks the following guidance SHALL be followed regarding party identifiers if guarantees regarding
+the identities are requested from CPace.<a href="#section-9.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.1-6.1">
-            <p id="section-9.1-6.1.1">If an application layer's security relies on party identities, it SHALL integrate the party identifiers that are
+            <p id="section-9.1-6.1.1">If an application layer's security relies on CPace for checking party identities, it SHALL integrate the party identifiers that are
 to be checked in the CPace protocol run within CI or ADa/ADb as specified below.<a href="#section-9.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.1-6.2">
             <p id="section-9.1-6.2.1">Identity strings that are to be authenticated that are available for both communication partners at protocol start SHALL be integrated as
-part of CI. If both identities are available before protocol start then CPace SHALL be used in initiator-responder
-mode and the initiator's identity SHALL be placed first within CI.
-This avoids the need of an explicit subsequent check for the identity strings, strengthens the security properties with respect
-to attacks based on quantum computers {sec-quantum-annoying} and keeps the identities confidential.<a href="#section-9.1-6.2.1" class="pilcrow">¶</a></p>
+part of CI.<a href="#section-9.1-6.2.1" class="pilcrow">¶</a></p>
+<p id="section-9.1-6.2.2">
+If both identities are available before protocol start and need to be checked by CPace then the protocol
+SHALL be used in initiator-responder mode and the initiator's identity SHALL be placed first within CI.<a href="#section-9.1-6.2.2" class="pilcrow">¶</a></p>
+<p id="section-9.1-6.2.3">
+Integration of identity strings in CI avoids the need of an explicit subsequent check for the identity strings,
+strengthens the security properties with respect
+to attacks based on quantum computers {sec-quantum-annoying} and keeps the identities confidential.<a href="#section-9.1-6.2.3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.1-6.3">
-            <p id="section-9.1-6.3.1">Party identities that are not included in CI and need verification SHALL be integrated in ADa and/or ADb, such that
+            <p id="section-9.1-6.3.1">Party identities that are not included in CI and need verification by CPace SHALL be integrated in ADa and/or ADb, such that
 A integrates its identifier in ADa and B integrates its party identifier as part of ADb. In this case the application layer SHALL make the recipient
 check the party identifier string of the remote communication partner for fending off relay attacks. Note that identities communicated in ADa or ADb will
 not be kept confidential. This mode corresponds to the method analyzed in <span>[<a href="#HMSD18" class="cite xref">HMSD18</a>]</span>.<a href="#section-9.1-6.3.1" class="pilcrow">¶</a></p>
