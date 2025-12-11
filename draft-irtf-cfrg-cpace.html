@@ -1743,14 +1743,8 @@ function KDF (such as defined in <span>[<a href="#RFC5869" class="cite xref">RFC
             <p id="section-3.1-2.1.1">Party identity strings (A,B).
 In CPace each party can be  given a party identity string which
 might be a device name a user name or an URL.
-CPace offers two alternative options for authenticating the party identifiers in the course of the protocol run.
-The RECOMMENDED option is to integrate both, A and B, into the channel identifier string CI. This option is to be
-preferred as A and B will be kept
-confidential and as this provides security advantages (see <a href="#sec-quantum-annoying" class="auto internal xref">Section 9.12</a> and <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>).
-Integrating A,B into CI, however, requires that both parties know the party identity string of the communication partner
-before starting the protocol. If this requirement is not fulfilled in an application setting then CPace offers the alternative of
-integrating A as part of the optional input ADa and B as part of the optional input ADb.
-If the key exchange is successful, parties are guaranteed to learn each other's identity string.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
+CPace offers two alternative options for authenticating the party identifiers in the course of the protocol run
+(see <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>).<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.2">
             <p id="section-3.1-2.2.1">Channel identifier (CI).
