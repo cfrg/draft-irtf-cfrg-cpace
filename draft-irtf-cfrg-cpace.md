@@ -239,8 +239,8 @@ and sid that will be specified in section {{OptionalInputs}}.
 
 This specification considers different application scenarios. This includes applications aiming at anonymous key exchange and applications that need to
 rely on verification of identities of communication partners.
-Moreover, when identities are used they may or may not need to be kept confidential. Depending on the application's requirements identity information of the
-communication partners may or may not mandatorily need to be integrated in the input parameters CI, ADa, ADb (see {{sec-considerations-ids}}).
+Moreover, when identities are used they may or may not need to be kept confidential. Depending on the application's requirements identity information
+regarding the communication partners may have to be mandatorily integrated in the input parameters CI, ADa, ADb (see {{sec-considerations-ids}}).
 
 The naming of ISK as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation
 function KDF (such as defined in {{?RFC5869}}) before using the key in a higher-level protocol.
