@@ -741,7 +741,7 @@ for applications that do not have a session identifier input available.
 
 If CPace is instantiated without using identity strings for A or B it is configured for anonymous key exchange and obviously does not give any guarantee
 regarding the identity of the communication partner. This setting is not explicitly covered in the security paper {{AHH21}} but the security of SPEKE-variants
-without party identifiers are considered in {{BFK09}} for the use-case of PAKE on digital identity documents.
+without party identifiers are considered in {{BFK09}} for the use-case of the PACE protocol as used in digital identity documents.
 
 If unique strings identifying one or both protocol partners are included either as part of the channel identifier CI or the
 associated data fields ADa, ADb, then ISK will provide implicit authentication also regarding the included party identities.
