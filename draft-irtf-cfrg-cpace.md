@@ -110,7 +110,7 @@ informative:
         ins: M. Fischlin
       -
         ins: D. Kügler
-        
+
   HMSD18:
     title: "Analysing and Patching SPEKE in ISO/IEC"
     target: https://arxiv.org/abs/1802.04900
