@@ -2419,10 +2419,8 @@ for applications that do not have a session identifier input available.<a href="
         <h3 id="name-party-identifiers-and-relay">
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-party-identifiers-and-relay" class="section-name selfRef">Party identifiers and relay attacks</a>
         </h3>
-<p id="section-9.1-1">If CPace is instantiated without using identity strings A,B it is configured for anonymous key exchange and obviously does not
-give any guarantee regarding the identity of the communication partner.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
-<p id="section-9.1-2">If unique strings identifying the protocol partners are included either as part of the channel identifier CI or the associated data
-fields ADa, ADb, then ISK will provide implicit authentication also regarding the party identities.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
+<p id="section-9.1-1">If CPace is instantiated without using identity strings for A or B it is configured for anonymous key exchange and obviously does not give any guarantee regarding the identity of the communication partner.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-2">If unique strings identifying one or both protocol partners are included either as part of the channel identifier CI or the associated data fields ADa, ADb, then ISK will provide implicit authentication also regarding the included party identities.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
 <p id="section-9.1-3">Incorporating party identifier strings is important for fending off relay attacks.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
 An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
@@ -2432,17 +2430,18 @@ establishing a common ISK key with C while assuming to interact with party B.<a 
 <p id="section-9.1-5">The following guidance SHALL be followed regarding party identifiers.<a href="#section-9.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.1-6.1">
-            <p id="section-9.1-6.1.1">If an application layer's security relies on party identities, it SHALL integrate party identifiers in the CPace protocol run within CI or ADa/ADb as specified below.<a href="#section-9.1-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-9.1-6.1.1">If an application layer's security relies on party identities, it SHALL integrate the party identifiers that are
+to be checked in the CPace protocol run within CI or ADa/ADb as specified below.<a href="#section-9.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.1-6.2">
-            <p id="section-9.1-6.2.1">If identity strings are available for both communication partners at protocol start and the application has clear initiator and responder roles,
-the identity strings to check SHALL be integrated as part of CI with the initiator's identity placed first.
+            <p id="section-9.1-6.2.1">Identity strings to be authenticated that are available for both communication partners at protocol start SHALL be integrated as
+part of CI. If both identities are to be checked CPace shall be used in initiator/responder role and the initiator's identity shall be placed first.
 This avoids the need of an explicit subsequent check for the identity strings and keeps the identities confidential.<a href="#section-9.1-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.1-6.3">
-            <p id="section-9.1-6.3.1">Otherwise an application layer that needs to rely on party identities SHALL integrate party identifiers in ADa and ADb, such that
+            <p id="section-9.1-6.3.1">Party identities that are not included in CI and need verification SHALL be integrated in ADa and/or ADb, such that
 A integrates its identifier in ADa and B integrates its party identifier as part of ADb. In this case the application layer SHALL make the recipient
-check the party identifier string of the remote communication partner for fending off relay attacks. Note that in this case the identities will
+check the party identifier string of the remote communication partner for fending off relay attacks. Note that identities communicated in ADa or ADb will
 not be kept confidential.<a href="#section-9.1-6.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>

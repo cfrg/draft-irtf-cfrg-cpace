@@ -1019,14 +1019,14 @@ Table of Contents
 
 9.1.  Party identifiers and relay attacks
 
-   If CPace is instantiated without using identity strings A,B it is
-   configured for anonymous key exchange and obviously does not give any
-   guarantee regarding the identity of the communication partner.
+   If CPace is instantiated without using identity strings for A or B it
+   is configured for anonymous key exchange and obviously does not give
+   any guarantee regarding the identity of the communication partner.
 
-   If unique strings identifying the protocol partners are included
-   either as part of the channel identifier CI or the associated data
-   fields ADa, ADb, then ISK will provide implicit authentication also
-   regarding the party identities.
+   If unique strings identifying one or both protocol partners are
+   included either as part of the channel identifier CI or the
+   associated data fields ADa, ADb, then ISK will provide implicit
+   authentication also regarding the included party identities.
 
    Incorporating party identifier strings is important for fending off
    relay attacks.  Such attacks become relevant in a setting where
@@ -1044,23 +1044,24 @@ Table of Contents
    The following guidance SHALL be followed regarding party identifiers.
 
    *  If an application layer's security relies on party identities, it
-      SHALL integrate party identifiers in the CPace protocol run within
-      CI or ADa/ADb as specified below.
+      SHALL integrate the party identifiers that are to be checked in
+      the CPace protocol run within CI or ADa/ADb as specified below.
 
-   *  If identity strings are available for both communication partners
-      at protocol start and the application has clear initiator and
-      responder roles, the identity strings to check SHALL be integrated
-      as part of CI with the initiator's identity placed first.  This
-      avoids the need of an explicit subsequent check for the identity
-      strings and keeps the identities confidential.
+   *  Identity strings to be authenticated that are available for both
+      communication partners at protocol start SHALL be integrated as
+      part of CI.  If both identities are to be checked CPace shall be
+      used in initiator/responder role and the initiator's identity
+      shall be placed first.  This avoids the need of an explicit
+      subsequent check for the identity strings and keeps the identities
+      confidential.
 
-   *  Otherwise an application layer that needs to rely on party
-      identities SHALL integrate party identifiers in ADa and ADb, such
-      that A integrates its identifier in ADa and B integrates its party
-      identifier as part of ADb.  In this case the application layer
-      SHALL make the recipient check the party identifier string of the
-      remote communication partner for fending off relay attacks.  Note
-      that in this case the identities will not be kept confidential.
+   *  Party identities that are not included in CI and need verification
+      SHALL be integrated in ADa and/or ADb, such that A integrates its
+      identifier in ADa and B integrates its party identifier as part of
+      ADb.  In this case the application layer SHALL make the recipient
+      check the party identifier string of the remote communication
+      partner for fending off relay attacks.  Note that identities
+      communicated in ADa or ADb will not be kept confidential.
 
 9.2.  Hashing protocol transcripts
 
