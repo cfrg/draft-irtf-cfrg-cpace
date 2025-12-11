@@ -205,7 +205,8 @@ PRS can be a low-entropy secret itself, for instance a clear-text password encod
 Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use _augmented_
 PAKE protocols such as OPAQUE {{?I-D.irtf-cfrg-opaque}}.
 
-In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first.
+In the course of the CPace protocol, A sends one message to B and B sends one message to A. CPace does not mandate any ordering of these two messages. We use the term "initiator-responder" for CPace where A always speaks first, and the term "symmetric" setting where anyone can speak first. If an application scenario does assign distinct roles to A and B (e.g. "client" or "server"), then
+the application SHALL use CPace in the initiator/responder setting.
 
 CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value if and
 only if both sides did initiate the protocol using the same protocol inputs, specifically the same PRS and the same value for the input parameters CI, ADa, ADb
@@ -738,9 +739,6 @@ The following guidance SHALL be followed regarding party identifiers.
   A integrates its identifier in ADa and B integrates its party identifier as part of ADb. In this case the application layer SHALL make the recipient
   check the party identifier string of the remote communication partner for fending off relay attacks. Note that in this case the identities will
   not be kept confidential.
-
-- If an application scenario does not rely on party identifiers available but does assign distinct roles to A and B (e.g. "client" or "server"), then
-  the application SHALL use CPace in the initiator/responder setting and assign which role will have to be initiator and responder respectively.
 
 ## Hashing protocol transcripts
 
