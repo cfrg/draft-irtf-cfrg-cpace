@@ -725,7 +725,7 @@ The following guidance SHALL be followed regarding party identifiers.
   to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
 
 - Identity strings to be authenticated that are available for both communication partners at protocol start SHALL be integrated as
-  part of CI. If both identities are to be checked then CPace SHALL be used in initiator/responder role and the initiator's identity SHALL be placed first within CI.
+  part of CI. If both identities are to be checked then CPace SHALL be used in initiator/responder mode and the initiator's identity SHALL be placed first within CI.
   This avoids the need of an explicit subsequent check for the identity strings and keeps the identities confidential.
 
 - Party identities that are not included in CI and need verification SHALL be integrated in ADa and/or ADb, such that
