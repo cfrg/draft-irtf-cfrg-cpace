@@ -242,7 +242,7 @@ For accommodating different application settings, CPace offers the following inp
   The ADa and ADb will be sent in clear text as part of the protocol messages.
   ADa and ADb will become authenticated in a CPace protocol run as
   both parties will only agree on a common key if they have had the same view on ADa and ADb.
-  Application that need to rely on the identity of the communication partner may have to integrate identity information in ADa and/or ADb
+  Applications that need to rely on the identity of the communication partner may have to integrate identity information in ADa and/or ADb
   (see {{sec-considerations-ids}}).
 
   In a setting with clear initiator and responder roles, identity information in ADa
