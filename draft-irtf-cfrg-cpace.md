@@ -764,9 +764,9 @@ the identities are requested from CPace.
 - Identity strings that are to be authenticated that are available for both communication partners at protocol start SHALL be integrated as
   part of CI.
 
-  If both identities are available before protocol start and need to be checked by CPace then the protocol 
+  If both identities are available before protocol start and need to be checked by CPace then the protocol
   SHALL be used in initiator-responder mode and the initiator's identity SHALL be placed first within CI.
-  
+
   Integration of identity strings in CI avoids the need of an explicit subsequent check for the identity strings,
   strengthens the security properties with respect
   to attacks based on quantum computers {sec-quantum-annoying} and keeps the identities confidential.
