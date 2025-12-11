@@ -5,10 +5,10 @@
 CFRG                                                          M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 11 June 2026       Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 14 June 2026       Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                         8 December 2025
+                                                        11 December 2025
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 June 2026.
+   This Internet-Draft will expire on 14 June 2026.
 
 Copyright Notice
 
@@ -315,8 +315,17 @@ Table of Contents
    might abort in case of an invalid received message.  A and B will
    produce the same ISK value if and only if both sides did initiate the
    protocol using the same protocol inputs, specifically the same PRS
-   and the same value for the optional input parameters CI, ADa, ADb and
-   sid that will be specified in section Section 3.1.
+   and the same value for the input parameters CI, ADa, ADb and sid that
+   will be specified in section Section 3.1.
+
+   This specification considers different application scenarios.  This
+   includes applications aiming at anonymous key exchange and
+   applications that need to rely on verification of identities of
+   communicatin partners.  Moreover, when identities are used they may
+   or may not have to be kept confidential.  Depending on the
+   application's requirements identity information of the communication
+   partners may or may not mandatorily need to be integrated in the
+   input parameters CI, ADa, ADb (see Section 9.1).
 
    The naming of ISK as "intermediate" session key highlights the fact
    that it is RECOMMENDED that applications process ISK by use of a
@@ -326,46 +335,44 @@ Table of Contents
 3.1.  Optional CPace inputs
 
    For accommodating different application settings, CPace offers the
-   following OPTIONAL inputs, i.e. inputs which MAY also be the empty
-   string:
+   following inputs which depending on the application scenario MAY also
+   be the empty string:
 
    *  Party identity strings (A,B).  In CPace each party can be given a
       party identity string which might be a device name a user name or
-      an URL.  It is strongly RECOMMENDED to use CPace in conjunction
-      with party identity strings as otherwise relay attacks may become
-      feasible (see Section 9.1).  CPace offers two alternative options
-      for authenticating the party identifiers in the course of the
-      protocol run.  The RECOMMENDED option is to integrate both, A and
-      B, into the channel identifier string CI.  This option is to be
-      preferred as A and B will be kept confidential and as this
-      provides security advantages (see Section 9.12 and Section 9.1).
-      Integrating A,B into CI, however, requires that both parties know
-      the party identity string of the communication partner before
-      starting the protocol.  If this requirement is not fulfilled in an
-      application setting then CPace offers the alternative of
-      integrating A as part of the optional input ADa and B as part of
-      the optional input ADb.  If the key exchange is successful,
-      parties are guaranteed to learn each other's identity string.
+      an URL.  CPace offers two alternative options for authenticating
+      the party identifiers in the course of the protocol run.  The
+      RECOMMENDED option is to integrate both, A and B, into the channel
+      identifier string CI.  This option is to be preferred as A and B
+      will be kept confidential and as this provides security advantages
+      (see Section 9.12 and Section 9.1).  Integrating A,B into CI,
+      however, requires that both parties know the party identity string
+      of the communication partner before starting the protocol.  If
+      this requirement is not fulfilled in an application setting then
+      CPace offers the alternative of integrating A as part of the
+      optional input ADa and B as part of the optional input ADb.  If
+      the key exchange is successful, parties are guaranteed to learn
+      each other's identity string.
 
    *  Channel identifier (CI).  CI can be used to bind a session key
       exchanged with CPace to a specific networking channel which
       interconnects the protocol parties.  CI could for instance include
-      networking addresses of both parties or party identity strings.
-      Both parties are required to have the same view of CI.  CI will
-      not be publicly sent on the wire and may also include confidential
-      information.  Both parties will only establish a common session
-      key if they initiated the protocol with the same view of CI.
+      networking addresses of both parties or party identity strings or
+      a service port number identifiers.  Both parties are required to
+      have the same view of CI.  CI will not be publicly sent on the
+      wire and may also include confidential information.  Both parties
+      will only establish a common session key if they initiated the
+      protocol with the same view of CI.
 
    *  Associated data fields (ADa and ADb).  These fields can be used
       for authenticating associated data alongside the CPace protocol.
       The ADa and ADb will be sent in clear text as part of the protocol
       messages.  ADa and ADb will become authenticated in a CPace
       protocol run as both parties will only agree on a common key if
-      they have had the same view on ADa and ADb.
-
-      If an application cannot integrate the party identities (A,B) as
-      part of CI, A SHOULD BE included in ADa and B SHOULD BE included
-      in ADb instead (see Section 9.1).
+      they have had the same view on ADa and ADb.  Application that need
+      to rely on the identity of the communication partner may have to
+      integrate identity information in ADa and/or ADb (see
+      Section 9.1).
 
       In a setting with clear initiator and responder roles, identity
       information in ADa sent by the initiator can be used by the
@@ -406,10 +413,8 @@ Table of Contents
    *  The application needs to settle whether CPace is used in the
       initiator-responder or the symmetric setting, as in the symmetric
       setting transcripts ordered string concatenation must be used for
-      generating protocol transcripts and when integrating the identity
-      strings A and B into the channel identifier CI.  In this document
-      we will provide test vectors for both, initiator-responder and
-      symmetric settings.
+      generating protocol transcripts.  In this document we will provide
+      test vectors for both, initiator-responder and symmetric settings.
 
 4.  CPace cipher suites
 
@@ -1022,6 +1027,11 @@ Table of Contents
 
 9.1.  Party identifiers and relay attacks
 
+   If CPace is instantiated without using identity strings A,B it is
+   configured for anonymous key exchange and obviously does not come
+   with any guarantee regarding the identity of the remote communication
+   partner.
+
    If unique strings identifying the protocol partners are included
    either as part of the channel identifier CI or the associated data
    fields ADa, ADb, then ISK will provide implicit authentication also
@@ -1040,34 +1050,33 @@ Table of Contents
    even relay messages of A back to A such that A interacts with itself
    [HS14].
 
-   Including and checking remote party identifiers can fend off such
-   relay attacks.
+   The following guidance SHALL be followed regarding party identifiers.
 
-   The following guidance SHOULD be followed regarding party
-   identifiers.
+   *  If an application layer's security relies on party identities, it
+      SHALL integrate party identifiers in the CPace protocol run within
+      CI or ADa/ADb as specified below.
 
-   *  If an application layer has party identifiers available, it SHOULD
-      integrate party identifiers in the CPace protocol run, either
-      within CI or ADa/ADb.
+   *  If identity strings are available for both communication partners
+      at protocol start and the application has clear initiator and
+      responder roles, the identity strings to check SHALL be integrated
+      as part of CI with the initiator's identity placed first.  This
+      avoids the need of an explicit subsequent check for the identity
+      strings and keeps the identities confidential.
 
-   *  The application SHOULD give preference to the option of
-      integrating party identifiers in CI.  This avoids the need of an
-      explicit check for the identity strings and keeps the identities
-      confidential.
-
-   *  Otherwise an application layer SHOULD integrate party identifiers
-      in ADa and ADb, such that A integrates its identifier in ADa and B
-      integrates its party identifier as part of ADb.  In this case the
-      application layer SHALL make the recipient check the party
-      identifier string of the remote communication partner for fending
-      off relay attacks.
+   *  Otherwise an application layer that needs to rely on party
+      identities SHALL integrate party identifiers in ADa and ADb, such
+      that A integrates its identifier in ADa and B integrates its party
+      identifier as part of ADb.  In this case the application layer
+      SHALL make the recipient check the party identifier string of the
+      remote communication partner for fending off relay attacks.  Note
+      that in this case the identities will not be kept confidential.
 
    *  If an application scenario does not have party identifiers
       available but does assign distinct roles to A and B (e.g. "client"
-      or "server"), then strings specifying the respective role SHOULD
-      BE integrated in ADa and ADb and checked by the recipient for
-      fending off loopback relay attacks where an adversary relays
-      messages back to the sender.
+      or "server"), then strings specifying the respective role SHALL BE
+      integrated in ADa and ADb and checked by the recipient for fending
+      off loopback relay attacks where an adversary relays messages back
+      to the sender.
 
 9.2.  Hashing protocol transcripts
 
