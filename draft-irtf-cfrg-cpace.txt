@@ -401,10 +401,11 @@ Table of Contents
       according to [RFC8265].
 
    *  The application needs to settle whether CPace is used in the
-      initiator-responder or the symmetric setting, as in the symmetric
-      setting transcripts ordered string concatenation must be used for
-      generating protocol transcripts.  In this document we will provide
-      test vectors for both, initiator-responder and symmetric settings.
+      initiator-responder or the symmetric setting along the guidelines
+      of Section 9.1.  In the symmetric setting transcripts ordered
+      string concatenation must be used for generating protocol
+      transcripts.  In this document we will provide test vectors for
+      both, initiator-responder and symmetric settings.
 
 4.  CPace cipher suites
 
