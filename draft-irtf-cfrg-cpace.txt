@@ -324,8 +324,8 @@ Table of Contents
    they may or may not need to be kept confidential.  Depending on the
    application's requirements identity information regarding the
    communication partners may have to be mandatorily integrated in the
-   input parameters CI, ADa, ADb (see Section 9.1) and the protocol may
-   have to be executed with clear initiator and responder roles.
+   input parameters CI, ADa, ADb and the protocol may have to be
+   executed with clear initiator and responder roles (see Section 9.1).
 
    The naming of ISK as "intermediate" session key highlights the fact
    that it is RECOMMENDED that applications process ISK by use of a
