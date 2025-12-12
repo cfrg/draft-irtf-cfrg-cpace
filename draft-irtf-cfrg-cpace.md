@@ -296,7 +296,8 @@ The following tasks are out of the scope of this document and left to the applic
   CI, sid, ADa and ADb. If PRS is a clear-text password or an octet string derived from a clear-text password,
   e.g. by use of a key-derivation function, the clear-text password SHOULD BE encoded according to {{?RFC8265}}.
 
-- The application needs to settle whether CPace is used in the initiator-responder or the symmetric setting, as in the symmetric
+- The application needs to settle whether CPace is used in the initiator-responder or the symmetric setting along the
+  guidelines of {{sec-considerations-ids}}. In the symmetric
   setting transcripts ordered string concatenation must be used for generating protocol transcripts.
   In this document we will provide test vectors for both, initiator-responder and symmetric settings.
 
