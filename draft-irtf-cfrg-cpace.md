@@ -292,7 +292,7 @@ The following tasks are out of the scope of this document and left to the applic
 - Setup phase:
   The application layer is responsible for the handshake that makes parties agree on a common CPace cipher suite.
 
-- This document does not specify which encodings applications use for the mandatory PRS input and the optional inputs
+- This document does not specify which encodings applications use for the mandatory PRS input and the inputs
   CI, sid, ADa and ADb. If PRS is a clear-text password or an octet string derived from a clear-text password,
   e.g. by use of a key-derivation function, the clear-text password SHOULD BE encoded according to {{?RFC8265}}.
 
