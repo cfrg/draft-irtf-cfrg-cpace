@@ -394,11 +394,10 @@ Table of Contents
       handshake that makes parties agree on a common CPace cipher suite.
 
    *  This document does not specify which encodings applications use
-      for the mandatory PRS input and the optional inputs CI, sid, ADa
-      and ADb.  If PRS is a clear-text password or an octet string
-      derived from a clear-text password, e.g. by use of a key-
-      derivation function, the clear-text password SHOULD BE encoded
-      according to [RFC8265].
+      for the mandatory PRS input and the inputs CI, sid, ADa and ADb.
+      If PRS is a clear-text password or an octet string derived from a
+      clear-text password, e.g. by use of a key-derivation function, the
+      clear-text password SHOULD BE encoded according to [RFC8265].
 
    *  The application needs to settle whether CPace is used in the
       initiator-responder or the symmetric setting along the guidelines
