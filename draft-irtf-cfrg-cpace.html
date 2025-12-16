@@ -2447,15 +2447,15 @@ both communication partners at protocol start SHOULD be integrated as part of CI
 <p id="section-9.1.1-2.1.2">
 If both party identifiers are integrated into CI an ordering SHALL apply. It is recommended to place the initiator`s identity first
 and the responder`s identity second.<a href="#section-9.1.1-2.1.2" class="pilcrow">¶</a></p>
+<p id="section-9.1.1-2.1.3">
+Party identity information included in CI will be kept confidential.<a href="#section-9.1.1-2.1.3" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.1-2.2">
               <p id="section-9.1.1-2.2.1">Party identities that are not included in CI and need verification by CPace SHALL be integrated in ADa and/or ADb, such that
 A integrates its identifier in ADa and B integrates its party identifier as part of ADb. In this case the application layer SHALL make the recipient
 check the party identifier string of the remote communication partner.<a href="#section-9.1.1-2.2.1" class="pilcrow">¶</a></p>
 <p id="section-9.1.1-2.2.2">
-Application verification test should carefully
-verify correctness of party identity verification. Note that identities communicated in ADa or ADb will
-not be kept confidential.<a href="#section-9.1.1-2.2.2" class="pilcrow">¶</a></p>
+Note that identities communicated in ADa or ADb will not be kept confidential.<a href="#section-9.1.1-2.2.2" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-9.1.1-3">If an application does not have meaningful party identifiers available for party A available or has party identifiers which might not be unique
@@ -2484,18 +2484,21 @@ of the identities within CI is ordered.<a href="#section-9.1.2-2" class="pilcrow
 <p id="section-9.1.2-3">Integration of identity strings in CI also avoids the need of the security-critical subsequent check for the identity strings
 which might be omitted or implemented incorrectly without notice. Integration of identities into CI also strengthens the security properties with respect
 to attacks based on quantum computers {sec-quantum-annoying}.<a href="#section-9.1.2-3" class="pilcrow">¶</a></p>
-<p id="section-9.1.2-4">When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopbacks attacks by checking
-that the received remote values of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions <span>[<a href="#HMSD18" class="cite xref">HMSD18</a>]</span>.<a href="#section-9.1.2-4" class="pilcrow">¶</a></p>
-<p id="section-9.1.2-5">If no unique value in ADa and ADb is available or if maintaining state information regarding the list of concurrently active local protocol instances for
+<p id="section-9.1.2-4">Applications that integrate identity strings in ADa and/or ADb shall carefully verify implementations for correctness
+of the implemented checks.<a href="#section-9.1.2-4" class="pilcrow">¶</a></p>
+<p id="section-9.1.2-5">When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopbacks attacks by checking
+that the received remote values of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions <span>[<a href="#HMSD18" class="cite xref">HMSD18</a>]</span>.<a href="#section-9.1.2-5" class="pilcrow">¶</a></p>
+<p id="section-9.1.2-6">If no unique value in ADa and ADb is available or if maintaining state information regarding the list of concurrently active local protocol instances for
 verification is impractical in a given application setting then the loopback attack may be
 prevented by assigning initiator and responder role and mandating that a given party implements either the initiator or responder role
-for a given PRS password but not both roles.<a href="#section-9.1.2-5" class="pilcrow">¶</a></p>
-<p id="section-9.1.2-6">Note that the requirement on party identifiers may differ from what might be intuitively expected as information on the application service
-such as port-ids and role information (e.g. client or server role) should be included as part of the party identity.<a href="#section-9.1.2-6" class="pilcrow">¶</a></p>
-<p id="section-9.1.2-7">For instance if computers A and B allow for running a protocol with different roles (e.g. both might run several client and a server instances concurrently
+for a given PRS password but not both roles.<a href="#section-9.1.2-6" class="pilcrow">¶</a></p>
+<p id="section-9.1.2-7">Otherwise any party would have to be restricted to run only one single concurrent session of CPace.<a href="#section-9.1.2-7" class="pilcrow">¶</a></p>
+<p id="section-9.1.2-8">Note that the requirement on party identifiers may differ from what might be intuitively expected as information on the application service
+such as port-ids and role information (e.g. client or server role) should be included as part of the party identity.<a href="#section-9.1.2-8" class="pilcrow">¶</a></p>
+<p id="section-9.1.2-9">For instance if computers A and B allow for running a protocol with different roles (e.g. both might run several client and a server instances concurrently
 on different ports) then a relay attack may successfully generate protocol confusion. E.g. a client instance on A may be maliciously redirected
 to a second client instance on B while it expects to be connecting to a server on B. This will work if client and server instances on B share the same
-PRS secret and the identity strings do not include information on the respective roles.<a href="#section-9.1.2-7" class="pilcrow">¶</a></p>
+PRS secret and the identity strings do not include information on the respective roles.<a href="#section-9.1.2-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
