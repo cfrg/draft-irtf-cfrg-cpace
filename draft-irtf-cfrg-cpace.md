@@ -784,7 +784,7 @@ Applications that integrate identity strings in ADa and/or ADb shall carefully v
 of the implemented checks.
 
 
-When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopbacks attacks by checking
+When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopback attacks by checking
 that the received remote value of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions {{HMSD18}}.
 
 If no unique value in ADa and ADb is available or if maintaining state information regarding the list of concurrently active local protocol instances for
