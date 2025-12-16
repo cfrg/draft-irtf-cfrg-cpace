@@ -604,9 +604,9 @@ Table of Contents
 
      A: PRS,ADa,CI,sid         B: PRS,ADb,CI,sid
        ---------------------------------------
-    compute Ya    |     Ya,[ADa]     |  compute Yb
+    compute Ya    |      Ya,ADa      |  compute Yb
                   |----------------->|
-                  |     Yb,[ADb]     |
+                  |      Yb,ADb      |
     verify inputs |<-----------------|  verify inputs
     derive ISK    |                  |  derive ISK
        ---------------------------------------
