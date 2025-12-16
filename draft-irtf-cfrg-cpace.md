@@ -729,7 +729,7 @@ for applications that do not have a session identifier input available.
 ## Party identifiers {#sec-considerations-ids}
 The protocol assures that both communication partners have had the same view on the communication transcripts and the inputs CI and sid.
 
-If CPace is instantiated without unique identity strings for A or B in its inputs it will anonymously create a key with any party in using the
+If CPace is instantiated without unique identity strings for A or B in its inputs it will anonymously create a key with any party using the
 same PRS and sid values and cannot give any further guarantee regarding the identity of the communication partner.
 A protocol instance running on a party P might even be communicating with a second protocol instance also running on P.
 
