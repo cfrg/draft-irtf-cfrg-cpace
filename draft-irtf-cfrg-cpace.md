@@ -98,19 +98,6 @@ informative:
       -
         ins: S. Jarecki
 
-  BFK09:
-    title: "Security Analysis of the PACE Key-Agreement Protocol"
-    target: https://eprint.iacr.org/2009/624.pdf
-    author:
-      -
-        ins: J. Bender
-      -
-        ins: K. Gellert
-      -
-        ins: M. Fischlin
-      -
-        ins: D. Kügler
-
   HMSD18:
     title: "Analysing and Patching SPEKE in ISO/IEC"
     target: https://arxiv.org/abs/1802.04900
@@ -755,8 +742,8 @@ to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
 - If CPace is used in initiator-responder mode, identity strings that are to be authenticated that are available for
   both communication partners at protocol start SHOULD be integrated as part of CI.
 
-  If both party identifiers are integrated into CI an ordering SHALL apply. It is recommended to place the initiator`s identity first
-  and the responder`s identity second.
+  If both party identifiers are integrated into CI an ordering SHALL apply. It is recommended to place the initiator\`s identity first
+  and the responder\`s identity second.
 
   Integration of identity strings in CI avoids the need of an explicit subsequent check for the identity strings
   which may be omitted or implemented incorrectly without notice. It also strengthens the security properties with respect
@@ -794,9 +781,9 @@ are to be integrated in CI this is only possible if clear initiator and responde
 is ordered.
 
 When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopbacks attacks by checking
-that the received remote values of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions.
+that the received remote values of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions {{HMSD18}}.
 
-If no unique value in ADa and ADb is available or if maintaining state information for the list of currently active local protocol instances for
+If no unique value in ADa and ADb is available or if maintaining state information regarding the list of concurrently active local protocol instances for
 verification is impractical in a given application setting then the loopback attack may be
 prevented by mandating clear initiator and responder role and mandating that a given party implements either the initiator or responder role
 for a given PRS password but not both.
