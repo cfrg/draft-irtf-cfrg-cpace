@@ -1074,8 +1074,7 @@ Table of Contents
    the specific protocol instance.
 
    If ADa and ADb are not guaranteed to be unique then CPace SHALL be
-   used in initator-responder mode and any party SHALL only implement
-   either the initiator or responder role.
+   used in initator-responder mode.
 
 9.1.2.  Rationale for the above guidance
 
