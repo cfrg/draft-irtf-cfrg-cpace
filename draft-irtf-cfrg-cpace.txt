@@ -1107,7 +1107,7 @@ Table of Contents
    checks.
 
    When adding randomness guaranteeing for unique values of ADa and ADb
-   then a party running the application can detect for loopbacks attacks
+   then a party running the application can detect for loopback attacks
    by checking that the received remote value of ADa/ADb doesn't show up
    in the list of active local concurrent protocol sessions [HMSD18].
 
