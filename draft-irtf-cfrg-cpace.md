@@ -410,10 +410,10 @@ representation of the group element y\*g. Additionally, scalar\_mult\_vfy specif
 - o\_cat(bytes1,bytes2) denotes a function for ordered concatenation of octet strings. It places the lexicographically larger octet
   string first and prepends the two bytes from the octet string b"oc" to the result. Reference code for this function is available in the appendix.
 
-- transcript(Ya,ADa,Yb,ADb) denotes a function outputting an octet string for the protocol transcript.
+- transcript(Ya,ADa, Yb,ADb) denotes a function outputting an octet string for the protocol transcript.
   In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
-  not enforced by the protocol flow, transcript\_oc(Ya,Yb,ADa,ADb) = o\_cat(lv\_cat(Ya,ADa),lv\_cat(Yb, ADb)) SHALL be used.
-  In the initiator-responder setting the implementation transcript\_ir(Ya,Yb,ADa,ADb) = lv\_cat(Ya,ADa) \|\| lv\_cat(Yb, ADb) SHALL be used.
+  not enforced by the protocol flow, transcript\_oc(Ya,ADa, Yb,ADb) = o\_cat(lv\_cat(Ya,ADa),lv\_cat(Yb, ADb)) SHALL be used.
+  In the initiator-responder setting the implementation transcript\_ir(Ya,ADa, Yb,ADb) = lv\_cat(Ya,ADa) \|\| lv\_cat(Yb, ADb) SHALL be used.
 
 ## Notation for group operations
 
@@ -424,6 +424,8 @@ We use additive notation for the group, i.e., 2\*X  denotes the element that is 
 CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G and H.
 Parties will also be provisioned with CI,sid,ADa (for A) and CI,sid,ADb (for B) which will default to the empty
 string b"" if not used.
+Party identifiers SHALL be integrated into CI and/or ADa and ADb following the guidelines in {{sec-considerations-ids}}.
+
 A sends the public share Ya and optional associated data ADa to B.
 Likewise, B sends the public share Yb and optional associated data ADb to A.
 Both A and B use the received messages for deriving a shared intermediate session key, ISK.
@@ -739,46 +741,22 @@ The security analysis in {{BGHJ24}} extends the analysis from {{AHH21}} by cover
 no pre-agreed session identifier is available. {{BGHJ24}} also shows how a unique session id sid\_output can be generated along with the protocol
 for applications that do not have a session identifier input available.
 
-## Party identifiers and relay attacks {#sec-considerations-ids}
-The protocol assures that both communication partners have had the same view on the communication transcript and the inputs CI and sid.
+## Party identifiers {#sec-considerations-ids}
+The protocol assures that both communication partners have had the same view on the communication transcripts and the inputs CI and sid.
 
-If CPace is instantiated without identity strings for A or B in its input it will anonymously create a key with any party in posession of the
-PRS string and cannot give any guarantee regarding the identity of the communication partner.
-This setting is not explicitly covered in the security paper {{AHH21}}, however {{BFK09}} can give some
-guidance here where the PACE protocol as used in travel documents such as
-passports is analyzed. The analysis in {{BFK09}} assumes clear initiator and responder roles.
-If an application has no access to party identities and aims at deriving a shared key from a low-entropy secret
-it SHALL use CPace in initiator-responder mode.
+If CPace is instantiated without unique identity strings for A or B in its inputs it will anonymously create a key with any party in posession of the
+PRS  and cannot give any guarantee regarding the identity of the communication partner. A protocol instance running on a party P might even be communicating with a second protocol instance also running on P.
 
-If unique strings identifying one or both protocol partners are included either as part of the channel identifier CI or the
-associated data fields ADa, ADb, then ISK will provide implicit authentication also regarding the included party identities.
+### Guidance regarding party identifier integration
 
-Incorporating party identifier strings is important for fending off unknown-key-share attacks.
-Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
-An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
-If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
-establishing a common ISK key with C while assuming to interact with party B.
-If A is allowing for multiple concurrent sessions the adversary may also relay messages of A back to A such that A interacts with itself {{HS14}}.
+If an application layer's security relies on CPace for checking party identities, it SHALL integrate the party identifiers that are
+to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
 
-The requirement on party identifiers may differ from what might be intuitively expected as information on the application service
-such as port-ids and role information (e.g. client or server role) also needs to be included as part of the party identity.
+- If CPace is used in initiator-responder mode, identity strings that are to be authenticated that are available for
+  both communication partners at protocol start SHOULD be integrated as part of CI.
 
-For instance if computers A and B allow for running a protocol with different roles (e.g. both might run several client and a server instances concurrently
-on different ports) then a relay attack may successfully generate protocol confusion. E.g. a client instance on A may be maliciously redirected
-to a second client instance on B while it expects to be connecting to a server on B. This will work if client and server instances on B share the same
-PRS secret and the identity strings do not include information on the respective roles.
-
-As a result the following guidance SHALL be followed regarding party identifiers if guarantees regarding
-the identities are requested from CPace.
-
-- If an application layer's security relies on CPace for checking party identities, it SHALL integrate the party identifiers that are
-  to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
-
-- Identity strings that are to be authenticated that are available for both communication partners at protocol start SHOULD be integrated as
-  part of CI.
-
-  If both identities are available before protocol start and need to be checked by CPace then the protocol
-  SHALL be used in initiator-responder mode and the initiator's identity SHALL be placed first within CI.
+  If both party identifiers are integrated into CI an ordering SHALL apply. It is recommended to place the initiator`s identity first
+  and the responder`s identity second.
 
   Integration of identity strings in CI avoids the need of an explicit subsequent check for the identity strings
   which may be omitted or implemented incorrectly without notice. It also strengthens the security properties with respect
@@ -786,9 +764,50 @@ the identities are requested from CPace.
 
 - Party identities that are not included in CI and need verification by CPace SHALL be integrated in ADa and/or ADb, such that
   A integrates its identifier in ADa and B integrates its party identifier as part of ADb. In this case the application layer SHALL make the recipient
-  check the party identifier string of the remote communication partner for fending off relay attacks. Application verification test should
-  verify correctnes of party identity verification. Note that identities communicated in ADa or ADb will
-  not be kept confidential. This mode corresponds to the method analyzed in {{HMSD18}}.
+  check the party identifier string of the remote communication partner.
+
+  Application verification test should carefully
+  verify correctness of party identity verification. Note that identities communicated in ADa or ADb will
+  not be kept confidential.
+  
+If an application does not have meaningful unique party identifiers available for party A available or has party identifiers which might not be unique
+it SHOULD add random numbers in ADa such that ADa will become unique for the specific protocol instance.
+
+If an application does not have meaningful unique party identifiers available for party B available or has party identifiers which might not be unique
+it SHOULD add random numbers in ADb such that ADb will become unique for the specific protocol instance.
+
+If ADa and ADb are not guaranteed to be unique then CPace SHALL be used in initator-responder mode and any party shall only implement
+either the initiator or responder role.
+
+### Rationale for the above guidance
+
+Incorporating party identifier strings is important for fending off relay attacks.
+Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
+An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
+If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
+establishing a common ISK key with C while assuming to interact with party B.
+If a party A is allowing for multiple concurrent sessions the adversary may also mount an attack relaying messages of A looped back to A such that A actually
+interacts with itself {{HS14}}.
+
+Integration of party identity strings in CI is to be preferred, as this way the identities may be kept confidential. If both identities
+are to be integrated in CI this is only possible if clear initiator and responder roles are assigned and the encoding of the identities within CI
+is ordered.
+
+When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopbacks attacks by checking
+that the received remote values of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions.
+
+If no unique value in ADa and ADb is available or if maintaining state information for the list of currently active local protocol instances for
+verification is impractical in a given application setting then the loopback attack may be
+prevented by mandating clear initiator and responder role and mandating that a given party implements either the initiator or responder role
+for a given PRS password but not both.
+
+The requirement on party identifiers may differ from what might be intuitively expected as information on the application service
+such as port-ids and role information (e.g. client or server role) should be included as part of the party identity.
+
+For instance if computers A and B allow for running a protocol with different roles (e.g. both might run several client and a server instances concurrently
+on different ports) then a relay attack may successfully generate protocol confusion. E.g. a client instance on A may be maliciously redirected
+to a second client instance on B while it expects to be connecting to a server on B. This will work if client and server instances on B share the same
+PRS secret and the identity strings do not include information on the respective roles.
 
 ## Hashing protocol transcripts
 
