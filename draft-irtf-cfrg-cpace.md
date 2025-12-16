@@ -745,13 +745,13 @@ to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
   If both party identifiers are integrated into CI an ordering SHALL apply. It is recommended to place the initiator\`s identity first
   and the responder\`s identity second.
 
+  Party identity information included in CI will be kept confidential.
+
 - Party identities that are not included in CI and need verification by CPace SHALL be integrated in ADa and/or ADb, such that
   A integrates its identifier in ADa and B integrates its party identifier as part of ADb. In this case the application layer SHALL make the recipient
   check the party identifier string of the remote communication partner.
 
-  Application verification test should carefully
-  verify correctness of party identity verification. Note that identities communicated in ADa or ADb will
-  not be kept confidential.
+  Note that identities communicated in ADa or ADb will not be kept confidential.
 
 If an application does not have meaningful party identifiers available for party A available or has party identifiers which might not be unique
 it SHOULD add random numbers in ADa such that ADa will become unique for the specific protocol instance.
@@ -780,6 +780,10 @@ Integration of identity strings in CI also avoids the need of the security-criti
 which might be omitted or implemented incorrectly without notice. Integration of identities into CI also strengthens the security properties with respect
 to attacks based on quantum computers {sec-quantum-annoying}.
 
+Applications that integrate identity strings in ADa and/or ADb shall carefully verify implementations for correctness
+of the implemented checks.
+
+
 When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopbacks attacks by checking
 that the received remote values of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions {{HMSD18}}.
 
@@ -787,6 +791,8 @@ If no unique value in ADa and ADb is available or if maintaining state informati
 verification is impractical in a given application setting then the loopback attack may be
 prevented by assigning initiator and responder role and mandating that a given party implements either the initiator or responder role
 for a given PRS password but not both roles.
+
+Otherwise any party would have to be restricted to run only one single concurrent session of CPace.
 
 Note that the requirement on party identifiers may differ from what might be intuitively expected as information on the application service
 such as port-ids and role information (e.g. client or server role) should be included as part of the party identity.
