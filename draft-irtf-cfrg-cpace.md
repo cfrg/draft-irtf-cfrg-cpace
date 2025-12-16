@@ -411,20 +411,19 @@ We use additive notation for the group, i.e., 2\*X  denotes the element that is 
 CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G and H.
 Parties will also be provisioned with CI,sid,ADa (for A) and CI,sid,ADb (for B) which will default to the empty
 string b"" if not used.
+
 Party identifiers SHALL be integrated into CI and/or ADa and ADb following the guidelines in {{sec-considerations-ids}}.
 
-A sends the public share Ya and optional associated data ADa to B.
-Likewise, B sends the public share Yb and optional associated data ADb to A.
+A sends the public share Ya and associated data ADa to B.
+Likewise, B sends the public share Yb and associated data ADb to A.
 Both A and B use the received messages for deriving a shared intermediate session key, ISK.
 
 ## Protocol flow
 
-Optional parameters and messages are denoted with [].
-
 ~~~
                         public: G, H
 
-  A: PRS,[ADa],[CI],[sid]         B: PRS,[ADb],[CI],[sid]
+  A: PRS,ADa,CI,sid         B: PRS,ADb,CI,sid
     ---------------------------------------
  compute Ya    |     Ya,[ADa]     |  compute Yb
                |----------------->|
@@ -438,10 +437,9 @@ Optional parameters and messages are denoted with [].
 
 ## CPace protocol instructions
 
-A computes a generator g = G.calculate\_generator(H,PRS,CI,sid), scalar ya = G.sample\_scalar() and group element Ya = G.scalar\_mult (ya,g). A then transmits Ya and
-optional associated data ADa to B.
+A computes a generator g = G.calculate\_generator(H,PRS,CI,sid), scalar ya = G.sample\_scalar() and group element Ya = G.scalar\_mult (ya,g). A then transmits Ya and associated data ADa to B.
 
-B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_mult(yb,g). B sends Yb and optional associated data ADb to A.
+B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample\_scalar() and group element Yb = G.scalar\_mult(yb,g). B sends Yb and associated data ADb to A.
 
 B then computes K = G.scalar\_mult\_vfy(yb,Ya). B MUST abort if K=G.I.
 Otherwise B calculates
