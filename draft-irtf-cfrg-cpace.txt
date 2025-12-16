@@ -1118,7 +1118,7 @@ Table of Contents
    application setting then the loopback attack may be prevented by
    assigning initiator and responder role and mandating that a given
    party implements either the initiator or responder role for a given
-   PRS password but not both roles with the same PRS value.
+   PRS password but not both roles with the same (PRS,sid) value set.
 
    Note that the requirement on party identifiers may differ from what
    might be intuitively expected as information on the application
