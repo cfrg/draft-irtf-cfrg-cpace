@@ -756,7 +756,7 @@ to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
   Application verification test should carefully
   verify correctness of party identity verification. Note that identities communicated in ADa or ADb will
   not be kept confidential.
-  
+
 If an application does not have meaningful unique party identifiers available for party A available or has party identifiers which might not be unique
 it SHOULD add random numbers in ADa such that ADa will become unique for the specific protocol instance.
 
