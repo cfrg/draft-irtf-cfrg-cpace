@@ -790,12 +790,10 @@ that the received remote value of ADa/ADb doesn't show up in the list of active 
 If no unique value in ADa and ADb is available or if maintaining state information regarding the list of concurrently active local protocol instances for
 verification is impractical in a given application setting then the loopback attack may be
 prevented by assigning initiator and responder role and mandating that a given party implements either the initiator or responder role
-for a given PRS password but not both roles.
-
-Otherwise any party would have to be restricted to run only one single concurrent session of CPace.
+for a given PRS password but not both roles with the same PRS value.
 
 Note that the requirement on party identifiers may differ from what might be intuitively expected as information on the application service
-such as port-ids and role information (e.g. client or server role) should be included as part of the party identity.
+such as service identifiers, port-ids and role information (e.g. client or server role) should be included as part of the party identity.
 
 For instance if computers A and B allow for running a protocol with different roles (e.g. both might run several client and a server instances concurrently
 on different ports) then a relay attack may successfully generate protocol confusion. E.g. a client instance on A may be maliciously redirected
