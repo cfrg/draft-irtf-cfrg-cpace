@@ -67,7 +67,7 @@ Table of Contents
      1.1.  Outline of this document
    2.  Requirements Notation
    3.  High-level application perspective
-     3.1.  Optional CPace inputs
+     3.1.  CPace inputs
      3.2.  Optional CPace outputs
      3.3.  Responsibilities of the application layer
    4.  CPace cipher suites
@@ -334,7 +334,7 @@ Table of Contents
    suitable strong key derivation function KDF (such as defined in
    [RFC5869]) before using the key in a higher-level protocol.
 
-3.1.  Optional CPace inputs
+3.1.  CPace inputs
 
    For accommodating different application settings, CPace offers the
    following inputs which depending on the application scenario MAY also
