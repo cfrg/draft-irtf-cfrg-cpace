@@ -233,7 +233,7 @@ may have to be executed with clear initiator and responder roles (see {{sec-cons
 The naming of ISK as "intermediate" session key highlights the fact that it is RECOMMENDED that applications process ISK by use of a suitable strong key derivation
 function KDF (such as defined in {{?RFC5869}}) before using the key in a higher-level protocol.
 
-## Optional CPace inputs {#OptionalInputs}
+## CPace inputs {#OptionalInputs}
 
 For accommodating different application settings, CPace offers the following inputs which depending on the application scenario MAY also be the empty string:
 
