@@ -745,10 +745,6 @@ to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
   If both party identifiers are integrated into CI an ordering SHALL apply. It is recommended to place the initiator\`s identity first
   and the responder\`s identity second.
 
-  Integration of identity strings in CI avoids the need of an explicit subsequent check for the identity strings
-  which may be omitted or implemented incorrectly without notice. It also strengthens the security properties with respect
-  to attacks based on quantum computers {sec-quantum-annoying} and keeps the identities confidential.
-
 - Party identities that are not included in CI and need verification by CPace SHALL be integrated in ADa and/or ADb, such that
   A integrates its identifier in ADa and B integrates its party identifier as part of ADb. In this case the application layer SHALL make the recipient
   check the party identifier string of the remote communication partner.
@@ -757,13 +753,13 @@ to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
   verify correctness of party identity verification. Note that identities communicated in ADa or ADb will
   not be kept confidential.
 
-If an application does not have meaningful unique party identifiers available for party A available or has party identifiers which might not be unique
+If an application does not have meaningful party identifiers available for party A available or has party identifiers which might not be unique
 it SHOULD add random numbers in ADa such that ADa will become unique for the specific protocol instance.
 
-If an application does not have meaningful unique party identifiers available for party B available or has party identifiers which might not be unique
+If an application does not have meaningful party identifiers available for party B available or has party identifiers which might not be unique
 it SHOULD add random numbers in ADb such that ADb will become unique for the specific protocol instance.
 
-If ADa and ADb are not guaranteed to be unique then CPace SHALL be used in initator-responder mode and any party shall only implement
+If ADa and ADb are not guaranteed to be unique then CPace SHALL be used in initator-responder mode and any party SHALL only implement
 either the initiator or responder role.
 
 ### Rationale for the above guidance
@@ -776,9 +772,13 @@ establishing a common ISK key with C while assuming to interact with party B.
 If a party A is allowing for multiple concurrent sessions the adversary may also mount an attack relaying messages of A looped back to A such that A actually
 interacts with itself {{HS14}}.
 
-Integration of party identity strings in CI is to be preferred, as this way the identities may be kept confidential. If both identities
-are to be integrated in CI this is only possible if clear initiator and responder roles are assigned and the encoding of the identities within CI
-is ordered.
+Integration of party identity strings in CI is to be preferred if possible. This way the identities may be kept confidential.
+If both identities are to be integrated in CI this is only possible if clear initiator and responder roles are assigned and the encoding
+of the identities within CI is ordered.
+
+Integration of identity strings in CI also avoids the need of the security-critical subsequent check for the identity strings
+which might be omitted or implemented incorrectly without notice. Integration of identities into CI also strengthens the security properties with respect
+to attacks based on quantum computers {sec-quantum-annoying}.
 
 When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopbacks attacks by checking
 that the received remote values of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions {{HMSD18}}.
@@ -788,7 +788,7 @@ verification is impractical in a given application setting then the loopback att
 prevented by mandating clear initiator and responder role and mandating that a given party implements either the initiator or responder role
 for a given PRS password but not both.
 
-The requirement on party identifiers may differ from what might be intuitively expected as information on the application service
+Note that the requirement on party identifiers may differ from what might be intuitively expected as information on the application service
 such as port-ids and role information (e.g. client or server role) should be included as part of the party identity.
 
 For instance if computers A and B allow for running a protocol with different roles (e.g. both might run several client and a server instances concurrently
