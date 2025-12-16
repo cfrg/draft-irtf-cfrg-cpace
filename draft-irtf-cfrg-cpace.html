@@ -2456,10 +2456,12 @@ check the party identifier string of the remote communication partner.<a href="#
 Note that identities communicated in ADa or ADb will not be kept confidential.<a href="#section-9.1.1-2.2.2" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-9.1.1-3">If an application does not have meaningful party identifiers available for party A available or has party identifiers which might not be unique
-it SHOULD add random numbers in ADa such that ADa will become unique for the specific protocol instance.<a href="#section-9.1.1-3" class="pilcrow">¶</a></p>
-<p id="section-9.1.1-4">If an application does not have meaningful party identifiers available for party B available or has party identifiers which might not be unique
-it SHOULD add random numbers in ADb such that ADb will become unique for the specific protocol instance.<a href="#section-9.1.1-4" class="pilcrow">¶</a></p>
+<p id="section-9.1.1-3">If an application does not have meaningful party identifiers available for party A available or has party identifiers which might not be unique or
+if party identifiers should not be integrated in ADa because they need to be kept confidential, then A
+SHOULD add random numbers in ADa such that ADa will become unique for the specific protocol instance.<a href="#section-9.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-9.1.1-4">Likewise, if an application does not have meaningful party identifiers available for party B available or has party identifiers which might not be unique or
+if party identifiers should not be integrated in ADb because they need to be kept confidential, then B
+SHOULD add random numbers in ADb such that ADb will become unique for the specific protocol instance.<a href="#section-9.1.1-4" class="pilcrow">¶</a></p>
 <p id="section-9.1.1-5">If ADa and ADb are not guaranteed to be unique then CPace SHALL be used in initator-responder mode and any party SHALL only implement
 either the initiator or responder role.<a href="#section-9.1.1-5" class="pilcrow">¶</a></p>
 </section>
