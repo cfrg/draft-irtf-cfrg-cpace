@@ -2002,22 +2002,21 @@ In the initiator-responder setting the implementation transcript_ir(Ya,ADa, Yb,A
       </h2>
 <p id="section-6-1">CPace is a one round protocol between two parties, A and B. At invocation, A and B are provisioned with PRS,G and H.
 Parties will also be provisioned with CI,sid,ADa (for A) and CI,sid,ADb (for B) which will default to the empty
-string b"" if not used.
-Party identifiers SHALL be integrated into CI and/or ADa and ADb following the guidelines in <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">A sends the public share Ya and optional associated data ADa to B.
-Likewise, B sends the public share Yb and optional associated data ADb to A.
-Both A and B use the received messages for deriving a shared intermediate session key, ISK.<a href="#section-6-2" class="pilcrow">¶</a></p>
+string b"" if not used.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">Party identifiers SHALL be integrated into CI and/or ADa and ADb following the guidelines in <a href="#sec-considerations-ids" class="auto internal xref">Section 9.1</a>.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">A sends the public share Ya and associated data ADa to B.
+Likewise, B sends the public share Yb and associated data ADb to A.
+Both A and B use the received messages for deriving a shared intermediate session key, ISK.<a href="#section-6-3" class="pilcrow">¶</a></p>
 <div id="protocol-flow">
 <section id="section-6.1">
         <h3 id="name-protocol-flow">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-protocol-flow" class="section-name selfRef">Protocol flow</a>
         </h3>
-<p id="section-6.1-1">Optional parameters and messages are denoted with [].<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-6.1-2">
+<div class="alignLeft art-text artwork" id="section-6.1-1">
 <pre>
                         public: G, H
 
-  A: PRS,[ADa],[CI],[sid]         B: PRS,[ADb],[CI],[sid]
+  A: PRS,ADa,CI,sid         B: PRS,ADb,CI,sid
     ---------------------------------------
  compute Ya    |     Ya,[ADa]     |  compute Yb
                |-----------------&gt;|
@@ -2027,7 +2026,7 @@ Both A and B use the received messages for deriving a shared intermediate sessio
     ---------------------------------------
  output ISK                          output ISK
 
-</pre><a href="#section-6.1-2" class="pilcrow">¶</a>
+</pre><a href="#section-6.1-1" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2036,9 +2035,8 @@ Both A and B use the received messages for deriving a shared intermediate sessio
         <h3 id="name-cpace-protocol-instructions">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-cpace-protocol-instructions" class="section-name selfRef">CPace protocol instructions</a>
         </h3>
-<p id="section-6.2-1">A computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar ya = G.sample_scalar() and group element Ya = G.scalar_mult (ya,g). A then transmits Ya and
-optional associated data ADa to B.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.2-2">B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample_scalar() and group element Yb = G.scalar_mult(yb,g). B sends Yb and optional associated data ADb to A.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">A computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar ya = G.sample_scalar() and group element Ya = G.scalar_mult (ya,g). A then transmits Ya and associated data ADa to B.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">B computes a generator g = G.calculate_generator(H,PRS,CI,sid), scalar yb = G.sample_scalar() and group element Yb = G.scalar_mult(yb,g). B sends Yb and associated data ADb to A.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
 <p id="section-6.2-3">B then computes K = G.scalar_mult_vfy(yb,Ya). B MUST abort if K=G.I.
 Otherwise B calculates
 ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid, K)||transcript(Ya,ADa,Yb,ADb)). B returns ISK and terminates.<a href="#section-6.2-3" class="pilcrow">¶</a></p>

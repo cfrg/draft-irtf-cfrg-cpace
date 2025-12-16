@@ -588,22 +588,21 @@ Table of Contents
    CPace is a one round protocol between two parties, A and B.  At
    invocation, A and B are provisioned with PRS,G and H.  Parties will
    also be provisioned with CI,sid,ADa (for A) and CI,sid,ADb (for B)
-   which will default to the empty string b"" if not used.  Party
-   identifiers SHALL be integrated into CI and/or ADa and ADb following
-   the guidelines in Section 9.1.
+   which will default to the empty string b"" if not used.
 
-   A sends the public share Ya and optional associated data ADa to B.
-   Likewise, B sends the public share Yb and optional associated data
-   ADb to A.  Both A and B use the received messages for deriving a
-   shared intermediate session key, ISK.
+   Party identifiers SHALL be integrated into CI and/or ADa and ADb
+   following the guidelines in Section 9.1.
+
+   A sends the public share Ya and associated data ADa to B.  Likewise,
+   B sends the public share Yb and associated data ADb to A.  Both A and
+   B use the received messages for deriving a shared intermediate
+   session key, ISK.
 
 6.1.  Protocol flow
 
-   Optional parameters and messages are denoted with [].
-
                            public: G, H
 
-     A: PRS,[ADa],[CI],[sid]         B: PRS,[ADb],[CI],[sid]
+     A: PRS,ADa,CI,sid         B: PRS,ADb,CI,sid
        ---------------------------------------
     compute Ya    |     Ya,[ADa]     |  compute Yb
                   |----------------->|
@@ -617,12 +616,11 @@ Table of Contents
 
    A computes a generator g = G.calculate_generator(H,PRS,CI,sid),
    scalar ya = G.sample_scalar() and group element Ya = G.scalar_mult
-   (ya,g).  A then transmits Ya and optional associated data ADa to B.
+   (ya,g).  A then transmits Ya and associated data ADa to B.
 
    B computes a generator g = G.calculate_generator(H,PRS,CI,sid),
    scalar yb = G.sample_scalar() and group element Yb =
-   G.scalar_mult(yb,g).  B sends Yb and optional associated data ADb to
-   A.
+   G.scalar_mult(yb,g).  B sends Yb and associated data ADb to A.
 
    B then computes K = G.scalar_mult_vfy(yb,Ya).  B MUST abort if K=G.I.
    Otherwise B calculates ISK = H.hash(lv_cat(G.DSI || b"_ISK", sid,
