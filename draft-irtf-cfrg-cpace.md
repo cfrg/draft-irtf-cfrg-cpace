@@ -425,9 +425,9 @@ Both A and B use the received messages for deriving a shared intermediate sessio
 
   A: PRS,ADa,CI,sid         B: PRS,ADb,CI,sid
     ---------------------------------------
- compute Ya    |     Ya,[ADa]     |  compute Yb
+ compute Ya    |      Ya,ADa      |  compute Yb
                |----------------->|
-               |     Yb,[ADb]     |
+               |      Yb,ADb      |
  verify inputs |<-----------------|  verify inputs
  derive ISK    |                  |  derive ISK
     ---------------------------------------
