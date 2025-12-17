@@ -754,11 +754,11 @@ to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
 
 If an application does not have meaningful party identifiers available for party A or has party identifiers which might not be unique or
 if party identifiers should not be integrated in ADa because they need to be kept confidential, then A
-SHOULD add random numbers in ADa such that ADa will become unique for the specific protocol instance.
+SHOULD add data such as random numbers in ADa such that ADa will become unique for the specific protocol instance.
 
 Likewise, if an application does not have meaningful party identifiers available for party B or has party identifiers which might not be unique or
 if party identifiers should not be integrated in ADb because they need to be kept confidential, then B
-SHOULD add random numbers in ADb such that ADb will become unique for the specific protocol instance.
+SHOULD add data such as random numbers in ADb such that ADb will become unique for the specific protocol instance.
 
 If ADa and ADb are not guaranteed to be unique then CPace SHALL be used in initator-responder mode.
 
