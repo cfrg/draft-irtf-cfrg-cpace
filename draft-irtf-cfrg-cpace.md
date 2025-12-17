@@ -754,7 +754,7 @@ to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
 
 If ADa and ADb are not guaranteed to be unique, then CPace SHALL be used in initator-responder mode.
 
-If CPace is to be run in the symmetric mode without initiator and responder roles, the application can enforce uniqueness of ADa and ADb. This can be done by adding random data to ADa/ADb that makes ADa and ADb unique for the given session.
+If CPace is to be run in the symmetric mode without initiator and responder roles, the application can always enforce uniqueness of ADa and ADb for all sessions by adding further information such as random data.
 
 ### Rationale for the above guidance
 
