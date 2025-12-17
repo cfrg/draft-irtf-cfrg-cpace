@@ -1038,7 +1038,7 @@ Table of Contents
    below.
 
    *  If CPace is used in initiator-responder mode, identity strings
-      that are to be authenticated that are available for both
+      that are to be authenticated and that are available for both
       communication partners at protocol start SHOULD be integrated as
       part of CI.
 
