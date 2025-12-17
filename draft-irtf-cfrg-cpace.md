@@ -758,17 +758,15 @@ If CPace is to be run in the symmetric mode without initiator and responder role
 
 ### Rationale for the above guidance
 
-Incorporating party identifier strings is important for fending off relay attacks.
+Incorporating party identifier strings is important for fending off attacks based on relaying messages.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
 An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
 If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
 establishing a common ISK key with C while assuming to interact with party B.
-If a party A is allowing for multiple concurrent sessions the adversary may also mount an attack relaying messages of A looped back to A such that A actually
-interacts with itself {{HS14}}.
+If a party A is allowing for multiple concurrent sessions the adversary may also mount an attack relaying messages of A looped back to A such that A actually interacts with itself {{HS14}}.
 
 Integration of party identity strings in CI is to be preferred if possible. This way the identities may be kept confidential.
-If both identities are to be integrated in CI this is only possible if clear initiator and responder roles are assigned and the encoding
-of the identities within CI is ordered.
+If both identities are to be integrated in CI this is only possible if clear initiator and responder roles are assigned and the encoding of the identities associates the role with the identity string.
 
 Integration of identity strings in CI also avoids the need of the security-critical subsequent check for the identity strings
 which might be omitted or implemented incorrectly without notice. Integration of identities into CI also strengthens the security properties with respect
@@ -776,7 +774,6 @@ to attacks based on quantum computers {sec-quantum-annoying}.
 
 Applications that integrate identity strings in ADa and/or ADb shall carefully verify implementations for correctness
 of the implemented identity checks that the application must carry out after the CPace run.
-
 
 When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopback attacks by checking
 that the received remote value of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions {{HMSD18}}.
