@@ -1042,9 +1042,9 @@ Table of Contents
       communication partners at protocol start SHOULD be integrated as
       part of CI.
 
-      If both party identifiers are integrated into CI an ordering SHALL
-      apply.  It is recommended to place the initiator`s identity first
-      and the responder`s identity second.
+      If both party identifiers are integrated into CI, an ordering
+      SHALL apply.  It is recommended to place the initiator`s identity
+      first and the responder`s identity second.
 
       Party identity information included in CI will be kept
       confidential.
