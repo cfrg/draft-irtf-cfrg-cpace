@@ -1105,7 +1105,8 @@ Table of Contents
 
    Applications that integrate identity strings in ADa and/or ADb shall
    carefully verify implementations for correctness of the implemented
-   checks.
+   identity checks that the application must carry out after the CPace
+   run.
 
    When adding randomness guaranteeing for unique values of ADa and ADb
    then a party running the application can detect for loopback attacks

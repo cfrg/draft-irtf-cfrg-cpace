@@ -2485,7 +2485,7 @@ of the identities within CI is ordered.<a href="#section-9.1.2-2" class="pilcrow
 which might be omitted or implemented incorrectly without notice. Integration of identities into CI also strengthens the security properties with respect
 to attacks based on quantum computers {sec-quantum-annoying}.<a href="#section-9.1.2-3" class="pilcrow">¶</a></p>
 <p id="section-9.1.2-4">Applications that integrate identity strings in ADa and/or ADb shall carefully verify implementations for correctness
-of the implemented checks.<a href="#section-9.1.2-4" class="pilcrow">¶</a></p>
+of the implemented identity checks that the application must carry out after the CPace run.<a href="#section-9.1.2-4" class="pilcrow">¶</a></p>
 <p id="section-9.1.2-5">When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopback attacks by checking
 that the received remote value of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions <span>[<a href="#HMSD18" class="cite xref">HMSD18</a>]</span>.<a href="#section-9.1.2-5" class="pilcrow">¶</a></p>
 <p id="section-9.1.2-6">If no unique value in ADa and ADb is available or if maintaining state information regarding the list of concurrently active local protocol instances for
