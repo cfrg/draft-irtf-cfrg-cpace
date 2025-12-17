@@ -781,7 +781,7 @@ which might be omitted or implemented incorrectly without notice. Integration of
 to attacks based on quantum computers {sec-quantum-annoying}.
 
 Applications that integrate identity strings in ADa and/or ADb shall carefully verify implementations for correctness
-of the implemented checks.
+of the implemented identity checks that the application must carry out after the CPace run.
 
 
 When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopback attacks by checking
