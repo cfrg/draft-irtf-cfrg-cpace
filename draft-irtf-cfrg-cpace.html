@@ -2466,16 +2466,14 @@ Note that identities communicated in ADa or ADb will not be kept confidential.<a
           <h4 id="name-rationale-for-the-above-gui">
 <a href="#section-9.1.2" class="section-number selfRef">9.1.2. </a><a href="#name-rationale-for-the-above-gui" class="section-name selfRef">Rationale for the above guidance</a>
           </h4>
-<p id="section-9.1.2-1">Incorporating party identifier strings is important for fending off relay attacks.
+<p id="section-9.1.2-1">Incorporating party identifier strings is important for fending off attacks based on relaying messages.
 Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
 An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
 If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
 establishing a common ISK key with C while assuming to interact with party B.
-If a party A is allowing for multiple concurrent sessions the adversary may also mount an attack relaying messages of A looped back to A such that A actually
-interacts with itself <span>[<a href="#HS14" class="cite xref">HS14</a>]</span>.<a href="#section-9.1.2-1" class="pilcrow">¶</a></p>
+If a party A is allowing for multiple concurrent sessions the adversary may also mount an attack relaying messages of A looped back to A such that A actually interacts with itself <span>[<a href="#HS14" class="cite xref">HS14</a>]</span>.<a href="#section-9.1.2-1" class="pilcrow">¶</a></p>
 <p id="section-9.1.2-2">Integration of party identity strings in CI is to be preferred if possible. This way the identities may be kept confidential.
-If both identities are to be integrated in CI this is only possible if clear initiator and responder roles are assigned and the encoding
-of the identities within CI is ordered.<a href="#section-9.1.2-2" class="pilcrow">¶</a></p>
+If both identities are to be integrated in CI this is only possible if clear initiator and responder roles are assigned and the encoding of the identities associates the role with the identity string.<a href="#section-9.1.2-2" class="pilcrow">¶</a></p>
 <p id="section-9.1.2-3">Integration of identity strings in CI also avoids the need of the security-critical subsequent check for the identity strings
 which might be omitted or implemented incorrectly without notice. Integration of identities into CI also strengthens the security properties with respect
 to attacks based on quantum computers {sec-quantum-annoying}.<a href="#section-9.1.2-3" class="pilcrow">¶</a></p>
