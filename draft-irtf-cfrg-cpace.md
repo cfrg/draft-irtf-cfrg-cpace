@@ -741,7 +741,7 @@ to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
 - If CPace is used in initiator-responder mode, identity strings that are to be authenticated that are available for
   both communication partners at protocol start SHOULD be integrated as part of CI.
 
-  If both party identifiers are integrated into CI an ordering SHALL apply. It is recommended to place the initiator\`s identity first
+  If both party identifiers are integrated into CI, an ordering SHALL apply. It is recommended to place the initiator\`s identity first
   and the responder\`s identity second.
 
   Party identity information included in CI will be kept confidential.
