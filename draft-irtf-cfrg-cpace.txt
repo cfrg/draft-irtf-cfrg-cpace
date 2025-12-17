@@ -1042,39 +1042,31 @@ Table of Contents
       communication partners at protocol start SHOULD be integrated as
       part of CI.
 
-      If both party identifiers are integrated into CI, an ordering
-      SHALL apply.  It is recommended to place the initiator`s identity
-      first and the responder`s identity second.
+      If both party identifiers are integrated into CI, the encoding
+      MUST associate the initiator and responder roles with the
+      respective identity strings.  It is recommended to place the
+      initiator`s identity first and the responder`s identity second.
 
       Party identity information included in CI will be kept
       confidential.
 
-   *  Party identities that are not included in CI and need verification
-      by CPace SHALL be integrated in ADa and/or ADb, such that A
-      integrates its identifier in ADa and B integrates its party
-      identifier as part of ADb.  In this case the application layer
+   *  Party identities that are not included in CI identity and are to
+      be authenticated by CPace SHALL be integrated in ADa/ADb, such
+      that A integrates its party identifier in ADa and B integrates its
+      party identifier in ADb.  In this case, the application layer
       SHALL make the recipient check the party identifier string of the
       remote communication partner.
 
       Note that identities communicated in ADa or ADb will not be kept
       confidential.
 
-   If an application does not have meaningful party identifiers
-   available for party A or has party identifiers which might not be
-   unique or if party identifiers should not be integrated in ADa
-   because they need to be kept confidential, then A SHOULD add data
-   such as random numbers in ADa such that ADa will become unique for
-   the specific protocol instance.
-
-   Likewise, if an application does not have meaningful party
-   identifiers available for party B or has party identifiers which
-   might not be unique or if party identifiers should not be integrated
-   in ADb because they need to be kept confidential, then B SHOULD add
-   data such as random numbers in ADb such that ADb will become unique
-   for the specific protocol instance.
-
-   If ADa and ADb are not guaranteed to be unique then CPace SHALL be
+   If ADa and ADb are not guaranteed to be unique, then CPace SHALL be
    used in initator-responder mode.
+
+   If CPace is to be run in the symmetric mode without initiator and
+   responder roles, the application can enforce uniqueness of ADa and
+   ADb.  This can be done by adding random data to ADa/ADb that makes
+   ADa and ADb unique for the given session.
 
 9.1.2.  Rationale for the above guidance
 
