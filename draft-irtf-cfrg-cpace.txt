@@ -5,10 +5,10 @@
 CFRG                                                          M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 19 June 2026       Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 20 June 2026       Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                        16 December 2025
+                                                        17 December 2025
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 June 2026.
+   This Internet-Draft will expire on 20 June 2026.
 
 Copyright Notice
 
@@ -1062,16 +1062,16 @@ Table of Contents
    If an application does not have meaningful party identifiers
    available for party A or has party identifiers which might not be
    unique or if party identifiers should not be integrated in ADa
-   because they need to be kept confidential, then A SHOULD add random
-   numbers in ADa such that ADa will become unique for the specific
-   protocol instance.
+   because they need to be kept confidential, then A SHOULD add data
+   such as random numbers in ADa such that ADa will become unique for
+   the specific protocol instance.
 
    Likewise, if an application does not have meaningful party
    identifiers available for party B or has party identifiers which
    might not be unique or if party identifiers should not be integrated
    in ADb because they need to be kept confidential, then B SHOULD add
-   random numbers in ADb such that ADb will become unique for the
-   specific protocol instance.
+   data such as random numbers in ADb such that ADb will become unique
+   for the specific protocol instance.
 
    If ADa and ADb are not guaranteed to be unique then CPace SHALL be
    used in initator-responder mode.
