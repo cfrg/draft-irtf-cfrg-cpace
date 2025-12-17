@@ -738,7 +738,7 @@ A protocol instance running on a party P might even be communicating with a seco
 If an application layer's security relies on CPace for checking party identities, it SHALL integrate the party identifiers that are
 to be checked in the CPace protocol run within CI or ADa/ADb as specified below.
 
-- If CPace is used in initiator-responder mode, identity strings that are to be authenticated that are available for
+- If CPace is used in initiator-responder mode, identity strings that are to be authenticated and that are available for
   both communication partners at protocol start SHOULD be integrated as part of CI.
 
   If both party identifiers are integrated into CI, the encoding MUST associate the initiator and responder roles with the respective identity strings. It is recommended to place the initiator\`s identity first
