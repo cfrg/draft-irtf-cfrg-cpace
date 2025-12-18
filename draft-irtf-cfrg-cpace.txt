@@ -1023,12 +1023,12 @@ Table of Contents
    The protocol assures that both communication partners have had the
    same view on the communication transcripts and the inputs CI and sid.
 
-   If CPace is instantiated without unique identity strings for A or B
-   in its inputs it will anonymously create a key with any party using
-   the same PRS and sid values and cannot give any further guarantee
-   regarding the identity of the communication partner.  A protocol
-   instance running on a party P might even be communicating with a
-   second protocol instance also running on P.
+   If CPace is instantiated without identity strings for A or B in its
+   inputs it will anonymously create a key with any party using the same
+   PRS and sid values and cannot give any further guarantee regarding
+   the identity of the communication partner.  A protocol instance
+   running on a party P might even be communicating with a second
+   protocol instance also running on P.
 
 9.1.1.  Guidance regarding party identifier integration
 
