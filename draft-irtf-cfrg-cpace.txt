@@ -5,10 +5,10 @@
 CFRG                                                          M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 20 June 2026       Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 21 June 2026       Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                        17 December 2025
+                                                        18 December 2025
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 June 2026.
+   This Internet-Draft will expire on 21 June 2026.
 
 Copyright Notice
 
@@ -322,9 +322,9 @@ Table of Contents
    This specification considers different application scenarios.  This
    includes applications aiming at anonymous key exchange and
    applications that need to rely on verification of identities of one
-   or both communication partners.  Moreover, when identities are used
+   or both communication partners.  Moreover, when identities are used,
    they may or may not need to be kept confidential.  Depending on the
-   application's requirements identity information regarding the
+   application's requirements, identity information regarding the
    communication partners may have to be mandatorily integrated in the
    input parameters CI, ADa, ADb and the protocol may have to be
    executed with clear initiator and responder roles (see Section 9.1).
@@ -337,14 +337,14 @@ Table of Contents
 3.1.  CPace inputs
 
    For accommodating different application settings, CPace offers the
-   following inputs which depending on the application scenario MAY also
-   be the empty string:
+   following inputs which, depending on the application scenario, MAY
+   also be the empty string:
 
-   *  Party identity strings (A,B).  In CPace each party can be given a
-      party identity string which might be a device name a user name or
-      an URL.  CPace offers two alternative options for authenticating
-      the party identifiers in the course of the protocol run (see
-      Section 9.1).
+   *  Party identity strings (A,B).  In CPace, each party can be given a
+      party identity string which might be a device name, a user name,
+      or an URL.  CPace offers two alternative options for
+      authenticating the party identifiers in the course of the protocol
+      run (see Section 9.1).
 
    *  Channel identifier (CI).  CI can be used to bind a session key
       exchanged with CPace to a specific networking channel which
@@ -403,10 +403,10 @@ Table of Contents
 
    *  The application needs to settle whether CPace is used in the
       initiator-responder or the symmetric setting along the guidelines
-      of Section 9.1.  In the symmetric setting transcripts ordered
+      of Section 9.1.  In the symmetric setting, transcripts ordered
       string concatenation must be used for generating protocol
       transcripts.  In this document we will provide test vectors for
-      both, initiator-responder and symmetric settings.
+      both the initiator-responder and the symmetric setting.
 
 4.  CPace cipher suites
 
@@ -573,7 +573,7 @@ Table of Contents
       is used without clear initiator and responder roles, i.e. where
       the ordering of messages is not enforced by the protocol flow,
       transcript_oc(Ya,ADa, Yb,ADb) = o_cat(lv_cat(Ya,ADa),lv_cat(Yb,
-      ADb)) SHALL be used.  In the initiator-responder setting the
+      ADb)) SHALL be used.  In the initiator-responder setting, the
       implementation transcript_ir(Ya,ADa, Yb,ADb) = lv_cat(Ya,ADa) ||
       lv_cat(Yb, ADb) SHALL be used.
 
@@ -1071,25 +1071,25 @@ Table of Contents
 9.1.2.  Rationale for the above guidance
 
    Incorporating party identifier strings is important for fending off
-   attacks based on relaying messages.  Such attacks become relevant in
-   a setting where several parties, say, A, B and C, share the same
-   password PRS.  An adversary might relay messages from an honest user
-   A, who aims at interacting with user B, to a party C instead.  If no
-   party identifier strings are used and B and C share the same PRS
-   value then A might be using CPace for establishing a common ISK key
-   with C while assuming to interact with party B.  If a party A is
-   allowing for multiple concurrent sessions the adversary may also
-   mount an attack relaying messages of A looped back to A such that A
-   actually interacts with itself [HS14].
+   attacks based on relaying messages.  Such attacks become for example
+   relevant in a setting where several parties, say, A, B and C, share
+   the same password PRS.  An adversary might relay messages from an
+   honest user A, who aims at interacting with user B, to a party C
+   instead.  If no party identifier strings are used and B and C share
+   the same PRS value, then A might be using CPace for establishing a
+   common ISK key with C while assuming to interact with party B.  If a
+   party A is allowing for multiple concurrent sessions, the adversary
+   may also mount an attack relaying messages of A looped back to A such
+   that A actually shares a key with itself [HS14].
 
-   Integration of party identity strings in CI is to be preferred if
-   possible.  This way the identities may be kept confidential.  If both
-   identities are to be integrated in CI this is only possible if clear
-   initiator and responder roles are assigned and the encoding of the
-   identities associates the role with the identity string.
+   Integration of party identity strings in CI is to be preferred.  This
+   way, the identities may be kept confidential.  If both identities are
+   to be integrated in CI, this is only possible if clear initiator and
+   responder roles are assigned and the encoding of the identities
+   associates the role with the identity string.
 
    Integration of identity strings in CI also avoids the need of the
-   security-critical subsequent check for the identity strings which
+   security-critical subsequent check for the identity strings, which
    might be omitted or implemented incorrectly without notice.
    Integration of identities into CI also strengthens the security
    properties with respect to attacks based on quantum computers {sec-
@@ -1108,7 +1108,7 @@ Table of Contents
    If no unique value in ADa and ADb is available or if maintaining
    state information regarding the list of concurrently active local
    protocol instances for verification is impractical in a given
-   application setting then the loopback attack may be prevented by
+   application setting, then the loopback attack may be prevented by
    assigning initiator and responder role and mandating that a given
    party implements either the initiator or responder role for a given
    PRS password but not both roles with the same (PRS,sid) value set.
@@ -1119,7 +1119,7 @@ Table of Contents
    (e.g. client or server role) should be included as part of the party
    identity.
 
-   For instance if computers A and B allow for running a protocol with
+   For instance, if computers A and B allow for running a protocol with
    different roles (e.g. both might run several client and a server
    instances concurrently on different ports) then a relay attack may
    successfully generate protocol confusion.  E.g. a client instance on
