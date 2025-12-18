@@ -226,7 +226,7 @@ and sid that will be specified in section {{OptionalInputs}}.
 
 This specification considers different application scenarios. This includes applications aiming at anonymous key exchange and applications that need to
 rely on verification of identities of one or both communication partners.
-Moreover, when identities are used they may or may not need to be kept confidential. Depending on the application's requirements identity information
+Moreover, when identities are used, they may or may not need to be kept confidential. Depending on the application's requirements, identity information
 regarding the communication partners may have to be mandatorily integrated in the input parameters CI, ADa, ADb and the protocol
 may have to be executed with clear initiator and responder roles (see {{sec-considerations-ids}}).
 
@@ -235,11 +235,11 @@ function KDF (such as defined in {{?RFC5869}}) before using the key in a higher-
 
 ## CPace inputs {#OptionalInputs}
 
-For accommodating different application settings, CPace offers the following inputs which depending on the application scenario MAY also be the empty string:
+For accommodating different application settings, CPace offers the following inputs which, depending on the application scenario, MAY also be the empty string:
 
 - Party identity strings (A,B).
-  In CPace each party can be  given a party identity string which
-  might be a device name a user name or an URL.
+  In CPace, each party can be  given a party identity string which
+  might be a device name, a user name, or an URL.
   CPace offers two alternative options for authenticating the party identifiers in the course of the protocol run
   (see {{sec-considerations-ids}}).
 
@@ -285,8 +285,8 @@ The following tasks are out of the scope of this document and left to the applic
 
 - The application needs to settle whether CPace is used in the initiator-responder or the symmetric setting along the
   guidelines of {{sec-considerations-ids}}. In the symmetric
-  setting transcripts ordered string concatenation must be used for generating protocol transcripts.
-  In this document we will provide test vectors for both, initiator-responder and symmetric settings.
+  setting, transcripts ordered string concatenation must be used for generating protocol transcripts.
+  In this document we will provide test vectors for both the initiator-responder and the symmetric setting.
 
 # CPace cipher suites {#CipherSuites}
 
@@ -400,7 +400,7 @@ representation of the group element y\*g. Additionally, scalar\_mult\_vfy specif
 - transcript(Ya,ADa, Yb,ADb) denotes a function outputting an octet string for the protocol transcript.
   In applications where CPace is used without clear initiator and responder roles, i.e. where the ordering of messages is
   not enforced by the protocol flow, transcript\_oc(Ya,ADa, Yb,ADb) = o\_cat(lv\_cat(Ya,ADa),lv\_cat(Yb, ADb)) SHALL be used.
-  In the initiator-responder setting the implementation transcript\_ir(Ya,ADa, Yb,ADb) = lv\_cat(Ya,ADa) \|\| lv\_cat(Yb, ADb) SHALL be used.
+  In the initiator-responder setting, the implementation transcript\_ir(Ya,ADa, Yb,ADb) = lv\_cat(Ya,ADa) \|\| lv\_cat(Yb, ADb) SHALL be used.
 
 ## Notation for group operations
 
@@ -759,16 +759,16 @@ If CPace is to be run in the symmetric mode without initiator and responder role
 ### Rationale for the above guidance
 
 Incorporating party identifier strings is important for fending off attacks based on relaying messages.
-Such attacks become relevant in a setting where several parties, say, A, B and C, share the same password PRS.
+Such attacks become for example relevant in a setting where several parties, say, A, B and C, share the same password PRS.
 An adversary might relay messages from an honest user A, who aims at interacting with user B, to a party C instead.
-If no party identifier strings are used and B and C share the same PRS value then A might be using CPace for
+If no party identifier strings are used and B and C share the same PRS value, then A might be using CPace for
 establishing a common ISK key with C while assuming to interact with party B.
-If a party A is allowing for multiple concurrent sessions the adversary may also mount an attack relaying messages of A looped back to A such that A actually interacts with itself {{HS14}}.
+If a party A is allowing for multiple concurrent sessions, the adversary may also mount an attack relaying messages of A looped back to A such that A actually shares a key with itself {{HS14}}.
 
-Integration of party identity strings in CI is to be preferred if possible. This way the identities may be kept confidential.
-If both identities are to be integrated in CI this is only possible if clear initiator and responder roles are assigned and the encoding of the identities associates the role with the identity string.
+Integration of party identity strings in CI is to be preferred. This way, the identities may be kept confidential.
+If both identities are to be integrated in CI, this is only possible if clear initiator and responder roles are assigned and the encoding of the identities associates the role with the identity string.
 
-Integration of identity strings in CI also avoids the need of the security-critical subsequent check for the identity strings
+Integration of identity strings in CI also avoids the need of the security-critical subsequent check for the identity strings,
 which might be omitted or implemented incorrectly without notice. Integration of identities into CI also strengthens the security properties with respect
 to attacks based on quantum computers {sec-quantum-annoying}.
 
@@ -779,14 +779,14 @@ When adding randomness guaranteeing for unique values of ADa and ADb then a part
 that the received remote value of ADa/ADb doesn't show up in the list of active local concurrent protocol sessions {{HMSD18}}.
 
 If no unique value in ADa and ADb is available or if maintaining state information regarding the list of concurrently active local protocol instances for
-verification is impractical in a given application setting then the loopback attack may be
+verification is impractical in a given application setting, then the loopback attack may be
 prevented by assigning initiator and responder role and mandating that a given party implements either the initiator or responder role
 for a given PRS password but not both roles with the same (PRS,sid) value set.
 
 Note that the requirement on party identifiers may differ from what might be intuitively expected as information on the application service
 such as service identifiers, port-ids and role information (e.g. client or server role) should be included as part of the party identity.
 
-For instance if computers A and B allow for running a protocol with different roles (e.g. both might run several client and a server instances concurrently
+For instance, if computers A and B allow for running a protocol with different roles (e.g. both might run several client and a server instances concurrently
 on different ports) then a relay attack may successfully generate protocol confusion. E.g. a client instance on A may be maliciously redirected
 to a second client instance on B while it expects to be connecting to a server on B. This will work if client and server instances on B share the same
 PRS secret and the identity strings do not include information on the respective roles.
