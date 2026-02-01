@@ -23,14 +23,14 @@ can be used on groups of prime- and non-prime order.
     Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
-    intervaltree 3.1.0
+    intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
     platformdirs 4.5.1
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
-    wcwidth 0.2.14
+    wcwidth 0.3.0
 -->
 <link href="draft-irtf-cfrg-cpace.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -571,6 +571,7 @@ aside, blockquote {
 }
 blockquote {
   margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
 }
 cite {
   display: block;
@@ -641,7 +642,7 @@ a.pilcrow {
   }
 }
 @media not print {
-  :hover > a.pilcrow {
+  :hover > a.pilcrow, a.pilcrow:focus {
     opacity: 1;
   }
   a.pilcrow[href]:hover {
@@ -1049,11 +1050,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CPace</td>
-<td class="right">December 2025</td>
+<td class="right">February 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Abdalla, et al.</td>
-<td class="center">Expires 21 June 2026</td>
+<td class="center">Expires 5 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-irtf-cfrg-cpace-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-12-18" class="published">18 December 2025</time>
+<time datetime="2026-02-01" class="published">1 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-06-21">21 June 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-05">5 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1128,7 +1129,7 @@ can be used on groups of prime- and non-prime order.<a href="#section-abstract-1
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 21 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1137,7 +1138,7 @@ can be used on groups of prime- and non-prime order.<a href="#section-abstract-1
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2025 IETF Trust and the persons identified as the
+            Copyright (c) 2026 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1186,10 +1187,10 @@ can be used on groups of prime- and non-prime order.<a href="#section-abstract-1
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-definitions-and-notation" class="internal xref">Definitions and notation</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-hash-function-h" class="internal xref">Hash function H</a></p>
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-group-environment-g" class="internal xref">Group environment G</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-group-environment-g" class="internal xref">Group environment G</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-hash-function-h" class="internal xref">Hash function H</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-notation-for-string-operati" class="internal xref">Notation for string operations</a></p>
@@ -1865,68 +1866,68 @@ from <span>[<a href="#RFC9380" class="cite xref">RFC9380</a>]</span> on curve NI
       <h2 id="name-definitions-and-notation">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-definitions-and-notation" class="section-name selfRef">Definitions and notation</a>
       </h2>
-<div id="hash-function-h">
+<div id="group-environment-g">
 <section id="section-5.1">
-        <h3 id="name-hash-function-h">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-hash-function-h" class="section-name selfRef">Hash function H</a>
+        <h3 id="name-group-environment-g">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-group-environment-g" class="section-name selfRef">Group environment G</a>
         </h3>
-<p id="section-5.1-1">Common choices for H are SHA-512 <span>[<a href="#RFC6234" class="cite xref">RFC6234</a>]</span> or SHAKE-256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span>. (I.e., the hash function
-outputs octet strings, and not group elements.)
-For considering both variable-output-length hashes and fixed-output-length hashes, we use the following convention.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.1-2">We use the following notation for referring to the specific properties of a hash function H:<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1-1">The group environment G specifies an elliptic curve group (also denoted G for convenience)  and associated constants
+and functions as detailed below. In this document we use additive notation for the group operation.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.1-3.1">
-            <p id="section-5.1-3.1.1">H.hash(m,l) is a function that operates on an input octet string m and returns the first l octets of the hash of m.<a href="#section-5.1-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.1-2.1">
+            <p id="section-5.1-2.1.1">G.calculate_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group
+which is derived from input octet strings PRS, CI, and sid and with the help of a hash function H.<a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.1-3.2">
-            <p id="section-5.1-3.2.1">H.b_in_bytes denotes the <em>minimum</em> output size in bytes for collision resistance for the
-security level target of the hash function. E.g. H.b_in_bytes = 64 for SHA-512 and SHAKE-256 and H.b_in_bytes = 32 for
-SHA-256 and SHAKE-128. We use the notation H.hash(m) = H.hash(m, H.b_in_bytes) and let the hash operation
-output the default length if no explicit length parameter is given.<a href="#section-5.1-3.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.1-2.2">
+            <p id="section-5.1-2.2.1">G.sample_scalar() is a function returning a representation of an integer (referred to as "scalar" from now on) appropriate as a
+private Diffie-Hellman key for the group.<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.1-3.3">
-            <p id="section-5.1-3.3.1">H.bmax_in_bytes denotes the <em>maximum</em> output size in octets supported by the hash function. In case of fixed-size
-hashes such as SHA-256, this is the same as H.b_in_bytes, while there is no such limit for hash functions such as SHAKE-256.<a href="#section-5.1-3.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.1-2.3">
+            <p id="section-5.1-2.3.1">G.scalar_mult(y,g) is a function operating on a scalar
+y and a group element g. It returns an octet string representation of the group element Y = y*g.<a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.1-3.4">
-            <p id="section-5.1-3.4.1">H.s_in_bytes denotes the <em>input block size</em> used by H. This number denotes the maximum number of bytes that can be processed
-in a single block before applying the compression function or permutation becomes necessary. (See also <span>[<a href="#RFC2104" class="cite xref">RFC2104</a>]</span> for the corresponding block size concepts).
-For instance, for SHA-512 the input block size s_in_bytes is 128 as the compression function can process up to 128 bytes,
-while for SHAKE-256 the input block size amounts to 136 bytes before the permutation of the sponge state needs to be applied.<a href="#section-5.1-3.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.1-2.4">
+            <p id="section-5.1-2.4.1">G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.<a href="#section-5.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-2.5">
+            <p id="section-5.1-2.5.1">G.scalar_mult_vfy(y,g) is a function operating on
+a scalar y and a group element g. It returns an octet string
+representation of the group element y*g. Additionally, scalar_mult_vfy specifies validity conditions for y,g and y*g and outputs G.I in case they are not met.<a href="#section-5.1-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-2.6">
+            <p id="section-5.1-2.6.1">G.DSI denotes a domain-separation identifier octet string which SHALL be uniquely identifying the group environment G.<a href="#section-5.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
-<div id="group-environment-g">
+<div id="hash-function-h">
 <section id="section-5.2">
-        <h3 id="name-group-environment-g">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-group-environment-g" class="section-name selfRef">Group environment G</a>
+        <h3 id="name-hash-function-h">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-hash-function-h" class="section-name selfRef">Hash function H</a>
         </h3>
-<p id="section-5.2-1">The group environment G specifies an elliptic curve group (also denoted G for convenience)  and associated constants
-and functions as detailed below. In this document we use additive notation for the group operation.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-1">Common choices for H are SHA-512 <span>[<a href="#RFC6234" class="cite xref">RFC6234</a>]</span> or SHAKE-256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span>. (I.e., the hash function
+outputs octet strings, and not group elements.)
+For considering both variable-output-length hashes and fixed-output-length hashes, we use the following convention.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">We use the following notation for referring to the specific properties of a hash function H:<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.2-2.1">
-            <p id="section-5.2-2.1.1">G.calculate_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group
-which is derived from input octet strings PRS, CI, and sid and with the help of a hash function H.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.2-3.1">
+            <p id="section-5.2-3.1.1">H.hash(m,l) is a function that operates on an input octet string m and returns the first l octets of the hash of m.<a href="#section-5.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.2-2.2">
-            <p id="section-5.2-2.2.1">G.sample_scalar() is a function returning a representation of an integer (referred to as "scalar" from now on) appropriate as a
-private Diffie-Hellman key for the group.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.2-3.2">
+            <p id="section-5.2-3.2.1">H.b_in_bytes denotes the <em>minimum</em> output size in bytes for collision resistance for the
+security level target of the hash function. E.g. H.b_in_bytes = 64 for SHA-512 and SHAKE-256 and H.b_in_bytes = 32 for
+SHA-256 and SHAKE-128. We use the notation H.hash(m) = H.hash(m, H.b_in_bytes) and let the hash operation
+output the default length if no explicit length parameter is given.<a href="#section-5.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.2-2.3">
-            <p id="section-5.2-2.3.1">G.scalar_mult(y,g) is a function operating on a scalar
-y and a group element g. It returns an octet string representation of the group element Y = y*g.<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.2-3.3">
+            <p id="section-5.2-3.3.1">H.bmax_in_bytes denotes the <em>maximum</em> output size in octets supported by the hash function. In case of fixed-size
+hashes such as SHA-256, this is the same as H.b_in_bytes, while there is no such limit for hash functions such as SHAKE-256.<a href="#section-5.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.2-2.4">
-            <p id="section-5.2-2.4.1">G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.2-2.5">
-            <p id="section-5.2-2.5.1">G.scalar_mult_vfy(y,g) is a function operating on
-a scalar y and a group element g. It returns an octet string
-representation of the group element y*g. Additionally, scalar_mult_vfy specifies validity conditions for y,g and y*g and outputs G.I in case they are not met.<a href="#section-5.2-2.5.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.2-2.6">
-            <p id="section-5.2-2.6.1">G.DSI denotes a domain-separation identifier octet string which SHALL be uniquely identifying the group environment G.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.2-3.4">
+            <p id="section-5.2-3.4.1">H.s_in_bytes denotes the <em>input block size</em> used by H. This number denotes the maximum number of bytes that can be processed
+in a single block before applying the compression function or permutation becomes necessary. (See also <span>[<a href="#RFC2104" class="cite xref">RFC2104</a>]</span> for the corresponding block size concepts).
+For instance, for SHA-512 the input block size s_in_bytes is 128 as the compression function can process up to 128 bytes,
+while for SHAKE-256 the input block size amounts to 136 bytes before the permutation of the sponge state needs to be applied.<a href="#section-5.2-3.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2476,7 +2477,7 @@ If a party A is allowing for multiple concurrent sessions, the adversary may als
 If both identities are to be integrated in CI, this is only possible if clear initiator and responder roles are assigned and the encoding of the identities associates the role with the identity string.<a href="#section-9.1.2-2" class="pilcrow">¶</a></p>
 <p id="section-9.1.2-3">Integration of identity strings in CI also avoids the need of the security-critical subsequent check for the identity strings,
 which might be omitted or implemented incorrectly without notice. Integration of identities into CI also strengthens the security properties with respect
-to attacks based on quantum computers {sec-quantum-annoying}.<a href="#section-9.1.2-3" class="pilcrow">¶</a></p>
+to attacks based on quantum computers <a href="#sec-quantum-annoying" class="auto internal xref">Section 9.12</a>.<a href="#section-9.1.2-3" class="pilcrow">¶</a></p>
 <p id="section-9.1.2-4">Applications that integrate identity strings in ADa and/or ADb shall carefully verify implementations for correctness
 of the implemented identity checks that the application must carry out after the CPace run.<a href="#section-9.1.2-4" class="pilcrow">¶</a></p>
 <p id="section-9.1.2-5">When adding randomness guaranteeing for unique values of ADa and ADb then a party running the application can detect for loopback attacks by checking

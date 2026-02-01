@@ -5,10 +5,10 @@
 CFRG                                                          M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 21 June 2026       Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 5 August 2026      Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                        18 December 2025
+                                                         1 February 2026
 
 
                    CPace, a balanced composable PAKE
@@ -48,11 +48,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 June 2026.
+   This Internet-Draft will expire on 5 August 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -72,8 +72,8 @@ Table of Contents
      3.3.  Responsibilities of the application layer
    4.  CPace cipher suites
    5.  Definitions and notation
-     5.1.  Hash function H
-     5.2.  Group environment G
+     5.1.  Group environment G
+     5.2.  Hash function H
      5.3.  Notation for string operations
      5.4.  Notation for group operations
    6.  The CPace protocol
@@ -450,7 +450,41 @@ Table of Contents
 
 5.  Definitions and notation
 
-5.1.  Hash function H
+5.1.  Group environment G
+
+   The group environment G specifies an elliptic curve group (also
+   denoted G for convenience) and associated constants and functions as
+   detailed below.  In this document we use additive notation for the
+   group operation.
+
+   *  G.calculate_generator(H,PRS,CI,sid) denotes a function that
+      outputs a representation of a generator (referred to as
+      "generator" from now on) of the group which is derived from input
+      octet strings PRS, CI, and sid and with the help of a hash
+      function H.
+
+   *  G.sample_scalar() is a function returning a representation of an
+      integer (referred to as "scalar" from now on) appropriate as a
+      private Diffie-Hellman key for the group.
+
+   *  G.scalar_mult(y,g) is a function operating on a scalar y and a
+      group element g.  It returns an octet string representation of the
+      group element Y = y*g.
+
+   *  G.I denotes a unique octet string representation of the neutral
+      element of the group.  G.I is used for detecting and signaling
+      certain error conditions.
+
+   *  G.scalar_mult_vfy(y,g) is a function operating on a scalar y and a
+      group element g.  It returns an octet string representation of the
+      group element y*g.  Additionally, scalar_mult_vfy specifies
+      validity conditions for y,g and y*g and outputs G.I in case they
+      are not met.
+
+   *  G.DSI denotes a domain-separation identifier octet string which
+      SHALL be uniquely identifying the group environment G.
+
+5.2.  Hash function H
 
    Common choices for H are SHA-512 [RFC6234] or SHAKE-256 [FIPS202].
    (I.e., the hash function outputs octet strings, and not group
@@ -485,40 +519,6 @@ Table of Contents
       process up to 128 bytes, while for SHAKE-256 the input block size
       amounts to 136 bytes before the permutation of the sponge state
       needs to be applied.
-
-5.2.  Group environment G
-
-   The group environment G specifies an elliptic curve group (also
-   denoted G for convenience) and associated constants and functions as
-   detailed below.  In this document we use additive notation for the
-   group operation.
-
-   *  G.calculate_generator(H,PRS,CI,sid) denotes a function that
-      outputs a representation of a generator (referred to as
-      "generator" from now on) of the group which is derived from input
-      octet strings PRS, CI, and sid and with the help of a hash
-      function H.
-
-   *  G.sample_scalar() is a function returning a representation of an
-      integer (referred to as "scalar" from now on) appropriate as a
-      private Diffie-Hellman key for the group.
-
-   *  G.scalar_mult(y,g) is a function operating on a scalar y and a
-      group element g.  It returns an octet string representation of the
-      group element Y = y*g.
-
-   *  G.I denotes a unique octet string representation of the neutral
-      element of the group.  G.I is used for detecting and signaling
-      certain error conditions.
-
-   *  G.scalar_mult_vfy(y,g) is a function operating on a scalar y and a
-      group element g.  It returns an octet string representation of the
-      group element y*g.  Additionally, scalar_mult_vfy specifies
-      validity conditions for y,g and y*g and outputs G.I in case they
-      are not met.
-
-   *  G.DSI denotes a domain-separation identifier octet string which
-      SHALL be uniquely identifying the group environment G.
 
 5.3.  Notation for string operations
 
@@ -1092,8 +1092,8 @@ Table of Contents
    security-critical subsequent check for the identity strings, which
    might be omitted or implemented incorrectly without notice.
    Integration of identities into CI also strengthens the security
-   properties with respect to attacks based on quantum computers {sec-
-   quantum-annoying}.
+   properties with respect to attacks based on quantum computers
+   Section 9.12.
 
    Applications that integrate identity strings in ADa and/or ADb shall
    carefully verify implementations for correctness of the implemented
