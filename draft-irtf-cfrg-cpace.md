@@ -320,6 +320,28 @@ CPace can also securely be implemented using the cipher suites CPACE-RISTR255-SH
 
 # Definitions and notation {#Definition}
 
+## Group environment G
+
+The group environment G specifies an elliptic curve group (also denoted G for convenience)  and associated constants
+and functions as detailed below. In this document we use additive notation for the group operation.
+
+- G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group
+which is derived from input octet strings PRS, CI, and sid and with the help of a hash function H.
+
+- G.sample\_scalar() is a function returning a representation of an integer (referred to as "scalar" from now on) appropriate as a
+private Diffie-Hellman key for the group.
+
+- G.scalar\_mult(y,g) is a function operating on a scalar
+y and a group element g. It returns an octet string representation of the group element Y = y\*g.
+
+- G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.
+
+- G.scalar\_mult\_vfy(y,g) is a function operating on
+a scalar y and a group element g. It returns an octet string
+representation of the group element y\*g. Additionally, scalar\_mult\_vfy specifies validity conditions for y,g and y\*g and outputs G.I in case they are not met.
+
+- G.DSI denotes a domain-separation identifier octet string which SHALL be uniquely identifying the group environment G.
+
 ## Hash function H
 
 Common choices for H are SHA-512 {{?RFC6234}} or SHAKE-256 {{FIPS202}}. (I.e., the hash function
@@ -342,28 +364,6 @@ hashes such as SHA-256, this is the same as H.b\_in\_bytes, while there is no su
 in a single block before applying the compression function or permutation becomes necessary. (See also {{?RFC2104}} for the corresponding block size concepts).
 For instance, for SHA-512 the input block size s\_in\_bytes is 128 as the compression function can process up to 128 bytes,
 while for SHAKE-256 the input block size amounts to 136 bytes before the permutation of the sponge state needs to be applied.
-
-## Group environment G
-
-The group environment G specifies an elliptic curve group (also denoted G for convenience)  and associated constants
-and functions as detailed below. In this document we use additive notation for the group operation.
-
-- G.calculate\_generator(H,PRS,CI,sid) denotes a function that outputs a representation of a generator (referred to as "generator" from now on) of the group
-which is derived from input octet strings PRS, CI, and sid and with the help of a hash function H.
-
-- G.sample\_scalar() is a function returning a representation of an integer (referred to as "scalar" from now on) appropriate as a
-private Diffie-Hellman key for the group.
-
-- G.scalar\_mult(y,g) is a function operating on a scalar
-y and a group element g. It returns an octet string representation of the group element Y = y\*g.
-
-- G.I denotes a unique octet string representation of the neutral element of the group. G.I is used for detecting and signaling certain error conditions.
-
-- G.scalar\_mult\_vfy(y,g) is a function operating on
-a scalar y and a group element g. It returns an octet string
-representation of the group element y\*g. Additionally, scalar\_mult\_vfy specifies validity conditions for y,g and y\*g and outputs G.I in case they are not met.
-
-- G.DSI denotes a domain-separation identifier octet string which SHALL be uniquely identifying the group environment G.
 
 ## Notation for string operations {#notation-section}
 
@@ -770,7 +770,7 @@ If both identities are to be integrated in CI, this is only possible if clear in
 
 Integration of identity strings in CI also avoids the need of the security-critical subsequent check for the identity strings,
 which might be omitted or implemented incorrectly without notice. Integration of identities into CI also strengthens the security properties with respect
-to attacks based on quantum computers {sec-quantum-annoying}.
+to attacks based on quantum computers {{sec-quantum-annoying}}.
 
 Applications that integrate identity strings in ADa and/or ADb shall carefully verify implementations for correctness
 of the implemented identity checks that the application must carry out after the CPace run.
