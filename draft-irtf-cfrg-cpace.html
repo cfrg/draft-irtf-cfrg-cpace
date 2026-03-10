@@ -171,7 +171,7 @@ can be used on groups of prime- and non-prime order.
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: 'Oxygen Mono';
@@ -179,7 +179,8 @@ can be used on groups of prime- and non-prime order.
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 }
 
 @font-face {
@@ -1050,11 +1051,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CPace</td>
-<td class="right">February 2026</td>
+<td class="right">March 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Abdalla, et al.</td>
-<td class="center">Expires 5 August 2026</td>
+<td class="center">Expires 11 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-irtf-cfrg-cpace-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-01" class="published">1 February 2026</time>
+<time datetime="2026-03-10" class="published">10 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-05">5 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-11">11 September 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1129,7 +1130,7 @@ can be used on groups of prime- and non-prime order.<a href="#section-abstract-1
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -3273,28 +3274,28 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#a
   Inputs
     H   = SHA-512 with input block size 128 bytes.
     PRS = b'Password' ; ZPAD length: 109 ; DSI = b'CPace255'
-    CI = b'oc\x0bB_responder\x0bA_initiator'
-    CI = 6f630b425f726573706f6e6465720b415f696e69746961746f72
+    CI = b'\x0bA_initiator\x0bB_responder'
+    CI = 0b415f696e69746961746f720b425f726573706f6e646572
     sid = 7e4b4791d6a8ef019b936c79fb7f2c57
   Outputs
     generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes):
-    (length: 172 bytes)
+    (length: 170 bytes)
       0843506163653235350850617373776f72646d000000000000000000
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000001a6f630b425f726573706f6e
-      6465720b415f696e69746961746f72107e4b4791d6a8ef019b936c79
-      fb7f2c57
+      00000000000000000000000000000000180b415f696e69746961746f
+      720b425f726573706f6e646572107e4b4791d6a8ef019b936c79fb7f
+      2c57
     hash generator string: (length: 32 bytes)
-      92806dc608984dbf4e4aae478c6ec453ae979cc01ecc1a2a7cf49f5c
-      ee56551b
+      03998087bdb1a2617bbe25ef5a7c18cd4f84f902328701790958755e
+      e4aed1d3
     decoded field element of 255 bits: (length: 32 bytes)
-      92806dc608984dbf4e4aae478c6ec453ae979cc01ecc1a2a7cf49f5c
-      ee56551b
+      03998087bdb1a2617bbe25ef5a7c18cd4f84f902328701790958755e
+      e4aed153
     generator g: (length: 32 bytes)
-      64e8099e3ea682cfdc5cb665c057ebb514d06bf23ebc9f743b51b822
-      42327074
+      d04bf6d41f6a289632a2e929fa29bebd51092512a7829fdde7d314b6
+      2f05a73f
 </pre><a href="#appendix-B.1.1-1" class="pilcrow">¶</a>
 </div>
 <div id="testvectors-as-json-file-encoded-as-base64-5">
@@ -3306,23 +3307,22 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#a
 <pre>
  #eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjUwNj
  #E3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiAxMDksICJEU0kiOiAiNDM1MDYx
- #NjM2NTMyMzUzNSIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyME
- #I0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI3RTRCNDc5MUQ2QThFRjAx
- #OUI5MzZDNzlGQjdGMkM1NyIsICJnZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSS
- #xzaWQsSC5zX2luX2J5dGVzKSI6ICIwODQzNTA2MTYzNjUzMjM1MzUwODUwNjE3Mzcz
- #Nzc2RjcyNjQ2RDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+ #NjM2NTMyMzUzNSIsICJDSSI6ICIwQjQxNUY2OTZFNjk3NDY5NjE3NDZGNzIwQjQyNU
+ #Y3MjY1NzM3MDZGNkU2NDY1NzIiLCAic2lkIjogIjdFNEI0NzkxRDZBOEVGMDE5Qjkz
+ #NkM3OUZCN0YyQzU3IiwgImdlbmVyYXRvcl9zdHJpbmcoRy5EU0ksUFJTLENJLHNpZC
+ #xILnNfaW5fYnl0ZXMpIjogIjA4NDM1MDYxNjM2NTMyMzUzNTA4NTA2MTczNzM3NzZG
+ #NzI2NDZEMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
  #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
  #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
  #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
- #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMUE2RjYzMEI0MjVGNzI2NTczNz
- #A2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyMTA3RTRCNDc5MUQ2QThF
- #RjAxOUI5MzZDNzlGQjdGMkM1NyIsICJoYXNoIGdlbmVyYXRvciBzdHJpbmciOiAiOT
- #I4MDZEQzYwODk4NERCRjRFNEFBRTQ3OEM2RUM0NTNBRTk3OUNDMDFFQ0MxQTJBN0NG
- #NDlGNUNFRTU2NTUxQiIsICJkZWNvZGVkIGZpZWxkIGVsZW1lbnQgb2YgMjU1IGJpdH
- #MiOiAiOTI4MDZEQzYwODk4NERCRjRFNEFBRTQ3OEM2RUM0NTNBRTk3OUNDMDFFQ0Mx
- #QTJBN0NGNDlGNUNFRTU2NTUxQiIsICJnZW5lcmF0b3IgZyI6ICI2NEU4MDk5RTNFQT
- #Y4MkNGREM1Q0I2NjVDMDU3RUJCNTE0RDA2QkYyM0VCQzlGNzQzQjUxQjgyMjQyMzI3
- #MDc0In0=
+ #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxODBCNDE1RjY5NkU2OTc0Njk2MTc0Nk
+ #Y3MjBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjEwN0U0QjQ3OTFENkE4RUYwMTlCOTM2
+ #Qzc5RkI3RjJDNTciLCAiaGFzaCBnZW5lcmF0b3Igc3RyaW5nIjogIjAzOTk4MDg3Qk
+ #RCMUEyNjE3QkJFMjVFRjVBN0MxOENENEY4NEY5MDIzMjg3MDE3OTA5NTg3NTVFRTRB
+ #RUQxRDMiLCAiZGVjb2RlZCBmaWVsZCBlbGVtZW50IG9mIDI1NSBiaXRzIjogIjAzOT
+ #k4MDg3QkRCMUEyNjE3QkJFMjVFRjVBN0MxOENENEY4NEY5MDIzMjg3MDE3OTA5NTg3
+ #NTVFRTRBRUQxNTMiLCAiZ2VuZXJhdG9yIGciOiAiRDA0QkY2RDQxRjZBMjg5NjMyQT
+ #JFOTI5RkEyOUJFQkQ1MTA5MjUxMkE3ODI5RkRERTdEMzE0QjYyRjA1QTczRiJ9
 </pre><a href="#appendix-B.1.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3343,8 +3343,8 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#a
       53044080
   Outputs
     Ya: (length: 32 bytes)
-      1b02dad6dbd29a07b6d28c9e04cb2f184f0734350e32bb7e62ff9dbc
-      fdb63d15
+      1d13c89278cdadd826f6d8d7f887701430f8380ddc17611cdd6dc989
+      ce0c9f32
 </pre><a href="#appendix-B.1.2-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3363,8 +3363,8 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#a
       c51ac40a
   Outputs
     Yb: (length: 32 bytes)
-      20cda5955f82c4931545bcbf40758ce1010d7db4db2a907013d79c7a
-      8fcf957f
+      248cccf6d5cdc3646f0ad593f9e6cef4e69d4945f8372e623512ecea
+      32185623
 </pre><a href="#appendix-B.1.3-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3377,11 +3377,11 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#a
 <div class="alignLeft art-text artwork" id="appendix-B.1.4-1">
 <pre>
     scalar_mult_vfy(ya,Yb): (length: 32 bytes)
-      f97fdfcfff1c983ed6283856a401de3191ca919902b323c5f950c970
-      3df7297a
+      5b067effbdc0b2a0e1d907b21ebb25cfedb96a852179a847c37e43ee
+      71322c6b
     scalar_mult_vfy(yb,Ya): (length: 32 bytes)
-      f97fdfcfff1c983ed6283856a401de3191ca919902b323c5f950c970
-      3df7297a
+      5b067effbdc0b2a0e1d907b21ebb25cfedb96a852179a847c37e43ee
+      71322c6b
 </pre><a href="#appendix-B.1.4-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3394,22 +3394,22 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#a
 <div class="alignLeft art-text artwork" id="appendix-B.1.5-1">
 <pre>
     transcript_ir(Ya,ADa,Yb,ADb): (length: 74 bytes)
-      201b02dad6dbd29a07b6d28c9e04cb2f184f0734350e32bb7e62ff9d
-      bcfdb63d15034144612020cda5955f82c4931545bcbf40758ce1010d
-      7db4db2a907013d79c7a8fcf957f03414462
+      201d13c89278cdadd826f6d8d7f887701430f8380ddc17611cdd6dc9
+      89ce0c9f320341446120248cccf6d5cdc3646f0ad593f9e6cef4e69d
+      4945f8372e623512ecea3218562303414462
     DSI = G.DSI_ISK, b'CPace255_ISK': (length: 12 bytes)
       43506163653235355f49534b
     lv_cat(DSI,sid,K)||transcript_ir(Ya,ADa,Yb,ADb):
     (length: 137 bytes)
       0c43506163653235355f49534b107e4b4791d6a8ef019b936c79fb7f
-      2c5720f97fdfcfff1c983ed6283856a401de3191ca919902b323c5f9
-      50c9703df7297a201b02dad6dbd29a07b6d28c9e04cb2f184f073435
-      0e32bb7e62ff9dbcfdb63d15034144612020cda5955f82c4931545bc
-      bf40758ce1010d7db4db2a907013d79c7a8fcf957f03414462
+      2c57205b067effbdc0b2a0e1d907b21ebb25cfedb96a852179a847c3
+      7e43ee71322c6b201d13c89278cdadd826f6d8d7f887701430f8380d
+      dc17611cdd6dc989ce0c9f320341446120248cccf6d5cdc3646f0ad5
+      93f9e6cef4e69d4945f8372e623512ecea3218562303414462
     ISK result: (length: 64 bytes)
-      a051ee5ee2499d16da3f69f430218b8ea94a18a45b67f9e86495b382
-      c33d14a5c38cecc0cc834f960e39e0d1bf7d76b9ef5d54eecc5e0f38
-      6c97ad12da8c3d5f
+      6e19b875f7a561d6b3ca3dbb9ef42ac55de3e717881018204b8922b4
+      d5e53bb2aa82c300bea7b65d2b671da71922ddf6472301b79bc270ad
+      fa8bf413285f2263
 </pre><a href="#appendix-B.1.5-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3422,22 +3422,22 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#a
 <div class="alignLeft art-text artwork" id="appendix-B.1.6-1">
 <pre>
     transcript_oc(Ya,ADa,Yb,ADb): (length: 76 bytes)
-      6f632020cda5955f82c4931545bcbf40758ce1010d7db4db2a907013
-      d79c7a8fcf957f03414462201b02dad6dbd29a07b6d28c9e04cb2f18
-      4f0734350e32bb7e62ff9dbcfdb63d1503414461
+      6f6320248cccf6d5cdc3646f0ad593f9e6cef4e69d4945f8372e6235
+      12ecea3218562303414462201d13c89278cdadd826f6d8d7f8877014
+      30f8380ddc17611cdd6dc989ce0c9f3203414461
     DSI = G.DSI_ISK, b'CPace255_ISK': (length: 12 bytes)
       43506163653235355f49534b
     lv_cat(DSI,sid,K)||transcript_oc(Ya,ADa,Yb,ADb):
     (length: 139 bytes)
       0c43506163653235355f49534b107e4b4791d6a8ef019b936c79fb7f
-      2c5720f97fdfcfff1c983ed6283856a401de3191ca919902b323c5f9
-      50c9703df7297a6f632020cda5955f82c4931545bcbf40758ce1010d
-      7db4db2a907013d79c7a8fcf957f03414462201b02dad6dbd29a07b6
-      d28c9e04cb2f184f0734350e32bb7e62ff9dbcfdb63d1503414461
+      2c57205b067effbdc0b2a0e1d907b21ebb25cfedb96a852179a847c3
+      7e43ee71322c6b6f6320248cccf6d5cdc3646f0ad593f9e6cef4e69d
+      4945f8372e623512ecea3218562303414462201d13c89278cdadd826
+      f6d8d7f887701430f8380ddc17611cdd6dc989ce0c9f3203414461
     ISK result: (length: 64 bytes)
-      5cc27e49679423f81a37d7521d9fb1327c840d2ea4a1543652e7de5c
-      abb89ebad27d24761b3288a3fd5764b441ecb78d30abc26161ff45ea
-      297bb311dde04727
+      eef745e2f6e7ae2b1a1e53da340e777167a07fe150436648c51fb199
+      c11f3cbabfc683a2b48e1af5881940dc398d375c95e6b4ae9948a45b
+      8770de0656382be4
 </pre><a href="#appendix-B.1.6-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3449,16 +3449,16 @@ is a valid u-coordinate of a Montgomery curve with curve parameter A.<a href="#a
           </h4>
 <div class="alignLeft art-text artwork" id="appendix-B.1.7-1">
 <pre>
-    H.hash(b"CPaceSidOut" + transcript_ir(Ya,ADa, Yb,ADb)):
+    H.hash(b"CPaceSidOutput" + transcript_ir(Ya,ADa, Yb,ADb)):
     (length: 64 bytes)
-      f7ae11ac3ee85c3c42d8bd51ba823fbe17158f43d34a1296f1cb2567
-      bcc71dc8b201a134b566b468aad8fd04f02f96e3caf9d5601f7ed760
-      a0a951a5a861b5e7
-    H.hash(b"CPaceSidOut" + transcript_oc(Ya,ADa, Yb,ADb)):
+      cbc73f62589bbc96ab6a95ec2363df621e93bc3b0cea83ba6b9571d0
+      05fa8f5d2d08f7165622777fa484c02a9e6b20a84ee2dbebae8c53be
+      757dcfc0eebdeb5f
+    H.hash(b"CPaceSidOutput" + transcript_oc(Ya,ADa, Yb,ADb)):
     (length: 64 bytes)
-      a38389e34fa492788c1df43b06b427710491174e53c33b01362a490d
-      116fe1b7e870aa6e2a7fc018725e3b7f969f7508042e44cd3863f39a
-      a75026a190d1902b
+      3a504e9c7f1f7fa7314861e2c487d13f28566f3043f0ca760d22c491
+      1aca0dd8b1f12a7ad0862eb92d08a76120140412ae6b8322e99d75cf
+      1d20d8cfde2b40fe
 </pre><a href="#appendix-B.1.7-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3474,18 +3474,17 @@ const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
 };
 const unsigned char tc_CI[] = {
- 0x6f,0x63,0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,
- 0x65,0x72,0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,
- 0x6f,0x72,
+ 0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,0x6f,0x72,
+ 0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,0x65,0x72,
 };
 const unsigned char tc_sid[] = {
  0x7e,0x4b,0x47,0x91,0xd6,0xa8,0xef,0x01,0x9b,0x93,0x6c,0x79,
  0xfb,0x7f,0x2c,0x57,
 };
 const unsigned char tc_g[] = {
- 0x64,0xe8,0x09,0x9e,0x3e,0xa6,0x82,0xcf,0xdc,0x5c,0xb6,0x65,
- 0xc0,0x57,0xeb,0xb5,0x14,0xd0,0x6b,0xf2,0x3e,0xbc,0x9f,0x74,
- 0x3b,0x51,0xb8,0x22,0x42,0x32,0x70,0x74,
+ 0xd0,0x4b,0xf6,0xd4,0x1f,0x6a,0x28,0x96,0x32,0xa2,0xe9,0x29,
+ 0xfa,0x29,0xbe,0xbd,0x51,0x09,0x25,0x12,0xa7,0x82,0x9f,0xdd,
+ 0xe7,0xd3,0x14,0xb6,0x2f,0x05,0xa7,0x3f,
 };
 const unsigned char tc_ya[] = {
  0x21,0xb4,0xf4,0xbd,0x9e,0x64,0xed,0x35,0x5c,0x3e,0xb6,0x76,
@@ -3496,9 +3495,9 @@ const unsigned char tc_ADa[] = {
  0x41,0x44,0x61,
 };
 const unsigned char tc_Ya[] = {
- 0x1b,0x02,0xda,0xd6,0xdb,0xd2,0x9a,0x07,0xb6,0xd2,0x8c,0x9e,
- 0x04,0xcb,0x2f,0x18,0x4f,0x07,0x34,0x35,0x0e,0x32,0xbb,0x7e,
- 0x62,0xff,0x9d,0xbc,0xfd,0xb6,0x3d,0x15,
+ 0x1d,0x13,0xc8,0x92,0x78,0xcd,0xad,0xd8,0x26,0xf6,0xd8,0xd7,
+ 0xf8,0x87,0x70,0x14,0x30,0xf8,0x38,0x0d,0xdc,0x17,0x61,0x1c,
+ 0xdd,0x6d,0xc9,0x89,0xce,0x0c,0x9f,0x32,
 };
 const unsigned char tc_yb[] = {
  0x84,0x8b,0x07,0x79,0xff,0x41,0x5f,0x0a,0xf4,0xea,0x14,0xdf,
@@ -3509,54 +3508,46 @@ const unsigned char tc_ADb[] = {
  0x41,0x44,0x62,
 };
 const unsigned char tc_Yb[] = {
- 0x20,0xcd,0xa5,0x95,0x5f,0x82,0xc4,0x93,0x15,0x45,0xbc,0xbf,
- 0x40,0x75,0x8c,0xe1,0x01,0x0d,0x7d,0xb4,0xdb,0x2a,0x90,0x70,
- 0x13,0xd7,0x9c,0x7a,0x8f,0xcf,0x95,0x7f,
+ 0x24,0x8c,0xcc,0xf6,0xd5,0xcd,0xc3,0x64,0x6f,0x0a,0xd5,0x93,
+ 0xf9,0xe6,0xce,0xf4,0xe6,0x9d,0x49,0x45,0xf8,0x37,0x2e,0x62,
+ 0x35,0x12,0xec,0xea,0x32,0x18,0x56,0x23,
 };
 const unsigned char tc_K[] = {
- 0xf9,0x7f,0xdf,0xcf,0xff,0x1c,0x98,0x3e,0xd6,0x28,0x38,0x56,
- 0xa4,0x01,0xde,0x31,0x91,0xca,0x91,0x99,0x02,0xb3,0x23,0xc5,
- 0xf9,0x50,0xc9,0x70,0x3d,0xf7,0x29,0x7a,
+ 0x5b,0x06,0x7e,0xff,0xbd,0xc0,0xb2,0xa0,0xe1,0xd9,0x07,0xb2,
+ 0x1e,0xbb,0x25,0xcf,0xed,0xb9,0x6a,0x85,0x21,0x79,0xa8,0x47,
+ 0xc3,0x7e,0x43,0xee,0x71,0x32,0x2c,0x6b,
 };
 const unsigned char tc_ISK_IR[] = {
- 0xa0,0x51,0xee,0x5e,0xe2,0x49,0x9d,0x16,0xda,0x3f,0x69,0xf4,
- 0x30,0x21,0x8b,0x8e,0xa9,0x4a,0x18,0xa4,0x5b,0x67,0xf9,0xe8,
- 0x64,0x95,0xb3,0x82,0xc3,0x3d,0x14,0xa5,0xc3,0x8c,0xec,0xc0,
- 0xcc,0x83,0x4f,0x96,0x0e,0x39,0xe0,0xd1,0xbf,0x7d,0x76,0xb9,
- 0xef,0x5d,0x54,0xee,0xcc,0x5e,0x0f,0x38,0x6c,0x97,0xad,0x12,
- 0xda,0x8c,0x3d,0x5f,
+ 0x6e,0x19,0xb8,0x75,0xf7,0xa5,0x61,0xd6,0xb3,0xca,0x3d,0xbb,
+ 0x9e,0xf4,0x2a,0xc5,0x5d,0xe3,0xe7,0x17,0x88,0x10,0x18,0x20,
+ 0x4b,0x89,0x22,0xb4,0xd5,0xe5,0x3b,0xb2,0xaa,0x82,0xc3,0x00,
+ 0xbe,0xa7,0xb6,0x5d,0x2b,0x67,0x1d,0xa7,0x19,0x22,0xdd,0xf6,
+ 0x47,0x23,0x01,0xb7,0x9b,0xc2,0x70,0xad,0xfa,0x8b,0xf4,0x13,
+ 0x28,0x5f,0x22,0x63,
 };
 const unsigned char tc_ISK_SY[] = {
- 0x5c,0xc2,0x7e,0x49,0x67,0x94,0x23,0xf8,0x1a,0x37,0xd7,0x52,
- 0x1d,0x9f,0xb1,0x32,0x7c,0x84,0x0d,0x2e,0xa4,0xa1,0x54,0x36,
- 0x52,0xe7,0xde,0x5c,0xab,0xb8,0x9e,0xba,0xd2,0x7d,0x24,0x76,
- 0x1b,0x32,0x88,0xa3,0xfd,0x57,0x64,0xb4,0x41,0xec,0xb7,0x8d,
- 0x30,0xab,0xc2,0x61,0x61,0xff,0x45,0xea,0x29,0x7b,0xb3,0x11,
- 0xdd,0xe0,0x47,0x27,
-};
-const unsigned char tc_ISK_SY[] = {
- 0x5c,0xc2,0x7e,0x49,0x67,0x94,0x23,0xf8,0x1a,0x37,0xd7,0x52,
- 0x1d,0x9f,0xb1,0x32,0x7c,0x84,0x0d,0x2e,0xa4,0xa1,0x54,0x36,
- 0x52,0xe7,0xde,0x5c,0xab,0xb8,0x9e,0xba,0xd2,0x7d,0x24,0x76,
- 0x1b,0x32,0x88,0xa3,0xfd,0x57,0x64,0xb4,0x41,0xec,0xb7,0x8d,
- 0x30,0xab,0xc2,0x61,0x61,0xff,0x45,0xea,0x29,0x7b,0xb3,0x11,
- 0xdd,0xe0,0x47,0x27,
+ 0xee,0xf7,0x45,0xe2,0xf6,0xe7,0xae,0x2b,0x1a,0x1e,0x53,0xda,
+ 0x34,0x0e,0x77,0x71,0x67,0xa0,0x7f,0xe1,0x50,0x43,0x66,0x48,
+ 0xc5,0x1f,0xb1,0x99,0xc1,0x1f,0x3c,0xba,0xbf,0xc6,0x83,0xa2,
+ 0xb4,0x8e,0x1a,0xf5,0x88,0x19,0x40,0xdc,0x39,0x8d,0x37,0x5c,
+ 0x95,0xe6,0xb4,0xae,0x99,0x48,0xa4,0x5b,0x87,0x70,0xde,0x06,
+ 0x56,0x38,0x2b,0xe4,
 };
 const unsigned char tc_sid_out_ir[] = {
- 0xf7,0xae,0x11,0xac,0x3e,0xe8,0x5c,0x3c,0x42,0xd8,0xbd,0x51,
- 0xba,0x82,0x3f,0xbe,0x17,0x15,0x8f,0x43,0xd3,0x4a,0x12,0x96,
- 0xf1,0xcb,0x25,0x67,0xbc,0xc7,0x1d,0xc8,0xb2,0x01,0xa1,0x34,
- 0xb5,0x66,0xb4,0x68,0xaa,0xd8,0xfd,0x04,0xf0,0x2f,0x96,0xe3,
- 0xca,0xf9,0xd5,0x60,0x1f,0x7e,0xd7,0x60,0xa0,0xa9,0x51,0xa5,
- 0xa8,0x61,0xb5,0xe7,
+ 0xcb,0xc7,0x3f,0x62,0x58,0x9b,0xbc,0x96,0xab,0x6a,0x95,0xec,
+ 0x23,0x63,0xdf,0x62,0x1e,0x93,0xbc,0x3b,0x0c,0xea,0x83,0xba,
+ 0x6b,0x95,0x71,0xd0,0x05,0xfa,0x8f,0x5d,0x2d,0x08,0xf7,0x16,
+ 0x56,0x22,0x77,0x7f,0xa4,0x84,0xc0,0x2a,0x9e,0x6b,0x20,0xa8,
+ 0x4e,0xe2,0xdb,0xeb,0xae,0x8c,0x53,0xbe,0x75,0x7d,0xcf,0xc0,
+ 0xee,0xbd,0xeb,0x5f,
 };
 const unsigned char tc_sid_out_oc[] = {
- 0xa3,0x83,0x89,0xe3,0x4f,0xa4,0x92,0x78,0x8c,0x1d,0xf4,0x3b,
- 0x06,0xb4,0x27,0x71,0x04,0x91,0x17,0x4e,0x53,0xc3,0x3b,0x01,
- 0x36,0x2a,0x49,0x0d,0x11,0x6f,0xe1,0xb7,0xe8,0x70,0xaa,0x6e,
- 0x2a,0x7f,0xc0,0x18,0x72,0x5e,0x3b,0x7f,0x96,0x9f,0x75,0x08,
- 0x04,0x2e,0x44,0xcd,0x38,0x63,0xf3,0x9a,0xa7,0x50,0x26,0xa1,
- 0x90,0xd1,0x90,0x2b,
+ 0x3a,0x50,0x4e,0x9c,0x7f,0x1f,0x7f,0xa7,0x31,0x48,0x61,0xe2,
+ 0xc4,0x87,0xd1,0x3f,0x28,0x56,0x6f,0x30,0x43,0xf0,0xca,0x76,
+ 0x0d,0x22,0xc4,0x91,0x1a,0xca,0x0d,0xd8,0xb1,0xf1,0x2a,0x7a,
+ 0xd0,0x86,0x2e,0xb9,0x2d,0x08,0xa7,0x61,0x20,0x14,0x04,0x12,
+ 0xae,0x6b,0x83,0x22,0xe9,0x9d,0x75,0xcf,0x1d,0x20,0xd8,0xcf,
+ 0xde,0x2b,0x40,0xfe,
 };
 </pre><a href="#appendix-B.1.8-1" class="pilcrow">¶</a>
 </div>
@@ -3569,31 +3560,30 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="lang-test-vectors sourcecode" id="appendix-B.1.9-1">
 <pre>
- #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
- #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI3
- #RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIjY0RTgwOTlFM0
- #VBNjgyQ0ZEQzVDQjY2NUMwNTdFQkI1MTREMDZCRjIzRUJDOUY3NDNCNTFCODIyNDIz
- #MjcwNzQiLCAieWEiOiAiMjFCNEY0QkQ5RTY0RUQzNTVDM0VCNjc2QTI4RUJFREFGNk
- #Q4RjE3QkRDMzY1OTk1QjMxOTA5NzE1MzA0NDA4MCIsICJBRGEiOiAiNDE0NDYxIiwg
- #IllhIjogIjFCMDJEQUQ2REJEMjlBMDdCNkQyOEM5RTA0Q0IyRjE4NEYwNzM0MzUwRT
- #MyQkI3RTYyRkY5REJDRkRCNjNEMTUiLCAieWIiOiAiODQ4QjA3NzlGRjQxNUYwQUY0
- #RUExNERGOUREMUQzQzI5QUM0MUQ4MzZDNzgwODg5NkM0RUJBMTlDNTFBQzQwQSIsIC
- #JBRGIiOiAiNDE0NDYyIiwgIlliIjogIjIwQ0RBNTk1NUY4MkM0OTMxNTQ1QkNCRjQw
- #NzU4Q0UxMDEwRDdEQjREQjJBOTA3MDEzRDc5QzdBOEZDRjk1N0YiLCAiSyI6ICJGOT
- #dGREZDRkZGMUM5ODNFRDYyODM4NTZBNDAxREUzMTkxQ0E5MTk5MDJCMzIzQzVGOTUw
- #Qzk3MDNERjcyOTdBIiwgIklTS19JUiI6ICJBMDUxRUU1RUUyNDk5RDE2REEzRjY5Rj
- #QzMDIxOEI4RUE5NEExOEE0NUI2N0Y5RTg2NDk1QjM4MkMzM0QxNEE1QzM4Q0VDQzBD
- #QzgzNEY5NjBFMzlFMEQxQkY3RDc2QjlFRjVENTRFRUNDNUUwRjM4NkM5N0FEMTJEQT
- #hDM0Q1RiIsICJJU0tfU1kiOiAiNUNDMjdFNDk2Nzk0MjNGODFBMzdENzUyMUQ5RkIx
- #MzI3Qzg0MEQyRUE0QTE1NDM2NTJFN0RFNUNBQkI4OUVCQUQyN0QyNDc2MUIzMjg4QT
- #NGRDU3NjRCNDQxRUNCNzhEMzBBQkMyNjE2MUZGNDVFQTI5N0JCMzExRERFMDQ3Mjci
- #LCAic2lkX291dHB1dF9pciI6ICJGN0FFMTFBQzNFRTg1QzNDNDJEOEJENTFCQTgyM0
- #ZCRTE3MTU4RjQzRDM0QTEyOTZGMUNCMjU2N0JDQzcxREM4QjIwMUExMzRCNTY2QjQ2
- #OEFBRDhGRDA0RjAyRjk2RTNDQUY5RDU2MDFGN0VENzYwQTBBOTUxQTVBODYxQjVFNy
- #IsICJzaWRfb3V0cHV0X29jIjogIkEzODM4OUUzNEZBNDkyNzg4QzFERjQzQjA2QjQy
- #NzcxMDQ5MTE3NEU1M0MzM0IwMTM2MkE0OTBEMTE2RkUxQjdFODcwQUE2RTJBN0ZDMD
- #E4NzI1RTNCN0Y5NjlGNzUwODA0MkU0NENEMzg2M0YzOUFBNzUwMjZBMTkwRDE5MDJC
- #In0=
+ #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICIwQjQxNUY2OTZFNjk3ND
+ #Y5NjE3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2NDY1NzIiLCAic2lkIjogIjdFNEI0
+ #NzkxRDZBOEVGMDE5QjkzNkM3OUZCN0YyQzU3IiwgImciOiAiRDA0QkY2RDQxRjZBMj
+ #g5NjMyQTJFOTI5RkEyOUJFQkQ1MTA5MjUxMkE3ODI5RkRERTdEMzE0QjYyRjA1QTcz
+ #RiIsICJ5YSI6ICIyMUI0RjRCRDlFNjRFRDM1NUMzRUI2NzZBMjhFQkVEQUY2RDhGMT
+ #dCREMzNjU5OTVCMzE5MDk3MTUzMDQ0MDgwIiwgIkFEYSI6ICI0MTQ0NjEiLCAiWWEi
+ #OiAiMUQxM0M4OTI3OENEQUREODI2RjZEOEQ3Rjg4NzcwMTQzMEY4MzgwRERDMTc2MT
+ #FDREQ2REM5ODlDRTBDOUYzMiIsICJ5YiI6ICI4NDhCMDc3OUZGNDE1RjBBRjRFQTE0
+ #REY5REQxRDNDMjlBQzQxRDgzNkM3ODA4ODk2QzRFQkExOUM1MUFDNDBBIiwgIkFEYi
+ #I6ICI0MTQ0NjIiLCAiWWIiOiAiMjQ4Q0NDRjZENUNEQzM2NDZGMEFENTkzRjlFNkNF
+ #RjRFNjlENDk0NUY4MzcyRTYyMzUxMkVDRUEzMjE4NTYyMyIsICJLIjogIjVCMDY3RU
+ #ZGQkRDMEIyQTBFMUQ5MDdCMjFFQkIyNUNGRURCOTZBODUyMTc5QTg0N0MzN0U0M0VF
+ #NzEzMjJDNkIiLCAiSVNLX0lSIjogIjZFMTlCODc1RjdBNTYxRDZCM0NBM0RCQjlFRj
+ #QyQUM1NURFM0U3MTc4ODEwMTgyMDRCODkyMkI0RDVFNTNCQjJBQTgyQzMwMEJFQTdC
+ #NjVEMkI2NzFEQTcxOTIyRERGNjQ3MjMwMUI3OUJDMjcwQURGQThCRjQxMzI4NUYyMj
+ #YzIiwgIklTS19TWSI6ICJFRUY3NDVFMkY2RTdBRTJCMUExRTUzREEzNDBFNzc3MTY3
+ #QTA3RkUxNTA0MzY2NDhDNTFGQjE5OUMxMUYzQ0JBQkZDNjgzQTJCNDhFMUFGNTg4MT
+ #k0MERDMzk4RDM3NUM5NUU2QjRBRTk5NDhBNDVCODc3MERFMDY1NjM4MkJFNCIsICJz
+ #aWRfb3V0cHV0X2lyIjogIkNCQzczRjYyNTg5QkJDOTZBQjZBOTVFQzIzNjNERjYyMU
+ #U5M0JDM0IwQ0VBODNCQTZCOTU3MUQwMDVGQThGNUQyRDA4RjcxNjU2MjI3NzdGQTQ4
+ #NEMwMkE5RTZCMjBBODRFRTJEQkVCQUU4QzUzQkU3NTdEQ0ZDMEVFQkRFQjVGIiwgIn
+ #NpZF9vdXRwdXRfb2MiOiAiM0E1MDRFOUM3RjFGN0ZBNzMxNDg2MUUyQzQ4N0QxM0Yy
+ #ODU2NkYzMDQzRjBDQTc2MEQyMkM0OTExQUNBMEREOEIxRjEyQTdBRDA4NjJFQjkyRD
+ #A4QTc2MTIwMTQwNDEyQUU2QjgzMjJFOTlENzVDRjFEMjBEOENGREUyQjQwRkUifQ==
 </pre><a href="#appendix-B.1.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3692,28 +3682,28 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
   Inputs
     H   = SHAKE-256 with input block size 136 bytes.
     PRS = b'Password' ; ZPAD length: 117 ; DSI = b'CPace448'
-    CI = b'oc\x0bB_responder\x0bA_initiator'
-    CI = 6f630b425f726573706f6e6465720b415f696e69746961746f72
+    CI = b'\x0bA_initiator\x0bB_responder'
+    CI = 0b415f696e69746961746f720b425f726573706f6e646572
     sid = 5223e0cdc45d6575668d64c552004124
   Outputs
     generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes):
-    (length: 180 bytes)
+    (length: 178 bytes)
       0843506163653434380850617373776f726475000000000000000000
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000001a6f630b
-      425f726573706f6e6465720b415f696e69746961746f72105223e0cd
-      c45d6575668d64c552004124
+      000000000000000000000000000000000000000000000000180b415f
+      696e69746961746f720b425f726573706f6e646572105223e0cdc45d
+      6575668d64c552004124
     hash generator string: (length: 56 bytes)
-      98b713f84529194d719a7d86cb0f504b8afeb05354d68747e18b2e7c
-      c8b6da526085e4263bd8bea7d69e479ebad09e30ae062e5d089da7f3
+      e129c967efb40a175ac2bf4443dfb8c2360d7fba99922b04c19e0986
+      a3ef779a6fcf6942c9497adcc90c6db1f03cc0b8680f87df1fd88c35
     decoded field element of 448 bits: (length: 56 bytes)
-      98b713f84529194d719a7d86cb0f504b8afeb05354d68747e18b2e7c
-      c8b6da526085e4263bd8bea7d69e479ebad09e30ae062e5d089da7f3
+      e129c967efb40a175ac2bf4443dfb8c2360d7fba99922b04c19e0986
+      a3ef779a6fcf6942c9497adcc90c6db1f03cc0b8680f87df1fd88c35
     generator g: (length: 56 bytes)
-      e293b7ccf61ca7eb928a26391cf38b660f874a001fdf0bf3a91fd182
-      f2b6d83e61a9377ede127eba7e0d4c08592eaff33d4aa705d6ce54bb
+      9ccb9b0468ea5a8a8193d9d915620f2847565d92449e939b314e76cc
+      b1f88b00e5e803e5b65643c17fdba0c2ba839b09ed5873e811ff5a98
 </pre><a href="#appendix-B.2.1-1" class="pilcrow">¶</a>
 </div>
 <div id="testvectors-as-json-file-encoded-as-base64-8">
@@ -3725,26 +3715,26 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
 <pre>
  #eyJIIjogIlNIQUtFLTI1NiIsICJILnNfaW5fYnl0ZXMiOiAxMzYsICJQUlMiOiAiNT
  #A2MTczNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDExNywgIkRTSSI6ICI0MzUw
- #NjE2MzY1MzQzNDM4IiwgIkNJIjogIjZGNjMwQjQyNUY3MjY1NzM3MDZGNkU2NDY1Nz
- #IwQjQxNUY2OTZFNjk3NDY5NjE3NDZGNzIiLCAic2lkIjogIjUyMjNFMENEQzQ1RDY1
- #NzU2NjhENjRDNTUyMDA0MTI0IiwgImdlbmVyYXRvcl9zdHJpbmcoRy5EU0ksUFJTLE
- #NJLHNpZCxILnNfaW5fYnl0ZXMpIjogIjA4NDM1MDYxNjM2NTM0MzQzODA4NTA2MTcz
- #NzM3NzZGNzI2NDc1MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+ #NjE2MzY1MzQzNDM4IiwgIkNJIjogIjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MjBCND
+ #I1RjcyNjU3MzcwNkY2RTY0NjU3MiIsICJzaWQiOiAiNTIyM0UwQ0RDNDVENjU3NTY2
+ #OEQ2NEM1NTIwMDQxMjQiLCAiZ2VuZXJhdG9yX3N0cmluZyhHLkRTSSxQUlMsQ0ksc2
+ #lkLEguc19pbl9ieXRlcykiOiAiMDg0MzUwNjE2MzY1MzQzNDM4MDg1MDYxNzM3Mzc3
+ #NkY3MjY0NzUwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
  #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
  #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
  #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
- #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMU
- #E2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2
- #RjcyMTA1MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJoYXNoIGdlbm
- #VyYXRvciBzdHJpbmciOiAiOThCNzEzRjg0NTI5MTk0RDcxOUE3RDg2Q0IwRjUwNEI4
- #QUZFQjA1MzU0RDY4NzQ3RTE4QjJFN0NDOEI2REE1MjYwODVFNDI2M0JEOEJFQTdENj
- #lFNDc5RUJBRDA5RTMwQUUwNjJFNUQwODlEQTdGMyIsICJkZWNvZGVkIGZpZWxkIGVs
- #ZW1lbnQgb2YgNDQ4IGJpdHMiOiAiOThCNzEzRjg0NTI5MTk0RDcxOUE3RDg2Q0IwRj
- #UwNEI4QUZFQjA1MzU0RDY4NzQ3RTE4QjJFN0NDOEI2REE1MjYwODVFNDI2M0JEOEJF
- #QTdENjlFNDc5RUJBRDA5RTMwQUUwNjJFNUQwODlEQTdGMyIsICJnZW5lcmF0b3IgZy
- #I6ICJFMjkzQjdDQ0Y2MUNBN0VCOTI4QTI2MzkxQ0YzOEI2NjBGODc0QTAwMUZERjBC
- #RjNBOTFGRDE4MkYyQjZEODNFNjFBOTM3N0VERTEyN0VCQTdFMEQ0QzA4NTkyRUFGRj
- #MzRDRBQTcwNUQ2Q0U1NEJCIn0=
+ #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxODBCND
+ #E1RjY5NkU2OTc0Njk2MTc0NkY3MjBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjEwNTIy
+ #M0UwQ0RDNDVENjU3NTY2OEQ2NEM1NTIwMDQxMjQiLCAiaGFzaCBnZW5lcmF0b3Igc3
+ #RyaW5nIjogIkUxMjlDOTY3RUZCNDBBMTc1QUMyQkY0NDQzREZCOEMyMzYwRDdGQkE5
+ #OTkyMkIwNEMxOUUwOTg2QTNFRjc3OUE2RkNGNjk0MkM5NDk3QURDQzkwQzZEQjFGMD
+ #NDQzBCODY4MEY4N0RGMUZEODhDMzUiLCAiZGVjb2RlZCBmaWVsZCBlbGVtZW50IG9m
+ #IDQ0OCBiaXRzIjogIkUxMjlDOTY3RUZCNDBBMTc1QUMyQkY0NDQzREZCOEMyMzYwRD
+ #dGQkE5OTkyMkIwNEMxOUUwOTg2QTNFRjc3OUE2RkNGNjk0MkM5NDk3QURDQzkwQzZE
+ #QjFGMDNDQzBCODY4MEY4N0RGMUZEODhDMzUiLCAiZ2VuZXJhdG9yIGciOiAiOUNDQj
+ #lCMDQ2OEVBNUE4QTgxOTNEOUQ5MTU2MjBGMjg0NzU2NUQ5MjQ0OUU5MzlCMzE0RTc2
+ #Q0NCMUY4OEIwMEU1RTgwM0U1QjY1NjQzQzE3RkRCQTBDMkJBODM5QjA5RUQ1ODczRT
+ #gxMUZGNUE5OCJ9
 </pre><a href="#appendix-B.2.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3765,8 +3755,8 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
       53044080516bd083bfcce66121a3072646994c8430cc382b8dc543e8
   Outputs
     Ya: (length: 56 bytes)
-      7f645772cc209bf9fd9d76dbb10283bea71b12235e3bb21878d5e56a
-      70506e165743a632de98eca9932c5d2efe36500a59b2fdaed0d8a148
+      d8b2cc0fab9298a7a5c6219fb9c2e77dbdb22625f48aef974003ad9d
+      3d5b58ca4e73a6b7033a3d083cd747b55c6f7345467d0a4cf82eebe0
 </pre><a href="#appendix-B.2.2-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3785,8 +3775,8 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
       c51ac40a439caf5e61ec88c307c7d619195229412eaa73fb2a5ea20d
   Outputs
     Yb: (length: 56 bytes)
-      a4690a0750c42b288ddd0ba08e3f4902dfe70bae5c9e2c6ee95844de
-      f2692be77646b20d3b429f8da00d21433ee0891c667658d8d0c48e38
+      89aaf7f3f3b708cecf0e1d2c0fab82817ac6c741291106414a25a474
+      187abca5214ca8a3f0b55f6809cbd5316e139b2721afa70dcb0971d3
 </pre><a href="#appendix-B.2.3-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3799,11 +3789,11 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
 <div class="alignLeft art-text artwork" id="appendix-B.2.4-1">
 <pre>
     scalar_mult_vfy(ya,Yb): (length: 56 bytes)
-      db3fff9da59576715b04d4df8dc8d18db2430e57bbed337dbeee5bb2
-      d6ab6ceddc9c75c5c0b17fad7eb724daa12f8f1903dd6c2cede6135a
+      0fa58f732254a0708032d764d19b734b5cc890df45ec244d6d522767
+      af6bdc802868688b543f1a93990a5b05dd536c49d57290f2f0bc028e
     scalar_mult_vfy(yb,Ya): (length: 56 bytes)
-      db3fff9da59576715b04d4df8dc8d18db2430e57bbed337dbeee5bb2
-      d6ab6ceddc9c75c5c0b17fad7eb724daa12f8f1903dd6c2cede6135a
+      0fa58f732254a0708032d764d19b734b5cc890df45ec244d6d522767
+      af6bdc802868688b543f1a93990a5b05dd536c49d57290f2f0bc028e
 </pre><a href="#appendix-B.2.4-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3816,27 +3806,27 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
 <div class="alignLeft art-text artwork" id="appendix-B.2.5-1">
 <pre>
     transcript_ir(Ya,ADa,Yb,ADb): (length: 122 bytes)
-      387f645772cc209bf9fd9d76dbb10283bea71b12235e3bb21878d5e5
-      6a70506e165743a632de98eca9932c5d2efe36500a59b2fdaed0d8a1
-      480341446138a4690a0750c42b288ddd0ba08e3f4902dfe70bae5c9e
-      2c6ee95844def2692be77646b20d3b429f8da00d21433ee0891c6676
-      58d8d0c48e3803414462
+      38d8b2cc0fab9298a7a5c6219fb9c2e77dbdb22625f48aef974003ad
+      9d3d5b58ca4e73a6b7033a3d083cd747b55c6f7345467d0a4cf82eeb
+      e0034144613889aaf7f3f3b708cecf0e1d2c0fab82817ac6c7412911
+      06414a25a474187abca5214ca8a3f0b55f6809cbd5316e139b2721af
+      a70dcb0971d303414462
     DSI = G.DSI_ISK, b'CPace448_ISK': (length: 12 bytes)
       43506163653434385f49534b
     lv_cat(DSI,sid,K)||transcript_ir(Ya,ADa,Yb,ADb):
     (length: 209 bytes)
       0c43506163653434385f49534b105223e0cdc45d6575668d64c55200
-      412438db3fff9da59576715b04d4df8dc8d18db2430e57bbed337dbe
-      ee5bb2d6ab6ceddc9c75c5c0b17fad7eb724daa12f8f1903dd6c2ced
-      e6135a387f645772cc209bf9fd9d76dbb10283bea71b12235e3bb218
-      78d5e56a70506e165743a632de98eca9932c5d2efe36500a59b2fdae
-      d0d8a1480341446138a4690a0750c42b288ddd0ba08e3f4902dfe70b
-      ae5c9e2c6ee95844def2692be77646b20d3b429f8da00d21433ee089
-      1c667658d8d0c48e3803414462
+      4124380fa58f732254a0708032d764d19b734b5cc890df45ec244d6d
+      522767af6bdc802868688b543f1a93990a5b05dd536c49d57290f2f0
+      bc028e38d8b2cc0fab9298a7a5c6219fb9c2e77dbdb22625f48aef97
+      4003ad9d3d5b58ca4e73a6b7033a3d083cd747b55c6f7345467d0a4c
+      f82eebe0034144613889aaf7f3f3b708cecf0e1d2c0fab82817ac6c7
+      41291106414a25a474187abca5214ca8a3f0b55f6809cbd5316e139b
+      2721afa70dcb0971d303414462
     ISK result: (length: 64 bytes)
-      599892a2078a8c988181625e1e5e5f7a6163f7d72f21b93ebefba0f1
-      7ff7ea3aa0594bd569cf74264157b3c0087bdccf2f59c77156628487
-      f5ca1645b8e9d05b
+      ff3f4fa2f91e0badf5780ed2b795b97e48bb36d34c3e48cdfa1e7f79
+      39ad0d6987a7fda8857b3cca3c311eaab94ce05e6d9bd111bb417ba0
+      c91baf14b967eafb
 </pre><a href="#appendix-B.2.5-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3849,27 +3839,27 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
 <div class="alignLeft art-text artwork" id="appendix-B.2.6-1">
 <pre>
     transcript_oc(Ya,ADa,Yb,ADb): (length: 124 bytes)
-      6f6338a4690a0750c42b288ddd0ba08e3f4902dfe70bae5c9e2c6ee9
-      5844def2692be77646b20d3b429f8da00d21433ee0891c667658d8d0
-      c48e3803414462387f645772cc209bf9fd9d76dbb10283bea71b1223
-      5e3bb21878d5e56a70506e165743a632de98eca9932c5d2efe36500a
-      59b2fdaed0d8a14803414461
+      6f6338d8b2cc0fab9298a7a5c6219fb9c2e77dbdb22625f48aef9740
+      03ad9d3d5b58ca4e73a6b7033a3d083cd747b55c6f7345467d0a4cf8
+      2eebe0034144613889aaf7f3f3b708cecf0e1d2c0fab82817ac6c741
+      291106414a25a474187abca5214ca8a3f0b55f6809cbd5316e139b27
+      21afa70dcb0971d303414462
     DSI = G.DSI_ISK, b'CPace448_ISK': (length: 12 bytes)
       43506163653434385f49534b
     lv_cat(DSI,sid,K)||transcript_oc(Ya,ADa,Yb,ADb):
     (length: 211 bytes)
       0c43506163653434385f49534b105223e0cdc45d6575668d64c55200
-      412438db3fff9da59576715b04d4df8dc8d18db2430e57bbed337dbe
-      ee5bb2d6ab6ceddc9c75c5c0b17fad7eb724daa12f8f1903dd6c2ced
-      e6135a6f6338a4690a0750c42b288ddd0ba08e3f4902dfe70bae5c9e
-      2c6ee95844def2692be77646b20d3b429f8da00d21433ee0891c6676
-      58d8d0c48e3803414462387f645772cc209bf9fd9d76dbb10283bea7
-      1b12235e3bb21878d5e56a70506e165743a632de98eca9932c5d2efe
-      36500a59b2fdaed0d8a14803414461
+      4124380fa58f732254a0708032d764d19b734b5cc890df45ec244d6d
+      522767af6bdc802868688b543f1a93990a5b05dd536c49d57290f2f0
+      bc028e6f6338d8b2cc0fab9298a7a5c6219fb9c2e77dbdb22625f48a
+      ef974003ad9d3d5b58ca4e73a6b7033a3d083cd747b55c6f7345467d
+      0a4cf82eebe0034144613889aaf7f3f3b708cecf0e1d2c0fab82817a
+      c6c741291106414a25a474187abca5214ca8a3f0b55f6809cbd5316e
+      139b2721afa70dcb0971d303414462
     ISK result: (length: 64 bytes)
-      3ac73f03030296aa591f01326b18afa47e1189129cd06ae8dfb05e6e
-      b1310cde948b59eef0755365c06a339266afe594948c56a538d98a65
-      767113938a9a78d8
+      0ab598d085cd0bcdca64b58630e53287ef5aa7dbfc209dc9d2e50e0c
+      6eb8e5e5ac27987d48e5608a45228c24532821d00fe66c7acc72fccf
+      2d14d95d4ee645ed
 </pre><a href="#appendix-B.2.6-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3881,16 +3871,16 @@ qb: 993c6ad11c4c29da9a56f7691fd0ff8d732e49de6250b6c2e80003ff4629a175
           </h4>
 <div class="alignLeft art-text artwork" id="appendix-B.2.7-1">
 <pre>
-    H.hash(b"CPaceSidOut" + transcript_ir(Ya,ADa, Yb,ADb)):
+    H.hash(b"CPaceSidOutput" + transcript_ir(Ya,ADa, Yb,ADb)):
     (length: 64 bytes)
-      00a2333a79481abe71efd6594d7bbaac55c808482e869c9b65c4b53d
-      7100d3da8f3cabd59fa0c1f22d6d2f9ac0c093962292798fca2c0b93
-      268974cad75d575a
-    H.hash(b"CPaceSidOut" + transcript_oc(Ya,ADa, Yb,ADb)):
+      6ef5882a6a9a323789e418a27c254513412e3c75945e1c0777dc2725
+      0a122bc1c64106aedc800a0cd51d35203d2ae09471c1a81448b70a2e
+      3715376d9f03b79b
+    H.hash(b"CPaceSidOutput" + transcript_oc(Ya,ADa, Yb,ADb)):
     (length: 64 bytes)
-      a1ce90537a8d53b06d77e79fe719461cc5ed8300d21d1866a59f9638
-      601833f57a8b5e88db9a52abfa1b4e8a651a400bc9205082aad81eb3
-      11c44373b9a19eff
+      5784ff2c7c3dce998db4976cbeccfe0ec3a253a2caf64ae4132f5394
+      0390ab5938dbd3c0fddc6d070f8fde384d49898873146b2921ee92a6
+      74ac1ca45ca365f4
 </pre><a href="#appendix-B.2.7-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3906,20 +3896,19 @@ const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
 };
 const unsigned char tc_CI[] = {
- 0x6f,0x63,0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,
- 0x65,0x72,0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,
- 0x6f,0x72,
+ 0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,0x6f,0x72,
+ 0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,0x65,0x72,
 };
 const unsigned char tc_sid[] = {
  0x52,0x23,0xe0,0xcd,0xc4,0x5d,0x65,0x75,0x66,0x8d,0x64,0xc5,
  0x52,0x00,0x41,0x24,
 };
 const unsigned char tc_g[] = {
- 0xe2,0x93,0xb7,0xcc,0xf6,0x1c,0xa7,0xeb,0x92,0x8a,0x26,0x39,
- 0x1c,0xf3,0x8b,0x66,0x0f,0x87,0x4a,0x00,0x1f,0xdf,0x0b,0xf3,
- 0xa9,0x1f,0xd1,0x82,0xf2,0xb6,0xd8,0x3e,0x61,0xa9,0x37,0x7e,
- 0xde,0x12,0x7e,0xba,0x7e,0x0d,0x4c,0x08,0x59,0x2e,0xaf,0xf3,
- 0x3d,0x4a,0xa7,0x05,0xd6,0xce,0x54,0xbb,
+ 0x9c,0xcb,0x9b,0x04,0x68,0xea,0x5a,0x8a,0x81,0x93,0xd9,0xd9,
+ 0x15,0x62,0x0f,0x28,0x47,0x56,0x5d,0x92,0x44,0x9e,0x93,0x9b,
+ 0x31,0x4e,0x76,0xcc,0xb1,0xf8,0x8b,0x00,0xe5,0xe8,0x03,0xe5,
+ 0xb6,0x56,0x43,0xc1,0x7f,0xdb,0xa0,0xc2,0xba,0x83,0x9b,0x09,
+ 0xed,0x58,0x73,0xe8,0x11,0xff,0x5a,0x98,
 };
 const unsigned char tc_ya[] = {
  0x21,0xb4,0xf4,0xbd,0x9e,0x64,0xed,0x35,0x5c,0x3e,0xb6,0x76,
@@ -3932,11 +3921,11 @@ const unsigned char tc_ADa[] = {
  0x41,0x44,0x61,
 };
 const unsigned char tc_Ya[] = {
- 0x7f,0x64,0x57,0x72,0xcc,0x20,0x9b,0xf9,0xfd,0x9d,0x76,0xdb,
- 0xb1,0x02,0x83,0xbe,0xa7,0x1b,0x12,0x23,0x5e,0x3b,0xb2,0x18,
- 0x78,0xd5,0xe5,0x6a,0x70,0x50,0x6e,0x16,0x57,0x43,0xa6,0x32,
- 0xde,0x98,0xec,0xa9,0x93,0x2c,0x5d,0x2e,0xfe,0x36,0x50,0x0a,
- 0x59,0xb2,0xfd,0xae,0xd0,0xd8,0xa1,0x48,
+ 0xd8,0xb2,0xcc,0x0f,0xab,0x92,0x98,0xa7,0xa5,0xc6,0x21,0x9f,
+ 0xb9,0xc2,0xe7,0x7d,0xbd,0xb2,0x26,0x25,0xf4,0x8a,0xef,0x97,
+ 0x40,0x03,0xad,0x9d,0x3d,0x5b,0x58,0xca,0x4e,0x73,0xa6,0xb7,
+ 0x03,0x3a,0x3d,0x08,0x3c,0xd7,0x47,0xb5,0x5c,0x6f,0x73,0x45,
+ 0x46,0x7d,0x0a,0x4c,0xf8,0x2e,0xeb,0xe0,
 };
 const unsigned char tc_yb[] = {
  0x84,0x8b,0x07,0x79,0xff,0x41,0x5f,0x0a,0xf4,0xea,0x14,0xdf,
@@ -3949,58 +3938,50 @@ const unsigned char tc_ADb[] = {
  0x41,0x44,0x62,
 };
 const unsigned char tc_Yb[] = {
- 0xa4,0x69,0x0a,0x07,0x50,0xc4,0x2b,0x28,0x8d,0xdd,0x0b,0xa0,
- 0x8e,0x3f,0x49,0x02,0xdf,0xe7,0x0b,0xae,0x5c,0x9e,0x2c,0x6e,
- 0xe9,0x58,0x44,0xde,0xf2,0x69,0x2b,0xe7,0x76,0x46,0xb2,0x0d,
- 0x3b,0x42,0x9f,0x8d,0xa0,0x0d,0x21,0x43,0x3e,0xe0,0x89,0x1c,
- 0x66,0x76,0x58,0xd8,0xd0,0xc4,0x8e,0x38,
+ 0x89,0xaa,0xf7,0xf3,0xf3,0xb7,0x08,0xce,0xcf,0x0e,0x1d,0x2c,
+ 0x0f,0xab,0x82,0x81,0x7a,0xc6,0xc7,0x41,0x29,0x11,0x06,0x41,
+ 0x4a,0x25,0xa4,0x74,0x18,0x7a,0xbc,0xa5,0x21,0x4c,0xa8,0xa3,
+ 0xf0,0xb5,0x5f,0x68,0x09,0xcb,0xd5,0x31,0x6e,0x13,0x9b,0x27,
+ 0x21,0xaf,0xa7,0x0d,0xcb,0x09,0x71,0xd3,
 };
 const unsigned char tc_K[] = {
- 0xdb,0x3f,0xff,0x9d,0xa5,0x95,0x76,0x71,0x5b,0x04,0xd4,0xdf,
- 0x8d,0xc8,0xd1,0x8d,0xb2,0x43,0x0e,0x57,0xbb,0xed,0x33,0x7d,
- 0xbe,0xee,0x5b,0xb2,0xd6,0xab,0x6c,0xed,0xdc,0x9c,0x75,0xc5,
- 0xc0,0xb1,0x7f,0xad,0x7e,0xb7,0x24,0xda,0xa1,0x2f,0x8f,0x19,
- 0x03,0xdd,0x6c,0x2c,0xed,0xe6,0x13,0x5a,
+ 0x0f,0xa5,0x8f,0x73,0x22,0x54,0xa0,0x70,0x80,0x32,0xd7,0x64,
+ 0xd1,0x9b,0x73,0x4b,0x5c,0xc8,0x90,0xdf,0x45,0xec,0x24,0x4d,
+ 0x6d,0x52,0x27,0x67,0xaf,0x6b,0xdc,0x80,0x28,0x68,0x68,0x8b,
+ 0x54,0x3f,0x1a,0x93,0x99,0x0a,0x5b,0x05,0xdd,0x53,0x6c,0x49,
+ 0xd5,0x72,0x90,0xf2,0xf0,0xbc,0x02,0x8e,
 };
 const unsigned char tc_ISK_IR[] = {
- 0x59,0x98,0x92,0xa2,0x07,0x8a,0x8c,0x98,0x81,0x81,0x62,0x5e,
- 0x1e,0x5e,0x5f,0x7a,0x61,0x63,0xf7,0xd7,0x2f,0x21,0xb9,0x3e,
- 0xbe,0xfb,0xa0,0xf1,0x7f,0xf7,0xea,0x3a,0xa0,0x59,0x4b,0xd5,
- 0x69,0xcf,0x74,0x26,0x41,0x57,0xb3,0xc0,0x08,0x7b,0xdc,0xcf,
- 0x2f,0x59,0xc7,0x71,0x56,0x62,0x84,0x87,0xf5,0xca,0x16,0x45,
- 0xb8,0xe9,0xd0,0x5b,
+ 0xff,0x3f,0x4f,0xa2,0xf9,0x1e,0x0b,0xad,0xf5,0x78,0x0e,0xd2,
+ 0xb7,0x95,0xb9,0x7e,0x48,0xbb,0x36,0xd3,0x4c,0x3e,0x48,0xcd,
+ 0xfa,0x1e,0x7f,0x79,0x39,0xad,0x0d,0x69,0x87,0xa7,0xfd,0xa8,
+ 0x85,0x7b,0x3c,0xca,0x3c,0x31,0x1e,0xaa,0xb9,0x4c,0xe0,0x5e,
+ 0x6d,0x9b,0xd1,0x11,0xbb,0x41,0x7b,0xa0,0xc9,0x1b,0xaf,0x14,
+ 0xb9,0x67,0xea,0xfb,
 };
 const unsigned char tc_ISK_SY[] = {
- 0x3a,0xc7,0x3f,0x03,0x03,0x02,0x96,0xaa,0x59,0x1f,0x01,0x32,
- 0x6b,0x18,0xaf,0xa4,0x7e,0x11,0x89,0x12,0x9c,0xd0,0x6a,0xe8,
- 0xdf,0xb0,0x5e,0x6e,0xb1,0x31,0x0c,0xde,0x94,0x8b,0x59,0xee,
- 0xf0,0x75,0x53,0x65,0xc0,0x6a,0x33,0x92,0x66,0xaf,0xe5,0x94,
- 0x94,0x8c,0x56,0xa5,0x38,0xd9,0x8a,0x65,0x76,0x71,0x13,0x93,
- 0x8a,0x9a,0x78,0xd8,
-};
-const unsigned char tc_ISK_SY[] = {
- 0x3a,0xc7,0x3f,0x03,0x03,0x02,0x96,0xaa,0x59,0x1f,0x01,0x32,
- 0x6b,0x18,0xaf,0xa4,0x7e,0x11,0x89,0x12,0x9c,0xd0,0x6a,0xe8,
- 0xdf,0xb0,0x5e,0x6e,0xb1,0x31,0x0c,0xde,0x94,0x8b,0x59,0xee,
- 0xf0,0x75,0x53,0x65,0xc0,0x6a,0x33,0x92,0x66,0xaf,0xe5,0x94,
- 0x94,0x8c,0x56,0xa5,0x38,0xd9,0x8a,0x65,0x76,0x71,0x13,0x93,
- 0x8a,0x9a,0x78,0xd8,
+ 0x0a,0xb5,0x98,0xd0,0x85,0xcd,0x0b,0xcd,0xca,0x64,0xb5,0x86,
+ 0x30,0xe5,0x32,0x87,0xef,0x5a,0xa7,0xdb,0xfc,0x20,0x9d,0xc9,
+ 0xd2,0xe5,0x0e,0x0c,0x6e,0xb8,0xe5,0xe5,0xac,0x27,0x98,0x7d,
+ 0x48,0xe5,0x60,0x8a,0x45,0x22,0x8c,0x24,0x53,0x28,0x21,0xd0,
+ 0x0f,0xe6,0x6c,0x7a,0xcc,0x72,0xfc,0xcf,0x2d,0x14,0xd9,0x5d,
+ 0x4e,0xe6,0x45,0xed,
 };
 const unsigned char tc_sid_out_ir[] = {
- 0x00,0xa2,0x33,0x3a,0x79,0x48,0x1a,0xbe,0x71,0xef,0xd6,0x59,
- 0x4d,0x7b,0xba,0xac,0x55,0xc8,0x08,0x48,0x2e,0x86,0x9c,0x9b,
- 0x65,0xc4,0xb5,0x3d,0x71,0x00,0xd3,0xda,0x8f,0x3c,0xab,0xd5,
- 0x9f,0xa0,0xc1,0xf2,0x2d,0x6d,0x2f,0x9a,0xc0,0xc0,0x93,0x96,
- 0x22,0x92,0x79,0x8f,0xca,0x2c,0x0b,0x93,0x26,0x89,0x74,0xca,
- 0xd7,0x5d,0x57,0x5a,
+ 0x6e,0xf5,0x88,0x2a,0x6a,0x9a,0x32,0x37,0x89,0xe4,0x18,0xa2,
+ 0x7c,0x25,0x45,0x13,0x41,0x2e,0x3c,0x75,0x94,0x5e,0x1c,0x07,
+ 0x77,0xdc,0x27,0x25,0x0a,0x12,0x2b,0xc1,0xc6,0x41,0x06,0xae,
+ 0xdc,0x80,0x0a,0x0c,0xd5,0x1d,0x35,0x20,0x3d,0x2a,0xe0,0x94,
+ 0x71,0xc1,0xa8,0x14,0x48,0xb7,0x0a,0x2e,0x37,0x15,0x37,0x6d,
+ 0x9f,0x03,0xb7,0x9b,
 };
 const unsigned char tc_sid_out_oc[] = {
- 0xa1,0xce,0x90,0x53,0x7a,0x8d,0x53,0xb0,0x6d,0x77,0xe7,0x9f,
- 0xe7,0x19,0x46,0x1c,0xc5,0xed,0x83,0x00,0xd2,0x1d,0x18,0x66,
- 0xa5,0x9f,0x96,0x38,0x60,0x18,0x33,0xf5,0x7a,0x8b,0x5e,0x88,
- 0xdb,0x9a,0x52,0xab,0xfa,0x1b,0x4e,0x8a,0x65,0x1a,0x40,0x0b,
- 0xc9,0x20,0x50,0x82,0xaa,0xd8,0x1e,0xb3,0x11,0xc4,0x43,0x73,
- 0xb9,0xa1,0x9e,0xff,
+ 0x57,0x84,0xff,0x2c,0x7c,0x3d,0xce,0x99,0x8d,0xb4,0x97,0x6c,
+ 0xbe,0xcc,0xfe,0x0e,0xc3,0xa2,0x53,0xa2,0xca,0xf6,0x4a,0xe4,
+ 0x13,0x2f,0x53,0x94,0x03,0x90,0xab,0x59,0x38,0xdb,0xd3,0xc0,
+ 0xfd,0xdc,0x6d,0x07,0x0f,0x8f,0xde,0x38,0x4d,0x49,0x89,0x88,
+ 0x73,0x14,0x6b,0x29,0x21,0xee,0x92,0xa6,0x74,0xac,0x1c,0xa4,
+ 0x5c,0xa3,0x65,0xf4,
 };
 </pre><a href="#appendix-B.2.8-1" class="pilcrow">¶</a>
 </div>
@@ -4013,36 +3994,36 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="lang-test-vectors sourcecode" id="appendix-B.2.9-1">
 <pre>
- #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
- #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI1
- #MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnIjogIkUyOTNCN0NDRj
- #YxQ0E3RUI5MjhBMjYzOTFDRjM4QjY2MEY4NzRBMDAxRkRGMEJGM0E5MUZEMTgyRjJC
- #NkQ4M0U2MUE5Mzc3RURFMTI3RUJBN0UwRDRDMDg1OTJFQUZGMzNENEFBNzA1RDZDRT
- #U0QkIiLCAieWEiOiAiMjFCNEY0QkQ5RTY0RUQzNTVDM0VCNjc2QTI4RUJFREFGNkQ4
- #RjE3QkRDMzY1OTk1QjMxOTA5NzE1MzA0NDA4MDUxNkJEMDgzQkZDQ0U2NjEyMUEzMD
- #cyNjQ2OTk0Qzg0MzBDQzM4MkI4REM1NDNFOCIsICJBRGEiOiAiNDE0NDYxIiwgIllh
- #IjogIjdGNjQ1NzcyQ0MyMDlCRjlGRDlENzZEQkIxMDI4M0JFQTcxQjEyMjM1RTNCQj
- #IxODc4RDVFNTZBNzA1MDZFMTY1NzQzQTYzMkRFOThFQ0E5OTMyQzVEMkVGRTM2NTAw
- #QTU5QjJGREFFRDBEOEExNDgiLCAieWIiOiAiODQ4QjA3NzlGRjQxNUYwQUY0RUExNE
- #RGOUREMUQzQzI5QUM0MUQ4MzZDNzgwODg5NkM0RUJBMTlDNTFBQzQwQTQzOUNBRjVF
- #NjFFQzg4QzMwN0M3RDYxOTE5NTIyOTQxMkVBQTczRkIyQTVFQTIwRCIsICJBRGIiOi
- #AiNDE0NDYyIiwgIlliIjogIkE0NjkwQTA3NTBDNDJCMjg4REREMEJBMDhFM0Y0OTAy
- #REZFNzBCQUU1QzlFMkM2RUU5NTg0NERFRjI2OTJCRTc3NjQ2QjIwRDNCNDI5RjhEQT
- #AwRDIxNDMzRUUwODkxQzY2NzY1OEQ4RDBDNDhFMzgiLCAiSyI6ICJEQjNGRkY5REE1
- #OTU3NjcxNUIwNEQ0REY4REM4RDE4REIyNDMwRTU3QkJFRDMzN0RCRUVFNUJCMkQ2QU
- #I2Q0VEREM5Qzc1QzVDMEIxN0ZBRDdFQjcyNERBQTEyRjhGMTkwM0RENkMyQ0VERTYx
- #MzVBIiwgIklTS19JUiI6ICI1OTk4OTJBMjA3OEE4Qzk4ODE4MTYyNUUxRTVFNUY3QT
- #YxNjNGN0Q3MkYyMUI5M0VCRUZCQTBGMTdGRjdFQTNBQTA1OTRCRDU2OUNGNzQyNjQx
- #NTdCM0MwMDg3QkRDQ0YyRjU5Qzc3MTU2NjI4NDg3RjVDQTE2NDVCOEU5RDA1QiIsIC
- #JJU0tfU1kiOiAiM0FDNzNGMDMwMzAyOTZBQTU5MUYwMTMyNkIxOEFGQTQ3RTExODkx
- #MjlDRDA2QUU4REZCMDVFNkVCMTMxMENERTk0OEI1OUVFRjA3NTUzNjVDMDZBMzM5Mj
- #Y2QUZFNTk0OTQ4QzU2QTUzOEQ5OEE2NTc2NzExMzkzOEE5QTc4RDgiLCAic2lkX291
- #dHB1dF9pciI6ICIwMEEyMzMzQTc5NDgxQUJFNzFFRkQ2NTk0RDdCQkFBQzU1QzgwOD
- #Q4MkU4NjlDOUI2NUM0QjUzRDcxMDBEM0RBOEYzQ0FCRDU5RkEwQzFGMjJENkQyRjlB
- #QzBDMDkzOTYyMjkyNzk4RkNBMkMwQjkzMjY4OTc0Q0FENzVENTc1QSIsICJzaWRfb3
- #V0cHV0X29jIjogIkExQ0U5MDUzN0E4RDUzQjA2RDc3RTc5RkU3MTk0NjFDQzVFRDgz
- #MDBEMjFEMTg2NkE1OUY5NjM4NjAxODMzRjU3QThCNUU4OERCOUE1MkFCRkExQjRFOE
- #E2NTFBNDAwQkM5MjA1MDgyQUFEODFFQjMxMUM0NDM3M0I5QTE5RUZGIn0=
+ #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICIwQjQxNUY2OTZFNjk3ND
+ #Y5NjE3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2NDY1NzIiLCAic2lkIjogIjUyMjNF
+ #MENEQzQ1RDY1NzU2NjhENjRDNTUyMDA0MTI0IiwgImciOiAiOUNDQjlCMDQ2OEVBNU
+ #E4QTgxOTNEOUQ5MTU2MjBGMjg0NzU2NUQ5MjQ0OUU5MzlCMzE0RTc2Q0NCMUY4OEIw
+ #MEU1RTgwM0U1QjY1NjQzQzE3RkRCQTBDMkJBODM5QjA5RUQ1ODczRTgxMUZGNUE5OC
+ #IsICJ5YSI6ICIyMUI0RjRCRDlFNjRFRDM1NUMzRUI2NzZBMjhFQkVEQUY2RDhGMTdC
+ #REMzNjU5OTVCMzE5MDk3MTUzMDQ0MDgwNTE2QkQwODNCRkNDRTY2MTIxQTMwNzI2ND
+ #Y5OTRDODQzMENDMzgyQjhEQzU0M0U4IiwgIkFEYSI6ICI0MTQ0NjEiLCAiWWEiOiAi
+ #RDhCMkNDMEZBQjkyOThBN0E1QzYyMTlGQjlDMkU3N0RCREIyMjYyNUY0OEFFRjk3ND
+ #AwM0FEOUQzRDVCNThDQTRFNzNBNkI3MDMzQTNEMDgzQ0Q3NDdCNTVDNkY3MzQ1NDY3
+ #RDBBNENGODJFRUJFMCIsICJ5YiI6ICI4NDhCMDc3OUZGNDE1RjBBRjRFQTE0REY5RE
+ #QxRDNDMjlBQzQxRDgzNkM3ODA4ODk2QzRFQkExOUM1MUFDNDBBNDM5Q0FGNUU2MUVD
+ #ODhDMzA3QzdENjE5MTk1MjI5NDEyRUFBNzNGQjJBNUVBMjBEIiwgIkFEYiI6ICI0MT
+ #Q0NjIiLCAiWWIiOiAiODlBQUY3RjNGM0I3MDhDRUNGMEUxRDJDMEZBQjgyODE3QUM2
+ #Qzc0MTI5MTEwNjQxNEEyNUE0NzQxODdBQkNBNTIxNENBOEEzRjBCNTVGNjgwOUNCRD
+ #UzMTZFMTM5QjI3MjFBRkE3MERDQjA5NzFEMyIsICJLIjogIjBGQTU4RjczMjI1NEEw
+ #NzA4MDMyRDc2NEQxOUI3MzRCNUNDODkwREY0NUVDMjQ0RDZENTIyNzY3QUY2QkRDOD
+ #AyODY4Njg4QjU0M0YxQTkzOTkwQTVCMDVERDUzNkM0OUQ1NzI5MEYyRjBCQzAyOEUi
+ #LCAiSVNLX0lSIjogIkZGM0Y0RkEyRjkxRTBCQURGNTc4MEVEMkI3OTVCOTdFNDhCQj
+ #M2RDM0QzNFNDhDREZBMUU3Rjc5MzlBRDBENjk4N0E3RkRBODg1N0IzQ0NBM0MzMTFF
+ #QUFCOTRDRTA1RTZEOUJEMTExQkI0MTdCQTBDOTFCQUYxNEI5NjdFQUZCIiwgIklTS1
+ #9TWSI6ICIwQUI1OThEMDg1Q0QwQkNEQ0E2NEI1ODYzMEU1MzI4N0VGNUFBN0RCRkMy
+ #MDlEQzlEMkU1MEUwQzZFQjhFNUU1QUMyNzk4N0Q0OEU1NjA4QTQ1MjI4QzI0NTMyOD
+ #IxRDAwRkU2NkM3QUNDNzJGQ0NGMkQxNEQ5NUQ0RUU2NDVFRCIsICJzaWRfb3V0cHV0
+ #X2lyIjogIjZFRjU4ODJBNkE5QTMyMzc4OUU0MThBMjdDMjU0NTEzNDEyRTNDNzU5ND
+ #VFMUMwNzc3REMyNzI1MEExMjJCQzFDNjQxMDZBRURDODAwQTBDRDUxRDM1MjAzRDJB
+ #RTA5NDcxQzFBODE0NDhCNzBBMkUzNzE1Mzc2RDlGMDNCNzlCIiwgInNpZF9vdXRwdX
+ #Rfb2MiOiAiNTc4NEZGMkM3QzNEQ0U5OThEQjQ5NzZDQkVDQ0ZFMEVDM0EyNTNBMkNB
+ #RjY0QUU0MTMyRjUzOTQwMzkwQUI1OTM4REJEM0MwRkREQzZEMDcwRjhGREUzODREND
+ #k4OTg4NzMxNDZCMjkyMUVFOTJBNjc0QUMxQ0E0NUNBMzY1RjQifQ==
 </pre><a href="#appendix-B.2.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4190,26 +4171,26 @@ when included in the protocol messages from A or B.
     H   = SHA-512 with input block size 128 bytes.
     PRS = b'Password' ; ZPAD length: 100 ;
     DSI = b'CPaceRistretto255'
-    CI = b'oc\x0bB_responder\x0bA_initiator'
-    CI = 6f630b425f726573706f6e6465720b415f696e69746961746f72
+    CI = b'\x0bA_initiator\x0bB_responder'
+    CI = 0b415f696e69746961746f720b425f726573706f6e646572
     sid = 7e4b4791d6a8ef019b936c79fb7f2c57
   Outputs
     generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes):
-    (length: 172 bytes)
+    (length: 170 bytes)
       11435061636552697374726574746f3235350850617373776f726464
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000001a6f630b425f726573706f6e
-      6465720b415f696e69746961746f72107e4b4791d6a8ef019b936c79
-      fb7f2c57
+      00000000000000000000000000000000180b415f696e69746961746f
+      720b425f726573706f6e646572107e4b4791d6a8ef019b936c79fb7f
+      2c57
     hash result: (length: 64 bytes)
-      c63a5750e2439c17ccd8213be14fde2f87e1bc637001a97f5929c77b
-      30ea0e08afbc75ace5d3d73b2842a79d01488c5fd7ea30d475ee6095
-      45af1bfd1ff77c8e
+      da6d3ddc8802fca9058755ffd3ebde08a9c2c74945901a258482a288
+      b6663af06bf645c93cd1c51512307199c80e84908916d983b34af772
+      05f90851a657ee27
     encoded generator g: (length: 32 bytes)
-      a6fc82c3b8968fbb2e06fee81ca858586dea50d248f0c7ca6a18b090
-      2a30b36b
+      222b6b195fe84b1652badb6f6a3ae3d24341e7306967f0b8115b40d5
+      698c7e56
 </pre><a href="#appendix-B.3.1-1" class="pilcrow">¶</a>
 </div>
 <div id="testvectors-as-json-file-encoded-as-base64-11">
@@ -4221,22 +4202,22 @@ when included in the protocol messages from A or B.
 <pre>
  #eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjUwNj
  #E3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiAxMDAsICJEU0kiOiAiNDM1MDYx
- #NjM2NTUyNjk3Mzc0NzI2NTc0NzQ2RjMyMzUzNSIsICJDSSI6ICI2RjYzMEI0MjVGNz
- #I2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6
- #ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnZW5lcmF0b3Jfc3
- #RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6ICIxMTQzNTA2MTYz
- #NjU1MjY5NzM3NDcyNjU3NDc0NkYzMjM1MzUwODUwNjE3MzczNzc2RjcyNjQ2NDAwMD
+ #NjM2NTUyNjk3Mzc0NzI2NTc0NzQ2RjMyMzUzNSIsICJDSSI6ICIwQjQxNUY2OTZFNj
+ #k3NDY5NjE3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2NDY1NzIiLCAic2lkIjogIjdF
+ #NEI0NzkxRDZBOEVGMDE5QjkzNkM3OUZCN0YyQzU3IiwgImdlbmVyYXRvcl9zdHJpbm
+ #coRy5EU0ksUFJTLENJLHNpZCxILnNfaW5fYnl0ZXMpIjogIjExNDM1MDYxNjM2NTUy
+ #Njk3Mzc0NzI2NTc0NzQ2RjMyMzUzNTA4NTA2MTczNzM3NzZGNzI2NDY0MDAwMDAwMD
  #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
  #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
  #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
- #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMU
- #E2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2
- #RjcyMTA3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJoYXNoIHJlc3
- #VsdCI6ICJDNjNBNTc1MEUyNDM5QzE3Q0NEODIxM0JFMTRGREUyRjg3RTFCQzYzNzAw
- #MUE5N0Y1OTI5Qzc3QjMwRUEwRTA4QUZCQzc1QUNFNUQzRDczQjI4NDJBNzlEMDE0OD
- #hDNUZEN0VBMzBENDc1RUU2MDk1NDVBRjFCRkQxRkY3N0M4RSIsICJlbmNvZGVkIGdl
- #bmVyYXRvciBnIjogIkE2RkM4MkMzQjg5NjhGQkIyRTA2RkVFODFDQTg1ODU4NkRFQT
- #UwRDI0OEYwQzdDQTZBMThCMDkwMkEzMEIzNkIifQ==
+ #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxODBCND
+ #E1RjY5NkU2OTc0Njk2MTc0NkY3MjBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjEwN0U0
+ #QjQ3OTFENkE4RUYwMTlCOTM2Qzc5RkI3RjJDNTciLCAiaGFzaCByZXN1bHQiOiAiRE
+ #E2RDNEREM4ODAyRkNBOTA1ODc1NUZGRDNFQkRFMDhBOUMyQzc0OTQ1OTAxQTI1ODQ4
+ #MkEyODhCNjY2M0FGMDZCRjY0NUM5M0NEMUM1MTUxMjMwNzE5OUM4MEU4NDkwODkxNk
+ #Q5ODNCMzRBRjc3MjA1RjkwODUxQTY1N0VFMjciLCAiZW5jb2RlZCBnZW5lcmF0b3Ig
+ #ZyI6ICIyMjJCNkIxOTVGRTg0QjE2NTJCQURCNkY2QTNBRTNEMjQzNDFFNzMwNjk2N0
+ #YwQjgxMTVCNDBENTY5OEM3RTU2In0=
 </pre><a href="#appendix-B.3.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4257,8 +4238,8 @@ when included in the protocol messages from A or B.
       f0976d08
   Outputs
     Ya: (length: 32 bytes)
-      d40fb265a7abeaee7939d91a585fe59f7053f982c296ec413c624c66
-      9308f87a
+      d6bac480f2c386c394efc7c47adb9925dcd2630b64f240c50f8d0eec
+      482b9157
 </pre><a href="#appendix-B.3.2-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4277,8 +4258,8 @@ when included in the protocol messages from A or B.
       d900b80d
   Outputs
     Yb: (length: 32 bytes)
-      08bcf6e9777a9c313a3db6daa510f2d398403319c2341bd506a92e67
-      2eb7e307
+      3ea7e0b19560d7c0b0f5734f63b955286dfa8232b5ebe63324e2d9e7
+      433f7258
 </pre><a href="#appendix-B.3.3-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4291,11 +4272,11 @@ when included in the protocol messages from A or B.
 <div class="alignLeft art-text artwork" id="appendix-B.3.4-1">
 <pre>
     scalar_mult_vfy(ya,Yb): (length: 32 bytes)
-      e22b1ef7788f661478f3cddd4c600774fc0f41e6b711569190ff88fa
-      0e607e09
+      80b69a8a76457ab6a4d7f887a4bf6b55a2f80ac19c333f917a05fc98
+      87c8b40f
     scalar_mult_vfy(yb,Ya): (length: 32 bytes)
-      e22b1ef7788f661478f3cddd4c600774fc0f41e6b711569190ff88fa
-      0e607e09
+      80b69a8a76457ab6a4d7f887a4bf6b55a2f80ac19c333f917a05fc98
+      87c8b40f
 </pre><a href="#appendix-B.3.4-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4308,24 +4289,24 @@ when included in the protocol messages from A or B.
 <div class="alignLeft art-text artwork" id="appendix-B.3.5-1">
 <pre>
     transcript_ir(Ya,ADa,Yb,ADb): (length: 74 bytes)
-      20d40fb265a7abeaee7939d91a585fe59f7053f982c296ec413c624c
-      669308f87a034144612008bcf6e9777a9c313a3db6daa510f2d39840
-      3319c2341bd506a92e672eb7e30703414462
+      20d6bac480f2c386c394efc7c47adb9925dcd2630b64f240c50f8d0e
+      ec482b915703414461203ea7e0b19560d7c0b0f5734f63b955286dfa
+      8232b5ebe63324e2d9e7433f725803414462
     DSI = G.DSI_ISK, b'CPaceRistretto255_ISK':
     (length: 21 bytes)
       435061636552697374726574746f3235355f49534b
     lv_cat(DSI,sid,K)||transcript_ir(Ya,ADa,Yb,ADb):
     (length: 146 bytes)
       15435061636552697374726574746f3235355f49534b107e4b4791d6
-      a8ef019b936c79fb7f2c5720e22b1ef7788f661478f3cddd4c600774
-      fc0f41e6b711569190ff88fa0e607e0920d40fb265a7abeaee7939d9
-      1a585fe59f7053f982c296ec413c624c669308f87a034144612008bc
-      f6e9777a9c313a3db6daa510f2d398403319c2341bd506a92e672eb7
-      e30703414462
+      a8ef019b936c79fb7f2c572080b69a8a76457ab6a4d7f887a4bf6b55
+      a2f80ac19c333f917a05fc9887c8b40f20d6bac480f2c386c394efc7
+      c47adb9925dcd2630b64f240c50f8d0eec482b915703414461203ea7
+      e0b19560d7c0b0f5734f63b955286dfa8232b5ebe63324e2d9e7433f
+      725803414462
     ISK result: (length: 64 bytes)
-      4c5469a16b2364c4b944ebc1a79e51d1674ad47db26e8718154f59fa
-      ebfaa52d8346f30aa58377117eb20d527f2cbc5c76381f7fd372e89d
-      f8239f87f2e02ed1
+      b69effbf61b51d56401c0f65601abe428de8206feaaf0e32198896dc
+      ae7b35cd2b38950a39dfd5d4a79164614c2984f7daa460b588c1e80c
+      3fa2068af7900447
 </pre><a href="#appendix-B.3.5-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4338,24 +4319,24 @@ when included in the protocol messages from A or B.
 <div class="alignLeft art-text artwork" id="appendix-B.3.6-1">
 <pre>
     transcript_oc(Ya,ADa,Yb,ADb): (length: 76 bytes)
-      6f6320d40fb265a7abeaee7939d91a585fe59f7053f982c296ec413c
-      624c669308f87a034144612008bcf6e9777a9c313a3db6daa510f2d3
-      98403319c2341bd506a92e672eb7e30703414462
+      6f6320d6bac480f2c386c394efc7c47adb9925dcd2630b64f240c50f
+      8d0eec482b915703414461203ea7e0b19560d7c0b0f5734f63b95528
+      6dfa8232b5ebe63324e2d9e7433f725803414462
     DSI = G.DSI_ISK, b'CPaceRistretto255_ISK':
     (length: 21 bytes)
       435061636552697374726574746f3235355f49534b
     lv_cat(DSI,sid,K)||transcript_oc(Ya,ADa,Yb,ADb):
     (length: 148 bytes)
       15435061636552697374726574746f3235355f49534b107e4b4791d6
-      a8ef019b936c79fb7f2c5720e22b1ef7788f661478f3cddd4c600774
-      fc0f41e6b711569190ff88fa0e607e096f6320d40fb265a7abeaee79
-      39d91a585fe59f7053f982c296ec413c624c669308f87a0341446120
-      08bcf6e9777a9c313a3db6daa510f2d398403319c2341bd506a92e67
-      2eb7e30703414462
+      a8ef019b936c79fb7f2c572080b69a8a76457ab6a4d7f887a4bf6b55
+      a2f80ac19c333f917a05fc9887c8b40f6f6320d6bac480f2c386c394
+      efc7c47adb9925dcd2630b64f240c50f8d0eec482b91570341446120
+      3ea7e0b19560d7c0b0f5734f63b955286dfa8232b5ebe63324e2d9e7
+      433f725803414462
     ISK result: (length: 64 bytes)
-      980dcc5a1c52ceea031e75f38ed266586616488c5c5780285fcbcf79
-      087c7bcdbd993502eee606b718ba31e840a000a7b7befe15ea427c5c
-      fe88344fa1237f35
+      544199d71f62f8d9a1fee55727e24fe4a45844593c2b6013c4fa3969
+      d0e5debb2244675c0b43397cbb68d342b01fc0f98fc961469a25134d
+      e9f0f813c1a57476
 </pre><a href="#appendix-B.3.6-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4367,16 +4348,16 @@ when included in the protocol messages from A or B.
           </h4>
 <div class="alignLeft art-text artwork" id="appendix-B.3.7-1">
 <pre>
-    H.hash(b"CPaceSidOut" + transcript_ir(Ya,ADa, Yb,ADb)):
+    H.hash(b"CPaceSidOutput" + transcript_ir(Ya,ADa, Yb,ADb)):
     (length: 64 bytes)
-      2a76d3bbc499dfdc4dcacc9ff042f4e1a54e3843258e100ccd7c60f0
-      a541f9d3ebf025e68a460dde218bd39f0711bc6fa11409c9d7b69d8c
-      cf6b32fc51ddb699
-    H.hash(b"CPaceSidOut" + transcript_oc(Ya,ADa, Yb,ADb)):
+      bb1c449b35f0ea79a65c209f329a693d475e0ce2387bed9fe4b78f60
+      b2a27c219813fb2cfe175ef40d2222d9261e66da7d78f7c55a303b1b
+      8611dcdfab880c47
+    H.hash(b"CPaceSidOutput" + transcript_oc(Ya,ADa, Yb,ADb)):
     (length: 64 bytes)
-      ca4b50700c46203ccd10bc0e9f31095e508189cb59857537be561048
-      d34b9ed9a9697af11c998f484c3d783b0b531434caa6835d4c32344f
-      cd17160c9c348fc7
+      10d5941d4933497fe31b9188d690b84465e2a2d158332a7267284a07
+      1a8d0876fc5c8c329dc735d59a9f8ef6623ee23924704a2f929dd631
+      ca981227ee82fff2
 </pre><a href="#appendix-B.3.7-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4392,18 +4373,17 @@ const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
 };
 const unsigned char tc_CI[] = {
- 0x6f,0x63,0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,
- 0x65,0x72,0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,
- 0x6f,0x72,
+ 0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,0x6f,0x72,
+ 0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,0x65,0x72,
 };
 const unsigned char tc_sid[] = {
  0x7e,0x4b,0x47,0x91,0xd6,0xa8,0xef,0x01,0x9b,0x93,0x6c,0x79,
  0xfb,0x7f,0x2c,0x57,
 };
 const unsigned char tc_g[] = {
- 0xa6,0xfc,0x82,0xc3,0xb8,0x96,0x8f,0xbb,0x2e,0x06,0xfe,0xe8,
- 0x1c,0xa8,0x58,0x58,0x6d,0xea,0x50,0xd2,0x48,0xf0,0xc7,0xca,
- 0x6a,0x18,0xb0,0x90,0x2a,0x30,0xb3,0x6b,
+ 0x22,0x2b,0x6b,0x19,0x5f,0xe8,0x4b,0x16,0x52,0xba,0xdb,0x6f,
+ 0x6a,0x3a,0xe3,0xd2,0x43,0x41,0xe7,0x30,0x69,0x67,0xf0,0xb8,
+ 0x11,0x5b,0x40,0xd5,0x69,0x8c,0x7e,0x56,
 };
 const unsigned char tc_ya[] = {
  0xda,0x3d,0x23,0x70,0x0a,0x9e,0x56,0x99,0x25,0x8a,0xef,0x94,
@@ -4414,9 +4394,9 @@ const unsigned char tc_ADa[] = {
  0x41,0x44,0x61,
 };
 const unsigned char tc_Ya[] = {
- 0xd4,0x0f,0xb2,0x65,0xa7,0xab,0xea,0xee,0x79,0x39,0xd9,0x1a,
- 0x58,0x5f,0xe5,0x9f,0x70,0x53,0xf9,0x82,0xc2,0x96,0xec,0x41,
- 0x3c,0x62,0x4c,0x66,0x93,0x08,0xf8,0x7a,
+ 0xd6,0xba,0xc4,0x80,0xf2,0xc3,0x86,0xc3,0x94,0xef,0xc7,0xc4,
+ 0x7a,0xdb,0x99,0x25,0xdc,0xd2,0x63,0x0b,0x64,0xf2,0x40,0xc5,
+ 0x0f,0x8d,0x0e,0xec,0x48,0x2b,0x91,0x57,
 };
 const unsigned char tc_yb[] = {
  0xd2,0x31,0x6b,0x45,0x47,0x18,0xc3,0x53,0x62,0xd8,0x3d,0x69,
@@ -4427,54 +4407,46 @@ const unsigned char tc_ADb[] = {
  0x41,0x44,0x62,
 };
 const unsigned char tc_Yb[] = {
- 0x08,0xbc,0xf6,0xe9,0x77,0x7a,0x9c,0x31,0x3a,0x3d,0xb6,0xda,
- 0xa5,0x10,0xf2,0xd3,0x98,0x40,0x33,0x19,0xc2,0x34,0x1b,0xd5,
- 0x06,0xa9,0x2e,0x67,0x2e,0xb7,0xe3,0x07,
+ 0x3e,0xa7,0xe0,0xb1,0x95,0x60,0xd7,0xc0,0xb0,0xf5,0x73,0x4f,
+ 0x63,0xb9,0x55,0x28,0x6d,0xfa,0x82,0x32,0xb5,0xeb,0xe6,0x33,
+ 0x24,0xe2,0xd9,0xe7,0x43,0x3f,0x72,0x58,
 };
 const unsigned char tc_K[] = {
- 0xe2,0x2b,0x1e,0xf7,0x78,0x8f,0x66,0x14,0x78,0xf3,0xcd,0xdd,
- 0x4c,0x60,0x07,0x74,0xfc,0x0f,0x41,0xe6,0xb7,0x11,0x56,0x91,
- 0x90,0xff,0x88,0xfa,0x0e,0x60,0x7e,0x09,
+ 0x80,0xb6,0x9a,0x8a,0x76,0x45,0x7a,0xb6,0xa4,0xd7,0xf8,0x87,
+ 0xa4,0xbf,0x6b,0x55,0xa2,0xf8,0x0a,0xc1,0x9c,0x33,0x3f,0x91,
+ 0x7a,0x05,0xfc,0x98,0x87,0xc8,0xb4,0x0f,
 };
 const unsigned char tc_ISK_IR[] = {
- 0x4c,0x54,0x69,0xa1,0x6b,0x23,0x64,0xc4,0xb9,0x44,0xeb,0xc1,
- 0xa7,0x9e,0x51,0xd1,0x67,0x4a,0xd4,0x7d,0xb2,0x6e,0x87,0x18,
- 0x15,0x4f,0x59,0xfa,0xeb,0xfa,0xa5,0x2d,0x83,0x46,0xf3,0x0a,
- 0xa5,0x83,0x77,0x11,0x7e,0xb2,0x0d,0x52,0x7f,0x2c,0xbc,0x5c,
- 0x76,0x38,0x1f,0x7f,0xd3,0x72,0xe8,0x9d,0xf8,0x23,0x9f,0x87,
- 0xf2,0xe0,0x2e,0xd1,
+ 0xb6,0x9e,0xff,0xbf,0x61,0xb5,0x1d,0x56,0x40,0x1c,0x0f,0x65,
+ 0x60,0x1a,0xbe,0x42,0x8d,0xe8,0x20,0x6f,0xea,0xaf,0x0e,0x32,
+ 0x19,0x88,0x96,0xdc,0xae,0x7b,0x35,0xcd,0x2b,0x38,0x95,0x0a,
+ 0x39,0xdf,0xd5,0xd4,0xa7,0x91,0x64,0x61,0x4c,0x29,0x84,0xf7,
+ 0xda,0xa4,0x60,0xb5,0x88,0xc1,0xe8,0x0c,0x3f,0xa2,0x06,0x8a,
+ 0xf7,0x90,0x04,0x47,
 };
 const unsigned char tc_ISK_SY[] = {
- 0x98,0x0d,0xcc,0x5a,0x1c,0x52,0xce,0xea,0x03,0x1e,0x75,0xf3,
- 0x8e,0xd2,0x66,0x58,0x66,0x16,0x48,0x8c,0x5c,0x57,0x80,0x28,
- 0x5f,0xcb,0xcf,0x79,0x08,0x7c,0x7b,0xcd,0xbd,0x99,0x35,0x02,
- 0xee,0xe6,0x06,0xb7,0x18,0xba,0x31,0xe8,0x40,0xa0,0x00,0xa7,
- 0xb7,0xbe,0xfe,0x15,0xea,0x42,0x7c,0x5c,0xfe,0x88,0x34,0x4f,
- 0xa1,0x23,0x7f,0x35,
-};
-const unsigned char tc_ISK_SY[] = {
- 0x98,0x0d,0xcc,0x5a,0x1c,0x52,0xce,0xea,0x03,0x1e,0x75,0xf3,
- 0x8e,0xd2,0x66,0x58,0x66,0x16,0x48,0x8c,0x5c,0x57,0x80,0x28,
- 0x5f,0xcb,0xcf,0x79,0x08,0x7c,0x7b,0xcd,0xbd,0x99,0x35,0x02,
- 0xee,0xe6,0x06,0xb7,0x18,0xba,0x31,0xe8,0x40,0xa0,0x00,0xa7,
- 0xb7,0xbe,0xfe,0x15,0xea,0x42,0x7c,0x5c,0xfe,0x88,0x34,0x4f,
- 0xa1,0x23,0x7f,0x35,
+ 0x54,0x41,0x99,0xd7,0x1f,0x62,0xf8,0xd9,0xa1,0xfe,0xe5,0x57,
+ 0x27,0xe2,0x4f,0xe4,0xa4,0x58,0x44,0x59,0x3c,0x2b,0x60,0x13,
+ 0xc4,0xfa,0x39,0x69,0xd0,0xe5,0xde,0xbb,0x22,0x44,0x67,0x5c,
+ 0x0b,0x43,0x39,0x7c,0xbb,0x68,0xd3,0x42,0xb0,0x1f,0xc0,0xf9,
+ 0x8f,0xc9,0x61,0x46,0x9a,0x25,0x13,0x4d,0xe9,0xf0,0xf8,0x13,
+ 0xc1,0xa5,0x74,0x76,
 };
 const unsigned char tc_sid_out_ir[] = {
- 0x2a,0x76,0xd3,0xbb,0xc4,0x99,0xdf,0xdc,0x4d,0xca,0xcc,0x9f,
- 0xf0,0x42,0xf4,0xe1,0xa5,0x4e,0x38,0x43,0x25,0x8e,0x10,0x0c,
- 0xcd,0x7c,0x60,0xf0,0xa5,0x41,0xf9,0xd3,0xeb,0xf0,0x25,0xe6,
- 0x8a,0x46,0x0d,0xde,0x21,0x8b,0xd3,0x9f,0x07,0x11,0xbc,0x6f,
- 0xa1,0x14,0x09,0xc9,0xd7,0xb6,0x9d,0x8c,0xcf,0x6b,0x32,0xfc,
- 0x51,0xdd,0xb6,0x99,
+ 0xbb,0x1c,0x44,0x9b,0x35,0xf0,0xea,0x79,0xa6,0x5c,0x20,0x9f,
+ 0x32,0x9a,0x69,0x3d,0x47,0x5e,0x0c,0xe2,0x38,0x7b,0xed,0x9f,
+ 0xe4,0xb7,0x8f,0x60,0xb2,0xa2,0x7c,0x21,0x98,0x13,0xfb,0x2c,
+ 0xfe,0x17,0x5e,0xf4,0x0d,0x22,0x22,0xd9,0x26,0x1e,0x66,0xda,
+ 0x7d,0x78,0xf7,0xc5,0x5a,0x30,0x3b,0x1b,0x86,0x11,0xdc,0xdf,
+ 0xab,0x88,0x0c,0x47,
 };
 const unsigned char tc_sid_out_oc[] = {
- 0xca,0x4b,0x50,0x70,0x0c,0x46,0x20,0x3c,0xcd,0x10,0xbc,0x0e,
- 0x9f,0x31,0x09,0x5e,0x50,0x81,0x89,0xcb,0x59,0x85,0x75,0x37,
- 0xbe,0x56,0x10,0x48,0xd3,0x4b,0x9e,0xd9,0xa9,0x69,0x7a,0xf1,
- 0x1c,0x99,0x8f,0x48,0x4c,0x3d,0x78,0x3b,0x0b,0x53,0x14,0x34,
- 0xca,0xa6,0x83,0x5d,0x4c,0x32,0x34,0x4f,0xcd,0x17,0x16,0x0c,
- 0x9c,0x34,0x8f,0xc7,
+ 0x10,0xd5,0x94,0x1d,0x49,0x33,0x49,0x7f,0xe3,0x1b,0x91,0x88,
+ 0xd6,0x90,0xb8,0x44,0x65,0xe2,0xa2,0xd1,0x58,0x33,0x2a,0x72,
+ 0x67,0x28,0x4a,0x07,0x1a,0x8d,0x08,0x76,0xfc,0x5c,0x8c,0x32,
+ 0x9d,0xc7,0x35,0xd5,0x9a,0x9f,0x8e,0xf6,0x62,0x3e,0xe2,0x39,
+ 0x24,0x70,0x4a,0x2f,0x92,0x9d,0xd6,0x31,0xca,0x98,0x12,0x27,
+ 0xee,0x82,0xff,0xf2,
 };
 </pre><a href="#appendix-B.3.8-1" class="pilcrow">¶</a>
 </div>
@@ -4487,31 +4459,30 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="lang-test-vectors sourcecode" id="appendix-B.3.9-1">
 <pre>
- #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
- #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI3
- #RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIkE2RkM4MkMzQj
- #g5NjhGQkIyRTA2RkVFODFDQTg1ODU4NkRFQTUwRDI0OEYwQzdDQTZBMThCMDkwMkEz
- #MEIzNkIiLCAieWEiOiAiREEzRDIzNzAwQTlFNTY5OTI1OEFFRjk0REMwNjBERkRBNU
- #VCQjYxRjAyQTVFQTc3RkFENTNGNEZGMDk3NkQwOCIsICJBRGEiOiAiNDE0NDYxIiwg
- #IllhIjogIkQ0MEZCMjY1QTdBQkVBRUU3OTM5RDkxQTU4NUZFNTlGNzA1M0Y5ODJDMj
- #k2RUM0MTNDNjI0QzY2OTMwOEY4N0EiLCAieWIiOiAiRDIzMTZCNDU0NzE4QzM1MzYy
- #RDgzRDY5REY2MzIwRjM4NTc4RUQ1OTg0NjUxNDM1RTI5NDk3NjJEOTAwQjgwRCIsIC
- #JBRGIiOiAiNDE0NDYyIiwgIlliIjogIjA4QkNGNkU5Nzc3QTlDMzEzQTNEQjZEQUE1
- #MTBGMkQzOTg0MDMzMTlDMjM0MUJENTA2QTkyRTY3MkVCN0UzMDciLCAiSyI6ICJFMj
- #JCMUVGNzc4OEY2NjE0NzhGM0NEREQ0QzYwMDc3NEZDMEY0MUU2QjcxMTU2OTE5MEZG
- #ODhGQTBFNjA3RTA5IiwgIklTS19JUiI6ICI0QzU0NjlBMTZCMjM2NEM0Qjk0NEVCQz
- #FBNzlFNTFEMTY3NEFENDdEQjI2RTg3MTgxNTRGNTlGQUVCRkFBNTJEODM0NkYzMEFB
- #NTgzNzcxMTdFQjIwRDUyN0YyQ0JDNUM3NjM4MUY3RkQzNzJFODlERjgyMzlGODdGMk
- #UwMkVEMSIsICJJU0tfU1kiOiAiOTgwRENDNUExQzUyQ0VFQTAzMUU3NUYzOEVEMjY2
- #NTg2NjE2NDg4QzVDNTc4MDI4NUZDQkNGNzkwODdDN0JDREJEOTkzNTAyRUVFNjA2Qj
- #cxOEJBMzFFODQwQTAwMEE3QjdCRUZFMTVFQTQyN0M1Q0ZFODgzNDRGQTEyMzdGMzUi
- #LCAic2lkX291dHB1dF9pciI6ICIyQTc2RDNCQkM0OTlERkRDNERDQUNDOUZGMDQyRj
- #RFMUE1NEUzODQzMjU4RTEwMENDRDdDNjBGMEE1NDFGOUQzRUJGMDI1RTY4QTQ2MERE
- #RTIxOEJEMzlGMDcxMUJDNkZBMTE0MDlDOUQ3QjY5RDhDQ0Y2QjMyRkM1MUREQjY5OS
- #IsICJzaWRfb3V0cHV0X29jIjogIkNBNEI1MDcwMEM0NjIwM0NDRDEwQkMwRTlGMzEw
- #OTVFNTA4MTg5Q0I1OTg1NzUzN0JFNTYxMDQ4RDM0QjlFRDlBOTY5N0FGMTFDOTk4Rj
- #Q4NEMzRDc4M0IwQjUzMTQzNENBQTY4MzVENEMzMjM0NEZDRDE3MTYwQzlDMzQ4RkM3
- #In0=
+ #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICIwQjQxNUY2OTZFNjk3ND
+ #Y5NjE3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2NDY1NzIiLCAic2lkIjogIjdFNEI0
+ #NzkxRDZBOEVGMDE5QjkzNkM3OUZCN0YyQzU3IiwgImciOiAiMjIyQjZCMTk1RkU4NE
+ #IxNjUyQkFEQjZGNkEzQUUzRDI0MzQxRTczMDY5NjdGMEI4MTE1QjQwRDU2OThDN0U1
+ #NiIsICJ5YSI6ICJEQTNEMjM3MDBBOUU1Njk5MjU4QUVGOTREQzA2MERGREE1RUJCNj
+ #FGMDJBNUVBNzdGQUQ1M0Y0RkYwOTc2RDA4IiwgIkFEYSI6ICI0MTQ0NjEiLCAiWWEi
+ #OiAiRDZCQUM0ODBGMkMzODZDMzk0RUZDN0M0N0FEQjk5MjVEQ0QyNjMwQjY0RjI0ME
+ #M1MEY4RDBFRUM0ODJCOTE1NyIsICJ5YiI6ICJEMjMxNkI0NTQ3MThDMzUzNjJEODNE
+ #NjlERjYzMjBGMzg1NzhFRDU5ODQ2NTE0MzVFMjk0OTc2MkQ5MDBCODBEIiwgIkFEYi
+ #I6ICI0MTQ0NjIiLCAiWWIiOiAiM0VBN0UwQjE5NTYwRDdDMEIwRjU3MzRGNjNCOTU1
+ #Mjg2REZBODIzMkI1RUJFNjMzMjRFMkQ5RTc0MzNGNzI1OCIsICJLIjogIjgwQjY5QT
+ #hBNzY0NTdBQjZBNEQ3Rjg4N0E0QkY2QjU1QTJGODBBQzE5QzMzM0Y5MTdBMDVGQzk4
+ #ODdDOEI0MEYiLCAiSVNLX0lSIjogIkI2OUVGRkJGNjFCNTFENTY0MDFDMEY2NTYwMU
+ #FCRTQyOERFODIwNkZFQUFGMEUzMjE5ODg5NkRDQUU3QjM1Q0QyQjM4OTUwQTM5REZE
+ #NUQ0QTc5MTY0NjE0QzI5ODRGN0RBQTQ2MEI1ODhDMUU4MEMzRkEyMDY4QUY3OTAwND
+ #Q3IiwgIklTS19TWSI6ICI1NDQxOTlENzFGNjJGOEQ5QTFGRUU1NTcyN0UyNEZFNEE0
+ #NTg0NDU5M0MyQjYwMTNDNEZBMzk2OUQwRTVERUJCMjI0NDY3NUMwQjQzMzk3Q0JCNj
+ #hEMzQyQjAxRkMwRjk4RkM5NjE0NjlBMjUxMzRERTlGMEY4MTNDMUE1NzQ3NiIsICJz
+ #aWRfb3V0cHV0X2lyIjogIkJCMUM0NDlCMzVGMEVBNzlBNjVDMjA5RjMyOUE2OTNEND
+ #c1RTBDRTIzODdCRUQ5RkU0Qjc4RjYwQjJBMjdDMjE5ODEzRkIyQ0ZFMTc1RUY0MEQy
+ #MjIyRDkyNjFFNjZEQTdENzhGN0M1NUEzMDNCMUI4NjExRENERkFCODgwQzQ3IiwgIn
+ #NpZF9vdXRwdXRfb2MiOiAiMTBENTk0MUQ0OTMzNDk3RkUzMUI5MTg4RDY5MEI4NDQ2
+ #NUUyQTJEMTU4MzMyQTcyNjcyODRBMDcxQThEMDg3NkZDNUM4QzMyOURDNzM1RDU5QT
+ #lGOEVGNjYyM0VFMjM5MjQ3MDRBMkY5MjlERDYzMUNBOTgxMjI3RUU4MkZGRjIifQ==
 </pre><a href="#appendix-B.3.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4601,27 +4572,27 @@ const unsigned char tc_sid_out_oc[] = {
     H   = SHAKE-256 with input block size 136 bytes.
     PRS = b'Password' ; ZPAD length: 112 ;
     DSI = b'CPaceDecaf448'
-    CI = b'oc\x0bB_responder\x0bA_initiator'
-    CI = 6f630b425f726573706f6e6465720b415f696e69746961746f72
+    CI = b'\x0bA_initiator\x0bB_responder'
+    CI = 0b415f696e69746961746f720b425f726573706f6e646572
     sid = 5223e0cdc45d6575668d64c552004124
   Outputs
     generator_string(G.DSI,PRS,CI,sid,H.s_in_bytes):
-    (length: 180 bytes)
+    (length: 178 bytes)
       0d435061636544656361663434380850617373776f72647000000000
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000001a6f630b
-      425f726573706f6e6465720b415f696e69746961746f72105223e0cd
-      c45d6575668d64c552004124
+      000000000000000000000000000000000000000000000000180b415f
+      696e69746961746f720b425f726573706f6e646572105223e0cdc45d
+      6575668d64c552004124
     hash result: (length: 112 bytes)
-      7148f4d60587aaafa64d2fd6bcfe45ee71e8b971d1d5ff3bbf8c1451
-      797c62a1af22ab25638749f97f9b15fedcf4aeee87282cf667594ab0
-      92b6023c8f8d3a61c38b0af791c9271137df01b57d63b79734bbce69
-      91e3e2e10fdc805abc9e6e6f3daeff6fd34093d26de240b326764252
+      8ad1e4999548af985785a92cf36c5ba8b75115c7b38359ddb45a7347
+      ab381673a3aeaac0edf6aaa666f9f4362d0115d8b9ead3e3b0235de1
+      4032c6952ac33ea84af04081bda042548c7bde48a2950cd5a370b786
+      e2e5ef832b113f0ba86f46954ea5f1f99b50ce7e65d35ca3a8f93bf6
     encoded generator g: (length: 56 bytes)
-      9a700ecc378eb98e57387df456d5b4b4f1dceebbb1371527eeb7e1bf
-      bab64ecc9c9303396145ba04f5b5aea5baedfa61f31f00fbc5fd5606
+      b47b2c3e328ea9f318ca695af65dc838ba5a58bdb8087ae6c6ab486a
+      8bfcb13d35b301dddca91d1540a4106d38ba1bf152e5bba104193c7e
 </pre><a href="#appendix-B.4.1-1" class="pilcrow">¶</a>
 </div>
 <div id="testvectors-as-json-file-encoded-as-base64-14">
@@ -4633,25 +4604,25 @@ const unsigned char tc_sid_out_oc[] = {
 <pre>
  #eyJIIjogIlNIQUtFLTI1NiIsICJILnNfaW5fYnl0ZXMiOiAxMzYsICJQUlMiOiAiNT
  #A2MTczNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDExMiwgIkRTSSI6ICI0MzUw
- #NjE2MzY1NDQ2NTYzNjE2NjM0MzQzOCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NTczNz
- #A2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI1MjIz
- #RTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnZW5lcmF0b3Jfc3RyaW5nKE
- #cuRFNJLFBSUyxDSSxzaWQsSC5zX2luX2J5dGVzKSI6ICIwRDQzNTA2MTYzNjU0NDY1
- #NjM2MTY2MzQzNDM4MDg1MDYxNzM3Mzc3NkY3MjY0NzAwMDAwMDAwMDAwMDAwMDAwMD
+ #NjE2MzY1NDQ2NTYzNjE2NjM0MzQzOCIsICJDSSI6ICIwQjQxNUY2OTZFNjk3NDY5Nj
+ #E3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2NDY1NzIiLCAic2lkIjogIjUyMjNFMENE
+ #QzQ1RDY1NzU2NjhENjRDNTUyMDA0MTI0IiwgImdlbmVyYXRvcl9zdHJpbmcoRy5EU0
+ #ksUFJTLENJLHNpZCxILnNfaW5fYnl0ZXMpIjogIjBENDM1MDYxNjM2NTQ0NjU2MzYx
+ #NjYzNDM0MzgwODUwNjE3MzczNzc2RjcyNjQ3MDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
  #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
  #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
  #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
  #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
- #AwMDAwMDAwMDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5NkU2
- #OTc0Njk2MTc0NkY3MjEwNTIyM0UwQ0RDNDVENjU3NTY2OEQ2NEM1NTIwMDQxMjQiLC
- #AiaGFzaCByZXN1bHQiOiAiNzE0OEY0RDYwNTg3QUFBRkE2NEQyRkQ2QkNGRTQ1RUU3
- #MUU4Qjk3MUQxRDVGRjNCQkY4QzE0NTE3OTdDNjJBMUFGMjJBQjI1NjM4NzQ5Rjk3Rj
- #lCMTVGRURDRjRBRUVFODcyODJDRjY2NzU5NEFCMDkyQjYwMjNDOEY4RDNBNjFDMzhC
- #MEFGNzkxQzkyNzExMzdERjAxQjU3RDYzQjc5NzM0QkJDRTY5OTFFM0UyRTEwRkRDOD
- #A1QUJDOUU2RTZGM0RBRUZGNkZEMzQwOTNEMjZERTI0MEIzMjY3NjQyNTIiLCAiZW5j
- #b2RlZCBnZW5lcmF0b3IgZyI6ICI5QTcwMEVDQzM3OEVCOThFNTczODdERjQ1NkQ1Qj
- #RCNEYxRENFRUJCQjEzNzE1MjdFRUI3RTFCRkJBQjY0RUNDOUM5MzAzMzk2MTQ1QkEw
- #NEY1QjVBRUE1QkFFREZBNjFGMzFGMDBGQkM1RkQ1NjA2In0=
+ #AwMDAwMTgwQjQxNUY2OTZFNjk3NDY5NjE3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2
+ #NDY1NzIxMDUyMjNFMENEQzQ1RDY1NzU2NjhENjRDNTUyMDA0MTI0IiwgImhhc2ggcm
+ #VzdWx0IjogIjhBRDFFNDk5OTU0OEFGOTg1Nzg1QTkyQ0YzNkM1QkE4Qjc1MTE1QzdC
+ #MzgzNTlEREI0NUE3MzQ3QUIzODE2NzNBM0FFQUFDMEVERjZBQUE2NjZGOUY0MzYyRD
+ #AxMTVEOEI5RUFEM0UzQjAyMzVERTE0MDMyQzY5NTJBQzMzRUE4NEFGMDQwODFCREEw
+ #NDI1NDhDN0JERTQ4QTI5NTBDRDVBMzcwQjc4NkUyRTVFRjgzMkIxMTNGMEJBODZGND
+ #Y5NTRFQTVGMUY5OUI1MENFN0U2NUQzNUNBM0E4RjkzQkY2IiwgImVuY29kZWQgZ2Vu
+ #ZXJhdG9yIGciOiAiQjQ3QjJDM0UzMjhFQTlGMzE4Q0E2OTVBRjY1REM4MzhCQTVBNT
+ #hCREI4MDg3QUU2QzZBQjQ4NkE4QkZDQjEzRDM1QjMwMURERENBOTFEMTU0MEE0MTA2
+ #RDM4QkExQkYxNTJFNUJCQTEwNDE5M0M3RSJ9
 </pre><a href="#appendix-B.4.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4672,8 +4643,8 @@ const unsigned char tc_sid_out_oc[] = {
       13c0462a8eb0d73fda941950594bef5191d8394691f86edffcad6c1e
   Outputs
     Ya: (length: 56 bytes)
-      627f8bb2ae945e2a518967df9b00aff19253d3086398f2ec18be846c
-      c0d1f286c2ce3caf1da639859ccd2a6a01a9372a17e66bb7006e571b
+      d2926adf737d8dfe46ae47cdd0a56bbcdad96958512d39f9865ad1b6
+      4b5304d4d1696983cd6d38d57e3cdb1080262198b5d4c497c64926a5
 </pre><a href="#appendix-B.4.2-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4692,8 +4663,8 @@ const unsigned char tc_sid_out_oc[] = {
       85ed2c7e77e2bdd418994405fb1b57b6bbaadd66849892aac9d81402
   Outputs
     Yb: (length: 56 bytes)
-      8e9811e4402fac098743ca7b2b509b91b38c8cf1360cc6cab3011871
-      7019782b7f58a591c63d9c9247b774e6b0e0b826ff4f8399f94772db
+      2e620e5d0bc4637f1ff97ddccb015141b2c3241b4abcb5931a7e22a9
+      9fe256ae543733ce4e4c41826dda142fbfeb2639727a5233f8f0a42a
 </pre><a href="#appendix-B.4.3-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4706,11 +4677,11 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.4.4-1">
 <pre>
     scalar_mult_vfy(ya,Yb): (length: 56 bytes)
-      94f4ae494f4e8b07ade3354726eee49c5518b363cda544f5b4541b97
-      32830be37ea0e63fc83f54be280dea0747a043c76d473e01689af77f
+      ee0c0ead075ed5637e167cd3e16415c114aee6e21adaddc0de9151b2
+      930833e2862f4e4ec30c91de5c5249a724d9114860f2bcbbb6ca83fd
     scalar_mult_vfy(yb,Ya): (length: 56 bytes)
-      94f4ae494f4e8b07ade3354726eee49c5518b363cda544f5b4541b97
-      32830be37ea0e63fc83f54be280dea0747a043c76d473e01689af77f
+      ee0c0ead075ed5637e167cd3e16415c114aee6e21adaddc0de9151b2
+      930833e2862f4e4ec30c91de5c5249a724d9114860f2bcbbb6ca83fd
 </pre><a href="#appendix-B.4.4-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4723,27 +4694,27 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.4.5-1">
 <pre>
     transcript_ir(Ya,ADa,Yb,ADb): (length: 122 bytes)
-      38627f8bb2ae945e2a518967df9b00aff19253d3086398f2ec18be84
-      6cc0d1f286c2ce3caf1da639859ccd2a6a01a9372a17e66bb7006e57
-      1b03414461388e9811e4402fac098743ca7b2b509b91b38c8cf1360c
-      c6cab30118717019782b7f58a591c63d9c9247b774e6b0e0b826ff4f
-      8399f94772db03414462
+      38d2926adf737d8dfe46ae47cdd0a56bbcdad96958512d39f9865ad1
+      b64b5304d4d1696983cd6d38d57e3cdb1080262198b5d4c497c64926
+      a503414461382e620e5d0bc4637f1ff97ddccb015141b2c3241b4abc
+      b5931a7e22a99fe256ae543733ce4e4c41826dda142fbfeb2639727a
+      5233f8f0a42a03414462
     DSI = G.DSI_ISK, b'CPaceDecaf448_ISK': (length: 17 bytes)
       435061636544656361663434385f49534b
     lv_cat(DSI,sid,K)||transcript_ir(Ya,ADa,Yb,ADb):
     (length: 214 bytes)
       11435061636544656361663434385f49534b105223e0cdc45d657566
-      8d64c5520041243894f4ae494f4e8b07ade3354726eee49c5518b363
-      cda544f5b4541b9732830be37ea0e63fc83f54be280dea0747a043c7
-      6d473e01689af77f38627f8bb2ae945e2a518967df9b00aff19253d3
-      086398f2ec18be846cc0d1f286c2ce3caf1da639859ccd2a6a01a937
-      2a17e66bb7006e571b03414461388e9811e4402fac098743ca7b2b50
-      9b91b38c8cf1360cc6cab30118717019782b7f58a591c63d9c9247b7
-      74e6b0e0b826ff4f8399f94772db03414462
+      8d64c55200412438ee0c0ead075ed5637e167cd3e16415c114aee6e2
+      1adaddc0de9151b2930833e2862f4e4ec30c91de5c5249a724d91148
+      60f2bcbbb6ca83fd38d2926adf737d8dfe46ae47cdd0a56bbcdad969
+      58512d39f9865ad1b64b5304d4d1696983cd6d38d57e3cdb10802621
+      98b5d4c497c64926a503414461382e620e5d0bc4637f1ff97ddccb01
+      5141b2c3241b4abcb5931a7e22a99fe256ae543733ce4e4c41826dda
+      142fbfeb2639727a5233f8f0a42a03414462
     ISK result: (length: 64 bytes)
-      9c2726a6cda1179349cbc38f31765eab646a2a5f176f3019fab4a0aa
-      bd9d17c2ba895998cff698d801761a003512c1cf67d144b21e1cb6d6
-      b82da71d0da76cad
+      6f3a66ce20e1bad279d32d65844cd66b7352eb61a9eb37631168fe80
+      3c83c6601c6a3e0867f4b2dbe2b0cb1b530912892d2b5eb9af2e3ab3
+      d8682a33e178d1d2
 </pre><a href="#appendix-B.4.5-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4756,27 +4727,27 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.4.6-1">
 <pre>
     transcript_oc(Ya,ADa,Yb,ADb): (length: 124 bytes)
-      6f63388e9811e4402fac098743ca7b2b509b91b38c8cf1360cc6cab3
-      0118717019782b7f58a591c63d9c9247b774e6b0e0b826ff4f8399f9
-      4772db0341446238627f8bb2ae945e2a518967df9b00aff19253d308
-      6398f2ec18be846cc0d1f286c2ce3caf1da639859ccd2a6a01a9372a
-      17e66bb7006e571b03414461
+      6f6338d2926adf737d8dfe46ae47cdd0a56bbcdad96958512d39f986
+      5ad1b64b5304d4d1696983cd6d38d57e3cdb1080262198b5d4c497c6
+      4926a503414461382e620e5d0bc4637f1ff97ddccb015141b2c3241b
+      4abcb5931a7e22a99fe256ae543733ce4e4c41826dda142fbfeb2639
+      727a5233f8f0a42a03414462
     DSI = G.DSI_ISK, b'CPaceDecaf448_ISK': (length: 17 bytes)
       435061636544656361663434385f49534b
     lv_cat(DSI,sid,K)||transcript_oc(Ya,ADa,Yb,ADb):
     (length: 216 bytes)
       11435061636544656361663434385f49534b105223e0cdc45d657566
-      8d64c5520041243894f4ae494f4e8b07ade3354726eee49c5518b363
-      cda544f5b4541b9732830be37ea0e63fc83f54be280dea0747a043c7
-      6d473e01689af77f6f63388e9811e4402fac098743ca7b2b509b91b3
-      8c8cf1360cc6cab30118717019782b7f58a591c63d9c9247b774e6b0
-      e0b826ff4f8399f94772db0341446238627f8bb2ae945e2a518967df
-      9b00aff19253d3086398f2ec18be846cc0d1f286c2ce3caf1da63985
-      9ccd2a6a01a9372a17e66bb7006e571b03414461
+      8d64c55200412438ee0c0ead075ed5637e167cd3e16415c114aee6e2
+      1adaddc0de9151b2930833e2862f4e4ec30c91de5c5249a724d91148
+      60f2bcbbb6ca83fd6f6338d2926adf737d8dfe46ae47cdd0a56bbcda
+      d96958512d39f9865ad1b64b5304d4d1696983cd6d38d57e3cdb1080
+      262198b5d4c497c64926a503414461382e620e5d0bc4637f1ff97ddc
+      cb015141b2c3241b4abcb5931a7e22a99fe256ae543733ce4e4c4182
+      6dda142fbfeb2639727a5233f8f0a42a03414462
     ISK result: (length: 64 bytes)
-      6d2178ed3048703025b9007ec84c4d969e8d8135df455e608c16aa15
-      2e1219c86cea563254428a9d969903ae3649d1050da1e6e0c1c060e1
-      ebf7316a7e993389
+      59012b30b7a4050d1e83f7157da6cdd5baf77bf432f545e7baa1a2a1
+      0bc29ef1345f9cfe2fb448bfe8a48a470d90d94cd73e4c99fc1c8b65
+      1d43fb3ebed3a88f
 </pre><a href="#appendix-B.4.6-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4788,16 +4759,16 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="alignLeft art-text artwork" id="appendix-B.4.7-1">
 <pre>
-    H.hash(b"CPaceSidOut" + transcript_ir(Ya,ADa, Yb,ADb)):
+    H.hash(b"CPaceSidOutput" + transcript_ir(Ya,ADa, Yb,ADb)):
     (length: 64 bytes)
-      65bffde17b7acf07cfd437bdb973a8f7340bf911d393a61498c0a50e
-      f0d68bca103fbdb0f5b799505562e59811df1bc5d9b4f5f0f7c57c22
-      cd7ed6db4d153e3a
-    H.hash(b"CPaceSidOut" + transcript_oc(Ya,ADa, Yb,ADb)):
+      9b3fb936e2b9d00da70841392bf012f3d0c1bcf0a8861020f7882b0d
+      7f1e54eaf6e4d850ea4ed3169e630f2968d69e19338ae23d74febf00
+      3b41600b0de91ad6
+    H.hash(b"CPaceSidOutput" + transcript_oc(Ya,ADa, Yb,ADb)):
     (length: 64 bytes)
-      7ce27043d1b1d0d0e02e16979637e2a00547ed6e15ea988f7d3c9b3c
-      2159b26ab3834bff7ff86240323e25216ba2ee6ea6e1582502017f8e
-      6d65f8c4a5e65543
+      dfdf19db27b99dbf0a8943ee6a5395b48664e3930bdb0cf5a4e79646
+      52e2ceafaee3645ee668a047f3fb259affac4eaec76014c2a01d2064
+      9e96a19abde0cd22
 </pre><a href="#appendix-B.4.7-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -4813,20 +4784,19 @@ const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
 };
 const unsigned char tc_CI[] = {
- 0x6f,0x63,0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,
- 0x65,0x72,0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,
- 0x6f,0x72,
+ 0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,0x6f,0x72,
+ 0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,0x65,0x72,
 };
 const unsigned char tc_sid[] = {
  0x52,0x23,0xe0,0xcd,0xc4,0x5d,0x65,0x75,0x66,0x8d,0x64,0xc5,
  0x52,0x00,0x41,0x24,
 };
 const unsigned char tc_g[] = {
- 0x9a,0x70,0x0e,0xcc,0x37,0x8e,0xb9,0x8e,0x57,0x38,0x7d,0xf4,
- 0x56,0xd5,0xb4,0xb4,0xf1,0xdc,0xee,0xbb,0xb1,0x37,0x15,0x27,
- 0xee,0xb7,0xe1,0xbf,0xba,0xb6,0x4e,0xcc,0x9c,0x93,0x03,0x39,
- 0x61,0x45,0xba,0x04,0xf5,0xb5,0xae,0xa5,0xba,0xed,0xfa,0x61,
- 0xf3,0x1f,0x00,0xfb,0xc5,0xfd,0x56,0x06,
+ 0xb4,0x7b,0x2c,0x3e,0x32,0x8e,0xa9,0xf3,0x18,0xca,0x69,0x5a,
+ 0xf6,0x5d,0xc8,0x38,0xba,0x5a,0x58,0xbd,0xb8,0x08,0x7a,0xe6,
+ 0xc6,0xab,0x48,0x6a,0x8b,0xfc,0xb1,0x3d,0x35,0xb3,0x01,0xdd,
+ 0xdc,0xa9,0x1d,0x15,0x40,0xa4,0x10,0x6d,0x38,0xba,0x1b,0xf1,
+ 0x52,0xe5,0xbb,0xa1,0x04,0x19,0x3c,0x7e,
 };
 const unsigned char tc_ya[] = {
  0x33,0xd5,0x61,0xf1,0x3c,0xfc,0x0d,0xca,0x27,0x9c,0x30,0xe8,
@@ -4839,11 +4809,11 @@ const unsigned char tc_ADa[] = {
  0x41,0x44,0x61,
 };
 const unsigned char tc_Ya[] = {
- 0x62,0x7f,0x8b,0xb2,0xae,0x94,0x5e,0x2a,0x51,0x89,0x67,0xdf,
- 0x9b,0x00,0xaf,0xf1,0x92,0x53,0xd3,0x08,0x63,0x98,0xf2,0xec,
- 0x18,0xbe,0x84,0x6c,0xc0,0xd1,0xf2,0x86,0xc2,0xce,0x3c,0xaf,
- 0x1d,0xa6,0x39,0x85,0x9c,0xcd,0x2a,0x6a,0x01,0xa9,0x37,0x2a,
- 0x17,0xe6,0x6b,0xb7,0x00,0x6e,0x57,0x1b,
+ 0xd2,0x92,0x6a,0xdf,0x73,0x7d,0x8d,0xfe,0x46,0xae,0x47,0xcd,
+ 0xd0,0xa5,0x6b,0xbc,0xda,0xd9,0x69,0x58,0x51,0x2d,0x39,0xf9,
+ 0x86,0x5a,0xd1,0xb6,0x4b,0x53,0x04,0xd4,0xd1,0x69,0x69,0x83,
+ 0xcd,0x6d,0x38,0xd5,0x7e,0x3c,0xdb,0x10,0x80,0x26,0x21,0x98,
+ 0xb5,0xd4,0xc4,0x97,0xc6,0x49,0x26,0xa5,
 };
 const unsigned char tc_yb[] = {
  0x25,0x23,0xc9,0x69,0xf6,0x8f,0xa2,0xb2,0xae,0xa2,0x94,0xc2,
@@ -4856,58 +4826,50 @@ const unsigned char tc_ADb[] = {
  0x41,0x44,0x62,
 };
 const unsigned char tc_Yb[] = {
- 0x8e,0x98,0x11,0xe4,0x40,0x2f,0xac,0x09,0x87,0x43,0xca,0x7b,
- 0x2b,0x50,0x9b,0x91,0xb3,0x8c,0x8c,0xf1,0x36,0x0c,0xc6,0xca,
- 0xb3,0x01,0x18,0x71,0x70,0x19,0x78,0x2b,0x7f,0x58,0xa5,0x91,
- 0xc6,0x3d,0x9c,0x92,0x47,0xb7,0x74,0xe6,0xb0,0xe0,0xb8,0x26,
- 0xff,0x4f,0x83,0x99,0xf9,0x47,0x72,0xdb,
+ 0x2e,0x62,0x0e,0x5d,0x0b,0xc4,0x63,0x7f,0x1f,0xf9,0x7d,0xdc,
+ 0xcb,0x01,0x51,0x41,0xb2,0xc3,0x24,0x1b,0x4a,0xbc,0xb5,0x93,
+ 0x1a,0x7e,0x22,0xa9,0x9f,0xe2,0x56,0xae,0x54,0x37,0x33,0xce,
+ 0x4e,0x4c,0x41,0x82,0x6d,0xda,0x14,0x2f,0xbf,0xeb,0x26,0x39,
+ 0x72,0x7a,0x52,0x33,0xf8,0xf0,0xa4,0x2a,
 };
 const unsigned char tc_K[] = {
- 0x94,0xf4,0xae,0x49,0x4f,0x4e,0x8b,0x07,0xad,0xe3,0x35,0x47,
- 0x26,0xee,0xe4,0x9c,0x55,0x18,0xb3,0x63,0xcd,0xa5,0x44,0xf5,
- 0xb4,0x54,0x1b,0x97,0x32,0x83,0x0b,0xe3,0x7e,0xa0,0xe6,0x3f,
- 0xc8,0x3f,0x54,0xbe,0x28,0x0d,0xea,0x07,0x47,0xa0,0x43,0xc7,
- 0x6d,0x47,0x3e,0x01,0x68,0x9a,0xf7,0x7f,
+ 0xee,0x0c,0x0e,0xad,0x07,0x5e,0xd5,0x63,0x7e,0x16,0x7c,0xd3,
+ 0xe1,0x64,0x15,0xc1,0x14,0xae,0xe6,0xe2,0x1a,0xda,0xdd,0xc0,
+ 0xde,0x91,0x51,0xb2,0x93,0x08,0x33,0xe2,0x86,0x2f,0x4e,0x4e,
+ 0xc3,0x0c,0x91,0xde,0x5c,0x52,0x49,0xa7,0x24,0xd9,0x11,0x48,
+ 0x60,0xf2,0xbc,0xbb,0xb6,0xca,0x83,0xfd,
 };
 const unsigned char tc_ISK_IR[] = {
- 0x9c,0x27,0x26,0xa6,0xcd,0xa1,0x17,0x93,0x49,0xcb,0xc3,0x8f,
- 0x31,0x76,0x5e,0xab,0x64,0x6a,0x2a,0x5f,0x17,0x6f,0x30,0x19,
- 0xfa,0xb4,0xa0,0xaa,0xbd,0x9d,0x17,0xc2,0xba,0x89,0x59,0x98,
- 0xcf,0xf6,0x98,0xd8,0x01,0x76,0x1a,0x00,0x35,0x12,0xc1,0xcf,
- 0x67,0xd1,0x44,0xb2,0x1e,0x1c,0xb6,0xd6,0xb8,0x2d,0xa7,0x1d,
- 0x0d,0xa7,0x6c,0xad,
+ 0x6f,0x3a,0x66,0xce,0x20,0xe1,0xba,0xd2,0x79,0xd3,0x2d,0x65,
+ 0x84,0x4c,0xd6,0x6b,0x73,0x52,0xeb,0x61,0xa9,0xeb,0x37,0x63,
+ 0x11,0x68,0xfe,0x80,0x3c,0x83,0xc6,0x60,0x1c,0x6a,0x3e,0x08,
+ 0x67,0xf4,0xb2,0xdb,0xe2,0xb0,0xcb,0x1b,0x53,0x09,0x12,0x89,
+ 0x2d,0x2b,0x5e,0xb9,0xaf,0x2e,0x3a,0xb3,0xd8,0x68,0x2a,0x33,
+ 0xe1,0x78,0xd1,0xd2,
 };
 const unsigned char tc_ISK_SY[] = {
- 0x6d,0x21,0x78,0xed,0x30,0x48,0x70,0x30,0x25,0xb9,0x00,0x7e,
- 0xc8,0x4c,0x4d,0x96,0x9e,0x8d,0x81,0x35,0xdf,0x45,0x5e,0x60,
- 0x8c,0x16,0xaa,0x15,0x2e,0x12,0x19,0xc8,0x6c,0xea,0x56,0x32,
- 0x54,0x42,0x8a,0x9d,0x96,0x99,0x03,0xae,0x36,0x49,0xd1,0x05,
- 0x0d,0xa1,0xe6,0xe0,0xc1,0xc0,0x60,0xe1,0xeb,0xf7,0x31,0x6a,
- 0x7e,0x99,0x33,0x89,
-};
-const unsigned char tc_ISK_SY[] = {
- 0x6d,0x21,0x78,0xed,0x30,0x48,0x70,0x30,0x25,0xb9,0x00,0x7e,
- 0xc8,0x4c,0x4d,0x96,0x9e,0x8d,0x81,0x35,0xdf,0x45,0x5e,0x60,
- 0x8c,0x16,0xaa,0x15,0x2e,0x12,0x19,0xc8,0x6c,0xea,0x56,0x32,
- 0x54,0x42,0x8a,0x9d,0x96,0x99,0x03,0xae,0x36,0x49,0xd1,0x05,
- 0x0d,0xa1,0xe6,0xe0,0xc1,0xc0,0x60,0xe1,0xeb,0xf7,0x31,0x6a,
- 0x7e,0x99,0x33,0x89,
+ 0x59,0x01,0x2b,0x30,0xb7,0xa4,0x05,0x0d,0x1e,0x83,0xf7,0x15,
+ 0x7d,0xa6,0xcd,0xd5,0xba,0xf7,0x7b,0xf4,0x32,0xf5,0x45,0xe7,
+ 0xba,0xa1,0xa2,0xa1,0x0b,0xc2,0x9e,0xf1,0x34,0x5f,0x9c,0xfe,
+ 0x2f,0xb4,0x48,0xbf,0xe8,0xa4,0x8a,0x47,0x0d,0x90,0xd9,0x4c,
+ 0xd7,0x3e,0x4c,0x99,0xfc,0x1c,0x8b,0x65,0x1d,0x43,0xfb,0x3e,
+ 0xbe,0xd3,0xa8,0x8f,
 };
 const unsigned char tc_sid_out_ir[] = {
- 0x65,0xbf,0xfd,0xe1,0x7b,0x7a,0xcf,0x07,0xcf,0xd4,0x37,0xbd,
- 0xb9,0x73,0xa8,0xf7,0x34,0x0b,0xf9,0x11,0xd3,0x93,0xa6,0x14,
- 0x98,0xc0,0xa5,0x0e,0xf0,0xd6,0x8b,0xca,0x10,0x3f,0xbd,0xb0,
- 0xf5,0xb7,0x99,0x50,0x55,0x62,0xe5,0x98,0x11,0xdf,0x1b,0xc5,
- 0xd9,0xb4,0xf5,0xf0,0xf7,0xc5,0x7c,0x22,0xcd,0x7e,0xd6,0xdb,
- 0x4d,0x15,0x3e,0x3a,
+ 0x9b,0x3f,0xb9,0x36,0xe2,0xb9,0xd0,0x0d,0xa7,0x08,0x41,0x39,
+ 0x2b,0xf0,0x12,0xf3,0xd0,0xc1,0xbc,0xf0,0xa8,0x86,0x10,0x20,
+ 0xf7,0x88,0x2b,0x0d,0x7f,0x1e,0x54,0xea,0xf6,0xe4,0xd8,0x50,
+ 0xea,0x4e,0xd3,0x16,0x9e,0x63,0x0f,0x29,0x68,0xd6,0x9e,0x19,
+ 0x33,0x8a,0xe2,0x3d,0x74,0xfe,0xbf,0x00,0x3b,0x41,0x60,0x0b,
+ 0x0d,0xe9,0x1a,0xd6,
 };
 const unsigned char tc_sid_out_oc[] = {
- 0x7c,0xe2,0x70,0x43,0xd1,0xb1,0xd0,0xd0,0xe0,0x2e,0x16,0x97,
- 0x96,0x37,0xe2,0xa0,0x05,0x47,0xed,0x6e,0x15,0xea,0x98,0x8f,
- 0x7d,0x3c,0x9b,0x3c,0x21,0x59,0xb2,0x6a,0xb3,0x83,0x4b,0xff,
- 0x7f,0xf8,0x62,0x40,0x32,0x3e,0x25,0x21,0x6b,0xa2,0xee,0x6e,
- 0xa6,0xe1,0x58,0x25,0x02,0x01,0x7f,0x8e,0x6d,0x65,0xf8,0xc4,
- 0xa5,0xe6,0x55,0x43,
+ 0xdf,0xdf,0x19,0xdb,0x27,0xb9,0x9d,0xbf,0x0a,0x89,0x43,0xee,
+ 0x6a,0x53,0x95,0xb4,0x86,0x64,0xe3,0x93,0x0b,0xdb,0x0c,0xf5,
+ 0xa4,0xe7,0x96,0x46,0x52,0xe2,0xce,0xaf,0xae,0xe3,0x64,0x5e,
+ 0xe6,0x68,0xa0,0x47,0xf3,0xfb,0x25,0x9a,0xff,0xac,0x4e,0xae,
+ 0xc7,0x60,0x14,0xc2,0xa0,0x1d,0x20,0x64,0x9e,0x96,0xa1,0x9a,
+ 0xbd,0xe0,0xcd,0x22,
 };
 </pre><a href="#appendix-B.4.8-1" class="pilcrow">¶</a>
 </div>
@@ -4920,36 +4882,36 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="lang-test-vectors sourcecode" id="appendix-B.4.9-1">
 <pre>
- #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
- #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI1
- #MjIzRTBDREM0NUQ2NTc1NjY4RDY0QzU1MjAwNDEyNCIsICJnIjogIjlBNzAwRUNDMz
- #c4RUI5OEU1NzM4N0RGNDU2RDVCNEI0RjFEQ0VFQkJCMTM3MTUyN0VFQjdFMUJGQkFC
- #NjRFQ0M5QzkzMDMzOTYxNDVCQTA0RjVCNUFFQTVCQUVERkE2MUYzMUYwMEZCQzVGRD
- #U2MDYiLCAieWEiOiAiMzNENTYxRjEzQ0ZDMERDQTI3OUMzMEU4Q0RFODk1MTc1REMy
- #NTQ4Mzg5MjgxOUVCQTEzMkQ1OEMxM0MwNDYyQThFQjBENzNGREE5NDE5NTA1OTRCRU
- #Y1MTkxRDgzOTQ2OTFGODZFREZGQ0FENkMxRSIsICJBRGEiOiAiNDE0NDYxIiwgIllh
- #IjogIjYyN0Y4QkIyQUU5NDVFMkE1MTg5NjdERjlCMDBBRkYxOTI1M0QzMDg2Mzk4Rj
- #JFQzE4QkU4NDZDQzBEMUYyODZDMkNFM0NBRjFEQTYzOTg1OUNDRDJBNkEwMUE5Mzcy
- #QTE3RTY2QkI3MDA2RTU3MUIiLCAieWIiOiAiMjUyM0M5NjlGNjhGQTJCMkFFQTI5NE
- #MyNTM5RUYzNkVCMUUwNTU4QUJEMTQ3MTJBNzgyOEYxNkE4NUVEMkM3RTc3RTJCREQ0
- #MTg5OTQ0MDVGQjFCNTdCNkJCQUFERDY2ODQ5ODkyQUFDOUQ4MTQwMiIsICJBRGIiOi
- #AiNDE0NDYyIiwgIlliIjogIjhFOTgxMUU0NDAyRkFDMDk4NzQzQ0E3QjJCNTA5Qjkx
- #QjM4QzhDRjEzNjBDQzZDQUIzMDExODcxNzAxOTc4MkI3RjU4QTU5MUM2M0Q5QzkyND
- #dCNzc0RTZCMEUwQjgyNkZGNEY4Mzk5Rjk0NzcyREIiLCAiSyI6ICI5NEY0QUU0OTRG
- #NEU4QjA3QURFMzM1NDcyNkVFRTQ5QzU1MThCMzYzQ0RBNTQ0RjVCNDU0MUI5NzMyOD
- #MwQkUzN0VBMEU2M0ZDODNGNTRCRTI4MERFQTA3NDdBMDQzQzc2RDQ3M0UwMTY4OUFG
- #NzdGIiwgIklTS19JUiI6ICI5QzI3MjZBNkNEQTExNzkzNDlDQkMzOEYzMTc2NUVBQj
- #Y0NkEyQTVGMTc2RjMwMTlGQUI0QTBBQUJEOUQxN0MyQkE4OTU5OThDRkY2OThEODAx
- #NzYxQTAwMzUxMkMxQ0Y2N0QxNDRCMjFFMUNCNkQ2QjgyREE3MUQwREE3NkNBRCIsIC
- #JJU0tfU1kiOiAiNkQyMTc4RUQzMDQ4NzAzMDI1QjkwMDdFQzg0QzREOTY5RThEODEz
- #NURGNDU1RTYwOEMxNkFBMTUyRTEyMTlDODZDRUE1NjMyNTQ0MjhBOUQ5Njk5MDNBRT
- #M2NDlEMTA1MERBMUU2RTBDMUMwNjBFMUVCRjczMTZBN0U5OTMzODkiLCAic2lkX291
- #dHB1dF9pciI6ICI2NUJGRkRFMTdCN0FDRjA3Q0ZENDM3QkRCOTczQThGNzM0MEJGOT
- #ExRDM5M0E2MTQ5OEMwQTUwRUYwRDY4QkNBMTAzRkJEQjBGNUI3OTk1MDU1NjJFNTk4
- #MTFERjFCQzVEOUI0RjVGMEY3QzU3QzIyQ0Q3RUQ2REI0RDE1M0UzQSIsICJzaWRfb3
- #V0cHV0X29jIjogIjdDRTI3MDQzRDFCMUQwRDBFMDJFMTY5Nzk2MzdFMkEwMDU0N0VE
- #NkUxNUVBOTg4RjdEM0M5QjNDMjE1OUIyNkFCMzgzNEJGRjdGRjg2MjQwMzIzRTI1Mj
- #E2QkEyRUU2RUE2RTE1ODI1MDIwMTdGOEU2RDY1RjhDNEE1RTY1NTQzIn0=
+ #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICIwQjQxNUY2OTZFNjk3ND
+ #Y5NjE3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2NDY1NzIiLCAic2lkIjogIjUyMjNF
+ #MENEQzQ1RDY1NzU2NjhENjRDNTUyMDA0MTI0IiwgImciOiAiQjQ3QjJDM0UzMjhFQT
+ #lGMzE4Q0E2OTVBRjY1REM4MzhCQTVBNThCREI4MDg3QUU2QzZBQjQ4NkE4QkZDQjEz
+ #RDM1QjMwMURERENBOTFEMTU0MEE0MTA2RDM4QkExQkYxNTJFNUJCQTEwNDE5M0M3RS
+ #IsICJ5YSI6ICIzM0Q1NjFGMTNDRkMwRENBMjc5QzMwRThDREU4OTUxNzVEQzI1NDgz
+ #ODkyODE5RUJBMTMyRDU4QzEzQzA0NjJBOEVCMEQ3M0ZEQTk0MTk1MDU5NEJFRjUxOT
+ #FEODM5NDY5MUY4NkVERkZDQUQ2QzFFIiwgIkFEYSI6ICI0MTQ0NjEiLCAiWWEiOiAi
+ #RDI5MjZBREY3MzdEOERGRTQ2QUU0N0NERDBBNTZCQkNEQUQ5Njk1ODUxMkQzOUY5OD
+ #Y1QUQxQjY0QjUzMDRENEQxNjk2OTgzQ0Q2RDM4RDU3RTNDREIxMDgwMjYyMTk4QjVE
+ #NEM0OTdDNjQ5MjZBNSIsICJ5YiI6ICIyNTIzQzk2OUY2OEZBMkIyQUVBMjk0QzI1Mz
+ #lFRjM2RUIxRTA1NThBQkQxNDcxMkE3ODI4RjE2QTg1RUQyQzdFNzdFMkJERDQxODk5
+ #NDQwNUZCMUI1N0I2QkJBQURENjY4NDk4OTJBQUM5RDgxNDAyIiwgIkFEYiI6ICI0MT
+ #Q0NjIiLCAiWWIiOiAiMkU2MjBFNUQwQkM0NjM3RjFGRjk3RERDQ0IwMTUxNDFCMkMz
+ #MjQxQjRBQkNCNTkzMUE3RTIyQTk5RkUyNTZBRTU0MzczM0NFNEU0QzQxODI2RERBMT
+ #QyRkJGRUIyNjM5NzI3QTUyMzNGOEYwQTQyQSIsICJLIjogIkVFMEMwRUFEMDc1RUQ1
+ #NjM3RTE2N0NEM0UxNjQxNUMxMTRBRUU2RTIxQURBRERDMERFOTE1MUIyOTMwODMzRT
+ #I4NjJGNEU0RUMzMEM5MURFNUM1MjQ5QTcyNEQ5MTE0ODYwRjJCQ0JCQjZDQTgzRkQi
+ #LCAiSVNLX0lSIjogIjZGM0E2NkNFMjBFMUJBRDI3OUQzMkQ2NTg0NENENjZCNzM1Mk
+ #VCNjFBOUVCMzc2MzExNjhGRTgwM0M4M0M2NjAxQzZBM0UwODY3RjRCMkRCRTJCMENC
+ #MUI1MzA5MTI4OTJEMkI1RUI5QUYyRTNBQjNEODY4MkEzM0UxNzhEMUQyIiwgIklTS1
+ #9TWSI6ICI1OTAxMkIzMEI3QTQwNTBEMUU4M0Y3MTU3REE2Q0RENUJBRjc3QkY0MzJG
+ #NTQ1RTdCQUExQTJBMTBCQzI5RUYxMzQ1RjlDRkUyRkI0NDhCRkU4QTQ4QTQ3MEQ5ME
+ #Q5NENENzNFNEM5OUZDMUM4QjY1MUQ0M0ZCM0VCRUQzQTg4RiIsICJzaWRfb3V0cHV0
+ #X2lyIjogIjlCM0ZCOTM2RTJCOUQwMERBNzA4NDEzOTJCRjAxMkYzRDBDMUJDRjBBOD
+ #g2MTAyMEY3ODgyQjBEN0YxRTU0RUFGNkU0RDg1MEVBNEVEMzE2OUU2MzBGMjk2OEQ2
+ #OUUxOTMzOEFFMjNENzRGRUJGMDAzQjQxNjAwQjBERTkxQUQ2IiwgInNpZF9vdXRwdX
+ #Rfb2MiOiAiREZERjE5REIyN0I5OURCRjBBODk0M0VFNkE1Mzk1QjQ4NjY0RTM5MzBC
+ #REIwQ0Y1QTRFNzk2NDY1MkUyQ0VBRkFFRTM2NDVFRTY2OEEwNDdGM0ZCMjU5QUZGQU
+ #M0RUFFQzc2MDE0QzJBMDFEMjA2NDlFOTZBMTlBQkRFMENEMjIifQ==
 </pre><a href="#appendix-B.4.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5046,20 +5008,20 @@ const unsigned char tc_sid_out_oc[] = {
     PRS = b'Password' ; ZPAD length: 23 ;
     DSI = b'CPaceP256_XMD:SHA-256_SSWU_NU_'
     DST = b'CPaceP256_XMD:SHA-256_SSWU_NU__DST'
-    CI = b'oc\x0bB_responder\x0bA_initiator'
-    CI = 6f630b425f726573706f6e6465720b415f696e69746961746f72
+    CI = b'\x0bA_initiator\x0bB_responder'
+    CI = 0b415f696e69746961746f720b425f726573706f6e646572
     sid = 34b36454cab2e7842c389f7d88ecb7df
   Outputs
     generator_string(PRS,G.DSI,CI,sid,H.s_in_bytes):
-    (length: 108 bytes)
+    (length: 106 bytes)
       1e4350616365503235365f584d443a5348412d3235365f535357555f
       4e555f0850617373776f726417000000000000000000000000000000
-      00000000000000001a6f630b425f726573706f6e6465720b415f696e
-      69746961746f721034b36454cab2e7842c389f7d88ecb7df
+      0000000000000000180b415f696e69746961746f720b425f72657370
+      6f6e6465721034b36454cab2e7842c389f7d88ecb7df
     generator g: (length: 65 bytes)
-      04eee577320b1c241a79419fcde5718c2b63f81ef8717d56a57d2fb2
-      6b65a8beb63573b52605efb32ff4cf31aaef9a92df84e4e8408cc6c7
-      cf27a535aad2b38a56
+      0439bff2b051701594d3e9c7e93be9213af15db42214dfc4f7ee929a
+      6697f774d7ba5fb289b982399e4acd281a988bf058ea7ff6d7ff34fd
+      b72157bb464ff4af87
 </pre><a href="#appendix-B.5.1-1" class="pilcrow">¶</a>
 </div>
 <div id="testvectors-as-json-file-encoded-as-base64-17">
@@ -5072,17 +5034,17 @@ const unsigned char tc_sid_out_oc[] = {
  #eyJIIjogIlNIQS0yNTYiLCAiSC5zX2luX2J5dGVzIjogNjQsICJQUlMiOiAiNTA2MT
  #czNzM3NzZGNzI2NCIsICJaUEFEIGxlbmd0aCI6IDIzLCAiRFNJIjogIjQzNTA2MTYz
  #NjU1MDMyMzUzNjVGNTg0RDQ0M0E1MzQ4NDEyRDMyMzUzNjVGNTM1MzU3NTU1RjRFNT
- #U1RiIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NTczNzA2RjZFNjQ2NTcyMEI0MTVGNjk2
- #RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICIzNEIzNjQ1NENBQjJFNzg0MkMzODlGN0
- #Q4OEVDQjdERiIsICJnZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5z
- #X2luX2J5dGVzKSI6ICIxRTQzNTA2MTYzNjU1MDMyMzUzNjVGNTg0RDQ0M0E1MzQ4ND
- #EyRDMyMzUzNjVGNTM1MzU3NTU1RjRFNTU1RjA4NTA2MTczNzM3NzZGNzI2NDE3MDAw
- #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDFBNkY2Mz
- #BCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MjEw
- #MzRCMzY0NTRDQUIyRTc4NDJDMzg5RjdEODhFQ0I3REYiLCAiZ2VuZXJhdG9yIGciOi
- #AiMDRFRUU1NzczMjBCMUMyNDFBNzk0MTlGQ0RFNTcxOEMyQjYzRjgxRUY4NzE3RDU2
- #QTU3RDJGQjI2QjY1QThCRUI2MzU3M0I1MjYwNUVGQjMyRkY0Q0YzMUFBRUY5QTkyRE
- #Y4NEU0RTg0MDhDQzZDN0NGMjdBNTM1QUFEMkIzOEE1NiJ9
+ #U1RiIsICJDSSI6ICIwQjQxNUY2OTZFNjk3NDY5NjE3NDZGNzIwQjQyNUY3MjY1NzM3
+ #MDZGNkU2NDY1NzIiLCAic2lkIjogIjM0QjM2NDU0Q0FCMkU3ODQyQzM4OUY3RDg4RU
+ #NCN0RGIiwgImdlbmVyYXRvcl9zdHJpbmcoRy5EU0ksUFJTLENJLHNpZCxILnNfaW5f
+ #Ynl0ZXMpIjogIjFFNDM1MDYxNjM2NTUwMzIzNTM2NUY1ODRENDQzQTUzNDg0MTJEMz
+ #IzNTM2NUY1MzUzNTc1NTVGNEU1NTVGMDg1MDYxNzM3Mzc3NkY3MjY0MTcwMDAwMDAw
+ #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMTgwQjQxNUY2OT
+ #ZFNjk3NDY5NjE3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2NDY1NzIxMDM0QjM2NDU0
+ #Q0FCMkU3ODQyQzM4OUY3RDg4RUNCN0RGIiwgImdlbmVyYXRvciBnIjogIjA0MzlCRk
+ #YyQjA1MTcwMTU5NEQzRTlDN0U5M0JFOTIxM0FGMTVEQjQyMjE0REZDNEY3RUU5MjlB
+ #NjY5N0Y3NzREN0JBNUZCMjg5Qjk4MjM5OUU0QUNEMjgxQTk4OEJGMDU4RUE3RkY2RD
+ #dGRjM0RkRCNzIxNTdCQjQ2NEZGNEFGODcifQ==
 </pre><a href="#appendix-B.5.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5103,14 +5065,14 @@ const unsigned char tc_sid_out_oc[] = {
       4f532c5d
   Outputs
     Ya: (length: 65 bytes)
-      041f12ad5fc65010a24fc04c86197109a36df0e9ce85a7479e1e1364
-      692fdace17ea5a634e19c207a5d52ead6c6817a163cf2f2fe3406c5d
-      fdfc2ecdf8e42c5e16
+      04cf55f0a53a1b4c43002e1be8171f42737cf20b7cd6177b901ef962
+      c2e2d486b2f738263c6da5aa902fe185ae2cda587df8d27a16fc19c3
+      2a7b31aab097919736
     Alternative correct value for Ya: (-ya)*g:
     (length: 65 bytes)
-      041f12ad5fc65010a24fc04c86197109a36df0e9ce85a7479e1e1364
-      692fdace1715a59cb0e63df85b2ad1529397e85e9c30d0d01dbf93a2
-      0203d132071bd3a1e9
+      04cf55f0a53a1b4c43002e1be8171f42737cf20b7cd6177b901ef962
+      c2e2d486b208c7d9c2925a5570d01e7a51d325a782072d85ea03e63c
+      d584ce554f686e68c9
 </pre><a href="#appendix-B.5.2-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5129,14 +5091,14 @@ const unsigned char tc_sid_out_oc[] = {
       2aecba52
   Outputs
     Yb: (length: 65 bytes)
-      046a51180b6ebabaf5ed0af8cd786886d93342bcae4c158ce1617a0a
-      cc8ec354486f9ed2e9210913206d1e3f5e463d2d320c4f1f5ce8b677
-      a7e38a26f752bf8f84
+      046f538f9b8eb4e628bcace0fbba7d36fea44e98334d233c22101a2f
+      28eb3afc1a61b2bd14c0f11b222b5ea34df7756d104e2b5da09c9e8f
+      fa330c150f47e84cef
     Alternative correct value for Yb: (-yb)*g:
     (length: 65 bytes)
-      046a51180b6ebabaf5ed0af8cd786886d93342bcae4c158ce1617a0a
-      cc8ec3544890612d15def6ece092e1c0a1b9c2d2cdf3b0e0a4174988
-      581c75d908ad40707b
+      046f538f9b8eb4e628bcace0fbba7d36fea44e98334d233c22101a2f
+      28eb3afc1a9e4d42ea3f0ee4ded4a15cb2088a92efb1d4a260636170
+      05ccf3eaf0b817b310
 </pre><a href="#appendix-B.5.3-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5149,11 +5111,11 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.5.4-1">
 <pre>
     scalar_mult_vfy(ya,Yb): (length: 32 bytes)
-      3e0e2f8976fb8d0deee30aef4b5cd3631eed249af32f53d0dd009b5d
-      7b8f6b6c
+      9dd152b687ded1e071cc0625bd1ffff4c4ccd7d77cb4987c7d1e4ecb
+      3a0db812
     scalar_mult_vfy(yb,Ya): (length: 32 bytes)
-      3e0e2f8976fb8d0deee30aef4b5cd3631eed249af32f53d0dd009b5d
-      7b8f6b6c
+      9dd152b687ded1e071cc0625bd1ffff4c4ccd7d77cb4987c7d1e4ecb
+      3a0db812
 </pre><a href="#appendix-B.5.4-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5166,11 +5128,11 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.5.5-1">
 <pre>
     transcript_ir(Ya,ADa,Yb,ADb): (length: 140 bytes)
-      41041f12ad5fc65010a24fc04c86197109a36df0e9ce85a7479e1e13
-      64692fdace17ea5a634e19c207a5d52ead6c6817a163cf2f2fe3406c
-      5dfdfc2ecdf8e42c5e160341446141046a51180b6ebabaf5ed0af8cd
-      786886d93342bcae4c158ce1617a0acc8ec354486f9ed2e921091320
-      6d1e3f5e463d2d320c4f1f5ce8b677a7e38a26f752bf8f8403414462
+      4104cf55f0a53a1b4c43002e1be8171f42737cf20b7cd6177b901ef9
+      62c2e2d486b2f738263c6da5aa902fe185ae2cda587df8d27a16fc19
+      c32a7b31aab0979197360341446141046f538f9b8eb4e628bcace0fb
+      ba7d36fea44e98334d233c22101a2f28eb3afc1a61b2bd14c0f11b22
+      2b5ea34df7756d104e2b5da09c9e8ffa330c150f47e84cef03414462
     DSI = G.DSI_ISK, b'CPaceP256_XMD:SHA-256_SSWU_NU__ISK':
     (length: 34 bytes)
       4350616365503235365f584d443a5348412d3235365f535357555f4e
@@ -5178,17 +5140,17 @@ const unsigned char tc_sid_out_oc[] = {
     lv_cat(DSI,sid,K)||transcript_ir(Ya,ADa,Yb,ADb):
     (length: 225 bytes)
       224350616365503235365f584d443a5348412d3235365f535357555f
-      4e555f5f49534b1034b36454cab2e7842c389f7d88ecb7df203e0e2f
-      8976fb8d0deee30aef4b5cd3631eed249af32f53d0dd009b5d7b8f6b
-      6c41041f12ad5fc65010a24fc04c86197109a36df0e9ce85a7479e1e
-      1364692fdace17ea5a634e19c207a5d52ead6c6817a163cf2f2fe340
-      6c5dfdfc2ecdf8e42c5e160341446141046a51180b6ebabaf5ed0af8
-      cd786886d93342bcae4c158ce1617a0acc8ec354486f9ed2e9210913
-      206d1e3f5e463d2d320c4f1f5ce8b677a7e38a26f752bf8f84034144
+      4e555f5f49534b1034b36454cab2e7842c389f7d88ecb7df209dd152
+      b687ded1e071cc0625bd1ffff4c4ccd7d77cb4987c7d1e4ecb3a0db8
+      124104cf55f0a53a1b4c43002e1be8171f42737cf20b7cd6177b901e
+      f962c2e2d486b2f738263c6da5aa902fe185ae2cda587df8d27a16fc
+      19c32a7b31aab0979197360341446141046f538f9b8eb4e628bcace0
+      fbba7d36fea44e98334d233c22101a2f28eb3afc1a61b2bd14c0f11b
+      222b5ea34df7756d104e2b5da09c9e8ffa330c150f47e84cef034144
       62
     ISK result: (length: 32 bytes)
-      9565ed286b6e3cf1f943fd31746f9a22935537025a1328d4980005ba
-      984f0c39
+      d67704f1c69b85736f273e73198a79fe5e4f60cb405e32f708e0aff5
+      fdb5f9db
 </pre><a href="#appendix-B.5.5-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5201,12 +5163,12 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.5.6-1">
 <pre>
     transcript_oc(Ya,ADa,Yb,ADb): (length: 142 bytes)
-      6f6341046a51180b6ebabaf5ed0af8cd786886d93342bcae4c158ce1
-      617a0acc8ec354486f9ed2e9210913206d1e3f5e463d2d320c4f1f5c
-      e8b677a7e38a26f752bf8f840341446241041f12ad5fc65010a24fc0
-      4c86197109a36df0e9ce85a7479e1e1364692fdace17ea5a634e19c2
-      07a5d52ead6c6817a163cf2f2fe3406c5dfdfc2ecdf8e42c5e160341
-      4461
+      6f634104cf55f0a53a1b4c43002e1be8171f42737cf20b7cd6177b90
+      1ef962c2e2d486b2f738263c6da5aa902fe185ae2cda587df8d27a16
+      fc19c32a7b31aab0979197360341446141046f538f9b8eb4e628bcac
+      e0fbba7d36fea44e98334d233c22101a2f28eb3afc1a61b2bd14c0f1
+      1b222b5ea34df7756d104e2b5da09c9e8ffa330c150f47e84cef0341
+      4462
     DSI = G.DSI_ISK, b'CPaceP256_XMD:SHA-256_SSWU_NU__ISK':
     (length: 34 bytes)
       4350616365503235365f584d443a5348412d3235365f535357555f4e
@@ -5214,17 +5176,17 @@ const unsigned char tc_sid_out_oc[] = {
     lv_cat(DSI,sid,K)||transcript_oc(Ya,ADa,Yb,ADb):
     (length: 227 bytes)
       224350616365503235365f584d443a5348412d3235365f535357555f
-      4e555f5f49534b1034b36454cab2e7842c389f7d88ecb7df203e0e2f
-      8976fb8d0deee30aef4b5cd3631eed249af32f53d0dd009b5d7b8f6b
-      6c6f6341046a51180b6ebabaf5ed0af8cd786886d93342bcae4c158c
-      e1617a0acc8ec354486f9ed2e9210913206d1e3f5e463d2d320c4f1f
-      5ce8b677a7e38a26f752bf8f840341446241041f12ad5fc65010a24f
-      c04c86197109a36df0e9ce85a7479e1e1364692fdace17ea5a634e19
-      c207a5d52ead6c6817a163cf2f2fe3406c5dfdfc2ecdf8e42c5e1603
-      414461
+      4e555f5f49534b1034b36454cab2e7842c389f7d88ecb7df209dd152
+      b687ded1e071cc0625bd1ffff4c4ccd7d77cb4987c7d1e4ecb3a0db8
+      126f634104cf55f0a53a1b4c43002e1be8171f42737cf20b7cd6177b
+      901ef962c2e2d486b2f738263c6da5aa902fe185ae2cda587df8d27a
+      16fc19c32a7b31aab0979197360341446141046f538f9b8eb4e628bc
+      ace0fbba7d36fea44e98334d233c22101a2f28eb3afc1a61b2bd14c0
+      f11b222b5ea34df7756d104e2b5da09c9e8ffa330c150f47e84cef03
+      414462
     ISK result: (length: 32 bytes)
-      62a445a4daa3546dd031c66ead2e4e015abbcc83bde31c90f841149f
-      d441c58a
+      724ffa2de3685f12a10bb2eb013cb6c0378acef40b78f5b21dbd69f7
+      2478e32b
 </pre><a href="#appendix-B.5.6-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5236,14 +5198,14 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="alignLeft art-text artwork" id="appendix-B.5.7-1">
 <pre>
-    H.hash(b"CPaceSidOut" + transcript_ir(Ya,ADa, Yb,ADb)):
+    H.hash(b"CPaceSidOutput" + transcript_ir(Ya,ADa, Yb,ADb)):
     (length: 32 bytes)
-      a7386d1c2eb06e8056d7fecbcf691e08d189d96236020ef31b414069
-      8a4b99f9
-    H.hash(b"CPaceSidOut" + transcript_oc(Ya,ADa, Yb,ADb)):
+      28e98006db715c2de9817e847f937336ba510ed288cd55a6e7b020d0
+      c85e74fe
+    H.hash(b"CPaceSidOutput" + transcript_oc(Ya,ADa, Yb,ADb)):
     (length: 32 bytes)
-      d337dbc0dd797b4e6f2f14ea4925c58e5d5523871e8cb43a3c1b0f2b
-      1a1ffde3
+      dc11fd7db69958c3bd30d72171377444261975c599fa6e85f73bac00
+      a85ad5c3
 </pre><a href="#appendix-B.5.7-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5259,21 +5221,20 @@ const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
 };
 const unsigned char tc_CI[] = {
- 0x6f,0x63,0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,
- 0x65,0x72,0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,
- 0x6f,0x72,
+ 0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,0x6f,0x72,
+ 0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,0x65,0x72,
 };
 const unsigned char tc_sid[] = {
  0x34,0xb3,0x64,0x54,0xca,0xb2,0xe7,0x84,0x2c,0x38,0x9f,0x7d,
  0x88,0xec,0xb7,0xdf,
 };
 const unsigned char tc_g[] = {
- 0x04,0xee,0xe5,0x77,0x32,0x0b,0x1c,0x24,0x1a,0x79,0x41,0x9f,
- 0xcd,0xe5,0x71,0x8c,0x2b,0x63,0xf8,0x1e,0xf8,0x71,0x7d,0x56,
- 0xa5,0x7d,0x2f,0xb2,0x6b,0x65,0xa8,0xbe,0xb6,0x35,0x73,0xb5,
- 0x26,0x05,0xef,0xb3,0x2f,0xf4,0xcf,0x31,0xaa,0xef,0x9a,0x92,
- 0xdf,0x84,0xe4,0xe8,0x40,0x8c,0xc6,0xc7,0xcf,0x27,0xa5,0x35,
- 0xaa,0xd2,0xb3,0x8a,0x56,
+ 0x04,0x39,0xbf,0xf2,0xb0,0x51,0x70,0x15,0x94,0xd3,0xe9,0xc7,
+ 0xe9,0x3b,0xe9,0x21,0x3a,0xf1,0x5d,0xb4,0x22,0x14,0xdf,0xc4,
+ 0xf7,0xee,0x92,0x9a,0x66,0x97,0xf7,0x74,0xd7,0xba,0x5f,0xb2,
+ 0x89,0xb9,0x82,0x39,0x9e,0x4a,0xcd,0x28,0x1a,0x98,0x8b,0xf0,
+ 0x58,0xea,0x7f,0xf6,0xd7,0xff,0x34,0xfd,0xb7,0x21,0x57,0xbb,
+ 0x46,0x4f,0xf4,0xaf,0x87,
 };
 const unsigned char tc_ya[] = {
  0x37,0x57,0x4c,0xfb,0xf1,0xb9,0x5f,0xf6,0xa8,0xe2,0xd7,0xbe,
@@ -5284,12 +5245,12 @@ const unsigned char tc_ADa[] = {
  0x41,0x44,0x61,
 };
 const unsigned char tc_Ya[] = {
- 0x04,0x1f,0x12,0xad,0x5f,0xc6,0x50,0x10,0xa2,0x4f,0xc0,0x4c,
- 0x86,0x19,0x71,0x09,0xa3,0x6d,0xf0,0xe9,0xce,0x85,0xa7,0x47,
- 0x9e,0x1e,0x13,0x64,0x69,0x2f,0xda,0xce,0x17,0xea,0x5a,0x63,
- 0x4e,0x19,0xc2,0x07,0xa5,0xd5,0x2e,0xad,0x6c,0x68,0x17,0xa1,
- 0x63,0xcf,0x2f,0x2f,0xe3,0x40,0x6c,0x5d,0xfd,0xfc,0x2e,0xcd,
- 0xf8,0xe4,0x2c,0x5e,0x16,
+ 0x04,0xcf,0x55,0xf0,0xa5,0x3a,0x1b,0x4c,0x43,0x00,0x2e,0x1b,
+ 0xe8,0x17,0x1f,0x42,0x73,0x7c,0xf2,0x0b,0x7c,0xd6,0x17,0x7b,
+ 0x90,0x1e,0xf9,0x62,0xc2,0xe2,0xd4,0x86,0xb2,0xf7,0x38,0x26,
+ 0x3c,0x6d,0xa5,0xaa,0x90,0x2f,0xe1,0x85,0xae,0x2c,0xda,0x58,
+ 0x7d,0xf8,0xd2,0x7a,0x16,0xfc,0x19,0xc3,0x2a,0x7b,0x31,0xaa,
+ 0xb0,0x97,0x91,0x97,0x36,
 };
 const unsigned char tc_yb[] = {
  0xe5,0x67,0x2f,0xc9,0xeb,0x4e,0x72,0x1f,0x41,0xd8,0x01,0x81,
@@ -5300,42 +5261,37 @@ const unsigned char tc_ADb[] = {
  0x41,0x44,0x62,
 };
 const unsigned char tc_Yb[] = {
- 0x04,0x6a,0x51,0x18,0x0b,0x6e,0xba,0xba,0xf5,0xed,0x0a,0xf8,
- 0xcd,0x78,0x68,0x86,0xd9,0x33,0x42,0xbc,0xae,0x4c,0x15,0x8c,
- 0xe1,0x61,0x7a,0x0a,0xcc,0x8e,0xc3,0x54,0x48,0x6f,0x9e,0xd2,
- 0xe9,0x21,0x09,0x13,0x20,0x6d,0x1e,0x3f,0x5e,0x46,0x3d,0x2d,
- 0x32,0x0c,0x4f,0x1f,0x5c,0xe8,0xb6,0x77,0xa7,0xe3,0x8a,0x26,
- 0xf7,0x52,0xbf,0x8f,0x84,
+ 0x04,0x6f,0x53,0x8f,0x9b,0x8e,0xb4,0xe6,0x28,0xbc,0xac,0xe0,
+ 0xfb,0xba,0x7d,0x36,0xfe,0xa4,0x4e,0x98,0x33,0x4d,0x23,0x3c,
+ 0x22,0x10,0x1a,0x2f,0x28,0xeb,0x3a,0xfc,0x1a,0x61,0xb2,0xbd,
+ 0x14,0xc0,0xf1,0x1b,0x22,0x2b,0x5e,0xa3,0x4d,0xf7,0x75,0x6d,
+ 0x10,0x4e,0x2b,0x5d,0xa0,0x9c,0x9e,0x8f,0xfa,0x33,0x0c,0x15,
+ 0x0f,0x47,0xe8,0x4c,0xef,
 };
 const unsigned char tc_K[] = {
- 0x3e,0x0e,0x2f,0x89,0x76,0xfb,0x8d,0x0d,0xee,0xe3,0x0a,0xef,
- 0x4b,0x5c,0xd3,0x63,0x1e,0xed,0x24,0x9a,0xf3,0x2f,0x53,0xd0,
- 0xdd,0x00,0x9b,0x5d,0x7b,0x8f,0x6b,0x6c,
+ 0x9d,0xd1,0x52,0xb6,0x87,0xde,0xd1,0xe0,0x71,0xcc,0x06,0x25,
+ 0xbd,0x1f,0xff,0xf4,0xc4,0xcc,0xd7,0xd7,0x7c,0xb4,0x98,0x7c,
+ 0x7d,0x1e,0x4e,0xcb,0x3a,0x0d,0xb8,0x12,
 };
 const unsigned char tc_ISK_IR[] = {
- 0x95,0x65,0xed,0x28,0x6b,0x6e,0x3c,0xf1,0xf9,0x43,0xfd,0x31,
- 0x74,0x6f,0x9a,0x22,0x93,0x55,0x37,0x02,0x5a,0x13,0x28,0xd4,
- 0x98,0x00,0x05,0xba,0x98,0x4f,0x0c,0x39,
+ 0xd6,0x77,0x04,0xf1,0xc6,0x9b,0x85,0x73,0x6f,0x27,0x3e,0x73,
+ 0x19,0x8a,0x79,0xfe,0x5e,0x4f,0x60,0xcb,0x40,0x5e,0x32,0xf7,
+ 0x08,0xe0,0xaf,0xf5,0xfd,0xb5,0xf9,0xdb,
 };
 const unsigned char tc_ISK_SY[] = {
- 0x62,0xa4,0x45,0xa4,0xda,0xa3,0x54,0x6d,0xd0,0x31,0xc6,0x6e,
- 0xad,0x2e,0x4e,0x01,0x5a,0xbb,0xcc,0x83,0xbd,0xe3,0x1c,0x90,
- 0xf8,0x41,0x14,0x9f,0xd4,0x41,0xc5,0x8a,
-};
-const unsigned char tc_ISK_SY[] = {
- 0x62,0xa4,0x45,0xa4,0xda,0xa3,0x54,0x6d,0xd0,0x31,0xc6,0x6e,
- 0xad,0x2e,0x4e,0x01,0x5a,0xbb,0xcc,0x83,0xbd,0xe3,0x1c,0x90,
- 0xf8,0x41,0x14,0x9f,0xd4,0x41,0xc5,0x8a,
+ 0x72,0x4f,0xfa,0x2d,0xe3,0x68,0x5f,0x12,0xa1,0x0b,0xb2,0xeb,
+ 0x01,0x3c,0xb6,0xc0,0x37,0x8a,0xce,0xf4,0x0b,0x78,0xf5,0xb2,
+ 0x1d,0xbd,0x69,0xf7,0x24,0x78,0xe3,0x2b,
 };
 const unsigned char tc_sid_out_ir[] = {
- 0xa7,0x38,0x6d,0x1c,0x2e,0xb0,0x6e,0x80,0x56,0xd7,0xfe,0xcb,
- 0xcf,0x69,0x1e,0x08,0xd1,0x89,0xd9,0x62,0x36,0x02,0x0e,0xf3,
- 0x1b,0x41,0x40,0x69,0x8a,0x4b,0x99,0xf9,
+ 0x28,0xe9,0x80,0x06,0xdb,0x71,0x5c,0x2d,0xe9,0x81,0x7e,0x84,
+ 0x7f,0x93,0x73,0x36,0xba,0x51,0x0e,0xd2,0x88,0xcd,0x55,0xa6,
+ 0xe7,0xb0,0x20,0xd0,0xc8,0x5e,0x74,0xfe,
 };
 const unsigned char tc_sid_out_oc[] = {
- 0xd3,0x37,0xdb,0xc0,0xdd,0x79,0x7b,0x4e,0x6f,0x2f,0x14,0xea,
- 0x49,0x25,0xc5,0x8e,0x5d,0x55,0x23,0x87,0x1e,0x8c,0xb4,0x3a,
- 0x3c,0x1b,0x0f,0x2b,0x1a,0x1f,0xfd,0xe3,
+ 0xdc,0x11,0xfd,0x7d,0xb6,0x99,0x58,0xc3,0xbd,0x30,0xd7,0x21,
+ 0x71,0x37,0x74,0x44,0x26,0x19,0x75,0xc5,0x99,0xfa,0x6e,0x85,
+ 0xf7,0x3b,0xac,0x00,0xa8,0x5a,0xd5,0xc3,
 };
 </pre><a href="#appendix-B.5.8-1" class="pilcrow">¶</a>
 </div>
@@ -5348,29 +5304,29 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="lang-test-vectors sourcecode" id="appendix-B.5.9-1">
 <pre>
- #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
- #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICIz
- #NEIzNjQ1NENBQjJFNzg0MkMzODlGN0Q4OEVDQjdERiIsICJnIjogIjA0RUVFNTc3Mz
- #IwQjFDMjQxQTc5NDE5RkNERTU3MThDMkI2M0Y4MUVGODcxN0Q1NkE1N0QyRkIyNkI2
- #NUE4QkVCNjM1NzNCNTI2MDVFRkIzMkZGNENGMzFBQUVGOUE5MkRGODRFNEU4NDA4Q0
- #M2QzdDRjI3QTUzNUFBRDJCMzhBNTYiLCAieWEiOiAiMzc1NzRDRkJGMUI5NUZGNkE4
- #RTJEN0JFNDYyRDREMDFFNkRERTI2MThGMzRGNERFOURGODY5QjI0RjUzMkM1RCIsIC
- #JBRGEiOiAiNDE0NDYxIiwgIllhIjogIjA0MUYxMkFENUZDNjUwMTBBMjRGQzA0Qzg2
- #MTk3MTA5QTM2REYwRTlDRTg1QTc0NzlFMUUxMzY0NjkyRkRBQ0UxN0VBNUE2MzRFMT
- #lDMjA3QTVENTJFQUQ2QzY4MTdBMTYzQ0YyRjJGRTM0MDZDNURGREZDMkVDREY4RTQy
- #QzVFMTYiLCAieWIiOiAiRTU2NzJGQzlFQjRFNzIxRjQxRDgwMTgxRUM0QzlGRDk4OD
- #Y2NjhBQ0M0ODAyNEQzM0M4MkJCMTAyQUVDQkE1MiIsICJBRGIiOiAiNDE0NDYyIiwg
- #IlliIjogIjA0NkE1MTE4MEI2RUJBQkFGNUVEMEFGOENENzg2ODg2RDkzMzQyQkNBRT
- #RDMTU4Q0UxNjE3QTBBQ0M4RUMzNTQ0ODZGOUVEMkU5MjEwOTEzMjA2RDFFM0Y1RTQ2
- #M0QyRDMyMEM0RjFGNUNFOEI2NzdBN0UzOEEyNkY3NTJCRjhGODQiLCAiSyI6ICIzRT
- #BFMkY4OTc2RkI4RDBERUVFMzBBRUY0QjVDRDM2MzFFRUQyNDlBRjMyRjUzRDBERDAw
- #OUI1RDdCOEY2QjZDIiwgIklTS19JUiI6ICI5NTY1RUQyODZCNkUzQ0YxRjk0M0ZEMz
- #E3NDZGOUEyMjkzNTUzNzAyNUExMzI4RDQ5ODAwMDVCQTk4NEYwQzM5IiwgIklTS19T
- #WSI6ICI2MkE0NDVBNERBQTM1NDZERDAzMUM2NkVBRDJFNEUwMTVBQkJDQzgzQkRFMz
- #FDOTBGODQxMTQ5RkQ0NDFDNThBIiwgInNpZF9vdXRwdXRfaXIiOiAiQTczODZEMUMy
- #RUIwNkU4MDU2RDdGRUNCQ0Y2OTFFMDhEMTg5RDk2MjM2MDIwRUYzMUI0MTQwNjk4QT
- #RCOTlGOSIsICJzaWRfb3V0cHV0X29jIjogIkQzMzdEQkMwREQ3OTdCNEU2RjJGMTRF
- #QTQ5MjVDNThFNUQ1NTIzODcxRThDQjQzQTNDMUIwRjJCMUExRkZERTMifQ==
+ #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICIwQjQxNUY2OTZFNjk3ND
+ #Y5NjE3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2NDY1NzIiLCAic2lkIjogIjM0QjM2
+ #NDU0Q0FCMkU3ODQyQzM4OUY3RDg4RUNCN0RGIiwgImciOiAiMDQzOUJGRjJCMDUxNz
+ #AxNTk0RDNFOUM3RTkzQkU5MjEzQUYxNURCNDIyMTRERkM0RjdFRTkyOUE2Njk3Rjc3
+ #NEQ3QkE1RkIyODlCOTgyMzk5RTRBQ0QyODFBOTg4QkYwNThFQTdGRjZEN0ZGMzRGRE
+ #I3MjE1N0JCNDY0RkY0QUY4NyIsICJ5YSI6ICIzNzU3NENGQkYxQjk1RkY2QThFMkQ3
+ #QkU0NjJENEQwMUU2RERFMjYxOEYzNEY0REU5REY4NjlCMjRGNTMyQzVEIiwgIkFEYS
+ #I6ICI0MTQ0NjEiLCAiWWEiOiAiMDRDRjU1RjBBNTNBMUI0QzQzMDAyRTFCRTgxNzFG
+ #NDI3MzdDRjIwQjdDRDYxNzdCOTAxRUY5NjJDMkUyRDQ4NkIyRjczODI2M0M2REE1QU
+ #E5MDJGRTE4NUFFMkNEQTU4N0RGOEQyN0ExNkZDMTlDMzJBN0IzMUFBQjA5NzkxOTcz
+ #NiIsICJ5YiI6ICJFNTY3MkZDOUVCNEU3MjFGNDFEODAxODFFQzRDOUZEOTg4NjY2OE
+ #FDQzQ4MDI0RDMzQzgyQkIxMDJBRUNCQTUyIiwgIkFEYiI6ICI0MTQ0NjIiLCAiWWIi
+ #OiAiMDQ2RjUzOEY5QjhFQjRFNjI4QkNBQ0UwRkJCQTdEMzZGRUE0NEU5ODMzNEQyMz
+ #NDMjIxMDFBMkYyOEVCM0FGQzFBNjFCMkJEMTRDMEYxMUIyMjJCNUVBMzRERjc3NTZE
+ #MTA0RTJCNURBMDlDOUU4RkZBMzMwQzE1MEY0N0U4NENFRiIsICJLIjogIjlERDE1Mk
+ #I2ODdERUQxRTA3MUNDMDYyNUJEMUZGRkY0QzRDQ0Q3RDc3Q0I0OTg3QzdEMUU0RUNC
+ #M0EwREI4MTIiLCAiSVNLX0lSIjogIkQ2NzcwNEYxQzY5Qjg1NzM2RjI3M0U3MzE5OE
+ #E3OUZFNUU0RjYwQ0I0MDVFMzJGNzA4RTBBRkY1RkRCNUY5REIiLCAiSVNLX1NZIjog
+ #IjcyNEZGQTJERTM2ODVGMTJBMTBCQjJFQjAxM0NCNkMwMzc4QUNFRjQwQjc4RjVCMj
+ #FEQkQ2OUY3MjQ3OEUzMkIiLCAic2lkX291dHB1dF9pciI6ICIyOEU5ODAwNkRCNzE1
+ #QzJERTk4MTdFODQ3RjkzNzMzNkJBNTEwRUQyODhDRDU1QTZFN0IwMjBEMEM4NUU3NE
+ #ZFIiwgInNpZF9vdXRwdXRfb2MiOiAiREMxMUZEN0RCNjk5NThDM0JEMzBENzIxNzEz
+ #Nzc0NDQyNjE5NzVDNTk5RkE2RTg1RjczQkFDMDBBODVBRDVDMyJ9
 </pre><a href="#appendix-B.5.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5467,24 +5423,24 @@ const unsigned char tc_sid_out_oc[] = {
     PRS = b'Password' ; ZPAD length: 87 ;
     DSI = b'CPaceP384_XMD:SHA-384_SSWU_NU_'
     DST = b'CPaceP384_XMD:SHA-384_SSWU_NU__DST'
-    CI = b'oc\x0bB_responder\x0bA_initiator'
-    CI = 6f630b425f726573706f6e6465720b415f696e69746961746f72
+    CI = b'\x0bA_initiator\x0bB_responder'
+    CI = 0b415f696e69746961746f720b425f726573706f6e646572
     sid = 5b3773aa90e8f23c61563a4b645b276c
   Outputs
     generator_string(PRS,G.DSI,CI,sid,H.s_in_bytes):
-    (length: 172 bytes)
+    (length: 170 bytes)
       1e4350616365503338345f584d443a5348412d3338345f535357555f
       4e555f0850617373776f726457000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000001a6f630b425f726573706f6e
-      6465720b415f696e69746961746f72105b3773aa90e8f23c61563a4b
-      645b276c
+      00000000000000000000000000000000180b415f696e69746961746f
+      720b425f726573706f6e646572105b3773aa90e8f23c61563a4b645b
+      276c
     generator g: (length: 97 bytes)
-      04ffe1bdc3293fdbe31b2959916e52c018e923eac99836bd9a1cbeec
-      794a8d4d78baa32cdafc9685bc1067a780f4ad9c8a6c6e164aa42906
-      d1e27f782581adc8e0109219626a2b8fbdc34602e4084554bdd6c0c6
-      98dd657ac8e31b2bcce1c7b0d8
+      04d938e00eaa8d44fcac33dd5d10404f0c57e0fb1dfdcca3fae47a6a
+      14bbe52a6ac82a856d9de14e0223a1e1a5bd3fb38be951af748723f8
+      f64835217ad5bc05a4fc0e1d7c17cf14c3bda93d05cef96b86483fc5
+      f51570fc27f0a3c19cd2ece2a2
 </pre><a href="#appendix-B.6.1-1" class="pilcrow">¶</a>
 </div>
 <div id="testvectors-as-json-file-encoded-as-base64-20">
@@ -5497,21 +5453,21 @@ const unsigned char tc_sid_out_oc[] = {
  #eyJIIjogIlNIQS0zODQiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjUwNj
  #E3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiA4NywgIkRTSSI6ICI0MzUwNjE2
  #MzY1NTAzMzM4MzQ1RjU4NEQ0NDNBNTM0ODQxMkQzMzM4MzQ1RjUzNTM1NzU1NUY0RT
- #U1NUYiLCAiQ0kiOiAiNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5
- #NkU2OTc0Njk2MTc0NkY3MiIsICJzaWQiOiAiNUIzNzczQUE5MEU4RjIzQzYxNTYzQT
- #RCNjQ1QjI3NkMiLCAiZ2VuZXJhdG9yX3N0cmluZyhHLkRTSSxQUlMsQ0ksc2lkLEgu
- #c19pbl9ieXRlcykiOiAiMUU0MzUwNjE2MzY1NTAzMzM4MzQ1RjU4NEQ0NDNBNTM0OD
- #QxMkQzMzM4MzQ1RjUzNTM1NzU1NUY0RTU1NUYwODUwNjE3MzczNzc2RjcyNjQ1NzAw
+ #U1NUYiLCAiQ0kiOiAiMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyMEI0MjVGNzI2NTcz
+ #NzA2RjZFNjQ2NTcyIiwgInNpZCI6ICI1QjM3NzNBQTkwRThGMjNDNjE1NjNBNEI2ND
+ #VCMjc2QyIsICJnZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5zX2lu
+ #X2J5dGVzKSI6ICIxRTQzNTA2MTYzNjU1MDMzMzgzNDVGNTg0RDQ0M0E1MzQ4NDEyRD
+ #MzMzgzNDVGNTM1MzU3NTU1RjRFNTU1RjA4NTA2MTczNzM3NzZGNzI2NDU3MDAwMDAw
  #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
  #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
  #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
- #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0
- #NjU3MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MjEwNUIzNzczQUE5MEU4RjIzQzYxNT
- #YzQTRCNjQ1QjI3NkMiLCAiZ2VuZXJhdG9yIGciOiAiMDRGRkUxQkRDMzI5M0ZEQkUz
- #MUIyOTU5OTE2RTUyQzAxOEU5MjNFQUM5OTgzNkJEOUExQ0JFRUM3OTRBOEQ0RDc4Qk
- #FBMzJDREFGQzk2ODVCQzEwNjdBNzgwRjRBRDlDOEE2QzZFMTY0QUE0MjkwNkQxRTI3
- #Rjc4MjU4MUFEQzhFMDEwOTIxOTYyNkEyQjhGQkRDMzQ2MDJFNDA4NDU1NEJERDZDME
- #M2OThERDY1N0FDOEUzMUIyQkNDRTFDN0IwRDgifQ==
+ #AwMDAwMDAwMDAwMDAwMDAwMDAwMTgwQjQxNUY2OTZFNjk3NDY5NjE3NDZGNzIwQjQy
+ #NUY3MjY1NzM3MDZGNkU2NDY1NzIxMDVCMzc3M0FBOTBFOEYyM0M2MTU2M0E0QjY0NU
+ #IyNzZDIiwgImdlbmVyYXRvciBnIjogIjA0RDkzOEUwMEVBQThENDRGQ0FDMzNERDVE
+ #MTA0MDRGMEM1N0UwRkIxREZEQ0NBM0ZBRTQ3QTZBMTRCQkU1MkE2QUM4MkE4NTZEOU
+ #RFMTRFMDIyM0ExRTFBNUJEM0ZCMzhCRTk1MUFGNzQ4NzIzRjhGNjQ4MzUyMTdBRDVC
+ #QzA1QTRGQzBFMUQ3QzE3Q0YxNEMzQkRBOTNEMDVDRUY5NkI4NjQ4M0ZDNUY1MTU3ME
+ #ZDMjdGMEEzQzE5Q0QyRUNFMkEyIn0=
 </pre><a href="#appendix-B.6.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5532,16 +5488,16 @@ const unsigned char tc_sid_out_oc[] = {
       375d988bc4d704837e43561c497e7dd93edcdb9d
   Outputs
     Ya: (length: 97 bytes)
-      0434a04da121995d81d7c5ded02cf2e70954dca49059485ea38310b7
-      3b96fa1ec78619c5a1e524472778331fbe009fa1564a3203e42993a3
-      6285fa54e6c24184fd227458c87781be16fff46dbc970cc1b1770050
-      a94d6826d52f211b234792e66d
+      043973faff49d85b1a14f114d0550a8ec0e5defcc7399c2e19003251
+      b1ddb9e786489b66be3cf8601880bd426a8a52f96968229d35032ac9
+      cc3ef6c1fd67ce1f7979bb1be9f4ff63e34fc6df42ebb481989596f6
+      3c6bd987fffd2527bdfd6b05d6
     Alternative correct value for Ya: (-ya)*g:
     (length: 97 bytes)
-      0434a04da121995d81d7c5ded02cf2e70954dca49059485ea38310b7
-      3b96fa1ec78619c5a1e524472778331fbe009fa156b5cdfc1bd66c5c
-      9d7a05ab193dbe7b02dd8ba737887e41e9000b924368f33e4d88ffaf
-      55b297d92ad0dee4ddb86d1992
+      043973faff49d85b1a14f114d0550a8ec0e5defcc7399c2e19003251
+      b1ddb9e786489b66be3cf8601880bd426a8a52f96997dd62cafcd536
+      33c1093e029831e0868644e4160b009c1cb03920bd144b7e666a6909
+      c29426780002dad8430294fa29
 </pre><a href="#appendix-B.6.2-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5560,16 +5516,16 @@ const unsigned char tc_sid_out_oc[] = {
       3c255975f30be6a750f9404fccc62a6323b5e471
   Outputs
     Yb: (length: 97 bytes)
-      040a6559147fd492ad74ab1f4def6196fd6399540e84706227a1f90d
-      104cdaeb630b7c5c18748deb25653ad2a4cb5e6274841cad328bb031
-      2628b9b1f51bea72b8c610999a6730f752649205ae85c452ef83f98b
-      e715cd0103186874b07cf02074
+      04a94b80cc266671a00ef719ee249bda79cbf66788784611e9c18835
+      2ac7dbf23f730a4c3ea320e7a27a657ac336e7ee9c9bf49a5dcb715b
+      b9b2ac2e5433bba61b2b186b7d6a539015096f351b36df579469d50a
+      2f7ca1c615bd7e28633e5faefb
     Alternative correct value for Yb: (-yb)*g:
     (length: 97 bytes)
-      040a6559147fd492ad74ab1f4def6196fd6399540e84706227a1f90d
-      104cdaeb630b7c5c18748deb25653ad2a4cb5e62747be352cd744fce
-      d9d7464e0ae4158d4739ef666598cf08ad9b6dfa517a3bad0f7c0674
-      17ea32fefce7978b50830fdf8b
+      04a94b80cc266671a00ef719ee249bda79cbf66788784611e9c18835
+      2ac7dbf23f730a4c3ea320e7a27a657ac336e7ee9c640b65a2348ea4
+      464d53d1abcc4459e4d4e7948295ac6feaf690cae4c920a86a962af5
+      cf835e39ea4281d79dc1a05104
 </pre><a href="#appendix-B.6.3-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5582,11 +5538,11 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.6.4-1">
 <pre>
     scalar_mult_vfy(ya,Yb): (length: 48 bytes)
-      a9acaea95692a64462067fe8e4321f2fca9793a8a0420f0e253ed0d6
-      db858fe161de7576206a8a35bd4a60e00724fd3e
+      03ad91b03f8312fdd6aa1986dafc684adb2d93a1248e99a22843c502
+      397903b464768f57d2ef19fda00542dc7636031f
     scalar_mult_vfy(yb,Ya): (length: 48 bytes)
-      a9acaea95692a64462067fe8e4321f2fca9793a8a0420f0e253ed0d6
-      db858fe161de7576206a8a35bd4a60e00724fd3e
+      03ad91b03f8312fdd6aa1986dafc684adb2d93a1248e99a22843c502
+      397903b464768f57d2ef19fda00542dc7636031f
 </pre><a href="#appendix-B.6.4-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5599,14 +5555,14 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.6.5-1">
 <pre>
     transcript_ir(Ya,ADa,Yb,ADb): (length: 204 bytes)
-      610434a04da121995d81d7c5ded02cf2e70954dca49059485ea38310
-      b73b96fa1ec78619c5a1e524472778331fbe009fa1564a3203e42993
-      a36285fa54e6c24184fd227458c87781be16fff46dbc970cc1b17700
-      50a94d6826d52f211b234792e66d0341446161040a6559147fd492ad
-      74ab1f4def6196fd6399540e84706227a1f90d104cdaeb630b7c5c18
-      748deb25653ad2a4cb5e6274841cad328bb0312628b9b1f51bea72b8
-      c610999a6730f752649205ae85c452ef83f98be715cd0103186874b0
-      7cf0207403414462
+      61043973faff49d85b1a14f114d0550a8ec0e5defcc7399c2e190032
+      51b1ddb9e786489b66be3cf8601880bd426a8a52f96968229d35032a
+      c9cc3ef6c1fd67ce1f7979bb1be9f4ff63e34fc6df42ebb481989596
+      f63c6bd987fffd2527bdfd6b05d6034144616104a94b80cc266671a0
+      0ef719ee249bda79cbf66788784611e9c188352ac7dbf23f730a4c3e
+      a320e7a27a657ac336e7ee9c9bf49a5dcb715bb9b2ac2e5433bba61b
+      2b186b7d6a539015096f351b36df579469d50a2f7ca1c615bd7e2863
+      3e5faefb03414462
     DSI = G.DSI_ISK, b'CPaceP384_XMD:SHA-384_SSWU_NU__ISK':
     (length: 34 bytes)
       4350616365503338345f584d443a5348412d3338345f535357555f4e
@@ -5614,19 +5570,19 @@ const unsigned char tc_sid_out_oc[] = {
     lv_cat(DSI,sid,K)||transcript_ir(Ya,ADa,Yb,ADb):
     (length: 305 bytes)
       224350616365503338345f584d443a5348412d3338345f535357555f
-      4e555f5f49534b105b3773aa90e8f23c61563a4b645b276c30a9acae
-      a95692a64462067fe8e4321f2fca9793a8a0420f0e253ed0d6db858f
-      e161de7576206a8a35bd4a60e00724fd3e610434a04da121995d81d7
-      c5ded02cf2e70954dca49059485ea38310b73b96fa1ec78619c5a1e5
-      24472778331fbe009fa1564a3203e42993a36285fa54e6c24184fd22
-      7458c87781be16fff46dbc970cc1b1770050a94d6826d52f211b2347
-      92e66d0341446161040a6559147fd492ad74ab1f4def6196fd639954
-      0e84706227a1f90d104cdaeb630b7c5c18748deb25653ad2a4cb5e62
-      74841cad328bb0312628b9b1f51bea72b8c610999a6730f752649205
-      ae85c452ef83f98be715cd0103186874b07cf0207403414462
+      4e555f5f49534b105b3773aa90e8f23c61563a4b645b276c3003ad91
+      b03f8312fdd6aa1986dafc684adb2d93a1248e99a22843c502397903
+      b464768f57d2ef19fda00542dc7636031f61043973faff49d85b1a14
+      f114d0550a8ec0e5defcc7399c2e19003251b1ddb9e786489b66be3c
+      f8601880bd426a8a52f96968229d35032ac9cc3ef6c1fd67ce1f7979
+      bb1be9f4ff63e34fc6df42ebb481989596f63c6bd987fffd2527bdfd
+      6b05d6034144616104a94b80cc266671a00ef719ee249bda79cbf667
+      88784611e9c188352ac7dbf23f730a4c3ea320e7a27a657ac336e7ee
+      9c9bf49a5dcb715bb9b2ac2e5433bba61b2b186b7d6a539015096f35
+      1b36df579469d50a2f7ca1c615bd7e28633e5faefb03414462
     ISK result: (length: 48 bytes)
-      d1b74375c7d63d7de246cbf3fc2b3092645c73a0aa816989c0de6048
-      ed4ece6a54df82d05d2be3498cb9288be7bdbdb9
+      407d3e94916138a8a0cd3b6b64cdbd9a665fd83e706508649bc43b04
+      7b73cf27017d2cc74533f18a5075a6748de5a026
 </pre><a href="#appendix-B.6.5-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5639,14 +5595,14 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.6.6-1">
 <pre>
     transcript_oc(Ya,ADa,Yb,ADb): (length: 206 bytes)
-      6f63610434a04da121995d81d7c5ded02cf2e70954dca49059485ea3
-      8310b73b96fa1ec78619c5a1e524472778331fbe009fa1564a3203e4
-      2993a36285fa54e6c24184fd227458c87781be16fff46dbc970cc1b1
-      770050a94d6826d52f211b234792e66d0341446161040a6559147fd4
-      92ad74ab1f4def6196fd6399540e84706227a1f90d104cdaeb630b7c
-      5c18748deb25653ad2a4cb5e6274841cad328bb0312628b9b1f51bea
-      72b8c610999a6730f752649205ae85c452ef83f98be715cd01031868
-      74b07cf0207403414462
+      6f636104a94b80cc266671a00ef719ee249bda79cbf66788784611e9
+      c188352ac7dbf23f730a4c3ea320e7a27a657ac336e7ee9c9bf49a5d
+      cb715bb9b2ac2e5433bba61b2b186b7d6a539015096f351b36df5794
+      69d50a2f7ca1c615bd7e28633e5faefb0341446261043973faff49d8
+      5b1a14f114d0550a8ec0e5defcc7399c2e19003251b1ddb9e786489b
+      66be3cf8601880bd426a8a52f96968229d35032ac9cc3ef6c1fd67ce
+      1f7979bb1be9f4ff63e34fc6df42ebb481989596f63c6bd987fffd25
+      27bdfd6b05d603414461
     DSI = G.DSI_ISK, b'CPaceP384_XMD:SHA-384_SSWU_NU__ISK':
     (length: 34 bytes)
       4350616365503338345f584d443a5348412d3338345f535357555f4e
@@ -5654,19 +5610,19 @@ const unsigned char tc_sid_out_oc[] = {
     lv_cat(DSI,sid,K)||transcript_oc(Ya,ADa,Yb,ADb):
     (length: 307 bytes)
       224350616365503338345f584d443a5348412d3338345f535357555f
-      4e555f5f49534b105b3773aa90e8f23c61563a4b645b276c30a9acae
-      a95692a64462067fe8e4321f2fca9793a8a0420f0e253ed0d6db858f
-      e161de7576206a8a35bd4a60e00724fd3e6f63610434a04da121995d
-      81d7c5ded02cf2e70954dca49059485ea38310b73b96fa1ec78619c5
-      a1e524472778331fbe009fa1564a3203e42993a36285fa54e6c24184
-      fd227458c87781be16fff46dbc970cc1b1770050a94d6826d52f211b
-      234792e66d0341446161040a6559147fd492ad74ab1f4def6196fd63
-      99540e84706227a1f90d104cdaeb630b7c5c18748deb25653ad2a4cb
-      5e6274841cad328bb0312628b9b1f51bea72b8c610999a6730f75264
-      9205ae85c452ef83f98be715cd0103186874b07cf0207403414462
+      4e555f5f49534b105b3773aa90e8f23c61563a4b645b276c3003ad91
+      b03f8312fdd6aa1986dafc684adb2d93a1248e99a22843c502397903
+      b464768f57d2ef19fda00542dc7636031f6f636104a94b80cc266671
+      a00ef719ee249bda79cbf66788784611e9c188352ac7dbf23f730a4c
+      3ea320e7a27a657ac336e7ee9c9bf49a5dcb715bb9b2ac2e5433bba6
+      1b2b186b7d6a539015096f351b36df579469d50a2f7ca1c615bd7e28
+      633e5faefb0341446261043973faff49d85b1a14f114d0550a8ec0e5
+      defcc7399c2e19003251b1ddb9e786489b66be3cf8601880bd426a8a
+      52f96968229d35032ac9cc3ef6c1fd67ce1f7979bb1be9f4ff63e34f
+      c6df42ebb481989596f63c6bd987fffd2527bdfd6b05d603414461
     ISK result: (length: 48 bytes)
-      a051d4532ca9fb6774e097ebac69c1d6a18144a15421dc155d0b1e8a
-      ef9f9d8c0fe86e85d3cbee7796ff50171f42801b
+      b2c28ddad4a77680469bd090bad8098d1c22e7050553acdacd13614d
+      eed72bb7821c50ddc4b30b4b54151e07077d1985
 </pre><a href="#appendix-B.6.6-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5678,14 +5634,14 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="alignLeft art-text artwork" id="appendix-B.6.7-1">
 <pre>
-    H.hash(b"CPaceSidOut" + transcript_ir(Ya,ADa, Yb,ADb)):
+    H.hash(b"CPaceSidOutput" + transcript_ir(Ya,ADa, Yb,ADb)):
     (length: 48 bytes)
-      8d5a03946a69ffa12cd6efd469fe8671bbc25fad6db2656f3963c94e
-      9c940bdecc2bd555474c211817787d5cf7870ed1
-    H.hash(b"CPaceSidOut" + transcript_oc(Ya,ADa, Yb,ADb)):
+      ad0247e90c1124ce6da6f62d55daf30fada0b08160164bb93ccd5a2d
+      f9750b91a4517184872e2bcfb4fff83bbad02371
+    H.hash(b"CPaceSidOutput" + transcript_oc(Ya,ADa, Yb,ADb)):
     (length: 48 bytes)
-      c0729db25db40c48a35f787d5410b2cb9a2d9f5e9cf1cf159ed2f63c
-      6b2185e597e176cc221422e9496eeda2bf123c8b
+      4c7b6523ae4c7a5df9d709b59dd1b033152040715391c7ed7c60a12c
+      c3f40e251fbda5b78c63bc465dac5ca6046f3fc0
 </pre><a href="#appendix-B.6.7-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5701,24 +5657,23 @@ const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
 };
 const unsigned char tc_CI[] = {
- 0x6f,0x63,0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,
- 0x65,0x72,0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,
- 0x6f,0x72,
+ 0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,0x6f,0x72,
+ 0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,0x65,0x72,
 };
 const unsigned char tc_sid[] = {
  0x5b,0x37,0x73,0xaa,0x90,0xe8,0xf2,0x3c,0x61,0x56,0x3a,0x4b,
  0x64,0x5b,0x27,0x6c,
 };
 const unsigned char tc_g[] = {
- 0x04,0xff,0xe1,0xbd,0xc3,0x29,0x3f,0xdb,0xe3,0x1b,0x29,0x59,
- 0x91,0x6e,0x52,0xc0,0x18,0xe9,0x23,0xea,0xc9,0x98,0x36,0xbd,
- 0x9a,0x1c,0xbe,0xec,0x79,0x4a,0x8d,0x4d,0x78,0xba,0xa3,0x2c,
- 0xda,0xfc,0x96,0x85,0xbc,0x10,0x67,0xa7,0x80,0xf4,0xad,0x9c,
- 0x8a,0x6c,0x6e,0x16,0x4a,0xa4,0x29,0x06,0xd1,0xe2,0x7f,0x78,
- 0x25,0x81,0xad,0xc8,0xe0,0x10,0x92,0x19,0x62,0x6a,0x2b,0x8f,
- 0xbd,0xc3,0x46,0x02,0xe4,0x08,0x45,0x54,0xbd,0xd6,0xc0,0xc6,
- 0x98,0xdd,0x65,0x7a,0xc8,0xe3,0x1b,0x2b,0xcc,0xe1,0xc7,0xb0,
- 0xd8,
+ 0x04,0xd9,0x38,0xe0,0x0e,0xaa,0x8d,0x44,0xfc,0xac,0x33,0xdd,
+ 0x5d,0x10,0x40,0x4f,0x0c,0x57,0xe0,0xfb,0x1d,0xfd,0xcc,0xa3,
+ 0xfa,0xe4,0x7a,0x6a,0x14,0xbb,0xe5,0x2a,0x6a,0xc8,0x2a,0x85,
+ 0x6d,0x9d,0xe1,0x4e,0x02,0x23,0xa1,0xe1,0xa5,0xbd,0x3f,0xb3,
+ 0x8b,0xe9,0x51,0xaf,0x74,0x87,0x23,0xf8,0xf6,0x48,0x35,0x21,
+ 0x7a,0xd5,0xbc,0x05,0xa4,0xfc,0x0e,0x1d,0x7c,0x17,0xcf,0x14,
+ 0xc3,0xbd,0xa9,0x3d,0x05,0xce,0xf9,0x6b,0x86,0x48,0x3f,0xc5,
+ 0xf5,0x15,0x70,0xfc,0x27,0xf0,0xa3,0xc1,0x9c,0xd2,0xec,0xe2,
+ 0xa2,
 };
 const unsigned char tc_ya[] = {
  0xef,0x43,0x3d,0xd5,0xad,0x14,0x2c,0x86,0x0e,0x7c,0xb6,0x40,
@@ -5730,15 +5685,15 @@ const unsigned char tc_ADa[] = {
  0x41,0x44,0x61,
 };
 const unsigned char tc_Ya[] = {
- 0x04,0x34,0xa0,0x4d,0xa1,0x21,0x99,0x5d,0x81,0xd7,0xc5,0xde,
- 0xd0,0x2c,0xf2,0xe7,0x09,0x54,0xdc,0xa4,0x90,0x59,0x48,0x5e,
- 0xa3,0x83,0x10,0xb7,0x3b,0x96,0xfa,0x1e,0xc7,0x86,0x19,0xc5,
- 0xa1,0xe5,0x24,0x47,0x27,0x78,0x33,0x1f,0xbe,0x00,0x9f,0xa1,
- 0x56,0x4a,0x32,0x03,0xe4,0x29,0x93,0xa3,0x62,0x85,0xfa,0x54,
- 0xe6,0xc2,0x41,0x84,0xfd,0x22,0x74,0x58,0xc8,0x77,0x81,0xbe,
- 0x16,0xff,0xf4,0x6d,0xbc,0x97,0x0c,0xc1,0xb1,0x77,0x00,0x50,
- 0xa9,0x4d,0x68,0x26,0xd5,0x2f,0x21,0x1b,0x23,0x47,0x92,0xe6,
- 0x6d,
+ 0x04,0x39,0x73,0xfa,0xff,0x49,0xd8,0x5b,0x1a,0x14,0xf1,0x14,
+ 0xd0,0x55,0x0a,0x8e,0xc0,0xe5,0xde,0xfc,0xc7,0x39,0x9c,0x2e,
+ 0x19,0x00,0x32,0x51,0xb1,0xdd,0xb9,0xe7,0x86,0x48,0x9b,0x66,
+ 0xbe,0x3c,0xf8,0x60,0x18,0x80,0xbd,0x42,0x6a,0x8a,0x52,0xf9,
+ 0x69,0x68,0x22,0x9d,0x35,0x03,0x2a,0xc9,0xcc,0x3e,0xf6,0xc1,
+ 0xfd,0x67,0xce,0x1f,0x79,0x79,0xbb,0x1b,0xe9,0xf4,0xff,0x63,
+ 0xe3,0x4f,0xc6,0xdf,0x42,0xeb,0xb4,0x81,0x98,0x95,0x96,0xf6,
+ 0x3c,0x6b,0xd9,0x87,0xff,0xfd,0x25,0x27,0xbd,0xfd,0x6b,0x05,
+ 0xd6,
 };
 const unsigned char tc_yb[] = {
  0x50,0xb0,0xe3,0x6b,0x95,0xa2,0xed,0xfa,0xa8,0x34,0x2b,0x84,
@@ -5750,51 +5705,45 @@ const unsigned char tc_ADb[] = {
  0x41,0x44,0x62,
 };
 const unsigned char tc_Yb[] = {
- 0x04,0x0a,0x65,0x59,0x14,0x7f,0xd4,0x92,0xad,0x74,0xab,0x1f,
- 0x4d,0xef,0x61,0x96,0xfd,0x63,0x99,0x54,0x0e,0x84,0x70,0x62,
- 0x27,0xa1,0xf9,0x0d,0x10,0x4c,0xda,0xeb,0x63,0x0b,0x7c,0x5c,
- 0x18,0x74,0x8d,0xeb,0x25,0x65,0x3a,0xd2,0xa4,0xcb,0x5e,0x62,
- 0x74,0x84,0x1c,0xad,0x32,0x8b,0xb0,0x31,0x26,0x28,0xb9,0xb1,
- 0xf5,0x1b,0xea,0x72,0xb8,0xc6,0x10,0x99,0x9a,0x67,0x30,0xf7,
- 0x52,0x64,0x92,0x05,0xae,0x85,0xc4,0x52,0xef,0x83,0xf9,0x8b,
- 0xe7,0x15,0xcd,0x01,0x03,0x18,0x68,0x74,0xb0,0x7c,0xf0,0x20,
- 0x74,
+ 0x04,0xa9,0x4b,0x80,0xcc,0x26,0x66,0x71,0xa0,0x0e,0xf7,0x19,
+ 0xee,0x24,0x9b,0xda,0x79,0xcb,0xf6,0x67,0x88,0x78,0x46,0x11,
+ 0xe9,0xc1,0x88,0x35,0x2a,0xc7,0xdb,0xf2,0x3f,0x73,0x0a,0x4c,
+ 0x3e,0xa3,0x20,0xe7,0xa2,0x7a,0x65,0x7a,0xc3,0x36,0xe7,0xee,
+ 0x9c,0x9b,0xf4,0x9a,0x5d,0xcb,0x71,0x5b,0xb9,0xb2,0xac,0x2e,
+ 0x54,0x33,0xbb,0xa6,0x1b,0x2b,0x18,0x6b,0x7d,0x6a,0x53,0x90,
+ 0x15,0x09,0x6f,0x35,0x1b,0x36,0xdf,0x57,0x94,0x69,0xd5,0x0a,
+ 0x2f,0x7c,0xa1,0xc6,0x15,0xbd,0x7e,0x28,0x63,0x3e,0x5f,0xae,
+ 0xfb,
 };
 const unsigned char tc_K[] = {
- 0xa9,0xac,0xae,0xa9,0x56,0x92,0xa6,0x44,0x62,0x06,0x7f,0xe8,
- 0xe4,0x32,0x1f,0x2f,0xca,0x97,0x93,0xa8,0xa0,0x42,0x0f,0x0e,
- 0x25,0x3e,0xd0,0xd6,0xdb,0x85,0x8f,0xe1,0x61,0xde,0x75,0x76,
- 0x20,0x6a,0x8a,0x35,0xbd,0x4a,0x60,0xe0,0x07,0x24,0xfd,0x3e,
+ 0x03,0xad,0x91,0xb0,0x3f,0x83,0x12,0xfd,0xd6,0xaa,0x19,0x86,
+ 0xda,0xfc,0x68,0x4a,0xdb,0x2d,0x93,0xa1,0x24,0x8e,0x99,0xa2,
+ 0x28,0x43,0xc5,0x02,0x39,0x79,0x03,0xb4,0x64,0x76,0x8f,0x57,
+ 0xd2,0xef,0x19,0xfd,0xa0,0x05,0x42,0xdc,0x76,0x36,0x03,0x1f,
 };
 const unsigned char tc_ISK_IR[] = {
- 0xd1,0xb7,0x43,0x75,0xc7,0xd6,0x3d,0x7d,0xe2,0x46,0xcb,0xf3,
- 0xfc,0x2b,0x30,0x92,0x64,0x5c,0x73,0xa0,0xaa,0x81,0x69,0x89,
- 0xc0,0xde,0x60,0x48,0xed,0x4e,0xce,0x6a,0x54,0xdf,0x82,0xd0,
- 0x5d,0x2b,0xe3,0x49,0x8c,0xb9,0x28,0x8b,0xe7,0xbd,0xbd,0xb9,
+ 0x40,0x7d,0x3e,0x94,0x91,0x61,0x38,0xa8,0xa0,0xcd,0x3b,0x6b,
+ 0x64,0xcd,0xbd,0x9a,0x66,0x5f,0xd8,0x3e,0x70,0x65,0x08,0x64,
+ 0x9b,0xc4,0x3b,0x04,0x7b,0x73,0xcf,0x27,0x01,0x7d,0x2c,0xc7,
+ 0x45,0x33,0xf1,0x8a,0x50,0x75,0xa6,0x74,0x8d,0xe5,0xa0,0x26,
 };
 const unsigned char tc_ISK_SY[] = {
- 0xa0,0x51,0xd4,0x53,0x2c,0xa9,0xfb,0x67,0x74,0xe0,0x97,0xeb,
- 0xac,0x69,0xc1,0xd6,0xa1,0x81,0x44,0xa1,0x54,0x21,0xdc,0x15,
- 0x5d,0x0b,0x1e,0x8a,0xef,0x9f,0x9d,0x8c,0x0f,0xe8,0x6e,0x85,
- 0xd3,0xcb,0xee,0x77,0x96,0xff,0x50,0x17,0x1f,0x42,0x80,0x1b,
-};
-const unsigned char tc_ISK_SY[] = {
- 0xa0,0x51,0xd4,0x53,0x2c,0xa9,0xfb,0x67,0x74,0xe0,0x97,0xeb,
- 0xac,0x69,0xc1,0xd6,0xa1,0x81,0x44,0xa1,0x54,0x21,0xdc,0x15,
- 0x5d,0x0b,0x1e,0x8a,0xef,0x9f,0x9d,0x8c,0x0f,0xe8,0x6e,0x85,
- 0xd3,0xcb,0xee,0x77,0x96,0xff,0x50,0x17,0x1f,0x42,0x80,0x1b,
+ 0xb2,0xc2,0x8d,0xda,0xd4,0xa7,0x76,0x80,0x46,0x9b,0xd0,0x90,
+ 0xba,0xd8,0x09,0x8d,0x1c,0x22,0xe7,0x05,0x05,0x53,0xac,0xda,
+ 0xcd,0x13,0x61,0x4d,0xee,0xd7,0x2b,0xb7,0x82,0x1c,0x50,0xdd,
+ 0xc4,0xb3,0x0b,0x4b,0x54,0x15,0x1e,0x07,0x07,0x7d,0x19,0x85,
 };
 const unsigned char tc_sid_out_ir[] = {
- 0x8d,0x5a,0x03,0x94,0x6a,0x69,0xff,0xa1,0x2c,0xd6,0xef,0xd4,
- 0x69,0xfe,0x86,0x71,0xbb,0xc2,0x5f,0xad,0x6d,0xb2,0x65,0x6f,
- 0x39,0x63,0xc9,0x4e,0x9c,0x94,0x0b,0xde,0xcc,0x2b,0xd5,0x55,
- 0x47,0x4c,0x21,0x18,0x17,0x78,0x7d,0x5c,0xf7,0x87,0x0e,0xd1,
+ 0xad,0x02,0x47,0xe9,0x0c,0x11,0x24,0xce,0x6d,0xa6,0xf6,0x2d,
+ 0x55,0xda,0xf3,0x0f,0xad,0xa0,0xb0,0x81,0x60,0x16,0x4b,0xb9,
+ 0x3c,0xcd,0x5a,0x2d,0xf9,0x75,0x0b,0x91,0xa4,0x51,0x71,0x84,
+ 0x87,0x2e,0x2b,0xcf,0xb4,0xff,0xf8,0x3b,0xba,0xd0,0x23,0x71,
 };
 const unsigned char tc_sid_out_oc[] = {
- 0xc0,0x72,0x9d,0xb2,0x5d,0xb4,0x0c,0x48,0xa3,0x5f,0x78,0x7d,
- 0x54,0x10,0xb2,0xcb,0x9a,0x2d,0x9f,0x5e,0x9c,0xf1,0xcf,0x15,
- 0x9e,0xd2,0xf6,0x3c,0x6b,0x21,0x85,0xe5,0x97,0xe1,0x76,0xcc,
- 0x22,0x14,0x22,0xe9,0x49,0x6e,0xed,0xa2,0xbf,0x12,0x3c,0x8b,
+ 0x4c,0x7b,0x65,0x23,0xae,0x4c,0x7a,0x5d,0xf9,0xd7,0x09,0xb5,
+ 0x9d,0xd1,0xb0,0x33,0x15,0x20,0x40,0x71,0x53,0x91,0xc7,0xed,
+ 0x7c,0x60,0xa1,0x2c,0xc3,0xf4,0x0e,0x25,0x1f,0xbd,0xa5,0xb7,
+ 0x8c,0x63,0xbc,0x46,0x5d,0xac,0x5c,0xa6,0x04,0x6f,0x3f,0xc0,
 };
 </pre><a href="#appendix-B.6.8-1" class="pilcrow">¶</a>
 </div>
@@ -5807,38 +5756,38 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="lang-test-vectors sourcecode" id="appendix-B.6.9-1">
 <pre>
- #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
- #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI1
- #QjM3NzNBQTkwRThGMjNDNjE1NjNBNEI2NDVCMjc2QyIsICJnIjogIjA0RkZFMUJEQz
- #MyOTNGREJFMzFCMjk1OTkxNkU1MkMwMThFOTIzRUFDOTk4MzZCRDlBMUNCRUVDNzk0
- #QThENEQ3OEJBQTMyQ0RBRkM5Njg1QkMxMDY3QTc4MEY0QUQ5QzhBNkM2RTE2NEFBND
- #I5MDZEMUUyN0Y3ODI1ODFBREM4RTAxMDkyMTk2MjZBMkI4RkJEQzM0NjAyRTQwODQ1
- #NTRCREQ2QzBDNjk4REQ2NTdBQzhFMzFCMkJDQ0UxQzdCMEQ4IiwgInlhIjogIkVGND
- #MzREQ1QUQxNDJDODYwRTdDQjY0MDBERDMxNUQzODhENUVDNTQyMEM1NTBFOUQ2RjA5
- #MDdGMzc1RDk4OEJDNEQ3MDQ4MzdFNDM1NjFDNDk3RTdERDkzRURDREI5RCIsICJBRG
- #EiOiAiNDE0NDYxIiwgIllhIjogIjA0MzRBMDREQTEyMTk5NUQ4MUQ3QzVERUQwMkNG
- #MkU3MDk1NERDQTQ5MDU5NDg1RUEzODMxMEI3M0I5NkZBMUVDNzg2MTlDNUExRTUyND
- #Q3Mjc3ODMzMUZCRTAwOUZBMTU2NEEzMjAzRTQyOTkzQTM2Mjg1RkE1NEU2QzI0MTg0
- #RkQyMjc0NThDODc3ODFCRTE2RkZGNDZEQkM5NzBDQzFCMTc3MDA1MEE5NEQ2ODI2RD
- #UyRjIxMUIyMzQ3OTJFNjZEIiwgInliIjogIjUwQjBFMzZCOTVBMkVERkFBODM0MkI4
- #NDNERERDOTBCMTc1MzMwRjIzOTlDMUIzNjU4NkRFRERBM0MyNTU5NzVGMzBCRTZBNz
- #UwRjk0MDRGQ0NDNjJBNjMyM0I1RTQ3MSIsICJBRGIiOiAiNDE0NDYyIiwgIlliIjog
- #IjA0MEE2NTU5MTQ3RkQ0OTJBRDc0QUIxRjRERUY2MTk2RkQ2Mzk5NTQwRTg0NzA2Mj
- #I3QTFGOTBEMTA0Q0RBRUI2MzBCN0M1QzE4NzQ4REVCMjU2NTNBRDJBNENCNUU2Mjc0
- #ODQxQ0FEMzI4QkIwMzEyNjI4QjlCMUY1MUJFQTcyQjhDNjEwOTk5QTY3MzBGNzUyNj
- #Q5MjA1QUU4NUM0NTJFRjgzRjk4QkU3MTVDRDAxMDMxODY4NzRCMDdDRjAyMDc0Iiwg
- #IksiOiAiQTlBQ0FFQTk1NjkyQTY0NDYyMDY3RkU4RTQzMjFGMkZDQTk3OTNBOEEwND
- #IwRjBFMjUzRUQwRDZEQjg1OEZFMTYxREU3NTc2MjA2QThBMzVCRDRBNjBFMDA3MjRG
- #RDNFIiwgIklTS19JUiI6ICJEMUI3NDM3NUM3RDYzRDdERTI0NkNCRjNGQzJCMzA5Mj
- #Y0NUM3M0EwQUE4MTY5ODlDMERFNjA0OEVENEVDRTZBNTRERjgyRDA1RDJCRTM0OThD
- #QjkyODhCRTdCREJEQjkiLCAiSVNLX1NZIjogIkEwNTFENDUzMkNBOUZCNjc3NEUwOT
- #dFQkFDNjlDMUQ2QTE4MTQ0QTE1NDIxREMxNTVEMEIxRThBRUY5RjlEOEMwRkU4NkU4
- #NUQzQ0JFRTc3OTZGRjUwMTcxRjQyODAxQiIsICJzaWRfb3V0cHV0X2lyIjogIjhENU
- #EwMzk0NkE2OUZGQTEyQ0Q2RUZENDY5RkU4NjcxQkJDMjVGQUQ2REIyNjU2RjM5NjND
- #OTRFOUM5NDBCREVDQzJCRDU1NTQ3NEMyMTE4MTc3ODdENUNGNzg3MEVEMSIsICJzaW
- #Rfb3V0cHV0X29jIjogIkMwNzI5REIyNURCNDBDNDhBMzVGNzg3RDU0MTBCMkNCOUEy
- #RDlGNUU5Q0YxQ0YxNTlFRDJGNjNDNkIyMTg1RTU5N0UxNzZDQzIyMTQyMkU5NDk2RU
- #VEQTJCRjEyM0M4QiJ9
+ #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICIwQjQxNUY2OTZFNjk3ND
+ #Y5NjE3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2NDY1NzIiLCAic2lkIjogIjVCMzc3
+ #M0FBOTBFOEYyM0M2MTU2M0E0QjY0NUIyNzZDIiwgImciOiAiMDREOTM4RTAwRUFBOE
+ #Q0NEZDQUMzM0RENUQxMDQwNEYwQzU3RTBGQjFERkRDQ0EzRkFFNDdBNkExNEJCRTUy
+ #QTZBQzgyQTg1NkQ5REUxNEUwMjIzQTFFMUE1QkQzRkIzOEJFOTUxQUY3NDg3MjNGOE
+ #Y2NDgzNTIxN0FENUJDMDVBNEZDMEUxRDdDMTdDRjE0QzNCREE5M0QwNUNFRjk2Qjg2
+ #NDgzRkM1RjUxNTcwRkMyN0YwQTNDMTlDRDJFQ0UyQTIiLCAieWEiOiAiRUY0MzNERD
+ #VBRDE0MkM4NjBFN0NCNjQwMEREMzE1RDM4OEQ1RUM1NDIwQzU1MEU5RDZGMDkwN0Yz
+ #NzVEOTg4QkM0RDcwNDgzN0U0MzU2MUM0OTdFN0REOTNFRENEQjlEIiwgIkFEYSI6IC
+ #I0MTQ0NjEiLCAiWWEiOiAiMDQzOTczRkFGRjQ5RDg1QjFBMTRGMTE0RDA1NTBBOEVD
+ #MEU1REVGQ0M3Mzk5QzJFMTkwMDMyNTFCMUREQjlFNzg2NDg5QjY2QkUzQ0Y4NjAxOD
+ #gwQkQ0MjZBOEE1MkY5Njk2ODIyOUQzNTAzMkFDOUNDM0VGNkMxRkQ2N0NFMUY3OTc5
+ #QkIxQkU5RjRGRjYzRTM0RkM2REY0MkVCQjQ4MTk4OTU5NkY2M0M2QkQ5ODdGRkZEMj
+ #UyN0JERkQ2QjA1RDYiLCAieWIiOiAiNTBCMEUzNkI5NUEyRURGQUE4MzQyQjg0M0RE
+ #REM5MEIxNzUzMzBGMjM5OUMxQjM2NTg2REVEREEzQzI1NTk3NUYzMEJFNkE3NTBGOT
+ #QwNEZDQ0M2MkE2MzIzQjVFNDcxIiwgIkFEYiI6ICI0MTQ0NjIiLCAiWWIiOiAiMDRB
+ #OTRCODBDQzI2NjY3MUEwMEVGNzE5RUUyNDlCREE3OUNCRjY2Nzg4Nzg0NjExRTlDMT
+ #g4MzUyQUM3REJGMjNGNzMwQTRDM0VBMzIwRTdBMjdBNjU3QUMzMzZFN0VFOUM5QkY0
+ #OUE1RENCNzE1QkI5QjJBQzJFNTQzM0JCQTYxQjJCMTg2QjdENkE1MzkwMTUwOTZGMz
+ #UxQjM2REY1Nzk0NjlENTBBMkY3Q0ExQzYxNUJEN0UyODYzM0U1RkFFRkIiLCAiSyI6
+ #ICIwM0FEOTFCMDNGODMxMkZERDZBQTE5ODZEQUZDNjg0QURCMkQ5M0ExMjQ4RTk5QT
+ #IyODQzQzUwMjM5NzkwM0I0NjQ3NjhGNTdEMkVGMTlGREEwMDU0MkRDNzYzNjAzMUYi
+ #LCAiSVNLX0lSIjogIjQwN0QzRTk0OTE2MTM4QThBMENEM0I2QjY0Q0RCRDlBNjY1Rk
+ #Q4M0U3MDY1MDg2NDlCQzQzQjA0N0I3M0NGMjcwMTdEMkNDNzQ1MzNGMThBNTA3NUE2
+ #NzQ4REU1QTAyNiIsICJJU0tfU1kiOiAiQjJDMjhEREFENEE3NzY4MDQ2OUJEMDkwQk
+ #FEODA5OEQxQzIyRTcwNTA1NTNBQ0RBQ0QxMzYxNERFRUQ3MkJCNzgyMUM1MEREQzRC
+ #MzBCNEI1NDE1MUUwNzA3N0QxOTg1IiwgInNpZF9vdXRwdXRfaXIiOiAiQUQwMjQ3RT
+ #kwQzExMjRDRTZEQTZGNjJENTVEQUYzMEZBREEwQjA4MTYwMTY0QkI5M0NDRDVBMkRG
+ #OTc1MEI5MUE0NTE3MTg0ODcyRTJCQ0ZCNEZGRjgzQkJBRDAyMzcxIiwgInNpZF9vdX
+ #RwdXRfb2MiOiAiNEM3QjY1MjNBRTRDN0E1REY5RDcwOUI1OUREMUIwMzMxNTIwNDA3
+ #MTUzOTFDN0VEN0M2MEExMkNDM0Y0MEUyNTFGQkRBNUI3OEM2M0JDNDY1REFDNUNBNj
+ #A0NkYzRkMwIn0=
 </pre><a href="#appendix-B.6.9-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -5943,25 +5892,25 @@ const unsigned char tc_sid_out_oc[] = {
     PRS = b'Password' ; ZPAD length: 87 ;
     DSI = b'CPaceP521_XMD:SHA-512_SSWU_NU_'
     DST = b'CPaceP521_XMD:SHA-512_SSWU_NU__DST'
-    CI = b'oc\x0bB_responder\x0bA_initiator'
-    CI = 6f630b425f726573706f6e6465720b415f696e69746961746f72
+    CI = b'\x0bA_initiator\x0bB_responder'
+    CI = 0b415f696e69746961746f720b425f726573706f6e646572
     sid = 7e4b4791d6a8ef019b936c79fb7f2c57
   Outputs
     generator_string(PRS,G.DSI,CI,sid,H.s_in_bytes):
-    (length: 172 bytes)
+    (length: 170 bytes)
       1e4350616365503532315f584d443a5348412d3531325f535357555f
       4e555f0850617373776f726457000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000001a6f630b425f726573706f6e
-      6465720b415f696e69746961746f72107e4b4791d6a8ef019b936c79
-      fb7f2c57
+      00000000000000000000000000000000180b415f696e69746961746f
+      720b425f726573706f6e646572107e4b4791d6a8ef019b936c79fb7f
+      2c57
     generator g: (length: 133 bytes)
-      0400e58a8fbf08b38e34a3676f6d690bed58aa4115ff32a57ec87172
-      fc2a1fb89d03258c6429c464981b3284b5fedbd1244bf27432008868
-      7065b9075dd558e14ed69901d2162db1ba3a49c97dca7c902cb1b96b
-      abe21a31942114c860665b35c46b8213f6de17194de54c441083dd11
-      63d5907adad8824bb1307dcf6a55c11a8f01d9789b
+      0400aefb79f4ba40369bbe78a5c873b2ce75be111516deed28c5899a
+      8bbf8a96dbd28882afbc1501d8a4e9b25c172dfadcd96d10466f9c36
+      d23ea05c982df0bb1e353201c98da6ce14e3c424b6cf55e627c4f3c0
+      a4469e2aedaa692f5fe16d57baa8a9432aac320139e854d06bfb4daa
+      efc504ff2fe1d2c4f06443878a242a7b876b224040
 </pre><a href="#appendix-B.7.1-1" class="pilcrow">¶</a>
 </div>
 <div id="testvectors-as-json-file-encoded-as-base64-23">
@@ -5974,23 +5923,22 @@ const unsigned char tc_sid_out_oc[] = {
  #eyJIIjogIlNIQS01MTIiLCAiSC5zX2luX2J5dGVzIjogMTI4LCAiUFJTIjogIjUwNj
  #E3MzczNzc2RjcyNjQiLCAiWlBBRCBsZW5ndGgiOiA4NywgIkRTSSI6ICI0MzUwNjE2
  #MzY1NTAzNTMyMzE1RjU4NEQ0NDNBNTM0ODQxMkQzNTMxMzI1RjUzNTM1NzU1NUY0RT
- #U1NUYiLCAiQ0kiOiAiNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0NjU3MjBCNDE1RjY5
- #NkU2OTc0Njk2MTc0NkY3MiIsICJzaWQiOiAiN0U0QjQ3OTFENkE4RUYwMTlCOTM2Qz
- #c5RkI3RjJDNTciLCAiZ2VuZXJhdG9yX3N0cmluZyhHLkRTSSxQUlMsQ0ksc2lkLEgu
- #c19pbl9ieXRlcykiOiAiMUU0MzUwNjE2MzY1NTAzNTMyMzE1RjU4NEQ0NDNBNTM0OD
- #QxMkQzNTMxMzI1RjUzNTM1NzU1NUY0RTU1NUYwODUwNjE3MzczNzc2RjcyNjQ1NzAw
+ #U1NUYiLCAiQ0kiOiAiMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyMEI0MjVGNzI2NTcz
+ #NzA2RjZFNjQ2NTcyIiwgInNpZCI6ICI3RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQj
+ #dGMkM1NyIsICJnZW5lcmF0b3Jfc3RyaW5nKEcuRFNJLFBSUyxDSSxzaWQsSC5zX2lu
+ #X2J5dGVzKSI6ICIxRTQzNTA2MTYzNjU1MDM1MzIzMTVGNTg0RDQ0M0E1MzQ4NDEyRD
+ #M1MzEzMjVGNTM1MzU3NTU1RjRFNTU1RjA4NTA2MTczNzM3NzZGNzI2NDU3MDAwMDAw
  #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
  #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
  #MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
- #AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDFBNkY2MzBCNDI1RjcyNjU3MzcwNkY2RTY0
- #NjU3MjBCNDE1RjY5NkU2OTc0Njk2MTc0NkY3MjEwN0U0QjQ3OTFENkE4RUYwMTlCOT
- #M2Qzc5RkI3RjJDNTciLCAiZ2VuZXJhdG9yIGciOiAiMDQwMEU1OEE4RkJGMDhCMzhF
- #MzRBMzY3NkY2RDY5MEJFRDU4QUE0MTE1RkYzMkE1N0VDODcxNzJGQzJBMUZCODlEMD
- #MyNThDNjQyOUM0NjQ5ODFCMzI4NEI1RkVEQkQxMjQ0QkYyNzQzMjAwODg2ODcwNjVC
- #OTA3NURENTU4RTE0RUQ2OTkwMUQyMTYyREIxQkEzQTQ5Qzk3RENBN0M5MDJDQjFCOT
- #ZCQUJFMjFBMzE5NDIxMTRDODYwNjY1QjM1QzQ2QjgyMTNGNkRFMTcxOTRERTU0QzQ0
- #MTA4M0REMTE2M0Q1OTA3QURBRDg4MjRCQjEzMDdEQ0Y2QTU1QzExQThGMDFEOTc4OU
- #IifQ==
+ #AwMDAwMDAwMDAwMDAwMDAwMDAwMTgwQjQxNUY2OTZFNjk3NDY5NjE3NDZGNzIwQjQy
+ #NUY3MjY1NzM3MDZGNkU2NDY1NzIxMDdFNEI0NzkxRDZBOEVGMDE5QjkzNkM3OUZCN0
+ #YyQzU3IiwgImdlbmVyYXRvciBnIjogIjA0MDBBRUZCNzlGNEJBNDAzNjlCQkU3OEE1
+ #Qzg3M0IyQ0U3NUJFMTExNTE2REVFRDI4QzU4OTlBOEJCRjhBOTZEQkQyODg4MkFGQk
+ #MxNTAxRDhBNEU5QjI1QzE3MkRGQURDRDk2RDEwNDY2RjlDMzZEMjNFQTA1Qzk4MkRG
+ #MEJCMUUzNTMyMDFDOThEQTZDRTE0RTNDNDI0QjZDRjU1RTYyN0M0RjNDMEE0NDY5RT
+ #JBRURBQTY5MkY1RkUxNkQ1N0JBQThBOTQzMkFBQzMyMDEzOUU4NTREMDZCRkI0REFB
+ #RUZDNTA0RkYyRkUxRDJDNEYwNjQ0Mzg3OEEyNDJBN0I4NzZCMjI0MDQwIn0=
 </pre><a href="#appendix-B.7.1.1-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6012,18 +5960,18 @@ const unsigned char tc_sid_out_oc[] = {
       3e8c141ee5310e3ee819
   Outputs
     Ya: (length: 133 bytes)
-      0400c2bfd794467f4438277e85a42e101fa4061e1ef6e05f81e5381f
-      30e73b341dd726089cb6a6bbe5a509fad009857488db7130ff768090
-      7312eb724cddb4dcce675b0098ad400fef80e1deb4bc1756c43961ef
-      60b85f2d62ed458454e11616a5d1df1e5809636821a73662f9f12254
-      e6f9950dd01fa8e26a8b20736fb63c63c81094f681
+      0400493381a239f5c33edc50f92a4ac7dbade7854c2ef090515567a5
+      387c331fc9c7fdff4e151801a51ed20514412dd9832a0ebf4651e5d4
+      cfebf1ebb89ca459a6311801d78c1142bf4eb46df664108bd05e8d97
+      9f3bc13ea3e373ce07fd67e457f44927e0123d7566b527eb10ead212
+      71d922f373fec78b4a3f4798f8fd52fb97859588de
     Alternative correct value for Ya: (-ya)*g:
     (length: 133 bytes)
-      0400c2bfd794467f4438277e85a42e101fa4061e1ef6e05f81e5381f
-      30e73b341dd726089cb6a6bbe5a509fad009857488db7130ff768090
-      7312eb724cddb4dcce675b016752bff0107f1e214b43e8a93bc69e10
-      9f47a0d29d12ba7bab1ee9e95a2e20e1a7f69c97de58c99d060eddab
-      19066af22fe0571d9574df8c9049c39c37ef6b097e
+      0400493381a239f5c33edc50f92a4ac7dbade7854c2ef090515567a5
+      387c331fc9c7fdff4e151801a51ed20514412dd9832a0ebf4651e5d4
+      cfebf1ebb89ca459a63118002873eebd40b14b92099bef742fa17268
+      60c43ec15c1c8c31f802981ba80bb6d81fedc28a994ad814ef152ded
+      8e26dd0c8c013874b5c0b8670702ad04687a6a7721
 </pre><a href="#appendix-B.7.2-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6043,18 +5991,18 @@ const unsigned char tc_sid_out_oc[] = {
       4cde78ac68d39a240ae7
   Outputs
     Yb: (length: 133 bytes)
-      0400706ea69b2b7167773248ea6e69a574e9dd2ff8a3d04a6e07f70c
-      709869ca486827d59f9290599d1cf94e1a03fc242e2b1316afe2fa21
-      8bfaeb3e1ffd9f19bf062d01f6b15c9c3651be4c08baf01eec25c818
-      ee12c6edc4620644b1d97cf24f868732d56fe45ce78e302c221c92f4
-      03e0fa3207de8bb41b388d81046a298ed8ddac9b2a
+      04012938f18169cf9f37048b973ec9ac06bb15eeb26d370957736775
+      e6c5638153f00152fe632215eb22f407dc3a1a2c473f45751b6451bf
+      626b781d8db61c537cb4310060575918b0c77f5208b31b89f6fc2cf8
+      6bf494a1533a6f282ae0fc550133d51626c35989c01462aabab6dab9
+      522cfb6a2ab214570f29560a7cc9619aa3e3341929
     Alternative correct value for Yb: (-yb)*g:
     (length: 133 bytes)
-      0400706ea69b2b7167773248ea6e69a574e9dd2ff8a3d04a6e07f70c
-      709869ca486827d59f9290599d1cf94e1a03fc242e2b1316afe2fa21
-      8bfaeb3e1ffd9f19bf062d00094ea363c9ae41b3f7450fe113da37e7
-      11ed39123b9df9bb4e26830db07978cd2a901ba31871cfd3dde36d0b
-      fc1f05cdf821744be4c7727efb95d67127225364d5
+      04012938f18169cf9f37048b973ec9ac06bb15eeb26d370957736775
+      e6c5638153f00152fe632215eb22f407dc3a1a2c473f45751b6451bf
+      626b781d8db61c537cb431019fa8a6e74f3880adf74ce4760903d307
+      940b6b5eacc590d7d51f03aafecc2ae9d93ca6763feb9d5545492546
+      add30495d54deba8f0d6a9f583369e655c1ccbe6d6
 </pre><a href="#appendix-B.7.3-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6067,13 +6015,13 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.7.4-1">
 <pre>
     scalar_mult_vfy(ya,Yb): (length: 66 bytes)
-      018e0e7e9ade74917c11c0f6b52f95ed871eab235437cbee8b5c2509
-      516e787a80e825ed5d539fa6a0ec32c48fa8fabe85809d000d0cfd30
-      832c23d477c991bea8e5
+      0057f1164b053e75197f7457d56391442efe0e5078fa9df658c6a6d0
+      0af69ae3998d55f092ef9da4040bc42945691590496a5d84479439b1
+      14d28b02a51ba41b273d
     scalar_mult_vfy(yb,Ya): (length: 66 bytes)
-      018e0e7e9ade74917c11c0f6b52f95ed871eab235437cbee8b5c2509
-      516e787a80e825ed5d539fa6a0ec32c48fa8fabe85809d000d0cfd30
-      832c23d477c991bea8e5
+      0057f1164b053e75197f7457d56391442efe0e5078fa9df658c6a6d0
+      0af69ae3998d55f092ef9da4040bc42945691590496a5d84479439b1
+      14d28b02a51ba41b273d
 </pre><a href="#appendix-B.7.4-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6086,16 +6034,16 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.7.5-1">
 <pre>
     transcript_ir(Ya,ADa,Yb,ADb): (length: 278 bytes)
-      85010400c2bfd794467f4438277e85a42e101fa4061e1ef6e05f81e5
-      381f30e73b341dd726089cb6a6bbe5a509fad009857488db7130ff76
-      80907312eb724cddb4dcce675b0098ad400fef80e1deb4bc1756c439
-      61ef60b85f2d62ed458454e11616a5d1df1e5809636821a73662f9f1
-      2254e6f9950dd01fa8e26a8b20736fb63c63c81094f6810341446185
-      010400706ea69b2b7167773248ea6e69a574e9dd2ff8a3d04a6e07f7
-      0c709869ca486827d59f9290599d1cf94e1a03fc242e2b1316afe2fa
-      218bfaeb3e1ffd9f19bf062d01f6b15c9c3651be4c08baf01eec25c8
-      18ee12c6edc4620644b1d97cf24f868732d56fe45ce78e302c221c92
-      f403e0fa3207de8bb41b388d81046a298ed8ddac9b2a03414462
+      85010400493381a239f5c33edc50f92a4ac7dbade7854c2ef0905155
+      67a5387c331fc9c7fdff4e151801a51ed20514412dd9832a0ebf4651
+      e5d4cfebf1ebb89ca459a6311801d78c1142bf4eb46df664108bd05e
+      8d979f3bc13ea3e373ce07fd67e457f44927e0123d7566b527eb10ea
+      d21271d922f373fec78b4a3f4798f8fd52fb97859588de0341446185
+      0104012938f18169cf9f37048b973ec9ac06bb15eeb26d3709577367
+      75e6c5638153f00152fe632215eb22f407dc3a1a2c473f45751b6451
+      bf626b781d8db61c537cb4310060575918b0c77f5208b31b89f6fc2c
+      f86bf494a1533a6f282ae0fc550133d51626c35989c01462aabab6da
+      b9522cfb6a2ab214570f29560a7cc9619aa3e334192903414462
     DSI = G.DSI_ISK, b'CPaceP521_XMD:SHA-512_SSWU_NU__ISK':
     (length: 34 bytes)
       4350616365503532315f584d443a5348412d3531325f535357555f4e
@@ -6103,24 +6051,24 @@ const unsigned char tc_sid_out_oc[] = {
     lv_cat(DSI,sid,K)||transcript_ir(Ya,ADa,Yb,ADb):
     (length: 397 bytes)
       224350616365503532315f584d443a5348412d3531325f535357555f
-      4e555f5f49534b107e4b4791d6a8ef019b936c79fb7f2c5742018e0e
-      7e9ade74917c11c0f6b52f95ed871eab235437cbee8b5c2509516e78
-      7a80e825ed5d539fa6a0ec32c48fa8fabe85809d000d0cfd30832c23
-      d477c991bea8e585010400c2bfd794467f4438277e85a42e101fa406
-      1e1ef6e05f81e5381f30e73b341dd726089cb6a6bbe5a509fad00985
-      7488db7130ff7680907312eb724cddb4dcce675b0098ad400fef80e1
-      deb4bc1756c43961ef60b85f2d62ed458454e11616a5d1df1e580963
-      6821a73662f9f12254e6f9950dd01fa8e26a8b20736fb63c63c81094
-      f6810341446185010400706ea69b2b7167773248ea6e69a574e9dd2f
-      f8a3d04a6e07f70c709869ca486827d59f9290599d1cf94e1a03fc24
-      2e2b1316afe2fa218bfaeb3e1ffd9f19bf062d01f6b15c9c3651be4c
-      08baf01eec25c818ee12c6edc4620644b1d97cf24f868732d56fe45c
-      e78e302c221c92f403e0fa3207de8bb41b388d81046a298ed8ddac9b
-      2a03414462
+      4e555f5f49534b107e4b4791d6a8ef019b936c79fb7f2c57420057f1
+      164b053e75197f7457d56391442efe0e5078fa9df658c6a6d00af69a
+      e3998d55f092ef9da4040bc42945691590496a5d84479439b114d28b
+      02a51ba41b273d85010400493381a239f5c33edc50f92a4ac7dbade7
+      854c2ef090515567a5387c331fc9c7fdff4e151801a51ed20514412d
+      d9832a0ebf4651e5d4cfebf1ebb89ca459a6311801d78c1142bf4eb4
+      6df664108bd05e8d979f3bc13ea3e373ce07fd67e457f44927e0123d
+      7566b527eb10ead21271d922f373fec78b4a3f4798f8fd52fb978595
+      88de03414461850104012938f18169cf9f37048b973ec9ac06bb15ee
+      b26d370957736775e6c5638153f00152fe632215eb22f407dc3a1a2c
+      473f45751b6451bf626b781d8db61c537cb4310060575918b0c77f52
+      08b31b89f6fc2cf86bf494a1533a6f282ae0fc550133d51626c35989
+      c01462aabab6dab9522cfb6a2ab214570f29560a7cc9619aa3e33419
+      2903414462
     ISK result: (length: 64 bytes)
-      1669a0a29726adc7eea2510d6f7e004a135fa63ac3c9f9e6ce53cba5
-      d5e3781aced515956041e43358409a13ef90ddc3c36fd8d7d81424c8
-      e94592e21854260a
+      6f8daaedf8843dd9ae3b8376c6dd668f49a127e7d33b8adb37d4ae13
+      5e1f09a68db1a03d436aae0cb8efb80a11813dec6924a52a6589b186
+      e62e676a8dd777ad
 </pre><a href="#appendix-B.7.5-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6133,16 +6081,16 @@ const unsigned char tc_sid_out_oc[] = {
 <div class="alignLeft art-text artwork" id="appendix-B.7.6-1">
 <pre>
     transcript_oc(Ya,ADa,Yb,ADb): (length: 280 bytes)
-      6f6385010400c2bfd794467f4438277e85a42e101fa4061e1ef6e05f
-      81e5381f30e73b341dd726089cb6a6bbe5a509fad009857488db7130
-      ff7680907312eb724cddb4dcce675b0098ad400fef80e1deb4bc1756
-      c43961ef60b85f2d62ed458454e11616a5d1df1e5809636821a73662
-      f9f12254e6f9950dd01fa8e26a8b20736fb63c63c81094f681034144
-      6185010400706ea69b2b7167773248ea6e69a574e9dd2ff8a3d04a6e
-      07f70c709869ca486827d59f9290599d1cf94e1a03fc242e2b1316af
-      e2fa218bfaeb3e1ffd9f19bf062d01f6b15c9c3651be4c08baf01eec
-      25c818ee12c6edc4620644b1d97cf24f868732d56fe45ce78e302c22
-      1c92f403e0fa3207de8bb41b388d81046a298ed8ddac9b2a03414462
+      6f63850104012938f18169cf9f37048b973ec9ac06bb15eeb26d3709
+      57736775e6c5638153f00152fe632215eb22f407dc3a1a2c473f4575
+      1b6451bf626b781d8db61c537cb4310060575918b0c77f5208b31b89
+      f6fc2cf86bf494a1533a6f282ae0fc550133d51626c35989c01462aa
+      bab6dab9522cfb6a2ab214570f29560a7cc9619aa3e3341929034144
+      6285010400493381a239f5c33edc50f92a4ac7dbade7854c2ef09051
+      5567a5387c331fc9c7fdff4e151801a51ed20514412dd9832a0ebf46
+      51e5d4cfebf1ebb89ca459a6311801d78c1142bf4eb46df664108bd0
+      5e8d979f3bc13ea3e373ce07fd67e457f44927e0123d7566b527eb10
+      ead21271d922f373fec78b4a3f4798f8fd52fb97859588de03414461
     DSI = G.DSI_ISK, b'CPaceP521_XMD:SHA-512_SSWU_NU__ISK':
     (length: 34 bytes)
       4350616365503532315f584d443a5348412d3531325f535357555f4e
@@ -6150,24 +6098,24 @@ const unsigned char tc_sid_out_oc[] = {
     lv_cat(DSI,sid,K)||transcript_oc(Ya,ADa,Yb,ADb):
     (length: 399 bytes)
       224350616365503532315f584d443a5348412d3531325f535357555f
-      4e555f5f49534b107e4b4791d6a8ef019b936c79fb7f2c5742018e0e
-      7e9ade74917c11c0f6b52f95ed871eab235437cbee8b5c2509516e78
-      7a80e825ed5d539fa6a0ec32c48fa8fabe85809d000d0cfd30832c23
-      d477c991bea8e56f6385010400c2bfd794467f4438277e85a42e101f
-      a4061e1ef6e05f81e5381f30e73b341dd726089cb6a6bbe5a509fad0
-      09857488db7130ff7680907312eb724cddb4dcce675b0098ad400fef
-      80e1deb4bc1756c43961ef60b85f2d62ed458454e11616a5d1df1e58
-      09636821a73662f9f12254e6f9950dd01fa8e26a8b20736fb63c63c8
-      1094f6810341446185010400706ea69b2b7167773248ea6e69a574e9
-      dd2ff8a3d04a6e07f70c709869ca486827d59f9290599d1cf94e1a03
-      fc242e2b1316afe2fa218bfaeb3e1ffd9f19bf062d01f6b15c9c3651
-      be4c08baf01eec25c818ee12c6edc4620644b1d97cf24f868732d56f
-      e45ce78e302c221c92f403e0fa3207de8bb41b388d81046a298ed8dd
-      ac9b2a03414462
+      4e555f5f49534b107e4b4791d6a8ef019b936c79fb7f2c57420057f1
+      164b053e75197f7457d56391442efe0e5078fa9df658c6a6d00af69a
+      e3998d55f092ef9da4040bc42945691590496a5d84479439b114d28b
+      02a51ba41b273d6f63850104012938f18169cf9f37048b973ec9ac06
+      bb15eeb26d370957736775e6c5638153f00152fe632215eb22f407dc
+      3a1a2c473f45751b6451bf626b781d8db61c537cb4310060575918b0
+      c77f5208b31b89f6fc2cf86bf494a1533a6f282ae0fc550133d51626
+      c35989c01462aabab6dab9522cfb6a2ab214570f29560a7cc9619aa3
+      e33419290341446285010400493381a239f5c33edc50f92a4ac7dbad
+      e7854c2ef090515567a5387c331fc9c7fdff4e151801a51ed2051441
+      2dd9832a0ebf4651e5d4cfebf1ebb89ca459a6311801d78c1142bf4e
+      b46df664108bd05e8d979f3bc13ea3e373ce07fd67e457f44927e012
+      3d7566b527eb10ead21271d922f373fec78b4a3f4798f8fd52fb9785
+      9588de03414461
     ISK result: (length: 64 bytes)
-      f2f3bd8cd442a4e16659b47a7b7a84f29be75893ed2e5f772d7a3c8b
-      779eb0df937a4ec50a4f1ff01ebbaa97d80e090ea69b00a95200ed25
-      8e48c6f7e9d8fbc2
+      28c311ecace3f42a9cc2ec3cc7b8bcbfd5308d999bb795ae0af7a312
+      9b83f36ef011d7186422ed03bf79725cdb1b17d2a995f6db753db6eb
+      9438db72bdf23d77
 </pre><a href="#appendix-B.7.6-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6179,16 +6127,16 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="alignLeft art-text artwork" id="appendix-B.7.7-1">
 <pre>
-    H.hash(b"CPaceSidOut" + transcript_ir(Ya,ADa, Yb,ADb)):
+    H.hash(b"CPaceSidOutput" + transcript_ir(Ya,ADa, Yb,ADb)):
     (length: 64 bytes)
-      56cc3cd8be77cdc84c0d1906de1ffc8ef7cbb326a3f05267b6e8c634
-      4e2781eb20ef725e84cb1bb45927435051b4e0fae78e975bf15099f9
-      e38d755413eee2fd
-    H.hash(b"CPaceSidOut" + transcript_oc(Ya,ADa, Yb,ADb)):
+      eebbefc008cede41adf4cfb06c5f3d6236aa532a958dd352d4154efa
+      bda569ae3afab954380b842cde2c13b4a9750d821634ce763be4c72d
+      710fcc8d9f9c79f0
+    H.hash(b"CPaceSidOutput" + transcript_oc(Ya,ADa, Yb,ADb)):
     (length: 64 bytes)
-      a46c7189ba6a36c4447741e057da39c885b7d59e08bd2df1852a5271
-      f2a8a2e9b187ccd07325a3eede646adee0c06fe58da77f74177896b2
-      1053c5d107de006d
+      3fc7eed0ea9381c98f60bc762c0bc6c73f90bb8fdc85c9826697838b
+      76d116f0ee50a5489237b8bc7f30ab32157af2e8d8e6f712f07a3020
+      eb112d609061f4f9
 </pre><a href="#appendix-B.7.7-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -6204,27 +6152,26 @@ const unsigned char tc_PRS[] = {
  0x50,0x61,0x73,0x73,0x77,0x6f,0x72,0x64,
 };
 const unsigned char tc_CI[] = {
- 0x6f,0x63,0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,
- 0x65,0x72,0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,
- 0x6f,0x72,
+ 0x0b,0x41,0x5f,0x69,0x6e,0x69,0x74,0x69,0x61,0x74,0x6f,0x72,
+ 0x0b,0x42,0x5f,0x72,0x65,0x73,0x70,0x6f,0x6e,0x64,0x65,0x72,
 };
 const unsigned char tc_sid[] = {
  0x7e,0x4b,0x47,0x91,0xd6,0xa8,0xef,0x01,0x9b,0x93,0x6c,0x79,
  0xfb,0x7f,0x2c,0x57,
 };
 const unsigned char tc_g[] = {
- 0x04,0x00,0xe5,0x8a,0x8f,0xbf,0x08,0xb3,0x8e,0x34,0xa3,0x67,
- 0x6f,0x6d,0x69,0x0b,0xed,0x58,0xaa,0x41,0x15,0xff,0x32,0xa5,
- 0x7e,0xc8,0x71,0x72,0xfc,0x2a,0x1f,0xb8,0x9d,0x03,0x25,0x8c,
- 0x64,0x29,0xc4,0x64,0x98,0x1b,0x32,0x84,0xb5,0xfe,0xdb,0xd1,
- 0x24,0x4b,0xf2,0x74,0x32,0x00,0x88,0x68,0x70,0x65,0xb9,0x07,
- 0x5d,0xd5,0x58,0xe1,0x4e,0xd6,0x99,0x01,0xd2,0x16,0x2d,0xb1,
- 0xba,0x3a,0x49,0xc9,0x7d,0xca,0x7c,0x90,0x2c,0xb1,0xb9,0x6b,
- 0xab,0xe2,0x1a,0x31,0x94,0x21,0x14,0xc8,0x60,0x66,0x5b,0x35,
- 0xc4,0x6b,0x82,0x13,0xf6,0xde,0x17,0x19,0x4d,0xe5,0x4c,0x44,
- 0x10,0x83,0xdd,0x11,0x63,0xd5,0x90,0x7a,0xda,0xd8,0x82,0x4b,
- 0xb1,0x30,0x7d,0xcf,0x6a,0x55,0xc1,0x1a,0x8f,0x01,0xd9,0x78,
- 0x9b,
+ 0x04,0x00,0xae,0xfb,0x79,0xf4,0xba,0x40,0x36,0x9b,0xbe,0x78,
+ 0xa5,0xc8,0x73,0xb2,0xce,0x75,0xbe,0x11,0x15,0x16,0xde,0xed,
+ 0x28,0xc5,0x89,0x9a,0x8b,0xbf,0x8a,0x96,0xdb,0xd2,0x88,0x82,
+ 0xaf,0xbc,0x15,0x01,0xd8,0xa4,0xe9,0xb2,0x5c,0x17,0x2d,0xfa,
+ 0xdc,0xd9,0x6d,0x10,0x46,0x6f,0x9c,0x36,0xd2,0x3e,0xa0,0x5c,
+ 0x98,0x2d,0xf0,0xbb,0x1e,0x35,0x32,0x01,0xc9,0x8d,0xa6,0xce,
+ 0x14,0xe3,0xc4,0x24,0xb6,0xcf,0x55,0xe6,0x27,0xc4,0xf3,0xc0,
+ 0xa4,0x46,0x9e,0x2a,0xed,0xaa,0x69,0x2f,0x5f,0xe1,0x6d,0x57,
+ 0xba,0xa8,0xa9,0x43,0x2a,0xac,0x32,0x01,0x39,0xe8,0x54,0xd0,
+ 0x6b,0xfb,0x4d,0xaa,0xef,0xc5,0x04,0xff,0x2f,0xe1,0xd2,0xc4,
+ 0xf0,0x64,0x43,0x87,0x8a,0x24,0x2a,0x7b,0x87,0x6b,0x22,0x40,
+ 0x40,
 };
 const unsigned char tc_ya[] = {
  0x00,0x63,0x67,0xe9,0xc2,0xae,0xff,0x9f,0x1d,0xb1,0x9a,0xf6,
@@ -6238,18 +6185,18 @@ const unsigned char tc_ADa[] = {
  0x41,0x44,0x61,
 };
 const unsigned char tc_Ya[] = {
- 0x04,0x00,0xc2,0xbf,0xd7,0x94,0x46,0x7f,0x44,0x38,0x27,0x7e,
- 0x85,0xa4,0x2e,0x10,0x1f,0xa4,0x06,0x1e,0x1e,0xf6,0xe0,0x5f,
- 0x81,0xe5,0x38,0x1f,0x30,0xe7,0x3b,0x34,0x1d,0xd7,0x26,0x08,
- 0x9c,0xb6,0xa6,0xbb,0xe5,0xa5,0x09,0xfa,0xd0,0x09,0x85,0x74,
- 0x88,0xdb,0x71,0x30,0xff,0x76,0x80,0x90,0x73,0x12,0xeb,0x72,
- 0x4c,0xdd,0xb4,0xdc,0xce,0x67,0x5b,0x00,0x98,0xad,0x40,0x0f,
- 0xef,0x80,0xe1,0xde,0xb4,0xbc,0x17,0x56,0xc4,0x39,0x61,0xef,
- 0x60,0xb8,0x5f,0x2d,0x62,0xed,0x45,0x84,0x54,0xe1,0x16,0x16,
- 0xa5,0xd1,0xdf,0x1e,0x58,0x09,0x63,0x68,0x21,0xa7,0x36,0x62,
- 0xf9,0xf1,0x22,0x54,0xe6,0xf9,0x95,0x0d,0xd0,0x1f,0xa8,0xe2,
- 0x6a,0x8b,0x20,0x73,0x6f,0xb6,0x3c,0x63,0xc8,0x10,0x94,0xf6,
- 0x81,
+ 0x04,0x00,0x49,0x33,0x81,0xa2,0x39,0xf5,0xc3,0x3e,0xdc,0x50,
+ 0xf9,0x2a,0x4a,0xc7,0xdb,0xad,0xe7,0x85,0x4c,0x2e,0xf0,0x90,
+ 0x51,0x55,0x67,0xa5,0x38,0x7c,0x33,0x1f,0xc9,0xc7,0xfd,0xff,
+ 0x4e,0x15,0x18,0x01,0xa5,0x1e,0xd2,0x05,0x14,0x41,0x2d,0xd9,
+ 0x83,0x2a,0x0e,0xbf,0x46,0x51,0xe5,0xd4,0xcf,0xeb,0xf1,0xeb,
+ 0xb8,0x9c,0xa4,0x59,0xa6,0x31,0x18,0x01,0xd7,0x8c,0x11,0x42,
+ 0xbf,0x4e,0xb4,0x6d,0xf6,0x64,0x10,0x8b,0xd0,0x5e,0x8d,0x97,
+ 0x9f,0x3b,0xc1,0x3e,0xa3,0xe3,0x73,0xce,0x07,0xfd,0x67,0xe4,
+ 0x57,0xf4,0x49,0x27,0xe0,0x12,0x3d,0x75,0x66,0xb5,0x27,0xeb,
+ 0x10,0xea,0xd2,0x12,0x71,0xd9,0x22,0xf3,0x73,0xfe,0xc7,0x8b,
+ 0x4a,0x3f,0x47,0x98,0xf8,0xfd,0x52,0xfb,0x97,0x85,0x95,0x88,
+ 0xde,
 };
 const unsigned char tc_yb[] = {
  0x00,0x92,0x27,0xbf,0x8d,0xc7,0x41,0xda,0xcc,0x94,0x22,0xf8,
@@ -6263,66 +6210,58 @@ const unsigned char tc_ADb[] = {
  0x41,0x44,0x62,
 };
 const unsigned char tc_Yb[] = {
- 0x04,0x00,0x70,0x6e,0xa6,0x9b,0x2b,0x71,0x67,0x77,0x32,0x48,
- 0xea,0x6e,0x69,0xa5,0x74,0xe9,0xdd,0x2f,0xf8,0xa3,0xd0,0x4a,
- 0x6e,0x07,0xf7,0x0c,0x70,0x98,0x69,0xca,0x48,0x68,0x27,0xd5,
- 0x9f,0x92,0x90,0x59,0x9d,0x1c,0xf9,0x4e,0x1a,0x03,0xfc,0x24,
- 0x2e,0x2b,0x13,0x16,0xaf,0xe2,0xfa,0x21,0x8b,0xfa,0xeb,0x3e,
- 0x1f,0xfd,0x9f,0x19,0xbf,0x06,0x2d,0x01,0xf6,0xb1,0x5c,0x9c,
- 0x36,0x51,0xbe,0x4c,0x08,0xba,0xf0,0x1e,0xec,0x25,0xc8,0x18,
- 0xee,0x12,0xc6,0xed,0xc4,0x62,0x06,0x44,0xb1,0xd9,0x7c,0xf2,
- 0x4f,0x86,0x87,0x32,0xd5,0x6f,0xe4,0x5c,0xe7,0x8e,0x30,0x2c,
- 0x22,0x1c,0x92,0xf4,0x03,0xe0,0xfa,0x32,0x07,0xde,0x8b,0xb4,
- 0x1b,0x38,0x8d,0x81,0x04,0x6a,0x29,0x8e,0xd8,0xdd,0xac,0x9b,
- 0x2a,
+ 0x04,0x01,0x29,0x38,0xf1,0x81,0x69,0xcf,0x9f,0x37,0x04,0x8b,
+ 0x97,0x3e,0xc9,0xac,0x06,0xbb,0x15,0xee,0xb2,0x6d,0x37,0x09,
+ 0x57,0x73,0x67,0x75,0xe6,0xc5,0x63,0x81,0x53,0xf0,0x01,0x52,
+ 0xfe,0x63,0x22,0x15,0xeb,0x22,0xf4,0x07,0xdc,0x3a,0x1a,0x2c,
+ 0x47,0x3f,0x45,0x75,0x1b,0x64,0x51,0xbf,0x62,0x6b,0x78,0x1d,
+ 0x8d,0xb6,0x1c,0x53,0x7c,0xb4,0x31,0x00,0x60,0x57,0x59,0x18,
+ 0xb0,0xc7,0x7f,0x52,0x08,0xb3,0x1b,0x89,0xf6,0xfc,0x2c,0xf8,
+ 0x6b,0xf4,0x94,0xa1,0x53,0x3a,0x6f,0x28,0x2a,0xe0,0xfc,0x55,
+ 0x01,0x33,0xd5,0x16,0x26,0xc3,0x59,0x89,0xc0,0x14,0x62,0xaa,
+ 0xba,0xb6,0xda,0xb9,0x52,0x2c,0xfb,0x6a,0x2a,0xb2,0x14,0x57,
+ 0x0f,0x29,0x56,0x0a,0x7c,0xc9,0x61,0x9a,0xa3,0xe3,0x34,0x19,
+ 0x29,
 };
 const unsigned char tc_K[] = {
- 0x01,0x8e,0x0e,0x7e,0x9a,0xde,0x74,0x91,0x7c,0x11,0xc0,0xf6,
- 0xb5,0x2f,0x95,0xed,0x87,0x1e,0xab,0x23,0x54,0x37,0xcb,0xee,
- 0x8b,0x5c,0x25,0x09,0x51,0x6e,0x78,0x7a,0x80,0xe8,0x25,0xed,
- 0x5d,0x53,0x9f,0xa6,0xa0,0xec,0x32,0xc4,0x8f,0xa8,0xfa,0xbe,
- 0x85,0x80,0x9d,0x00,0x0d,0x0c,0xfd,0x30,0x83,0x2c,0x23,0xd4,
- 0x77,0xc9,0x91,0xbe,0xa8,0xe5,
+ 0x00,0x57,0xf1,0x16,0x4b,0x05,0x3e,0x75,0x19,0x7f,0x74,0x57,
+ 0xd5,0x63,0x91,0x44,0x2e,0xfe,0x0e,0x50,0x78,0xfa,0x9d,0xf6,
+ 0x58,0xc6,0xa6,0xd0,0x0a,0xf6,0x9a,0xe3,0x99,0x8d,0x55,0xf0,
+ 0x92,0xef,0x9d,0xa4,0x04,0x0b,0xc4,0x29,0x45,0x69,0x15,0x90,
+ 0x49,0x6a,0x5d,0x84,0x47,0x94,0x39,0xb1,0x14,0xd2,0x8b,0x02,
+ 0xa5,0x1b,0xa4,0x1b,0x27,0x3d,
 };
 const unsigned char tc_ISK_IR[] = {
- 0x16,0x69,0xa0,0xa2,0x97,0x26,0xad,0xc7,0xee,0xa2,0x51,0x0d,
- 0x6f,0x7e,0x00,0x4a,0x13,0x5f,0xa6,0x3a,0xc3,0xc9,0xf9,0xe6,
- 0xce,0x53,0xcb,0xa5,0xd5,0xe3,0x78,0x1a,0xce,0xd5,0x15,0x95,
- 0x60,0x41,0xe4,0x33,0x58,0x40,0x9a,0x13,0xef,0x90,0xdd,0xc3,
- 0xc3,0x6f,0xd8,0xd7,0xd8,0x14,0x24,0xc8,0xe9,0x45,0x92,0xe2,
- 0x18,0x54,0x26,0x0a,
+ 0x6f,0x8d,0xaa,0xed,0xf8,0x84,0x3d,0xd9,0xae,0x3b,0x83,0x76,
+ 0xc6,0xdd,0x66,0x8f,0x49,0xa1,0x27,0xe7,0xd3,0x3b,0x8a,0xdb,
+ 0x37,0xd4,0xae,0x13,0x5e,0x1f,0x09,0xa6,0x8d,0xb1,0xa0,0x3d,
+ 0x43,0x6a,0xae,0x0c,0xb8,0xef,0xb8,0x0a,0x11,0x81,0x3d,0xec,
+ 0x69,0x24,0xa5,0x2a,0x65,0x89,0xb1,0x86,0xe6,0x2e,0x67,0x6a,
+ 0x8d,0xd7,0x77,0xad,
 };
 const unsigned char tc_ISK_SY[] = {
- 0xf2,0xf3,0xbd,0x8c,0xd4,0x42,0xa4,0xe1,0x66,0x59,0xb4,0x7a,
- 0x7b,0x7a,0x84,0xf2,0x9b,0xe7,0x58,0x93,0xed,0x2e,0x5f,0x77,
- 0x2d,0x7a,0x3c,0x8b,0x77,0x9e,0xb0,0xdf,0x93,0x7a,0x4e,0xc5,
- 0x0a,0x4f,0x1f,0xf0,0x1e,0xbb,0xaa,0x97,0xd8,0x0e,0x09,0x0e,
- 0xa6,0x9b,0x00,0xa9,0x52,0x00,0xed,0x25,0x8e,0x48,0xc6,0xf7,
- 0xe9,0xd8,0xfb,0xc2,
-};
-const unsigned char tc_ISK_SY[] = {
- 0xf2,0xf3,0xbd,0x8c,0xd4,0x42,0xa4,0xe1,0x66,0x59,0xb4,0x7a,
- 0x7b,0x7a,0x84,0xf2,0x9b,0xe7,0x58,0x93,0xed,0x2e,0x5f,0x77,
- 0x2d,0x7a,0x3c,0x8b,0x77,0x9e,0xb0,0xdf,0x93,0x7a,0x4e,0xc5,
- 0x0a,0x4f,0x1f,0xf0,0x1e,0xbb,0xaa,0x97,0xd8,0x0e,0x09,0x0e,
- 0xa6,0x9b,0x00,0xa9,0x52,0x00,0xed,0x25,0x8e,0x48,0xc6,0xf7,
- 0xe9,0xd8,0xfb,0xc2,
+ 0x28,0xc3,0x11,0xec,0xac,0xe3,0xf4,0x2a,0x9c,0xc2,0xec,0x3c,
+ 0xc7,0xb8,0xbc,0xbf,0xd5,0x30,0x8d,0x99,0x9b,0xb7,0x95,0xae,
+ 0x0a,0xf7,0xa3,0x12,0x9b,0x83,0xf3,0x6e,0xf0,0x11,0xd7,0x18,
+ 0x64,0x22,0xed,0x03,0xbf,0x79,0x72,0x5c,0xdb,0x1b,0x17,0xd2,
+ 0xa9,0x95,0xf6,0xdb,0x75,0x3d,0xb6,0xeb,0x94,0x38,0xdb,0x72,
+ 0xbd,0xf2,0x3d,0x77,
 };
 const unsigned char tc_sid_out_ir[] = {
- 0x56,0xcc,0x3c,0xd8,0xbe,0x77,0xcd,0xc8,0x4c,0x0d,0x19,0x06,
- 0xde,0x1f,0xfc,0x8e,0xf7,0xcb,0xb3,0x26,0xa3,0xf0,0x52,0x67,
- 0xb6,0xe8,0xc6,0x34,0x4e,0x27,0x81,0xeb,0x20,0xef,0x72,0x5e,
- 0x84,0xcb,0x1b,0xb4,0x59,0x27,0x43,0x50,0x51,0xb4,0xe0,0xfa,
- 0xe7,0x8e,0x97,0x5b,0xf1,0x50,0x99,0xf9,0xe3,0x8d,0x75,0x54,
- 0x13,0xee,0xe2,0xfd,
+ 0xee,0xbb,0xef,0xc0,0x08,0xce,0xde,0x41,0xad,0xf4,0xcf,0xb0,
+ 0x6c,0x5f,0x3d,0x62,0x36,0xaa,0x53,0x2a,0x95,0x8d,0xd3,0x52,
+ 0xd4,0x15,0x4e,0xfa,0xbd,0xa5,0x69,0xae,0x3a,0xfa,0xb9,0x54,
+ 0x38,0x0b,0x84,0x2c,0xde,0x2c,0x13,0xb4,0xa9,0x75,0x0d,0x82,
+ 0x16,0x34,0xce,0x76,0x3b,0xe4,0xc7,0x2d,0x71,0x0f,0xcc,0x8d,
+ 0x9f,0x9c,0x79,0xf0,
 };
 const unsigned char tc_sid_out_oc[] = {
- 0xa4,0x6c,0x71,0x89,0xba,0x6a,0x36,0xc4,0x44,0x77,0x41,0xe0,
- 0x57,0xda,0x39,0xc8,0x85,0xb7,0xd5,0x9e,0x08,0xbd,0x2d,0xf1,
- 0x85,0x2a,0x52,0x71,0xf2,0xa8,0xa2,0xe9,0xb1,0x87,0xcc,0xd0,
- 0x73,0x25,0xa3,0xee,0xde,0x64,0x6a,0xde,0xe0,0xc0,0x6f,0xe5,
- 0x8d,0xa7,0x7f,0x74,0x17,0x78,0x96,0xb2,0x10,0x53,0xc5,0xd1,
- 0x07,0xde,0x00,0x6d,
+ 0x3f,0xc7,0xee,0xd0,0xea,0x93,0x81,0xc9,0x8f,0x60,0xbc,0x76,
+ 0x2c,0x0b,0xc6,0xc7,0x3f,0x90,0xbb,0x8f,0xdc,0x85,0xc9,0x82,
+ 0x66,0x97,0x83,0x8b,0x76,0xd1,0x16,0xf0,0xee,0x50,0xa5,0x48,
+ 0x92,0x37,0xb8,0xbc,0x7f,0x30,0xab,0x32,0x15,0x7a,0xf2,0xe8,
+ 0xd8,0xe6,0xf7,0x12,0xf0,0x7a,0x30,0x20,0xeb,0x11,0x2d,0x60,
+ 0x90,0x61,0xf4,0xf9,
 };
 </pre><a href="#appendix-B.7.8-1" class="pilcrow">¶</a>
 </div>
@@ -6335,47 +6274,47 @@ const unsigned char tc_sid_out_oc[] = {
           </h4>
 <div class="lang-test-vectors sourcecode" id="appendix-B.7.9-1">
 <pre>
- #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICI2RjYzMEI0MjVGNzI2NT
- #czNzA2RjZFNjQ2NTcyMEI0MTVGNjk2RTY5NzQ2OTYxNzQ2RjcyIiwgInNpZCI6ICI3
- #RTRCNDc5MUQ2QThFRjAxOUI5MzZDNzlGQjdGMkM1NyIsICJnIjogIjA0MDBFNThBOE
- #ZCRjA4QjM4RTM0QTM2NzZGNkQ2OTBCRUQ1OEFBNDExNUZGMzJBNTdFQzg3MTcyRkMy
- #QTFGQjg5RDAzMjU4QzY0MjlDNDY0OTgxQjMyODRCNUZFREJEMTI0NEJGMjc0MzIwMD
- #g4Njg3MDY1QjkwNzVERDU1OEUxNEVENjk5MDFEMjE2MkRCMUJBM0E0OUM5N0RDQTdD
- #OTAyQ0IxQjk2QkFCRTIxQTMxOTQyMTE0Qzg2MDY2NUIzNUM0NkI4MjEzRjZERTE3MT
- #k0REU1NEM0NDEwODNERDExNjNENTkwN0FEQUQ4ODI0QkIxMzA3RENGNkE1NUMxMUE4
- #RjAxRDk3ODlCIiwgInlhIjogIjAwNjM2N0U5QzJBRUZGOUYxREIxOUFGNjAwQ0NBNz
- #MzNDNENDdDQkU0NDZDRUJCRDFDQ0Q3ODNGODI3NTVBODcyREE4NkZEMDcwN0VCMzc2
- #N0M2MTE0RjE4MDNERUI2MkQ2M0JERDFFNjEzRjY3RTYzRThDMTQxRUU1MzEwRTNFRT
- #gxOSIsICJBRGEiOiAiNDE0NDYxIiwgIllhIjogIjA0MDBDMkJGRDc5NDQ2N0Y0NDM4
- #Mjc3RTg1QTQyRTEwMUZBNDA2MUUxRUY2RTA1RjgxRTUzODFGMzBFNzNCMzQxREQ3Mj
- #YwODlDQjZBNkJCRTVBNTA5RkFEMDA5ODU3NDg4REI3MTMwRkY3NjgwOTA3MzEyRUI3
- #MjRDRERCNERDQ0U2NzVCMDA5OEFENDAwRkVGODBFMURFQjRCQzE3NTZDNDM5NjFFRj
- #YwQjg1RjJENjJFRDQ1ODQ1NEUxMTYxNkE1RDFERjFFNTgwOTYzNjgyMUE3MzY2MkY5
- #RjEyMjU0RTZGOTk1MEREMDFGQThFMjZBOEIyMDczNkZCNjNDNjNDODEwOTRGNjgxIi
- #wgInliIjogIjAwOTIyN0JGOERDNzQxREFDQzk0MjJGOEJGM0MwRTk2RkNFOTU4N0JD
- #NTYyRUFBRkUwREM1RjZGODJGMjg1OTRFNEE2Rjk4NTUzNTYwQzYyQjc1RkE0QUJCMT
- #k4Q0VDQkJCODZFQkQ0MUIwRUEwMjU0Q0RFNzhBQzY4RDM5QTI0MEFFNyIsICJBRGIi
- #OiAiNDE0NDYyIiwgIlliIjogIjA0MDA3MDZFQTY5QjJCNzE2Nzc3MzI0OEVBNkU2OU
- #E1NzRFOUREMkZGOEEzRDA0QTZFMDdGNzBDNzA5ODY5Q0E0ODY4MjdENTlGOTI5MDU5
- #OUQxQ0Y5NEUxQTAzRkMyNDJFMkIxMzE2QUZFMkZBMjE4QkZBRUIzRTFGRkQ5RjE5Qk
- #YwNjJEMDFGNkIxNUM5QzM2NTFCRTRDMDhCQUYwMUVFQzI1QzgxOEVFMTJDNkVEQzQ2
- #MjA2NDRCMUQ5N0NGMjRGODY4NzMyRDU2RkU0NUNFNzhFMzAyQzIyMUM5MkY0MDNFME
- #ZBMzIwN0RFOEJCNDFCMzg4RDgxMDQ2QTI5OEVEOEREQUM5QjJBIiwgIksiOiAiMDE4
- #RTBFN0U5QURFNzQ5MTdDMTFDMEY2QjUyRjk1RUQ4NzFFQUIyMzU0MzdDQkVFOEI1Qz
- #I1MDk1MTZFNzg3QTgwRTgyNUVENUQ1MzlGQTZBMEVDMzJDNDhGQThGQUJFODU4MDlE
- #MDAwRDBDRkQzMDgzMkMyM0Q0NzdDOTkxQkVBOEU1IiwgIklTS19JUiI6ICIxNjY5QT
- #BBMjk3MjZBREM3RUVBMjUxMEQ2RjdFMDA0QTEzNUZBNjNBQzNDOUY5RTZDRTUzQ0JB
- #NUQ1RTM3ODFBQ0VENTE1OTU2MDQxRTQzMzU4NDA5QTEzRUY5MEREQzNDMzZGRDhEN0
- #Q4MTQyNEM4RTk0NTkyRTIxODU0MjYwQSIsICJJU0tfU1kiOiAiRjJGM0JEOENENDQy
- #QTRFMTY2NTlCNDdBN0I3QTg0RjI5QkU3NTg5M0VEMkU1Rjc3MkQ3QTNDOEI3NzlFQj
- #BERjkzN0E0RUM1MEE0RjFGRjAxRUJCQUE5N0Q4MEUwOTBFQTY5QjAwQTk1MjAwRUQy
- #NThFNDhDNkY3RTlEOEZCQzIiLCAic2lkX291dHB1dF9pciI6ICI1NkNDM0NEOEJFNz
- #dDREM4NEMwRDE5MDZERTFGRkM4RUY3Q0JCMzI2QTNGMDUyNjdCNkU4QzYzNDRFMjc4
- #MUVCMjBFRjcyNUU4NENCMUJCNDU5Mjc0MzUwNTFCNEUwRkFFNzhFOTc1QkYxNTA5OU
- #Y5RTM4RDc1NTQxM0VFRTJGRCIsICJzaWRfb3V0cHV0X29jIjogIkE0NkM3MTg5QkE2
- #QTM2QzQ0NDc3NDFFMDU3REEzOUM4ODVCN0Q1OUUwOEJEMkRGMTg1MkE1MjcxRjJBOE
- #EyRTlCMTg3Q0NEMDczMjVBM0VFREU2NDZBREVFMEMwNkZFNThEQTc3Rjc0MTc3ODk2
- #QjIxMDUzQzVEMTA3REUwMDZEIn0=
+ #eyJQUlMiOiAiNTA2MTczNzM3NzZGNzI2NCIsICJDSSI6ICIwQjQxNUY2OTZFNjk3ND
+ #Y5NjE3NDZGNzIwQjQyNUY3MjY1NzM3MDZGNkU2NDY1NzIiLCAic2lkIjogIjdFNEI0
+ #NzkxRDZBOEVGMDE5QjkzNkM3OUZCN0YyQzU3IiwgImciOiAiMDQwMEFFRkI3OUY0Qk
+ #E0MDM2OUJCRTc4QTVDODczQjJDRTc1QkUxMTE1MTZERUVEMjhDNTg5OUE4QkJGOEE5
+ #NkRCRDI4ODgyQUZCQzE1MDFEOEE0RTlCMjVDMTcyREZBRENEOTZEMTA0NjZGOUMzNk
+ #QyM0VBMDVDOTgyREYwQkIxRTM1MzIwMUM5OERBNkNFMTRFM0M0MjRCNkNGNTVFNjI3
+ #QzRGM0MwQTQ0NjlFMkFFREFBNjkyRjVGRTE2RDU3QkFBOEE5NDMyQUFDMzIwMTM5RT
+ #g1NEQwNkJGQjREQUFFRkM1MDRGRjJGRTFEMkM0RjA2NDQzODc4QTI0MkE3Qjg3NkIy
+ #MjQwNDAiLCAieWEiOiAiMDA2MzY3RTlDMkFFRkY5RjFEQjE5QUY2MDBDQ0E3MzM0M0
+ #Q0N0NCRTQ0NkNFQkJEMUNDRDc4M0Y4Mjc1NUE4NzJEQTg2RkQwNzA3RUIzNzY3QzYx
+ #MTRGMTgwM0RFQjYyRDYzQkREMUU2MTNGNjdFNjNFOEMxNDFFRTUzMTBFM0VFODE5Ii
+ #wgIkFEYSI6ICI0MTQ0NjEiLCAiWWEiOiAiMDQwMDQ5MzM4MUEyMzlGNUMzM0VEQzUw
+ #RjkyQTRBQzdEQkFERTc4NTRDMkVGMDkwNTE1NTY3QTUzODdDMzMxRkM5QzdGREZGNE
+ #UxNTE4MDFBNTFFRDIwNTE0NDEyREQ5ODMyQTBFQkY0NjUxRTVENENGRUJGMUVCQjg5
+ #Q0E0NTlBNjMxMTgwMUQ3OEMxMTQyQkY0RUI0NkRGNjY0MTA4QkQwNUU4RDk3OUYzQk
+ #MxM0VBM0UzNzNDRTA3RkQ2N0U0NTdGNDQ5MjdFMDEyM0Q3NTY2QjUyN0VCMTBFQUQy
+ #MTI3MUQ5MjJGMzczRkVDNzhCNEEzRjQ3OThGOEZENTJGQjk3ODU5NTg4REUiLCAieW
+ #IiOiAiMDA5MjI3QkY4REM3NDFEQUNDOTQyMkY4QkYzQzBFOTZGQ0U5NTg3QkM1NjJF
+ #QUFGRTBEQzVGNkY4MkYyODU5NEU0QTZGOTg1NTM1NjBDNjJCNzVGQTRBQkIxOThDRU
+ #NCQkI4NkVCRDQxQjBFQTAyNTRDREU3OEFDNjhEMzlBMjQwQUU3IiwgIkFEYiI6ICI0
+ #MTQ0NjIiLCAiWWIiOiAiMDQwMTI5MzhGMTgxNjlDRjlGMzcwNDhCOTczRUM5QUMwNk
+ #JCMTVFRUIyNkQzNzA5NTc3MzY3NzVFNkM1NjM4MTUzRjAwMTUyRkU2MzIyMTVFQjIy
+ #RjQwN0RDM0ExQTJDNDczRjQ1NzUxQjY0NTFCRjYyNkI3ODFEOERCNjFDNTM3Q0I0Mz
+ #EwMDYwNTc1OTE4QjBDNzdGNTIwOEIzMUI4OUY2RkMyQ0Y4NkJGNDk0QTE1MzNBNkYy
+ #ODJBRTBGQzU1MDEzM0Q1MTYyNkMzNTk4OUMwMTQ2MkFBQkFCNkRBQjk1MjJDRkI2QT
+ #JBQjIxNDU3MEYyOTU2MEE3Q0M5NjE5QUEzRTMzNDE5MjkiLCAiSyI6ICIwMDU3RjEx
+ #NjRCMDUzRTc1MTk3Rjc0NTdENTYzOTE0NDJFRkUwRTUwNzhGQTlERjY1OEM2QTZEMD
+ #BBRjY5QUUzOTk4RDU1RjA5MkVGOURBNDA0MEJDNDI5NDU2OTE1OTA0OTZBNUQ4NDQ3
+ #OTQzOUIxMTREMjhCMDJBNTFCQTQxQjI3M0QiLCAiSVNLX0lSIjogIjZGOERBQUVERj
+ #g4NDNERDlBRTNCODM3NkM2REQ2NjhGNDlBMTI3RTdEMzNCOEFEQjM3RDRBRTEzNUUx
+ #RjA5QTY4REIxQTAzRDQzNkFBRTBDQjhFRkI4MEExMTgxM0RFQzY5MjRBNTJBNjU4OU
+ #IxODZFNjJFNjc2QThERDc3N0FEIiwgIklTS19TWSI6ICIyOEMzMTFFQ0FDRTNGNDJB
+ #OUNDMkVDM0NDN0I4QkNCRkQ1MzA4RDk5OUJCNzk1QUUwQUY3QTMxMjlCODNGMzZFRj
+ #AxMUQ3MTg2NDIyRUQwM0JGNzk3MjVDREIxQjE3RDJBOTk1RjZEQjc1M0RCNkVCOTQz
+ #OERCNzJCREYyM0Q3NyIsICJzaWRfb3V0cHV0X2lyIjogIkVFQkJFRkMwMDhDRURFND
+ #FBREY0Q0ZCMDZDNUYzRDYyMzZBQTUzMkE5NThERDM1MkQ0MTU0RUZBQkRBNTY5QUUz
+ #QUZBQjk1NDM4MEI4NDJDREUyQzEzQjRBOTc1MEQ4MjE2MzRDRTc2M0JFNEM3MkQ3MT
+ #BGQ0M4RDlGOUM3OUYwIiwgInNpZF9vdXRwdXRfb2MiOiAiM0ZDN0VFRDBFQTkzODFD
+ #OThGNjBCQzc2MkMwQkM2QzczRjkwQkI4RkRDODVDOTgyNjY5NzgzOEI3NkQxMTZGME
+ #VFNTBBNTQ4OTIzN0I4QkM3RjMwQUIzMjE1N0FGMkU4RDhFNkY3MTJGMDdBMzAyMEVC
+ #MTEyRDYwOTA2MUY0RjkifQ==
 </pre><a href="#appendix-B.7.9-1" class="pilcrow">¶</a>
 </div>
 </section>
