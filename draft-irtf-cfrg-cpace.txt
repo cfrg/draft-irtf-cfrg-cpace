@@ -305,7 +305,7 @@ Table of Contents
    Applications with clients and servers where the server side is
    storing account and password information in its persistent memory are
    recommended to use _augmented_ PAKE protocols such as OPAQUE
-   [I-D.irtf-cfrg-opaque].
+   [RFC9807].
 
    In the course of the CPace protocol, A sends one message to B and B
    sends one message to A.  We use the term "initiator-responder" for
@@ -758,11 +758,10 @@ Table of Contents
       group abstractions
 
    In this section we consider the case of CPace using the Ristretto255
-   and Decaf448 group abstractions
-   [I-D.draft-irtf-cfrg-ristretto255-decaf448].  These abstractions
-   define an encode and decode function, group operations using an
-   internal encoding and an element-derivation function that maps a byte
-   string to a group element.  With the group abstractions there is a
+   and Decaf448 group abstractions [RFC9496].  These abstractions define
+   an encode and decode function, group operations using an internal
+   encoding and an element-derivation function that maps a byte string
+   to a group element.  With the group abstractions there is a
    distinction between an internal representation of group elements and
    an external encoding of the same group element.  In order to
    distinguish between these different representations, we prepend an
@@ -1380,14 +1379,6 @@ Table of Contents
 
 13.1.  Normative References
 
-   [I-D.draft-irtf-cfrg-ristretto255-decaf448]
-              de Valence, H., Grigg, J., Hamburg, M., Lovecruft, I.,
-              Tankersley, G., and F. Valsorda, "The ristretto255 and
-              decaf448 Groups", Work in Progress, Internet-Draft, draft-
-              irtf-cfrg-ristretto255-decaf448-08, 5 September 2023,
-              <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
-              ristretto255-decaf448-08>.
-
    [IEEE1363] "Standard Specifications for Public Key Cryptography, IEEE
               1363", 2000.
 
@@ -1403,6 +1394,11 @@ Table of Contents
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC9496]  de Valence, H., Grigg, J., Hamburg, M., Lovecruft, I.,
+              Tankersley, G., and F. Valsorda, "The ristretto255 and
+              decaf448 Groups", RFC 9496, DOI 10.17487/RFC9496, December
+              2023, <https://www.rfc-editor.org/rfc/rfc9496>.
 
    [SEC1]     Standards for Efficient Cryptography Group (SECG), "SEC 1:
               Elliptic Curve Cryptography", May 2009,
@@ -1444,13 +1440,6 @@ Table of Contents
 
    [HS14]     Hao, F. and S. Shahandashti, "The SPEKE Protocol
               Revisited", n.d., <https://eprint.iacr.org/2014/585.pdf>.
-
-   [I-D.irtf-cfrg-opaque]
-              Bourdrez, D., Krawczyk, H., Lewi, K., and C. A. Wood, "The
-              OPAQUE Augmented PAKE Protocol", Work in Progress,
-              Internet-Draft, draft-irtf-cfrg-opaque-18, 21 November
-              2024, <https://datatracker.ietf.org/doc/html/draft-irtf-
-              cfrg-opaque-18>.
 
    [REFIMP]   "CPace reference implementation (sage)", September 2024,
               <https://github.com/cfrg/draft-irtf-cfrg-
@@ -1499,6 +1488,11 @@ Table of Contents
               and C. A. Wood, "Hashing to Elliptic Curves", RFC 9380,
               DOI 10.17487/RFC9380, August 2023,
               <https://www.rfc-editor.org/rfc/rfc9380>.
+
+   [RFC9807]  Bourdrez, D., Krawczyk, H., Lewi, K., and C. A. Wood, "The
+              OPAQUE Augmented Password-Authenticated Key Exchange
+              (aPAKE) Protocol", RFC 9807, DOI 10.17487/RFC9807, July
+              2025, <https://www.rfc-editor.org/rfc/rfc9807>.
 
    [SEC2]     Standards for Efficient Cryptography Group (SECG), "SEC 2:
               Recommended Elliptic Curve Domain Parameters", January

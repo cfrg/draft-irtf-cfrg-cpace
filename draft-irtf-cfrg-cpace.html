@@ -1730,7 +1730,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-3-1">CPace enables balanced password-authenticated key establishment. I.e. with CPace the parties start the protocol with a shared secret octet string, namely the password-related string (PRS).
 PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to <span>[<a href="#RFC8265" class="cite xref">RFC8265</a>]</span>, or any string derived from a common secret, for instance by use of a key derivation function.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use <em>augmented</em>
-PAKE protocols such as OPAQUE <span>[<a href="#I-D.irtf-cfrg-opaque" class="cite xref">I-D.irtf-cfrg-opaque</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
+PAKE protocols such as OPAQUE <span>[<a href="#RFC9807" class="cite xref">RFC9807</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">In the course of the CPace protocol, A sends one message to B and B sends one message to A.  We use the term "initiator-responder" for CPace where A always
 speaks first, and the term "symmetric" setting where anyone can speak first.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">CPace's output is an intermediate session key (ISK), but any party might abort in case of an invalid received message. A and B will produce the same ISK value if and
@@ -2178,7 +2178,7 @@ expected results for non-canonical u coordinate values with bit #255 set, which 
         <h3 id="name-cpace-group-objects-g_ristr">
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-cpace-group-objects-g_ristr" class="section-name selfRef">CPace group objects G_Ristretto255 and G_Decaf448 for prime-order group abstractions</a>
         </h3>
-<p id="section-7.3-1">In this section we consider the case of CPace using the Ristretto255 and Decaf448 group abstractions <span>[<a href="#I-D.draft-irtf-cfrg-ristretto255-decaf448" class="cite xref">I-D.draft-irtf-cfrg-ristretto255-decaf448</a>]</span>.
+<p id="section-7.3-1">In this section we consider the case of CPace using the Ristretto255 and Decaf448 group abstractions <span>[<a href="#RFC9496" class="cite xref">RFC9496</a>]</span>.
 These abstractions define an encode and decode function, group operations using an internal encoding
 and an element-derivation function that maps a byte string to a group element.
 With the group abstractions there is a distinction between an internal representation
@@ -2733,10 +2733,6 @@ The embedded base64-encoded test vectors will decode to JSON files having the te
 <a href="#section-13.1" class="section-number selfRef">13.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.draft-irtf-cfrg-ristretto255-decaf448">[I-D.draft-irtf-cfrg-ristretto255-decaf448]</dt>
-        <dd>
-<span class="refAuthor">de Valence, H.</span>, <span class="refAuthor">Grigg, J.</span>, <span class="refAuthor">Hamburg, M.</span>, <span class="refAuthor">Lovecruft, I.</span>, <span class="refAuthor">Tankersley, G.</span>, and <span class="refAuthor">F. Valsorda</span>, <span class="refTitle">"The ristretto255 and decaf448 Groups"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-ristretto255-decaf448-08</span>, <time datetime="2023-09-05" class="refDate">5 September 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-ristretto255-decaf448-08">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-ristretto255-decaf448-08</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="IEEE1363">[IEEE1363]</dt>
         <dd>
 <span class="refTitle">"Standard Specifications for Public Key Cryptography, IEEE 1363"</span>, <time datetime="2000" class="refDate">2000</time>. </dd>
@@ -2752,6 +2748,10 @@ The embedded base64-encoded test vectors will decode to JSON files having the te
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9496">[RFC9496]</dt>
+        <dd>
+<span class="refAuthor">de Valence, H.</span>, <span class="refAuthor">Grigg, J.</span>, <span class="refAuthor">Hamburg, M.</span>, <span class="refAuthor">Lovecruft, I.</span>, <span class="refAuthor">Tankersley, G.</span>, and <span class="refAuthor">F. Valsorda</span>, <span class="refTitle">"The ristretto255 and decaf448 Groups"</span>, <span class="seriesInfo">RFC 9496</span>, <span class="seriesInfo">DOI 10.17487/RFC9496</span>, <time datetime="2023-12" class="refDate">December 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9496">https://www.rfc-editor.org/rfc/rfc9496</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SEC1">[SEC1]</dt>
       <dd>
@@ -2798,10 +2798,6 @@ The embedded base64-encoded test vectors will decode to JSON files having the te
         <dd>
 <span class="refAuthor">Hao, F.</span> and <span class="refAuthor">S. Shahandashti</span>, <span class="refTitle">"The SPEKE Protocol Revisited"</span>, <span>n.d.</span>, <span>&lt;<a href="https://eprint.iacr.org/2014/585.pdf">https://eprint.iacr.org/2014/585.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.irtf-cfrg-opaque">[I-D.irtf-cfrg-opaque]</dt>
-        <dd>
-<span class="refAuthor">Bourdrez, D.</span>, <span class="refAuthor">Krawczyk, H.</span>, <span class="refAuthor">Lewi, K.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"The OPAQUE Augmented PAKE Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-opaque-18</span>, <time datetime="2024-11-21" class="refDate">21 November 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-opaque-18">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-opaque-18</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="REFIMP">[REFIMP]</dt>
         <dd>
 <span class="refTitle">"CPace reference implementation (sage)"</span>, <time datetime="2024-09" class="refDate">September 2024</time>, <span>&lt;<a href="https://github.com/cfrg/draft-irtf-cfrg-cpace/tree/master/poc">https://github.com/cfrg/draft-irtf-cfrg-cpace/tree/master/poc</a>&gt;</span>. </dd>
@@ -2841,6 +2837,10 @@ The embedded base64-encoded test vectors will decode to JSON files having the te
 <dt id="RFC9380">[RFC9380]</dt>
         <dd>
 <span class="refAuthor">Faz-Hernandez, A.</span>, <span class="refAuthor">Scott, S.</span>, <span class="refAuthor">Sullivan, N.</span>, <span class="refAuthor">Wahby, R. S.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Hashing to Elliptic Curves"</span>, <span class="seriesInfo">RFC 9380</span>, <span class="seriesInfo">DOI 10.17487/RFC9380</span>, <time datetime="2023-08" class="refDate">August 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9380">https://www.rfc-editor.org/rfc/rfc9380</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9807">[RFC9807]</dt>
+        <dd>
+<span class="refAuthor">Bourdrez, D.</span>, <span class="refAuthor">Krawczyk, H.</span>, <span class="refAuthor">Lewi, K.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"The OPAQUE Augmented Password-Authenticated Key Exchange (aPAKE) Protocol"</span>, <span class="seriesInfo">RFC 9807</span>, <span class="seriesInfo">DOI 10.17487/RFC9807</span>, <time datetime="2025-07" class="refDate">July 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9807">https://www.rfc-editor.org/rfc/rfc9807</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SEC2">[SEC2]</dt>
       <dd>
