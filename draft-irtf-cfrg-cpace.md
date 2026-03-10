@@ -215,7 +215,7 @@ CPace enables balanced password-authenticated key establishment. I.e. with CPace
 PRS can be a low-entropy secret itself, for instance a clear-text password encoded according to {{?RFC8265}}, or any string derived from a common secret, for instance by use of a key derivation function.
 
 Applications with clients and servers where the server side is storing account and password information in its persistent memory are recommended to use _augmented_
-PAKE protocols such as OPAQUE {{?I-D.irtf-cfrg-opaque}}.
+PAKE protocols such as OPAQUE {{?RFC9807}}.
 
 In the course of the CPace protocol, A sends one message to B and B sends one message to A.  We use the term "initiator-responder" for CPace where A always
 speaks first, and the term "symmetric" setting where anyone can speak first.
@@ -546,7 +546,7 @@ Corresponding test vectors are provided in the appendix.
 
 ## CPace group objects G\_Ristretto255 and G\_Decaf448 for prime-order group abstractions {#CPaceCoffee}
 
-In this section we consider the case of CPace using the Ristretto255 and Decaf448 group abstractions {{!I-D.draft-irtf-cfrg-ristretto255-decaf448}}.
+In this section we consider the case of CPace using the Ristretto255 and Decaf448 group abstractions {{!RFC9496}}.
 These abstractions define an encode and decode function, group operations using an internal encoding
 and an element-derivation function that maps a byte string to a group element.
 With the group abstractions there is a distinction between an internal representation
