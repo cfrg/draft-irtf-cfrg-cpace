@@ -52,7 +52,7 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     sid = sid [:16]
 
     PRS = b"Password"
-    CI = o_cat(prepend_len(b"A_initiator"), prepend_len(b"B_responder"))
+    CI = prepend_len(b"A_initiator") + prepend_len(b"B_responder")
 
     ADa = b"ADa"
     ADb = b"ADb"
@@ -120,12 +120,12 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
     
     sid_output_ir = H.hash(b"CPaceSidOutput" + transcript_ir(Ya,ADa, Yb,ADb))
     
-    tv_output_byte_array(sid_output_ir, test_vector_name = 'H.hash(b"CPaceSidOut" + transcript_ir(Ya,ADa, Yb,ADb))', 
+    tv_output_byte_array(sid_output_ir, test_vector_name = 'H.hash(b"CPaceSidOutput" + transcript_ir(Ya,ADa, Yb,ADb))', 
                          line_prefix = "    ", max_len = 60, file=file)
 
     sid_output_oc = H.hash(b"CPaceSidOutput" + transcript_oc(Ya,ADa, Yb,ADb))
     
-    tv_output_byte_array(sid_output_oc, test_vector_name = 'H.hash(b"CPaceSidOut" + transcript_oc(Ya,ADa, Yb,ADb))', 
+    tv_output_byte_array(sid_output_oc, test_vector_name = 'H.hash(b"CPaceSidOutput" + transcript_oc(Ya,ADa, Yb,ADb))', 
                          line_prefix = "    ", max_len = 60, file=file)
     
     print ("~~~", file=file)
@@ -145,7 +145,6 @@ def generate_test_vector(H,G, with_ANSI_C_initializers = True,file=sys.stdout, p
         print (ByteArrayToCInitializer(Yb, "tc_Yb"), file=file)
         print (ByteArrayToCInitializer(K1, "tc_K"), file=file)
         print (ByteArrayToCInitializer(ISK_IR, "tc_ISK_IR"), file=file)
-        print (ByteArrayToCInitializer(ISK_SY, "tc_ISK_SY"), file=file)
         print (ByteArrayToCInitializer(ISK_SY, "tc_ISK_SY"), file=file)
         print (ByteArrayToCInitializer(sid_output_ir, "tc_sid_out_ir"), file=file)
         print (ByteArrayToCInitializer(sid_output_oc, "tc_sid_out_oc"), file=file)
