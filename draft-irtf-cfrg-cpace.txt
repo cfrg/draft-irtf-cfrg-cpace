@@ -5,10 +5,10 @@
 CFRG                                                          M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 11 September 2026  Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 12 September 2026  Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                           10 March 2026
+                                                           11 March 2026
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 September 2026.
+   This Internet-Draft will expire on 12 September 2026.
 
 Copyright Notice
 
@@ -1395,6 +1395,11 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+   [RFC9380]  Faz-Hernandez, A., Scott, S., Sullivan, N., Wahby, R. S.,
+              and C. A. Wood, "Hashing to Elliptic Curves", RFC 9380,
+              DOI 10.17487/RFC9380, August 2023,
+              <https://www.rfc-editor.org/rfc/rfc9380>.
+
    [RFC9496]  de Valence, H., Grigg, J., Hamburg, M., Lovecruft, I.,
               Tankersley, G., and F. Valsorda, "The ristretto255 and
               decaf448 Groups", RFC 9496, DOI 10.17487/RFC9496, December
@@ -1483,11 +1488,6 @@ Table of Contents
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://www.rfc-editor.org/rfc/rfc8446>.
-
-   [RFC9380]  Faz-Hernandez, A., Scott, S., Sullivan, N., Wahby, R. S.,
-              and C. A. Wood, "Hashing to Elliptic Curves", RFC 9380,
-              DOI 10.17487/RFC9380, August 2023,
-              <https://www.rfc-editor.org/rfc/rfc9380>.
 
    [RFC9807]  Bourdrez, D., Krawczyk, H., Lewi, K., and C. A. Wood, "The
               OPAQUE Augmented Password-Authenticated Key Exchange
