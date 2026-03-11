@@ -300,7 +300,7 @@ For naming cipher suites we use the convention "CPACE-G-H". We RECOMMEND the fol
 
 - CPACE-P256\_XMD:SHA-256\_SSWU_NU\_-SHA256.
 This suite instantiates the group environment G as specified in {{CPaceWeierstrass}} using the encode\_to\_curve function P256\_XMD:SHA-256\_SSWU_NU\_
-from {{?RFC9380}} on curve NIST-P256, and hash function SHA-256.
+from {{!RFC9380}} on curve NIST-P256, and hash function SHA-256.
 
 The following RECOMMENDED cipher suites provide higher security margins.
 
