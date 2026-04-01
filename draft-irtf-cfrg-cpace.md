@@ -168,6 +168,27 @@ can be used on groups of prime- and non-prime order.
 
 --- middle
 
+# Status of This Memo
+
+   This document is not an Internet Standards Track specification; it is
+   published for informational purposes.
+
+   This document is a product of the Internet Research Task Force
+   (IRTF).  The IRTF publishes the results of Internet-related research
+   and development activities.  These results might not be suitable for
+   deployment.   
+   Documents approved for publication by the IRSG are not candidates for any level
+   of Internet Standard; see Section 2 of RFC 7841.
+   This RFC represents the consensus of the Crypto Forum
+   Research Group (CFRG) of the Internet Research Task Force (IRTF).
+   
+   CFRG has setup a selection process in 2019 regarding Password Authenticated Key Exchange
+   protocols. As a result of the selection process CPace was selected as one out of two
+   protocols as "recommended by the CFRG for usage in IETF protocols".
+
+   Information about the current status of this document, any errata,
+   and how to provide feedback on it may be obtained at
+   https://www.rfc-editor.org/info/rfc9807.
 # Introduction
 
 This document describes CPace which is a balanced Password-Authenticated-Key-Establishment (PAKE)
@@ -836,9 +857,9 @@ One suitable option that works also in the parallel setting without message orde
 
 - Let the receiving party check the remote authentication tag for the correct value and abort in case that it's incorrect.
 
-## Integrating CPace in higher-level protocols such as TLS1.3
+## Integrating CPace in higher-level protocols
 
-When integrating CPace into a higher-level protocol such as TLS1.3 {{RFC8446}} it is recommended to use ISK
+When integrating CPace into a higher-level protocol it is recommended to use ISK
 as shared secret (which might otherwise be generated as part of a Diffie-Hellman key exchange output for other cipher suites).
 
 Note that unlike the shared secret of a Diffie-Hellman protocol run, ISK will also provide mutual implicit authentication of the protocol partners.
@@ -853,14 +874,6 @@ is done under the responsibility of the embedding application protocol.
 This could be done by integrating the full protocol transcript as part of a final explicit key confirmation round (as commonly done by TLS 1.3 as part of the "Finished" messages).
 Alternatively, information on communication rounds preceding the CPace flows can also be integrated as part of the CI field, as this will authenticate
 the information and will not require both communication partners to keep state information regarding preceding messages in memory until after the CPace run.
-
-In case of TLS 1.3 {{RFC8446}} it is suggested to integrate Ya into the client-hello message and Yb into the server-hello message. Also party identifiers
-might best be added to the client-hello and server-hello messages as part of extension fields.
-It is recommended to use the full octet stream encoding of the
-client-hello message as parameter ADa. Likewise it is recommended to use the encoding of the server-hello message for the parameter ADb.
-This approach has the drawback that the public points Ya and Yb might show up redundantly duplicated in the hashing operation for
-CPace's transcript strings but has the advantage of simplicity and the advantage that all meta-information in the extension fields within the
-client- and server hello fields will always become authenticated as part of the ISK.
 
 ## Calculating a session identifier alongside with the CPace run {#sec-sid-output}
 
