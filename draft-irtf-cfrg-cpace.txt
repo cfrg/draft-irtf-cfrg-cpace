@@ -2,7 +2,7 @@
 
 
 
-Crypto Forum                                                  M. Abdalla
+Crypto Forum Research Group (CFRG)                            M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
 Expires: 3 October 2026     Endress + Hauser Liquid Analysis - Gerlingen
