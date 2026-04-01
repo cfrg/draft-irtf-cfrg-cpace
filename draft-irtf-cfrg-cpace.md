@@ -5,7 +5,7 @@ docname: draft-irtf-cfrg-cpace-latest
 date:
 category: info
 submissionType: IRTF
-workgroup: Crypto Forum
+workgroup: Crypto Forum Research Group (CFRG)
 consensus: true
 ipr: trust200902
 stand_alone: yes
