@@ -2,7 +2,7 @@
 
 
 
-CFRG                                                          M. Abdalla
+Crypto Forum                                                  M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
 Expires: 3 October 2026     Endress + Hauser Liquid Analysis - Gerlingen
@@ -63,7 +63,7 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Status of This Memo
+   1.  Introduction
      1.1.  Outline of this document
    2.  Requirements Notation
    3.  High-level application perspective
@@ -232,28 +232,7 @@ Table of Contents
        B.7.11. Invalid inputs for scalar_mult_vfy
    Authors' Addresses
 
-1.  Status of This Memo
-
-   This document is not an Internet Standards Track specification; it is
-   published for informational purposes.
-
-   This document is a product of the Internet Research Task Force
-   (IRTF).  The IRTF publishes the results of Internet-related research
-   and development activities.  These results might not be suitable for
-   deployment.  Documents approved for publication by the IRSG are not
-   candidates for any level of Internet Standard; see Section 2 of RFC
-   7841.
-
-   This RFC represents the consensus of the Crypto Forum Research Group
-   (CFRG) of the Internet Research Task Force (IRTF).  CFRG has setup a
-   selection process in 2019 regarding Password Authenticated Key
-   Exchange (PAKE) protocols.  As a result of the selection process
-   CPace was selected as one out of two PAKE protocols as "recommended
-   by the CFRG for usage in IETF protocols".
-
-   Information about the current status of this document, any errata,
-   and how to provide feedback on it may be obtained at https://www.rfc-
-   editor.org/info/rfc9807. # Introduction
+1.  Introduction
 
    This document describes CPace which is a balanced Password-
    Authenticated-Key-Establishment (PAKE) protocol for two parties where
