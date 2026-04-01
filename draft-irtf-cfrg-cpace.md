@@ -4,8 +4,8 @@ abbrev: CPace
 docname: draft-irtf-cfrg-cpace-latest
 date:
 category: info
-submissionType: IRTF
-workgroup: Crypto Forum Research Group (CFRG)
+submissionType: "IRTF"
+workgroup: "Crypto Forum Research Group (CFRG)"
 consensus: true
 ipr: trust200902
 stand_alone: yes
