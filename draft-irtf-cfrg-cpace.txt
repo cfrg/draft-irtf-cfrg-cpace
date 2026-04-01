@@ -724,7 +724,7 @@ Table of Contents
    *  This string SHALL then BE hashed to the required length
       gen_str_hash = H.hash(gen_str, G.field_size_bytes).  Note that
       this implies that the permissible output length H.maxb_in_bytes
-      MUST BE larger or equal to the field size of the group G for
+      MUST be larger or equal to the field size of the group G for
       making a hashing function suitable.
 
    *  This result is then considered as a field coordinate using the u =
@@ -840,7 +840,7 @@ Table of Contents
       -  This string is then hashed to the required length gen_str_hash
          = H.hash(gen_str, 2 * G.field_size_bytes).  Note that this
          implies that the permissible output length H.maxb_in_bytes MUST
-         BE larger or equal to twice the field size of the group G for
+         be larger or equal to twice the field size of the group G for
          making a hash function suitable.
 
       -  Finally the internal representation of the generator _g is
@@ -871,7 +871,7 @@ Table of Contents
    Elliptic curves in Short-Weierstrass form are considered in
    [IEEE1363].  [IEEE1363] allows for both, curves of prime and non-
    prime order.  However, for the procedures described in this section
-   any suitable group MUST BE of prime order.
+   any suitable group MUST be of prime order.
 
    The specification for the group environment objects specified in this
    section closely follow the ECKAS-DH1 method from [IEEE1363].  I.e. we
@@ -907,7 +907,7 @@ Table of Contents
    group object G for a selected curve and encode_to_curve method:
 
    *  With G.group_order we denote the order of the elliptic curve which
-      MUST BE a prime.
+      MUST be a prime.
 
    *  With is_valid(X) we denote a method which operates on an octet
       stream according to [SEC1] of a point on the group and returns
@@ -1253,7 +1253,7 @@ Table of Contents
       Also the curve's quadratic twist must be of order (p' * c') with
       p' prime and c' a cofactor.
 
-   *  The cofactor c of the curve MUST BE equal to or an integer
+   *  The cofactor c of the curve MUST be equal to or an integer
       multiple of the cofactor c' of the curve's quadratic twist.  Also,
       importantly, the implementation of the scalar_mult and
       scalar_mult_vfy functions must ensure that all scalars actually
@@ -1261,12 +1261,12 @@ Table of Contents
       as asserted by the specification of the decodeScalar functions in
       [RFC7748]).
 
-   *  Both field order q and group order p MUST BE close to a power of
+   *  Both field order q and group order p MUST be close to a power of
       two along the lines of [AHH21], Appendix E.  Otherwise the
       simplified scalar sampling specified in Section 7.2 needs to be
       changed.
 
-   *  The representation of the neutral element G.I MUST BE the same for
+   *  The representation of the neutral element G.I MUST be the same for
       both, the curve and its twist.
 
    *  The implementation of G.scalar_mult_vfy(y,X) MUST map all c low-
