@@ -179,7 +179,7 @@ can be used on groups of prime- and non-prime order.
    deployment.
    Documents approved for publication by the IRSG are not candidates for any level
    of Internet Standard; see Section 2 of RFC 7841.
-   
+
    This RFC represents the consensus of the Crypto Forum
    Research Group (CFRG) of the Internet Research Task Force (IRTF).
    CFRG has setup a selection process in 2019 regarding Password Authenticated Key Exchange
