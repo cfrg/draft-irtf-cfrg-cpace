@@ -176,15 +176,15 @@ can be used on groups of prime- and non-prime order.
    This document is a product of the Internet Research Task Force
    (IRTF).  The IRTF publishes the results of Internet-related research
    and development activities.  These results might not be suitable for
-   deployment.   
+   deployment.
    Documents approved for publication by the IRSG are not candidates for any level
    of Internet Standard; see Section 2 of RFC 7841.
+   
    This RFC represents the consensus of the Crypto Forum
    Research Group (CFRG) of the Internet Research Task Force (IRTF).
-   
    CFRG has setup a selection process in 2019 regarding Password Authenticated Key Exchange
-   protocols. As a result of the selection process CPace was selected as one out of two
-   protocols as "recommended by the CFRG for usage in IETF protocols".
+   (PAKE) protocols. As a result of the selection process CPace was selected as one out of two
+   PAKE protocols as "recommended by the CFRG for usage in IETF protocols".
 
    Information about the current status of this document, any errata,
    and how to provide feedback on it may be obtained at
