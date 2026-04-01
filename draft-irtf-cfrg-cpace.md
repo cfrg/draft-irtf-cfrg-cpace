@@ -519,7 +519,7 @@ For both G\_X448 and G\_X25519 the G.calculate\_generator(H, PRS,sid,CI) functio
 
  - This string SHALL then BE hashed to the required length
    gen\_str\_hash = H.hash(gen\_str, G.field\_size\_bytes).
-   Note that this implies that the permissible output length H.maxb\_in\_bytes MUST BE larger or equal to the
+   Note that this implies that the permissible output length H.maxb\_in\_bytes MUST be larger or equal to the
    field size of the group G for making a hashing function suitable.
 
  - This result is then considered as a field coordinate using
@@ -605,7 +605,7 @@ uniform sampling process can provide a larger side-channel attack surface for em
    - First gen\_str = generator\_string(G.DSI,PRS,CI,sid, H.s\_in\_bytes) is calculated using the input block size of the chosen hash function.
 
    - This string is then hashed to the required length gen\_str\_hash = H.hash(gen\_str, 2 \* G.field\_size\_bytes).  Note that this
-     implies that the permissible output length H.maxb\_in\_bytes MUST BE larger or equal to twice the field size of the group
+     implies that the permissible output length H.maxb\_in\_bytes MUST be larger or equal to twice the field size of the group
      G for making a
      hash function suitable.
 
@@ -632,7 +632,7 @@ encode\_to\_curve must map an octet string to a point on the curve.
 
 Elliptic curves in Short-Weierstrass form are considered in {{IEEE1363}}.
 {{IEEE1363}} allows for both, curves of prime and non-prime order. However, for the procedures described in this section any suitable
-group MUST BE of prime order.
+group MUST be of prime order.
 
 The specification for the group environment objects specified in this section closely follow the ECKAS-DH1 method from {{IEEE1363}}.
 I.e. we use the same methods and encodings and protocol sub steps as employed in the TLS
@@ -655,7 +655,7 @@ the flexibility to opt for x-coordinate-only scalar multiplication algorithms.)
 
 In this paragraph we use the following notation for defining the group object G for a selected curve and encode\_to\_curve method:
 
-- With G.group\_order we denote the order of the elliptic curve which MUST BE a prime.
+- With G.group\_order we denote the order of the elliptic curve which MUST be a prime.
 
 - With is\_valid(X) we denote a method which operates on an octet stream according to {{SEC1}} of a point on the group and returns true if the point is valid and returns false otherwise. This is\_valid(X) method SHALL be implemented according to Annex A.16.10. of {{IEEE1363}}. I.e. it shall return false if X encodes either the neutral element on the group or does not form a valid encoding of a point on the group.
 
@@ -874,15 +874,15 @@ The security of the algorithms used for the recommended cipher suites for the Mo
 
 - The curve has order (p \* c) with p prime and c a small cofactor. Also the curve's quadratic twist must be of order (p' \* c') with p' prime and c' a cofactor.
 
-- The cofactor c of the curve MUST BE equal to or an integer multiple of the cofactor c' of the curve's quadratic twist. Also, importantly, the
+- The cofactor c of the curve MUST be equal to or an integer multiple of the cofactor c' of the curve's quadratic twist. Also, importantly, the
   implementation of the scalar\_mult and scalar\_mult\_vfy
   functions must ensure that all scalars actually used for the group operation are integer multiples of
   c (e.g. such as asserted by the specification of the decodeScalar functions in {{?RFC7748}}).
 
-- Both field order q and group order p MUST BE close to a power of two along the lines of {{AHH21}}, Appendix E. Otherwise the simplified scalar sampling specified in {{CPaceMontgomery}}
+- Both field order q and group order p MUST be close to a power of two along the lines of {{AHH21}}, Appendix E. Otherwise the simplified scalar sampling specified in {{CPaceMontgomery}}
   needs to be changed.
 
-- The representation of the neutral element G.I MUST BE the same for both, the curve and its twist.
+- The representation of the neutral element G.I MUST be the same for both, the curve and its twist.
 
 - The implementation of G.scalar\_mult\_vfy(y,X) MUST map all c low-order points on the curve and all c' low-order points on the twist to G.I.
 
