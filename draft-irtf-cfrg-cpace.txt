@@ -5,10 +5,10 @@
 Crypto Forum Research Group (CFRG)                            M. Abdalla
 Internet-Draft                                     Nexus - San Francisco
 Intended status: Informational                                  B. Haase
-Expires: 3 October 2026     Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 22 October 2026    Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                            1 April 2026
+                                                           20 April 2026
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 October 2026.
+   This Internet-Draft will expire on 22 October 2026.
 
 Copyright Notice
 
@@ -63,61 +63,62 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Introduction
-     1.1.  Outline of this document
-   2.  Requirements Notation
-   3.  High-level application perspective
-     3.1.  CPace inputs
-     3.2.  Optional CPace outputs
-     3.3.  Responsibilities of the application layer
-   4.  CPace cipher suites
-   5.  Definitions and notation
-     5.1.  Group environment G
-     5.2.  Hash function H
-     5.3.  Notation for string operations
-     5.4.  Notation for group operations
-   6.  The CPace protocol
-     6.1.  Protocol flow
-     6.2.  CPace protocol instructions
-   7.  Implementation of recommended CPace cipher suites
-     7.1.  Common function for computing generators
-     7.2.  CPace group objects G_X25519 and G_X448 for
+   1.  Status of This Memo
+   2.  Introduction
+     2.1.  Outline of this document
+   3.  Requirements Notation
+   4.  High-level application perspective
+     4.1.  CPace inputs
+     4.2.  Optional CPace outputs
+     4.3.  Responsibilities of the application layer
+   5.  CPace cipher suites
+   6.  Definitions and notation
+     6.1.  Group environment G
+     6.2.  Hash function H
+     6.3.  Notation for string operations
+     6.4.  Notation for group operations
+   7.  The CPace protocol
+     7.1.  Protocol flow
+     7.2.  CPace protocol instructions
+   8.  Implementation of recommended CPace cipher suites
+     8.1.  Common function for computing generators
+     8.2.  CPace group objects G_X25519 and G_X448 for
            single-coordinate Ladders on Montgomery curves
-       7.2.1.  Verification tests
-     7.3.  CPace group objects G_Ristretto255 and G_Decaf448 for
+       8.2.1.  Verification tests
+     8.3.  CPace group objects G_Ristretto255 and G_Decaf448 for
            prime-order group abstractions
-       7.3.1.  Verification tests
-     7.4.  CPace group objects for curves in Short-Weierstrass
+       8.3.1.  Verification tests
+     8.4.  CPace group objects for curves in Short-Weierstrass
            representation
-       7.4.1.  Curves and associated functions
-       7.4.2.  Suitable encode_to_curve methods
-       7.4.3.  Definition of the group environment G for
+       8.4.1.  Curves and associated functions
+       8.4.2.  Suitable encode_to_curve methods
+       8.4.3.  Definition of the group environment G for
                Short-Weierstrass curves
-       7.4.4.  Verification tests
-   8.  Implementation verification
-   9.  Security Considerations
-     9.1.  Party identifiers
-       9.1.1.  Guidance regarding party identifier integration
-       9.1.2.  Rationale for the above guidance
-     9.2.  Hashing protocol transcripts
-     9.3.  Key derivation
-     9.4.  Key confirmation
-     9.5.  Integrating CPace in higher-level protocols
-     9.6.  Calculating a session identifier alongside with the CPace
-            run
-     9.7.  Sampling of scalars
-     9.8.  Preconditions for using the simplified CPace specification
-            from Section 7.2
-     9.9.  Nonce values
-     9.10. Side channel attacks
-     9.11. Large-characteristic finite fields
-     9.12. Quantum computers
-   10. IANA Considerations
-   11. Reference implementation and test vector generation
-   12. Acknowledgements
-   13. References
-     13.1.  Normative References
-     13.2.  Informative References
+       8.4.4.  Verification tests
+   9.  Implementation verification
+   10. Security Considerations
+     10.1.  Party identifiers
+       10.1.1.  Guidance regarding party identifier integration
+       10.1.2.  Rationale for the above guidance
+     10.2.  Hashing protocol transcripts
+     10.3.  Key derivation
+     10.4.  Key confirmation
+     10.5.  Integrating CPace in higher-level protocols
+     10.6.  Calculating a session identifier alongside with the CPace
+             run
+     10.7.  Sampling of scalars
+     10.8.  Preconditions for using the simplified CPace specification
+             from Section 8.2
+     10.9.  Nonce values
+     10.10. Side channel attacks
+     10.11. Large-characteristic finite fields
+     10.12. Quantum computers
+   11. IANA Considerations
+   12. Reference implementation and test vector generation
+   13. Acknowledgements
+   14. References
+     14.1.  Normative References
+     14.2.  Informative References
    Appendix A.  CPace function definitions
      A.1.  Definition and test vectors for string utility functions
        A.1.1.  prepend_len function
@@ -232,7 +233,22 @@ Table of Contents
        B.7.11. Invalid inputs for scalar_mult_vfy
    Authors' Addresses
 
-1.  Introduction
+1.  Status of This Memo
+
+   This paragraph is to be deleted by the RFC editor:
+
+   This document is not an Internet Standards Track specification; it is
+   published for informational purposes.
+
+   This document is a product of the Internet Research Task Force
+   (IRTF).  The IRTF publishes the results of Internet-related research
+   and development activities.  These results might not be suitable for
+   deployment.  This RFC represents the consensus of the Crypto Forum
+   Research Group of the Internet Research Task Force (IRTF).  Documents
+   approved for publication by the IRSG are not candidates for any level
+   of Internet Standard; see Section 2 of RFC 7841.
+
+2.  Introduction
 
    This document describes CPace which is a balanced Password-
    Authenticated-Key-Establishment (PAKE) protocol for two parties where
@@ -262,19 +278,19 @@ Table of Contents
       adversaries capable of breaking the discrete logarithm problem on
       elliptic curves.
 
-1.1.  Outline of this document
+2.1.  Outline of this document
 
-   *  Section 3 describes the expected properties of an application
+   *  Section 4 describes the expected properties of an application
       using CPace, and discusses in particular which application-level
       aspects are relevant for CPace's security.
 
-   *  Section 4 gives an overview of the recommended cipher suites for
+   *  Section 5 gives an overview of the recommended cipher suites for
       CPace which were optimized for different types of cryptographic
       library ecosystems.
 
-   *  Section 5 introduces the notation used throughout this document.
+   *  Section 6 introduces the notation used throughout this document.
 
-   *  Section 6 specifies the CPace protocol.
+   *  Section 7 specifies the CPace protocol.
 
    *  The appendix provides code and test vectors of all of the
       functions defined for CPace.
@@ -285,7 +301,7 @@ Table of Contents
    security analysis of the different CPace instantiations as defined in
    this document via the cipher suites.
 
-2.  Requirements Notation
+3.  Requirements Notation
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -293,7 +309,7 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  High-level application perspective
+4.  High-level application perspective
 
    CPace enables balanced password-authenticated key establishment.
    I.e. with CPace the parties start the protocol with a shared secret
@@ -317,7 +333,7 @@ Table of Contents
    produce the same ISK value if and only if both sides did initiate the
    protocol using the same protocol inputs, specifically the same PRS
    and the same value for the input parameters CI, ADa, ADb and sid that
-   will be specified in section Section 3.1.
+   will be specified in section Section 4.1.
 
    This specification considers different application scenarios.  This
    includes applications aiming at anonymous key exchange and
@@ -327,14 +343,14 @@ Table of Contents
    application's requirements, identity information regarding the
    communication partners may have to be mandatorily integrated in the
    input parameters CI, ADa, ADb and the protocol may have to be
-   executed with clear initiator and responder roles (see Section 9.1).
+   executed with clear initiator and responder roles (see Section 10.1).
 
    The naming of ISK as "intermediate" session key highlights the fact
    that it is RECOMMENDED that applications process ISK by use of a
    suitable strong key derivation function KDF (such as defined in
    [RFC5869]) before using the key in a higher-level protocol.
 
-3.1.  CPace inputs
+4.1.  CPace inputs
 
    For accommodating different application settings, CPace offers the
    following inputs which, depending on the application scenario, MAY
@@ -344,7 +360,7 @@ Table of Contents
       party identity string which might be a device name, a user name,
       or an URL.  CPace offers two alternative options for
       authenticating the party identifiers in the course of the protocol
-      run (see Section 9.1).
+      run (see Section 10.1).
 
    *  Channel identifier (CI).  CI can be used to bind a session key
       exchanged with CPace to a specific networking channel which
@@ -364,7 +380,7 @@ Table of Contents
       they have had the same view on ADa and ADb.  Applications that
       need to rely on the identity of the communication partner may have
       to integrate identity information in ADa and/or ADb (see
-      Section 9.1).
+      Section 10.1).
 
       In a setting with clear initiator and responder roles, identity
       information in ADa sent by the initiator can be used by the
@@ -377,17 +393,17 @@ Table of Contents
       session before starting the protocol, it is RECOMMENDED to use
       this sid value as an additional input for the protocol as this
       provides security advantages and will bind the CPace run to this
-      communication session (see Section 9).
+      communication session (see Section 10).
 
-3.2.  Optional CPace outputs
+4.2.  Optional CPace outputs
 
    If a session identifier is not available as input at protocol start
    CPace can optionally produce a unique public session identifier
    sid_output as output that might be helpful for the application for
-   actions subsequent to the CPace protocol step (see Section 9.6,
+   actions subsequent to the CPace protocol step (see Section 10.6,
    [BGHJ24]).
 
-3.3.  Responsibilities of the application layer
+4.3.  Responsibilities of the application layer
 
    The following tasks are out of the scope of this document and left to
    the application layer
@@ -403,12 +419,12 @@ Table of Contents
 
    *  The application needs to settle whether CPace is used in the
       initiator-responder or the symmetric setting along the guidelines
-      of Section 9.1.  In the symmetric setting, transcripts ordered
+      of Section 10.1.  In the symmetric setting, transcripts ordered
       string concatenation must be used for generating protocol
       transcripts.  In this document we will provide test vectors for
       both the initiator-responder and the symmetric setting.
 
-4.  CPace cipher suites
+5.  CPace cipher suites
 
    In the setup phase of CPace, both communication partners need to
    agree on a common cipher suite.  Cipher suites consist of a
@@ -418,12 +434,12 @@ Table of Contents
    RECOMMEND the following cipher suites:
 
    *  CPACE-X25519-SHA512.  This suite uses the group environment
-      G_X25519 defined in Section 7.2 and SHA-512 as hash function.
+      G_X25519 defined in Section 8.2 and SHA-512 as hash function.
       This cipher suite comes with the smallest messages on the wire and
       a low computational cost.
 
    *  CPACE-P256_XMD:SHA-256_SSWU_NU_-SHA256.  This suite instantiates
-      the group environment G as specified in Section 7.4 using the
+      the group environment G as specified in Section 8.4 using the
       encode_to_curve function P256_XMD:SHA-256_SSWU_NU_ from [RFC9380]
       on curve NIST-P256, and hash function SHA-256.
 
@@ -431,26 +447,26 @@ Table of Contents
    margins.
 
    *  CPACE-X448-SHAKE256.  This suite uses the group environment G_X448
-      defined in Section 7.2 and SHAKE-256 as hash function.
+      defined in Section 8.2 and SHAKE-256 as hash function.
 
    *  CPACE-P384_XMD:SHA-384_SSWU_NU_-SHA384.  This suite instantiates G
-      as specified in Section 7.4 using the encode_to_curve function
+      as specified in Section 8.4 using the encode_to_curve function
       P384_XMD:SHA-384_SSWU_NU_ from [RFC9380] on curve NIST-P384 with H
       = SHA-384.
 
    *  CPACE-P521_XMD:SHA-512_SSWU_NU_-SHA512.  This suite instantiates G
-      as specified in Section 7.4 using the encode_to_curve function
+      as specified in Section 8.4 using the encode_to_curve function
       P521_XMD:SHA-512_SSWU_NU_ from [RFC9380] on curve NIST-P521 with H
       = SHA-512.
 
    CPace can also securely be implemented using the cipher suites CPACE-
-   RISTR255-SHA512 and CPACE-DECAF448-SHAKE256 defined in Section 7.3.
-   Section 9 gives guidance on how to implement CPace on further
+   RISTR255-SHA512 and CPACE-DECAF448-SHAKE256 defined in Section 8.3.
+   Section 10 gives guidance on how to implement CPace on further
    elliptic curves.
 
-5.  Definitions and notation
+6.  Definitions and notation
 
-5.1.  Group environment G
+6.1.  Group environment G
 
    The group environment G specifies an elliptic curve group (also
    denoted G for convenience) and associated constants and functions as
@@ -484,7 +500,7 @@ Table of Contents
    *  G.DSI denotes a domain-separation identifier octet string which
       SHALL be uniquely identifying the group environment G.
 
-5.2.  Hash function H
+6.2.  Hash function H
 
    Common choices for H are SHA-512 [RFC6234] or SHAKE-256 [FIPS202].
    (I.e., the hash function outputs octet strings, and not group
@@ -520,7 +536,7 @@ Table of Contents
       amounts to 136 bytes before the permutation of the sponge state
       needs to be applied.
 
-5.3.  Notation for string operations
+6.3.  Notation for string operations
 
    *  bytes1 || bytes2 denotes concatenation of octet strings.
 
@@ -577,13 +593,13 @@ Table of Contents
       implementation transcript_ir(Ya,ADa, Yb,ADb) = lv_cat(Ya,ADa) ||
       lv_cat(Yb, ADb) SHALL be used.
 
-5.4.  Notation for group operations
+6.4.  Notation for group operations
 
    We use additive notation for the group, i.e., 2*X denotes the element
    that is obtained by computing X+X, for group element X and group
    operation +.
 
-6.  The CPace protocol
+7.  The CPace protocol
 
    CPace is a one round protocol between two parties, A and B.  At
    invocation, A and B are provisioned with PRS,G and H.  Parties will
@@ -591,14 +607,14 @@ Table of Contents
    which will default to the empty string b"" if not used.
 
    Party identifiers SHALL be integrated into CI and/or ADa and ADb
-   following the guidelines in Section 9.1.
+   following the guidelines in Section 10.1.
 
    A sends the public share Ya and associated data ADa to B.  Likewise,
    B sends the public share Yb and associated data ADb to A.  Both A and
    B use the received messages for deriving a shared intermediate
    session key, ISK.
 
-6.1.  Protocol flow
+7.1.  Protocol flow
 
                            public: G, H
 
@@ -612,7 +628,7 @@ Table of Contents
        ---------------------------------------
     output ISK                          output ISK
 
-6.2.  CPace protocol instructions
+7.2.  CPace protocol instructions
 
    A computes a generator g = G.calculate_generator(H,PRS,CI,sid),
    scalar ya = G.sample_scalar() and group element Ya = G.scalar_mult
@@ -636,9 +652,9 @@ Table of Contents
    the supplied input parameters PRS, CI and sid match on both sides and
    the transcript views of both parties match.
 
-7.  Implementation of recommended CPace cipher suites
+8.  Implementation of recommended CPace cipher suites
 
-7.1.  Common function for computing generators
+8.1.  Common function for computing generators
 
    The different cipher suites for CPace defined in the upcoming
    sections share the following method for deterministically combining
@@ -668,7 +684,7 @@ Table of Contents
    sid or CI and that there is no limitation regarding the maximum
    length of the PRS string.
 
-7.2.  CPace group objects G_X25519 and G_X448 for single-coordinate
+8.2.  CPace group objects G_X25519 and G_X448 for single-coordinate
       Ladders on Montgomery curves
 
    In this section we consider the case of CPace when using the X25519
@@ -676,7 +692,7 @@ Table of Contents
    Montgomery curves Curve25519 and Curve448 [RFC7748].  CPace
    implementations using single-coordinate ladders on further Montgomery
    curves SHALL use the definitions in line with the specifications for
-   X25519 and X448 and review the guidance given in Section 9.
+   X25519 and X448 and review the guidance given in Section 10.
 
    For the group environment G_X25519 the following definitions apply:
 
@@ -739,10 +755,10 @@ Table of Contents
 
    Code for the functions above is available in the appendix.
 
-7.2.1.  Verification tests
+8.2.1.  Verification tests
 
    For single-coordinate Montgomery ladders on Montgomery curves,
-   verification tests according to Section 8 SHALL check for proper
+   verification tests according to Section 9 SHALL check for proper
    handling of the abort conditions, when a party is receiving u
    coordinate values that encode a low-order point on either the curve
    or the quadratic twist.
@@ -754,7 +770,7 @@ Table of Contents
 
    Corresponding test vectors are provided in the appendix.
 
-7.3.  CPace group objects G_Ristretto255 and G_Decaf448 for prime-order
+8.3.  CPace group objects G_Ristretto255 and G_Decaf448 for prime-order
       group abstractions
 
    In this section we consider the case of CPace using the Ristretto255
@@ -852,21 +868,21 @@ Table of Contents
    scalar_mult_vfy(y,X) function operates on an encoded point X (and
    also returns an encoded point).
 
-7.3.1.  Verification tests
+8.3.1.  Verification tests
 
-   For group abstractions verification tests according to Section 8
+   For group abstractions verification tests according to Section 9
    SHALL check for proper handling of the abort conditions, when a party
    is receiving encodings of the neutral element or receives an octet
    string that does not decode to a valid group element.
 
-7.4.  CPace group objects for curves in Short-Weierstrass representation
+8.4.  CPace group objects for curves in Short-Weierstrass representation
 
    The group environment objects G defined in this section for use with
    Short-Weierstrass curves, are parametrized by the choice of an
    elliptic curve and by choice of a suitable encode_to_curve function.
    encode_to_curve must map an octet string to a point on the curve.
 
-7.4.1.  Curves and associated functions
+8.4.1.  Curves and associated functions
 
    Elliptic curves in Short-Weierstrass form are considered in
    [IEEE1363].  [IEEE1363] allows for both, curves of prime and non-
@@ -891,7 +907,7 @@ Table of Contents
    secret in big endian format (fixed length output by FE2OSP without
    truncating leading zeros).
 
-7.4.2.  Suitable encode_to_curve methods
+8.4.2.  Suitable encode_to_curve methods
 
    All the encode_to_curve methods specified in [RFC9380] are suitable
    for CPace.  For Short-Weierstrass curves it is RECOMMENDED to use the
@@ -900,7 +916,7 @@ Table of Contents
    uniform maps in order to give implementations the flexibility to opt
    for x-coordinate-only scalar multiplication algorithms.)
 
-7.4.3.  Definition of the group environment G for Short-Weierstrass
+8.4.3.  Definition of the group environment G for Short-Weierstrass
         curves
 
    In this paragraph we use the following notation for defining the
@@ -987,14 +1003,14 @@ Table of Contents
       of the "error" result case from [IEEE1363] as used in the
       G.scalar_mult_vfy method above.
 
-7.4.4.  Verification tests
+8.4.4.  Verification tests
 
    For Short-Weierstrass curves verification tests according to
-   Section 8 SHALL check for proper handling of the abort conditions,
+   Section 9 SHALL check for proper handling of the abort conditions,
    when a party is receiving an encoding of the point at infinity and an
    encoding of a point not on the group.
 
-8.  Implementation verification
+9.  Implementation verification
 
    Any CPace implementation MUST be tested against invalid or weak point
    attacks.  Implementation MUST be verified to abort upon conditions
@@ -1007,7 +1023,7 @@ Table of Contents
    Corresponding test vectors are given in the appendix for all
    recommended cipher suites.
 
-9.  Security Considerations
+10.  Security Considerations
 
    A security proof of CPace is found in [AHH21].  This proof covers all
    recommended cipher suites included in this document.  The security
@@ -1017,7 +1033,7 @@ Table of Contents
    generated along with the protocol for applications that do not have a
    session identifier input available.
 
-9.1.  Party identifiers
+10.1.  Party identifiers
 
    The protocol assures that both communication partners have had the
    same view on the communication transcripts and the inputs CI and sid.
@@ -1029,7 +1045,7 @@ Table of Contents
    running on a party P might even be communicating with a second
    protocol instance also running on P.
 
-9.1.1.  Guidance regarding party identifier integration
+10.1.1.  Guidance regarding party identifier integration
 
    If an application layer's security relies on CPace for checking party
    identities, it SHALL integrate the party identifiers that are to be
@@ -1067,7 +1083,7 @@ Table of Contents
    and ADb for all sessions by adding further information such as random
    data.
 
-9.1.2.  Rationale for the above guidance
+10.1.2.  Rationale for the above guidance
 
    Incorporating party identifier strings is important for fending off
    attacks based on relaying messages.  Such attacks become for example
@@ -1092,7 +1108,7 @@ Table of Contents
    might be omitted or implemented incorrectly without notice.
    Integration of identities into CI also strengthens the security
    properties with respect to attacks based on quantum computers
-   Section 9.12.
+   Section 10.12.
 
    Applications that integrate identity strings in ADa and/or ADb shall
    carefully verify implementations for correctness of the implemented
@@ -1127,7 +1143,7 @@ Table of Contents
    if client and server instances on B share the same PRS secret and the
    identity strings do not include information on the respective roles.
 
-9.2.  Hashing protocol transcripts
+10.2.  Hashing protocol transcripts
 
    CPace prepends the length of all variable-size input strings before
    hashing data.  Prepending the length of all variable-size input
@@ -1137,18 +1153,18 @@ Table of Contents
    the commonly used Merkle-Damgard hash function constructions such as
    SHA256 and SHA512 [CDMP05].
 
-9.3.  Key derivation
+10.3.  Key derivation
 
    A CPace implementation SHALL output ISK but MUST NOT expose K,
    because a leaked K may enable offline dictionary attack on the
    password, and a matching value for K does not provide authentication
    of ADa and ADb.
 
-   As noted already in Section 6 it is RECOMMENDED to process ISK by use
+   As noted already in Section 7 it is RECOMMENDED to process ISK by use
    of a suitable strong key derivation function KDF (such as defined in
    [RFC5869]) first, before using the key in a higher-level protocol.
 
-9.4.  Key confirmation
+10.4.  Key confirmation
 
    In many applications it is advisable to add an explicit key
    confirmation round after the CPace protocol flow.  However, as some
@@ -1189,7 +1205,7 @@ Table of Contents
    *  Let the receiving party check the remote authentication tag for
       the correct value and abort in case that it's incorrect.
 
-9.5.  Integrating CPace in higher-level protocols
+10.5.  Integrating CPace in higher-level protocols
 
    When integrating CPace into a higher-level protocol it is recommended
    to use ISK as shared secret (which might otherwise be generated as
@@ -1199,7 +1215,7 @@ Table of Contents
    Note that unlike the shared secret of a Diffie-Hellman protocol run,
    ISK will also provide mutual implicit authentication of the protocol
    partners.  For providing explicit authentication, it is recommended
-   to add a key confirmation round along the lines in Section 9.4, such
+   to add a key confirmation round along the lines in Section 10.4, such
    as e.g. done in the "Finished" messages in TLS1.3 [RFC8446].
 
    If an embedding protocol uses more than two messages (e.g. four
@@ -1218,14 +1234,14 @@ Table of Contents
    both communication partners to keep state information regarding
    preceding messages in memory until after the CPace run.
 
-9.6.  Calculating a session identifier alongside with the CPace run
+10.6.  Calculating a session identifier alongside with the CPace run
 
    If CPace was run with an empty string sid available as input, both
    parties can produce a public session identifier string sid_output =
    H.hash(b"CPaceSidOutput" || transcript(Ya,ADa,Yb,ADb)) which will be
    unique for honest parties [BGHJ24].
 
-9.7.  Sampling of scalars
+10.7.  Sampling of scalars
 
    For curves over fields F_q where q is a prime close to a power of
    two, we recommend sampling scalars as a uniform bit string of length
@@ -1237,16 +1253,16 @@ Table of Contents
    transfer to most curves in Short-Weierstrass form.
 
    As a result, we recommend rejection sampling if G is as in
-   Section 7.4.  Alternatively an algorithm designed along the lines of
+   Section 8.4.  Alternatively an algorithm designed along the lines of
    the hash_to_field() function from [RFC9380] can also be used.  There,
    oversampling to an integer significantly larger than the curve order
    is followed by a modular reduction to the group order.
 
-9.8.  Preconditions for using the simplified CPace specification from
-      Section 7.2
+10.8.  Preconditions for using the simplified CPace specification from
+       Section 8.2
 
    The security of the algorithms used for the recommended cipher suites
-   for the Montgomery curves Curve25519 and Curve448 in Section 7.2 rely
+   for the Montgomery curves Curve25519 and Curve448 in Section 8.2 rely
    on the following properties [AHH21]:
 
    *  The curve has order (p * c) with p prime and c a small cofactor.
@@ -1263,7 +1279,7 @@ Table of Contents
 
    *  Both field order q and group order p MUST be close to a power of
       two along the lines of [AHH21], Appendix E.  Otherwise the
-      simplified scalar sampling specified in Section 7.2 needs to be
+      simplified scalar sampling specified in Section 8.2 needs to be
       changed.
 
    *  The representation of the neutral element G.I MUST be the same for
@@ -1274,10 +1290,10 @@ Table of Contents
       to G.I.
 
    Algorithms for curves other than the ones recommended here can be
-   based on the principles from Section 7.2 given that the above
+   based on the principles from Section 8.2 given that the above
    properties hold.
 
-9.9.  Nonce values
+10.9.  Nonce values
 
    Secret scalars ya and yb MUST NOT be reused.  Values for sid SHOULD
    NOT be reused since the composability guarantees established by the
@@ -1289,7 +1305,7 @@ Table of Contents
    suitable option for generating sid is concatenation of ephemeral
    random strings contributed by both parties.
 
-9.10.  Side channel attacks
+10.10.  Side channel attacks
 
    All state-of-the art methods for realizing constant-time execution
    SHOULD be used.  Special care is RECOMMENDED specifically for
@@ -1316,7 +1332,7 @@ Table of Contents
    ephemeral values, such as scalar sampling and scalar multiplication
    should be protected from side-channels.
 
-9.11.  Large-characteristic finite fields
+10.11.  Large-characteristic finite fields
 
    This document intentionally specifies CPace only for use on elliptic
    curve groups and the security proofs in [AHH21] only cover this case
@@ -1325,7 +1341,7 @@ Table of Contents
    equivalence attacks may become practical when short exponents are
    used.
 
-9.12.  Quantum computers
+10.12.  Quantum computers
 
    CPace is proven secure under the hardness of the strong computational
    Simultaneous Diffie-Hellmann (sSDH) and strong computational Diffie-
@@ -1346,25 +1362,25 @@ Table of Contents
    In this sense, using the wording suggested by Steve Thomas on the
    CFRG mailing list, CPace is "quantum-annoying".
 
-10.  IANA Considerations
+11.  IANA Considerations
 
    No IANA action is required.
 
-11.  Reference implementation and test vector generation
+12.  Reference implementation and test vector generation
 
    The reference implementation that was used for deriving test vectors
    is available at [REFIMP].  The embedded base64-encoded test vectors
    will decode to JSON files having the test vector's octet strings
    encoded as base16 (i.e. hexadecimal) strings.
 
-12.  Acknowledgements
+13.  Acknowledgements
 
    We would like to thank the participants on the CFRG list for comments
    and advice.  Any comment and advice is appreciated.
 
-13.  References
+14.  References
 
-13.1.  Normative References
+14.1.  Normative References
 
    [IEEE1363] "Standard Specifications for Public Key Cryptography, IEEE
               1363", 2000.
@@ -1396,7 +1412,7 @@ Table of Contents
               Elliptic Curve Cryptography", May 2009,
               <http://www.secg.org/sec1-v2.pdf>.
 
-13.2.  Informative References
+14.2.  Informative References
 
    [ABKLX21]  Abdalla, M., Barbosa, M., Katz, J., Loss, J., and J. Xu,
               "Algebraic Adversaries in the Universal Composability
