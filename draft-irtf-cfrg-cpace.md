@@ -165,9 +165,12 @@ disclosing the secret to offline dictionary attacks.
 The CPace protocol was tailored for constrained devices and
 can be used on groups of prime- and non-prime order.
 
-The following paragraph is to be added by the RFC editor: 
 
-Status of This Memo
+--- middle
+
+# Status of This Memo
+
+   This paragraph is to be deleted by the RFC editor:
 
    This document is not an Internet Standards Track specification; it is
    published for informational purposes.
@@ -179,9 +182,6 @@ Status of This Memo
    Research Group of the Internet Research Task Force (IRTF).  Documents
    approved for publication by the IRSG are not candidates for any level
    of Internet Standard; see Section 2 of RFC 7841.
-
-
---- middle
 
 # Introduction
 
