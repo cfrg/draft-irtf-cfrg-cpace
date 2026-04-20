@@ -168,9 +168,7 @@ can be used on groups of prime- and non-prime order.
 
 --- middle
 
-# Status of This Memo
-
-   This paragraph is to be deleted by the RFC editor:
+# Status of This Memo (to be moved to the correct position by the RFC editor)
 
    This document is not an Internet Standards Track specification; it is
    published for informational purposes.
