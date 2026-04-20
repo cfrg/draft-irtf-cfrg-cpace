@@ -63,7 +63,8 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Status of This Memo
+   1.  Status of This Memo (to be moved to the correct position by the
+           RFC editor)
    2.  Introduction
      2.1.  Outline of this document
    3.  Requirements Notation
@@ -233,9 +234,8 @@ Table of Contents
        B.7.11. Invalid inputs for scalar_mult_vfy
    Authors' Addresses
 
-1.  Status of This Memo
-
-   This paragraph is to be deleted by the RFC editor:
+1.  Status of This Memo (to be moved to the correct position by the RFC
+    editor)
 
    This document is not an Internet Standards Track specification; it is
    published for informational purposes.
