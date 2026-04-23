@@ -3,12 +3,12 @@
 
 
 Crypto Forum Research Group (CFRG)                            M. Abdalla
-Internet-Draft                                     Nexus - San Francisco
+Internet-Draft                                Alloc Init Labs - New York
 Intended status: Informational                                  B. Haase
-Expires: 22 October 2026    Endress + Hauser Liquid Analysis - Gerlingen
+Expires: 25 October 2026    Endress + Hauser Liquid Analysis - Gerlingen
                                                                 J. Hesse
                                             IBM Research Europe - Zurich
-                                                           20 April 2026
+                                                           23 April 2026
 
 
                    CPace, a balanced composable PAKE
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 October 2026.
+   This Internet-Draft will expire on 25 October 2026.
 
 Copyright Notice
 
@@ -4169,7 +4169,7 @@ B.7.11.1.  Testvectors as JSON file encoded as BASE64
 Authors' Addresses
 
    Michel Abdalla
-   Nexus - San Francisco
+   Alloc Init Labs - New York
    Email: michel.abdalla@gmail.com
 
 
