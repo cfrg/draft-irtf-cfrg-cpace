@@ -15,7 +15,7 @@ v: 3
 author:
  -  ins: M. Abdalla
     name: Michel Abdalla
-    org: Nexus - San Francisco
+    org: Alloc Init Labs - New York
     email: michel.abdalla@gmail.com
  -  ins: B. Haase
     name: Bjoern Haase
